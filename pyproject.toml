@@ -1,0 +1,7 @@
+# Minimal project config for the Phase 1 prototype.
+# No packaging/build backend yet — this file only configures pytest so tests can
+# import the `sing_khmer_engine` package from src/ without an editable install.
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
