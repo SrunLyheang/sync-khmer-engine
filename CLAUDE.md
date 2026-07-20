@@ -117,4 +117,12 @@ Goal: prove romanized→Khmer matching works before building any UI.
 
 **Phase 1, step 1.1 — done.** Python project scaffold is in place: `src/sing_khmer_engine/` package, `tests/` (pytest, smoke test passing), `data/` for future vocabulary/rules, venv + `requirements.txt`/`requirements-dev.txt` for dependencies, `pyproject.toml` for pytest config, `.gitignore`, and `README.md`. Local-only git repo for now (no remote yet).
 
-**Next up: step 1.2** — hand-curate ~100–200 casual/chat words in Khmer script (word + meaning + rough frequency). Not started; awaiting go-ahead.
+**Phase 1, step 1.2 — format + tooling in place; curation pending.** The vocabulary data
+format is set up as `data/vocabulary.csv` (columns: `khmer, meaning, frequency, is_slang, notes`;
+frequency is a rough 1–5 scale), documented in `data/README.md`. A validating loader lives at
+`src/sing_khmer_engine/vocabulary.py` (`VocabEntry` dataclass + `load()`), with tests in
+`tests/test_vocabulary.py`. The file currently holds **15 seed example rows to verify/replace** —
+the remaining 1.2 work is for the native speaker to curate the full ~100–200 casual/chat words.
+The `[ ] 1.2` box stays unchecked until that curation is done.
+
+**Next up after curation: step 1.3** — break each vocabulary word into KCCs.
