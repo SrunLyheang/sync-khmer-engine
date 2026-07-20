@@ -22,6 +22,26 @@ def test_seed_entries_are_valid_and_unique():
         assert isinstance(e.is_slang, bool)
 
 
+def test_romanizations_parse_into_tuple():
+    """The romanizations cell is split on whitespace into a tuple of spellings."""
+    entries = load()
+    by_khmer = {e.khmer: e for e in entries}
+    assert by_khmer["ចឹង"].romanizations == ("jueng", "jg", "jhg")
+    # Every entry's romanizations is a tuple (possibly empty).
+    assert all(isinstance(e.romanizations, tuple) for e in entries)
+
+
+def test_romanizations_optional_column(tmp_path):
+    """A file without the romanizations column still loads (empty romanizations)."""
+    csv_path = tmp_path / "no_rom.csv"
+    csv_path.write_text(
+        "khmer,meaning,frequency,is_slang,notes\nល្អ,good,5,false,\n",
+        encoding="utf-8",
+    )
+    entries = load(csv_path)
+    assert entries[0].romanizations == ()
+
+
 def _write_csv(path, rows):
     path.write_text(rows, encoding="utf-8")
     return path

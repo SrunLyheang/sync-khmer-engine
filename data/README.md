@@ -14,13 +14,14 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 
 ### Columns
 
-| Column      | Required | Description |
-|-------------|----------|-------------|
-| `khmer`     | yes      | The word or phrase in Khmer script. Must be unique across the file. |
-| `meaning`   | yes      | Short English gloss. |
-| `frequency` | yes      | Rough commonness, integer **1–5** (5 = most common). Used later to rank candidates. |
-| `is_slang`  | yes      | `true` for casual/chat slang, `false` for an ordinary common word. |
-| `notes`     | no       | Freeform hints — usage, example romanizations, disambiguation. |
+| Column          | Required | Description |
+|-----------------|----------|-------------|
+| `khmer`         | yes      | The word or phrase in Khmer script. Must be unique across the file. |
+| `meaning`       | yes      | Short English gloss. |
+| `frequency`     | yes      | Rough commonness, integer **1–5** (5 = most common). Used later to rank candidates. |
+| `is_slang`      | yes      | `true` for casual/chat slang, `false` for an ordinary common word. |
+| `romanizations` | no       | The Sing Khmer (Latin) spellings people actually type for this word, **space-separated** (e.g. `jueng jg jhg`). Core input for steps 1.4 (phonetic rules) and 1.9 (testing). Optional per row. |
+| `notes`         | no       | Freeform hints — usage, disambiguation, anything else. |
 
 ### Frequency scale (rough)
 
@@ -34,7 +35,9 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 
 1. Add one row per word. Keep `khmer` unique.
 2. Set `frequency` to an integer 1–5 and `is_slang` to `true`/`false`.
-3. Run `pytest` (or `python -c "from sing_khmer_engine.vocabulary import load; print(len(load()))"`)
+3. In `romanizations`, list the Latin spellings you'd actually type for the word, separated by
+   spaces (e.g. `jueng jg jhg`). Leave it blank if you're not sure yet.
+4. Run `pytest` (or `python -c "from sing_khmer_engine.vocabulary import load; print(len(load()))"`)
    to confirm the file still parses and validates.
 
 The loader rejects missing required fields, out-of-range frequencies, non-boolean `is_slang`

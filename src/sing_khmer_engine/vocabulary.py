@@ -5,7 +5,7 @@ step 1.2). It is stored as a CSV so a native speaker can edit it in any spreadsh
 and loaded here into validated ``VocabEntry`` records that later steps consume
 (1.3 KCC breakdown, 1.4 phonetic rules, 1.7 lookup).
 
-CSV columns: ``khmer, meaning, frequency, is_slang, notes``
+CSV columns: ``khmer, meaning, frequency, is_slang, romanizations, notes``
 """
 
 from __future__ import annotations
@@ -31,13 +31,16 @@ class VocabEntry:
         meaning: Short English gloss.
         frequency: Rough commonness, an integer 1-5 (5 = most common).
         is_slang: True for casual/chat slang, False for an ordinary common word.
-        notes: Optional freeform hints (usage, common romanizations, etc.).
+        romanizations: Sing Khmer (Latin) spellings for this word, parsed from a
+            whitespace-separated cell. May be empty.
+        notes: Optional freeform hints (usage, disambiguation, etc.).
     """
 
     khmer: str
     meaning: str
     frequency: int
     is_slang: bool
+    romanizations: tuple[str, ...] = ()
     notes: str = ""
 
 
@@ -117,6 +120,7 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
                     meaning=meaning,
                     frequency=_parse_frequency(row["frequency"], row_num=row_num),
                     is_slang=_parse_bool(row["is_slang"], row_num=row_num),
+                    romanizations=tuple((row.get("romanizations") or "").split()),
                     notes=(row.get("notes") or "").strip(),
                 )
             )

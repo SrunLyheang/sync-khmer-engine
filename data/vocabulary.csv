@@ -1,16 +1,16 @@
-khmer,meaning,frequency,is_slang,notes
-សួស្តី,hello,4,false,seed example — verify; romanized e.g. suostei / suosdey
-បាទ,yes (male speaker),5,false,seed example — verify; romanized e.g. baat
-ចាស,yes (female speaker),5,false,seed example — verify; romanized e.g. chaa / jaa
-ទេ,no / not,5,false,seed example — verify; romanized e.g. te
-អរគុណ,thank you,4,false,seed example — verify; romanized e.g. orkun
-ស្រលាញ់,love,4,false,seed example — verify; romanized e.g. srolanh
-ល្អ,good,5,false,seed example — verify; romanized e.g. l'or / lor
-ដឹង,know,4,false,seed example — verify; romanized e.g. deung
-ទៅ,go,5,false,seed example — verify; romanized e.g. tov / tou
-មក,come,5,false,seed example — verify; romanized e.g. mok
-ញ៉ាំ,eat,4,false,seed example — verify; romanized e.g. nyam
-ស្អាត,beautiful / clean,4,false,seed example — verify; romanized e.g. saat / s'at
-ចឹង,like that / so,4,true,seed example — verify; chat slang; romanized e.g. jueng / jg / jhg
-អី,what,4,true,seed example — verify; casual; romanized e.g. ei / ey
-ណា,softening particle (please/ok?),3,true,seed example — verify; casual; romanized e.g. na
+khmer,meaning,frequency,is_slang,romanizations,notes
+សួស្តី,hello,4,false,suostei suosdey,seed example — verify
+បាទ,yes (male speaker),5,false,baat,seed example — verify
+ចាស,yes (female speaker),5,false,chaa jaa,seed example — verify
+ទេ,no / not,5,false,te,seed example — verify
+អរគុណ,thank you,4,false,orkun,seed example — verify
+ស្រលាញ់,love,4,false,srolanh,seed example — verify
+ល្អ,good,5,false,lor l'or,seed example — verify
+ដឹង,know,4,false,deung,seed example — verify
+ទៅ,go,5,false,tov tou,seed example — verify
+មក,come,5,false,mok,seed example — verify
+ញ៉ាំ,eat,4,false,nyam,seed example — verify
+ស្អាត,beautiful / clean,4,false,saat s'at,seed example — verify
+ចឹង,like that / so,4,true,jueng jg jhg,seed example — verify; chat slang
+អី,what,4,true,ei ey,seed example — verify; casual
+ណា,softening particle (please/ok?),3,true,na,seed example — verify; casual
