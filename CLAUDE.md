@@ -62,7 +62,7 @@ Goal: prove romanized→Khmer matching works before building any UI.
 
 - [x] 1.1 Set up a basic Python project (repo, venv, folder structure)
 - [ ] 1.2 Hand-curate ~100–200 casual/chat words in Khmer script (word + meaning + rough frequency)
-- [ ] 1.3 Break each vocabulary word into KCCs
+- [x] 1.3 Break each vocabulary word into KCCs
 - [ ] 1.4 Build the `phonetic_rules` table (KCC → Latin spellings + confidence weights)
 - [ ] 1.5 Skim IDRI-LAB's romanizer for reference logic
 - [ ] 1.6 Script to generate the `reverse_index` programmatically
@@ -126,4 +126,16 @@ Sing Khmer/Latin spellings), documented in `data/README.md`. A validating loader
 the remaining 1.2 work is for the native speaker to curate the full ~100–200 casual/chat words.
 The `[ ] 1.2` box stays unchecked until that curation is done.
 
-**Next up after curation: step 1.3** — break each vocabulary word into KCCs.
+**Phase 1, step 1.3 — done.** KCC segmenter implemented at `src/sing_khmer_engine/kcc.py`
+(`segment(text) -> list[str]`, a dependency-free Unicode rule), with tests in
+`tests/test_kcc.py` and a demo at `scripts/show_kccs.py` that prints each vocabulary word's KCC
+breakdown. Segmentation is computed from the Khmer script, so it runs unchanged on the full team
+word list once step 1.2 curation is complete. Verified on the 15 seed words (e.g. `ចឹង → ចឹ · ង`,
+`ស្អាត → ស្អា · ត`).
+
+**Next up: step 1.4** — build the `phonetic_rules` table (KCC → Latin spellings + confidence
+weights), informed by the Sing Khmer spellings the team is collecting.
+
+**Reminder:** step 1.2 curation (~100–200 words) is still in progress via the team Excel sheet
+(`data/sing-khmer-vocab-collection.xlsx`); `[ ] 1.2` stays unchecked until that's merged in.
+Project is still local-only (no remote yet).
