@@ -61,9 +61,10 @@ An app/keyboard that auto-converts Sing Khmer (romanized input) into proper Khme
 Goal: prove romanized→Khmer matching works before building any UI.
 
 - [x] 1.1 Set up a basic Python project (repo, venv, folder structure)
-- [ ] 1.2 Hand-curate ~100–200 casual/chat words in Khmer script (word + meaning + rough frequency)
+- [x] 1.2 Hand-curate ~100–200 casual/chat words in Khmer script (257 words, team-curated)
 - [x] 1.3 Break each vocabulary word into KCCs
-- [ ] 1.4 Build the `phonetic_rules` table (KCC → Latin spellings + confidence weights)
+- [~] 1.4 Build the `phonetic_rules` table (KCC → Latin spellings + confidence weights) — exact
+      rules done (49/264 KCCs from single-KCC words); rest deferred (see finding below)
 - [ ] 1.5 Skim IDRI-LAB's romanizer for reference logic
 - [ ] 1.6 Script to generate the `reverse_index` programmatically
 - [ ] 1.7 Core lookup function: Latin input → ranked Khmer candidates
@@ -133,9 +134,31 @@ breakdown. Segmentation is computed from the Khmer script, so it runs unchanged 
 word list once step 1.2 curation is complete. Verified on the 15 seed words (e.g. `ចឹង → ចឹ · ង`,
 `ស្អាត → ស្អា · ត`).
 
-**Next up: step 1.4** — build the `phonetic_rules` table (KCC → Latin spellings + confidence
-weights), informed by the Sing Khmer spellings the team is collecting.
+**Phase 1, step 1.2 — DONE.** The team curated **257 words** in the Excel sheet
+(`data/sing-khmer-vocab-collection.xlsx`); merged into `data/vocabulary.csv` (spellings normalized:
+split on comma/space, lowercased, deduped). `meaning` is now optional in the loader (the team
+dropped it). 257 entries load and validate.
 
-**Reminder:** step 1.2 curation (~100–200 words) is still in progress via the team Excel sheet
-(`data/sing-khmer-vocab-collection.xlsx`); `[ ] 1.2` stays unchecked until that's merged in.
-Project is still local-only (no remote yet).
+**Phase 1, step 1.4 — first pass done (exact rules only).** `src/sing_khmer_engine/phonetic_rules.py`
+(`build_rules()` + `Rule` dataclass + `coverage()`) derives KCC→spelling rules with confidence
+weights. Two sources: **direct** (single-KCC words = unambiguous ground truth) and **aligned**
+(two-KCC anchored subtraction). Only **direct** ships by default — `include_aligned` is off because
+the aligned heuristic misattributes spellings (e.g. guessed `ក`→`ok`). Output saved by
+`scripts/build_phonetic_rules.py` to `data/phonetic_rules.csv` (49/264 KCCs covered exactly) plus
+`data/phonetic_rules_review.csv` (the other 215, with example words). Tests in
+`tests/test_phonetic_rules.py`.
+
+**KEY FINDING (affects design):** most collected Sing Khmer spellings are **whole-word
+abbreviations**, not compositional syllable spellings — e.g. `ខ្ញុំ→nh`, `ចង់→jg`, `នឹង→ng`,
+`ហើយ→hz/hx/hy`. These cannot be split into per-KCC pieces. Consequence: the **reverse index (1.6)
+should be built primarily from the collected word→romanization data (ground truth)**, which is
+100% accurate for every collected spelling; per-KCC `phonetic_rules` are a *secondary
+generalization layer* for unseen input, not the primary lookup source. This revises the CLAUDE.md
+"three-part data model" emphasis.
+
+**Next up: step 1.6/1.7** — build the reverse index from the collected romanizations and the core
+lookup (Latin input → ranked Khmer candidates). This is the first point with a runnable demo.
+
+**Reminders:** team's disambiguation notes captured in `data/vocabulary.csv` (e.g. `jg` = ចង់ vs
+ចឹង by sentence position → needs the user-selection UX in 1.7). Project is still **local-only**
+(no git remote yet) — recommend pushing to GitHub before more work accrues.
