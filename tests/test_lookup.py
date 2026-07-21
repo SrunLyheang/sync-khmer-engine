@@ -35,3 +35,17 @@ def test_real_data_homophone_ranking():
     assert "ចង់" in names and "ចឹង" in names
     assert names.index("ចង់") < names.index("ចឹង")
     assert lookup("nh", engine=eng)[0].khmer == "ខ្ញុំ"
+
+
+def test_sentence_conversion_joins_words():
+    eng = Engine()
+    assert eng.convert_sentence_text("nh sl bong") == "ខ្ញុំ ស្រឡាញ់ បង"
+
+
+def test_sentence_keeps_unknown_words_and_punctuation():
+    eng = Engine()
+    words = eng.convert_sentence("nh, zzz bong!")
+    assert words[0].best == "ខ្ញុំ,"          # punctuation preserved
+    assert words[1].best == "zzz"              # unknown word falls through
+    assert words[1].matched is False
+    assert words[2].best == "បង!"

@@ -162,7 +162,14 @@ generated layer from phonetic rules; `lookup.py` (`Engine` + `convert()`) does e
 lookup. Interactive demo: `PYTHONPATH=src python scripts/convert.py` (or pass words as args).
 Verified: `jg → ចង់(5), ចឹង(4)` (homophones ranked by frequency — the exact ambiguity the user
 flagged), `nh → ខ្ញុំ`, `sl → ស្រឡាញ់`, `ss → សង្សារ`; unknown input returns empty. 353 spellings
-indexed. Tests in `tests/test_reverse_index.py`, `tests/test_lookup.py` (41 tests total).
+indexed. Tests in `tests/test_reverse_index.py`, `tests/test_lookup.py`.
+
+**Sentence support + web demo added.** `Engine.convert_sentence()` / `convert_sentence_text()`
+split input on spaces, convert each word (keeping candidates + punctuation, unknown words fall
+through): `nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`. No-space segmentation is a later refinement.
+`scripts/build_web_demo.py` writes a self-contained `web/index.html` (offline; embeds the index)
+so Khmer renders correctly in a browser (terminals can't shape Khmer — that's a display limit, not
+a data bug) with clickable per-word alternatives. 43 tests total.
 
 **Next up: step 1.8** — fuzzy/edit-distance fallback for input with no exact match (e.g. typos).
 Then 1.9 (measure accuracy on real chat) and 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to
