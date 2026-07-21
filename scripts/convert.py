@@ -14,22 +14,26 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from sing_khmer_engine.lookup import Engine  # noqa: E402
 
 
+_TAG = {"collected": "", "generated": " (auto)", "fuzzy": " (~typo)"}
+
+
 def show(engine: Engine, word: str) -> None:
     results = engine.convert(word)
     if not results:
-        print(f"  {word!r:12} -> (no match — fuzzy matching comes in step 1.8)")
+        print(f"  {word!r:12} -> (no match found)")
         return
-    parts = []
-    for i, c in enumerate(results, 1):
-        tag = "" if c.source == "collected" else " *"
-        parts.append(f"{i}. {c.khmer} (score {c.score}{tag})")
+    parts = [
+        f"{i}. {c.khmer} (score {c.score}{_TAG.get(c.source, '')})"
+        for i, c in enumerate(results, 1)
+    ]
     print(f"  {word!r:12} -> " + "   ".join(parts))
 
 
 def main() -> None:
     print("Loading engine...")
     engine = Engine()
-    print(f"Ready — {len(engine.index)} spellings indexed. ( * = auto-generated )\n")
+    print(f"Ready — {len(engine.index)} spellings indexed."
+          " (auto) = generated spelling, (~typo) = fuzzy match\n")
 
     args = [a for a in sys.argv[1:] if a.strip()]
     if args:

@@ -68,7 +68,7 @@ Goal: prove romanized→Khmer matching works before building any UI.
 - [ ] 1.5 Skim IDRI-LAB's romanizer for reference logic
 - [x] 1.6 Script to generate the `reverse_index` programmatically
 - [x] 1.7 Core lookup function: Latin input → ranked Khmer candidates
-- [ ] 1.8 Fuzzy/edit-distance fallback for non-exact matches
+- [x] 1.8 Fuzzy/edit-distance fallback for non-exact matches
 - [ ] 1.9 Test against real romanized chat examples, measure accuracy
 - [ ] 1.10 Iterate on rules/weights based on failures
 
@@ -169,7 +169,15 @@ split input on spaces, convert each word (keeping candidates + punctuation, unkn
 through): `nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`. No-space segmentation is a later refinement.
 `scripts/build_web_demo.py` writes a self-contained `web/index.html` (offline; embeds the index)
 so Khmer renders correctly in a browser (terminals can't shape Khmer — that's a display limit, not
-a data bug) with clickable per-word alternatives. 43 tests total.
+a data bug) with clickable per-word alternatives.
+
+**Phase 1, step 1.8 — DONE.** `fuzzy.py` (`levenshtein`, `within`) + `Engine.convert(fuzzy=True)`
+fall back to closest known spellings by edit distance when there's no exact hit
+(`srolan → ស្រឡាញ់`, `teuk → ទឹក`), ranked by (distance, frequency), `source="fuzzy"`. Threshold: 1
+edit for len≤3, else 2. The web demo mirrors this in JS so typos work in the browser too. 49 tests.
+
+**Remaining in Phase 1:** 1.9 (measure accuracy on real chat examples), 1.10 (tune weights), and the
+deferred 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to widen the generated layer).
 
 **Next up: step 1.8** — fuzzy/edit-distance fallback for input with no exact match (e.g. typos).
 Then 1.9 (measure accuracy on real chat) and 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to

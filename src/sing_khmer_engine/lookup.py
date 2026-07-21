@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from .fuzzy import within
 from .phonetic_rules import build_rules
 from .reverse_index import Candidate, build_index
 from .vocabulary import VocabEntry, load
@@ -57,13 +58,41 @@ class Engine:
             self.vocab, self.rules if use_generated else None
         )
 
-    def convert(self, text: str, *, limit: int = 5) -> list[Candidate]:
+    def convert(
+        self, text: str, *, limit: int = 5, fuzzy: bool = True
+    ) -> list[Candidate]:
         """Return up to `limit` ranked Khmer candidates for a Latin spelling.
 
-        Empty list means no exact match (fuzzy matching arrives in step 1.8).
+        Tries an exact match first; if none and `fuzzy` is on, falls back to the
+        closest known spellings by edit distance. Empty list means no match at all.
         """
         key = text.strip().lower()
-        return self.index.get(key, [])[:limit]
+        if not key:
+            return []
+        exact = self.index.get(key)
+        if exact:
+            return exact[:limit]
+        if not fuzzy:
+            return []
+        return self._fuzzy(key, limit=limit)
+
+    def _fuzzy(self, key: str, *, limit: int) -> list[Candidate]:
+        """Closest known spellings by edit distance, ranked by (distance, frequency)."""
+        threshold = 1 if len(key) <= 3 else 2
+        best: dict[str, tuple[int, float]] = {}  # khmer -> (distance, score)
+        for ikey, cands in self.index.items():
+            d = within(key, ikey, threshold)
+            if d is None:
+                continue
+            for c in cands:
+                cur = best.get(c.khmer)
+                if cur is None or (d, -c.score) < (cur[0], -cur[1]):
+                    best[c.khmer] = (d, c.score)
+        ranked = sorted(best.items(), key=lambda kv: (kv[1][0], -kv[1][1], kv[0]))
+        return [
+            Candidate(khmer, round(score / (1.0 + d), 3), "fuzzy")
+            for khmer, (d, score) in ranked
+        ][:limit]
 
     def convert_sentence(self, text: str, *, limit: int = 5) -> list[WordResult]:
         """Convert a whitespace-separated sentence, word by word.

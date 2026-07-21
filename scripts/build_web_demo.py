@@ -62,22 +62,58 @@ const outEl = document.getElementById('output');
 const bdEl = document.getElementById('breakdown');
 let chosen = {};
 
+const KEYS = Object.keys(INDEX);
+
 function tokenize(t){ return t.split(/\s+/).filter(x => x.length); }
 function splitPunct(tok){ const m = tok.match(/^([^\p{L}\p{N}]*)(.*?)([^\p{L}\p{N}]*)$/u);
   return { lead: m[1], core: m[2], trail: m[3] }; }
+
+function lev(a, b){                       // edit distance
+  if (a === b) return 0;
+  let prev = Array.from({length: b.length + 1}, (_, i) => i);
+  for (let i = 1; i <= a.length; i++){
+    let cur = [i];
+    for (let j = 1; j <= b.length; j++){
+      const cost = a[i-1] === b[j-1] ? 0 : 1;
+      cur.push(Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + cost));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+// Exact match, else closest known spellings by edit distance (mirrors the Python engine).
+function lookup(key){
+  if (INDEX[key]) return INDEX[key];
+  const k = key.length <= 3 ? 1 : 2;
+  const best = {};                        // khmer -> [distance, score]
+  for (const ik of KEYS){
+    if (Math.abs(ik.length - key.length) > k) continue;
+    const d = lev(key, ik);
+    if (d > k) continue;
+    for (const c of INDEX[ik]){
+      const cur = best[c[0]];
+      if (!cur || d < cur[0] || (d === cur[0] && c[1] > cur[1])) best[c[0]] = [d, c[1]];
+    }
+  }
+  return Object.entries(best)
+    .sort((x, y) => x[1][0] - y[1][0] || y[1][1] - x[1][1])
+    .map(([kh, [d, s]]) => [kh, +(s / (1 + d)).toFixed(3), 'fuzzy']);
+}
 
 function render(){
   const toks = tokenize(inEl.value);
   let out = '', bd = '';
   toks.forEach((tok, i) => {
     const { lead, core, trail } = splitPunct(tok);
-    const cands = INDEX[core.toLowerCase()] || [];
+    const cands = core ? lookup(core.toLowerCase()) : [];
     if (cands.length){
       const ci = Math.min(chosen[i] || 0, cands.length - 1);
       out += lead + cands[ci][0] + trail + ' ';
+      const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
       const alts = cands.map((c, ai) =>
         `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}" `
-        + `title="score ${c[1]}${c[2]==='generated'?' (auto)':''}">${c[0]}</span>`).join('');
+        + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
       bd += `<div class="wtile"><span class="latin">${core}</span>→ ${alts}</div>`;
     } else {
       out += `<span class="unknown">${tok}</span> `;
