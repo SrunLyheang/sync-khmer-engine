@@ -17,18 +17,27 @@ def test_seed_entries_are_valid_and_unique():
     khmer_keys = [e.khmer for e in entries]
     assert len(khmer_keys) == len(set(khmer_keys))  # no duplicates
     for e in entries:
-        assert e.khmer and e.meaning
+        assert e.khmer  # meaning is optional
         assert 1 <= e.frequency <= 5
         assert isinstance(e.is_slang, bool)
 
 
-def test_romanizations_parse_into_tuple():
+def test_romanizations_parse_into_tuple(tmp_path):
     """The romanizations cell is split on whitespace into a tuple of spellings."""
+    csv_path = tmp_path / "rom.csv"
+    csv_path.write_text(
+        "khmer,frequency,is_slang,romanizations,notes\n"
+        "ចឹង,4,true,jueng jg jhg,\n",
+        encoding="utf-8",
+    )
+    assert load(csv_path)[0].romanizations == ("jueng", "jg", "jhg")
+
+
+def test_real_data_has_romanizations():
+    """Every entry's romanizations is a tuple, and the curated data is populated."""
     entries = load()
-    by_khmer = {e.khmer: e for e in entries}
-    assert by_khmer["ចឹង"].romanizations == ("jueng", "jg", "jhg")
-    # Every entry's romanizations is a tuple (possibly empty).
     assert all(isinstance(e.romanizations, tuple) for e in entries)
+    assert any(e.romanizations for e in entries)
 
 
 def test_romanizations_optional_column(tmp_path):

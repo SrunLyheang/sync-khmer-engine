@@ -17,7 +17,7 @@ from pathlib import Path
 # Default location of the curated vocabulary file, relative to the repo root.
 DEFAULT_VOCAB_PATH = Path(__file__).resolve().parents[2] / "data" / "vocabulary.csv"
 
-REQUIRED_COLUMNS = ("khmer", "meaning", "frequency", "is_slang")
+REQUIRED_COLUMNS = ("khmer", "frequency", "is_slang")
 _TRUE_VALUES = {"true", "1", "yes", "y"}
 _FALSE_VALUES = {"false", "0", "no", "n"}
 
@@ -105,8 +105,6 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
             meaning = (row.get("meaning") or "").strip()
             if not khmer:
                 raise VocabularyError(f"row {row_num}: khmer is required")
-            if not meaning:
-                raise VocabularyError(f"row {row_num}: meaning is required")
             if khmer in seen:
                 raise VocabularyError(
                     f"row {row_num}: duplicate khmer entry {khmer!r} "
