@@ -89,7 +89,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ដប់,,5,false,dob dop,number: ten
 រយ,,4,false,ruoy roy,number: hundred
 ពាន់,,1,false,porn poun,number: thousand
-បង,,5,false,bong,family: older sibling; also 'you' to someone older
+បង,,5,false,bong b,family: older sibling; also 'you' to someone older
 ប្អូន,,5,false,"p""o",family: younger sibling
 កូន,,5,false,kon,family: child
 សង្សារ,,5,true,ss songsa,family: boy/girlfriend (very common in chat)
@@ -256,3 +256,4 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 សុំ,,5,false,som sum,verb: please / may I / ask for
 អូខេ,,5,true,okay,chat: okay (loanword)
 មួយមួយ,,5,true,mouy muy,meaning one by one
+អូន,,5,false,oun o,family: younger one / darling (term of endearment)
