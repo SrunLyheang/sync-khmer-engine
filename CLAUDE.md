@@ -74,17 +74,59 @@ Goal: prove romanized→Khmer matching works before building any UI.
 
 **Exit criteria:** correct Khmer word lands in the top 3 candidates for most test examples.
 
-### Phase 2 — Android Keyboard Shell (Kotlin)
-- [ ] 2.1 Minimal `InputMethodService` project in Android Studio
-- [ ] 2.2 Study/fork an open-source keyboard (e.g. Simple Keyboard) as reference
-- [ ] 2.3 Basic QWERTY layout outputting raw Latin text first
-- [ ] 2.4 Port/bundle the Phase 1 lookup logic (Kotlin port or bundled JSON)
-- [ ] 2.5 Suggestion bar UI with ranked candidates
-- [ ] 2.6 Candidate selection → insert Khmer text into focused app
-- [ ] 2.7 Test in real target apps (TikTok, YouTube, Messenger)
-- [ ] 2.8 Distribute for personal/internal testing
+### Phase 2 — Android Keyboard Shell (Kotlin) — DETAILED PLAN
 
-**Exit criteria:** working Khmer suggestions typing into TikTok/YouTube on your own Android phone.
+**Key architectural decision:** don't port the Python generation logic (KCC segmentation +
+phonetic-rules combination) to Kotlin. It's deterministic and needs no per-keystroke computation,
+so it runs once, offline, in Python (already built in Phase 1) and is **exported to a static JSON
+asset** (`reverse_index.json`: `spelling -> [[khmer, score, source], ...]`) that ships inside the
+Android app. Kotlin only needs to: (a) look up a key in that JSON (trivial `Map` access), and
+(b) implement edit-distance fuzzy fallback for keys with no exact match (the one piece that
+genuinely depends on live user input, so it must run on-device — port `fuzzy.py`'s `levenshtein`,
+~15 lines of Kotlin). This mirrors what `scripts/build_web_demo.py` already does for the browser
+demo — Android is the same pattern, native.
+
+**UX model (decided from Phase 1 testing):** behaves like iOS Text Replacement (auto-converts
+inline as you type) but with a suggestion strip for ambiguous words, because — unlike iOS Text
+Replacement's fixed 1:1 shortcuts — one Sing Khmer spelling often maps to *several* Khmer words
+(homophones, e.g. `jg` → ចង់ or ចឹង). So: convert the current word automatically the moment a
+space/punctuation is typed (top-ranked candidate), but keep it "live" in the suggestion strip so
+one tap swaps it for an alternative — same interaction Google Input Tools / Gboard use for CJK.
+
+**Steps:**
+- [ ] 2.0 Export step: `scripts/export_index.py` — dump `Engine().index` to
+      `android/app/src/main/assets/reverse_index.json`. Re-run whenever `vocabulary.csv` changes;
+      no other Phase 1 code needs porting.
+- [ ] 2.1 Minimal `InputMethodService` project in Android Studio (empty keyboard that just shows)
+- [ ] 2.2 Study/fork an open-source keyboard (e.g. Simple Keyboard / OpenBoard) as reference for
+      the `InputMethodService` + key-rendering boilerplate — don't build a keyboard renderer from
+      scratch
+- [ ] 2.3 Basic QWERTY layout outputting raw Latin text first (prove key events + text commit work)
+- [ ] 2.4 Load `reverse_index.json` as a `Map<String, List<Candidate>>` at IME startup; implement
+      Kotlin `levenshtein`/`within` for the fuzzy fallback (direct port of `fuzzy.py`)
+- [ ] 2.5 Composing-word buffer: track the current word being typed (like IME "composing text");
+      on space/punctuation/enter, look up the buffer and auto-commit the top candidate (the
+      "Text-Replacement-style" behavior above)
+- [ ] 2.6 Suggestion strip UI above the keyboard showing ranked candidates for the
+      just-committed (or currently composing) word; tapping an alternative swaps the committed
+      text via `InputConnection.setComposingText`/`commitText`
+- [ ] 2.7 Backspace handling: deleting into a just-converted word should be able to revert to the
+      original Latin (or cycle candidates) rather than deleting Khmer character-by-character blindly
+- [ ] 2.8 Test in real target apps (TikTok, YouTube comments, Messenger, Telegram)
+- [ ] 2.9 Distribute for personal/internal testing (direct APK sideload first; Firebase App
+      Distribution if the team testing it grows beyond a couple of phones)
+
+**Carried over from Phase 1 findings (don't re-litigate in Phase 2):**
+- Ranking is (collected > generated > fuzzy) then by frequency — same order Android should render
+  candidates in.
+- Homophone disambiguation (e.g. `jg`) has no fixed rule yet (position-in-sentence idea flagged by
+  the team is unimplemented) — Phase 2 can initially just rank by frequency and let the user tap to
+  correct, same as Phase 1's web demo.
+- No-space segmentation (typing a whole sentence with no spaces) is still unsolved — Android phase
+  can assume space-delimited input same as the Phase 1 prototype; this remains a known gap.
+
+**Exit criteria:** working Khmer suggestions typing into TikTok/YouTube on your own Android phone,
+with tap-to-correct working for at least the known homophone cases.
 
 ### Phase 3 — iOS Keyboard Extension (Swift)
 - [ ] 3.1 Xcode Custom Keyboard Extension target
@@ -116,68 +158,60 @@ Goal: prove romanized→Khmer matching works before building any UI.
 
 ## Current Position
 
-**Phase 1, step 1.1 — done.** Python project scaffold is in place: `src/sing_khmer_engine/` package, `tests/` (pytest, smoke test passing), `data/` for future vocabulary/rules, venv + `requirements.txt`/`requirements-dev.txt` for dependencies, `pyproject.toml` for pytest config, `.gitignore`, and `README.md`. Local-only git repo for now (no remote yet).
+**Phase 1 (Python prototype): steps 1.1–1.4, 1.6–1.8 DONE. 1.9 explicitly SKIPPED for now
+(picking up again later — see below). Moving into Phase 2 planning.**
 
-**Phase 1, step 1.2 — format + tooling in place; curation pending.** The vocabulary data
-format is set up as `data/vocabulary.csv` (columns: `khmer, meaning, frequency, is_slang,
-romanizations, notes`; frequency is a rough 1–5 scale; `romanizations` holds the space-separated
-Sing Khmer/Latin spellings), documented in `data/README.md`. A validating loader lives at
-`src/sing_khmer_engine/vocabulary.py` (`VocabEntry` dataclass + `load()`), with tests in
-`tests/test_vocabulary.py`. The file currently holds **15 seed example rows to verify/replace** —
-the remaining 1.2 work is for the native speaker to curate the full ~100–200 casual/chat words.
-The `[ ] 1.2` box stays unchecked until that curation is done.
+Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engine/`):
+- **1.1 Scaffold** — `src/`-layout package, venv + `requirements*.txt`, pytest via `pyproject.toml`.
+- **1.2 Vocabulary — DONE.** **258 words** curated by the team, in `data/vocabulary.csv`
+  (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused;
+  `romanizations` = space-separated Sing Khmer spellings). Loader + validation:
+  `vocabulary.py` (`VocabEntry`, `load()`). Still growing — anyone can add rows directly to the CSV.
+- **1.3 KCC segmentation — DONE.** `kcc.py` (`segment()`), a dependency-free Unicode rule splitting
+  Khmer text into syllable clusters. Demo: `scripts/show_kccs.py`.
+- **1.4 Phonetic rules — first pass done.** `phonetic_rules.py` (`build_rules()`) derives KCC→
+  spelling rules from **direct** evidence only (single-KCC words = unambiguous ground truth); the
+  **aligned** heuristic (two-KCC anchored subtraction) exists but is off by default — it
+  misattributes spellings. 49/264 KCCs covered exactly (`data/phonetic_rules.csv`); the rest are
+  logged in `data/phonetic_rules_review.csv` for later.
+  **KEY FINDING:** most collected Sing Khmer spellings are **whole-word abbreviations**, not
+  compositional syllable spellings (`ខ្ញុំ→nh`, `ចង់→jg`, `នឹង→ng`). So the reverse index is built
+  primarily from **collected** word→romanization data (ground truth, 100% accurate); per-KCC rules
+  are a secondary *generalization* layer for words/spellings nobody typed — this revises the
+  original "three-part data model" emphasis.
+- **1.6 & 1.7 Reverse index + lookup — DONE. Converter works end-to-end.** `reverse_index.py`
+  (`build_index()`) + `lookup.py` (`Engine.convert()`), ranked by (collected > generated > fuzzy)
+  then frequency. Homophones return ranked options (`jg → ចង់(5), ចឹង(4)`).
+- **1.8 Fuzzy matching — DONE.** `fuzzy.py` (Levenshtein edit distance); typos fall back to the
+  closest known spelling (`srolan → ស្រឡាញ់`).
+- **Sentence support (bonus, beyond the roadmap's per-word scope):** `Engine.convert_sentence()` /
+  `convert_sentence_text()` split on spaces, convert word by word, keep punctuation, pass through
+  unknowns (`nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`). No-space segmentation is unsolved (known gap).
+- **Demos:** `scripts/convert.py` (terminal — single word or sentence) and
+  `scripts/build_web_demo.py` → `web/index.html` (self-contained browser demo with fuzzy matching
+  in JS, clickable per-word alternatives). **Terminals cannot render Khmer script correctly**
+  (complex text shaping) — that's a display limitation, not a data bug; always verify Khmer output
+  visually in a browser, not a terminal.
+- **UX decision (carries into Phase 2):** behaves like iOS Text Replacement (auto-converts inline)
+  but with a tap-to-swap suggestion strip for homophones, since Sing Khmer spellings are ambiguous
+  in a way fixed iOS shortcuts aren't. See Phase 2 plan above for how this becomes the Android IME.
+- 49 tests passing throughout (`pytest`).
 
-**Phase 1, step 1.3 — done.** KCC segmenter implemented at `src/sing_khmer_engine/kcc.py`
-(`segment(text) -> list[str]`, a dependency-free Unicode rule), with tests in
-`tests/test_kcc.py` and a demo at `scripts/show_kccs.py` that prints each vocabulary word's KCC
-breakdown. Segmentation is computed from the Khmer script, so it runs unchanged on the full team
-word list once step 1.2 curation is complete. Verified on the 15 seed words (e.g. `ចឹង → ចឹ · ង`,
-`ស្អាត → ស្អា · ត`).
+**1.9 (measure accuracy on real chat examples) — SKIPPED FOR NOW.** Revisit once there's a larger
+corpus of real chat messages to test against and/or once Phase 2 gives a reason to prioritize
+accuracy tuning again. Still on the roadmap, just not being worked on currently.
 
-**Phase 1, step 1.2 — DONE.** The team curated **257 words** in the Excel sheet
-(`data/sing-khmer-vocab-collection.xlsx`); merged into `data/vocabulary.csv` (spellings normalized:
-split on comma/space, lowercased, deduped). `meaning` is now optional in the loader (the team
-dropped it). 257 entries load and validate.
+**Deferred:** 1.5 (skim IDRI-LAB's romanizer to seed the 215 uncovered KCCs) and 1.10 (tune
+weights) — pick up alongside or after 1.9.
 
-**Phase 1, step 1.4 — first pass done (exact rules only).** `src/sing_khmer_engine/phonetic_rules.py`
-(`build_rules()` + `Rule` dataclass + `coverage()`) derives KCC→spelling rules with confidence
-weights. Two sources: **direct** (single-KCC words = unambiguous ground truth) and **aligned**
-(two-KCC anchored subtraction). Only **direct** ships by default — `include_aligned` is off because
-the aligned heuristic misattributes spellings (e.g. guessed `ក`→`ok`). Output saved by
-`scripts/build_phonetic_rules.py` to `data/phonetic_rules.csv` (49/264 KCCs covered exactly) plus
-`data/phonetic_rules_review.csv` (the other 215, with example words). Tests in
-`tests/test_phonetic_rules.py`.
+**Next up: Phase 2 (Android keyboard shell)** — see the detailed step-by-step plan above
+(2.0–2.9). Starting point: `scripts/export_index.py` (not yet written) to dump the reverse index
+to `reverse_index.json` for the Android app to bundle.
 
-**KEY FINDING (affects design):** most collected Sing Khmer spellings are **whole-word
-abbreviations**, not compositional syllable spellings — e.g. `ខ្ញុំ→nh`, `ចង់→jg`, `នឹង→ng`,
-`ហើយ→hz/hx/hy`. These cannot be split into per-KCC pieces. Consequence: the **reverse index (1.6)
-should be built primarily from the collected word→romanization data (ground truth)**, which is
-100% accurate for every collected spelling; per-KCC `phonetic_rules` are a *secondary
-generalization layer* for unseen input, not the primary lookup source. This revises the CLAUDE.md
-"three-part data model" emphasis.
-
-**Phase 1, steps 1.6 & 1.7 — DONE. The converter works.** `reverse_index.py` (`build_index()` +
-`Candidate`) builds the Latin→Khmer lookup table from collected romanizations (backbone) plus a
-generated layer from phonetic rules; `lookup.py` (`Engine` + `convert()`) does exact-match ranked
-lookup. Interactive demo: `PYTHONPATH=src python scripts/convert.py` (or pass words as args).
-Verified: `jg → ចង់(5), ចឹង(4)` (homophones ranked by frequency — the exact ambiguity the user
-flagged), `nh → ខ្ញុំ`, `sl → ស្រឡាញ់`, `ss → សង្សារ`; unknown input returns empty. 353 spellings
-indexed. Tests in `tests/test_reverse_index.py`, `tests/test_lookup.py`.
-
-**Sentence support + web demo added.** `Engine.convert_sentence()` / `convert_sentence_text()`
-split input on spaces, convert each word (keeping candidates + punctuation, unknown words fall
-through): `nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`. No-space segmentation is a later refinement.
-`scripts/build_web_demo.py` writes a self-contained `web/index.html` (offline; embeds the index)
-so Khmer renders correctly in a browser (terminals can't shape Khmer — that's a display limit, not
-a data bug) with clickable per-word alternatives.
-
-**Phase 1, step 1.8 — DONE.** `fuzzy.py` (`levenshtein`, `within`) + `Engine.convert(fuzzy=True)`
-fall back to closest known spellings by edit distance when there's no exact hit
-(`srolan → ស្រឡាញ់`, `teuk → ទឹក`), ranked by (distance, frequency), `source="fuzzy"`. Threshold: 1
-edit for len≤3, else 2. The web demo mirrors this in JS so typos work in the browser too. 49 tests.
-
-**Remaining in Phase 1:** 1.9 (measure accuracy on real chat examples), 1.10 (tune weights), and the
-deferred 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to widen the generated layer).
+**Environment note:** development has moved between a cloud session and the developer's local Mac
+(VS Code, cloned from `github.com/SrunLyheang/sing-khmer-engine-2`). The two only sync via
+git push/pull — there is no direct file access between them. If picking this project up in a new
+session, check `git log`/`git status` first to see which side has the latest work before editing.
 
 **Next up: step 1.8** — fuzzy/edit-distance fallback for input with no exact match (e.g. typos).
 Then 1.9 (measure accuracy on real chat) and 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to
