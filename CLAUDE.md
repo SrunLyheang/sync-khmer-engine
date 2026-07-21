@@ -37,6 +37,10 @@ An app/keyboard that auto-converts Sing Khmer (romanized input) into proper Khme
 - Khmer script is an abugida — words aren't space-delimited, complicating word-boundary detection
 - iOS keyboard extensions are sandboxed — need "Allow Full Access" for network/large dictionary access; Apple reviews keyboard apps strictly
 - Android's `InputMethodService` is more open, with more prior art, than iOS
+- **Code-switching (deferred):** users mix English and Sing Khmer in one message (e.g. `u` for
+  "you", English words dropped mid-sentence). The engine currently converts every token and passes
+  unknown tokens through unchanged — good enough for now. Deliberately IGNORED for the current
+  phase; revisit later (needs a way to detect "leave this English word alone" vs "convert it").
 
 ## Useful Existing Resources (not yet vetted for license/quality)
 
@@ -158,11 +162,12 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
-**PENDING INPUT FROM USER:** the user is sending an updated Excel sheet with revised
-frequency values (and possibly more words) for `data/vocabulary.csv`. When it arrives: merge it in
-the same way the original team sheet was merged (normalize romanizations: split on comma/space,
-lowercase, dedupe; preserve the `notes` column's disambiguation guidance like the `jg`
-ចង់-vs-ចឹង note). Don't overwrite frequencies the user has deliberately tuned with guesses.
+**Vocabulary last merged:** user's V2 Excel (`singkhmervocabcollectionV2.xlsx`, 383 words with
+retuned frequencies) merged in — Excel is authoritative for anything it covers; the 43
+AI-researched extras not in the Excel were preserved, and romanizations were UNIONed for overlaps
+(so e.g. `បង` kept both `bong` and the added `b`). **426 words total.** For the next Excel update,
+reuse the same merge approach (`/tmp` scratch script pattern): Excel wins on freq/slang, union
+romanizations, keep current-only words, preserve `notes` like the `jg` ចង់-vs-ចឹង guidance.
 
 **Engine accuracy is under active improvement** (see the engine-improvement plan): the user found
 many words/spellings aren't recognized. Diagnosis: 55% of the 258 words have only ONE collected
@@ -178,7 +183,7 @@ continues in parallel (both the user's additions and my own research, see below)
 
 Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engine/`):
 - **1.1 Scaffold** — `src/`-layout package, venv + `requirements*.txt`, pytest via `pyproject.toml`.
-- **1.2 Vocabulary — DONE, still growing.** **307 words** in `data/vocabulary.csv`
+- **1.2 Vocabulary — DONE, still growing.** **426 words** in `data/vocabulary.csv`
   (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused;
   `romanizations` = space-separated Sing Khmer spellings). Loader + validation:
   `vocabulary.py` (`VocabEntry`, `load()`). Team-curated core + AI-researched additions (the latter
