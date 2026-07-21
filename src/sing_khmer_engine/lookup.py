@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .fuzzy import within
+from .fuzzy import levenshtein, within
 from .phonetic_rules import build_rules
 from .reverse_index import Candidate, build_index
 from .vocabulary import VocabEntry, load
@@ -41,6 +41,18 @@ class WordResult:
         surrounding punctuation preserved."""
         khmer = self.candidates[0].khmer if self.candidates else self.core
         return f"{self.lead}{khmer}{self.trail}"
+
+
+@dataclass(frozen=True)
+class Diagnosis:
+    """Why a spelling did or didn't match — see `Engine.diagnose()`."""
+
+    text: str                          # original input
+    key: str                           # normalized (stripped/lowercased) input
+    outcome: str                       # "exact" | "fuzzy" | "no_match"
+    candidates: list[Candidate]        # populated for "exact"/"fuzzy"
+    closest_key: str | None            # populated for "no_match": nearest known key
+    closest_distance: int | None       # raw edit distance to closest_key
 
 
 class Engine:
@@ -93,6 +105,31 @@ class Engine:
             Candidate(khmer, round(score / (1.0 + d), 3), "fuzzy")
             for khmer, (d, score) in ranked
         ][:limit]
+
+    def diagnose(self, text: str) -> "Diagnosis":
+        """Explain *why* a spelling did or didn't match — for finding coverage gaps.
+
+        Unlike `convert()`, this ignores the fuzzy distance threshold: if there's no
+        exact or in-threshold fuzzy hit, it still reports the single closest known
+        spelling and its raw edit distance, so "missing word entirely" can be told
+        apart from "word exists, spelling is just far off".
+        """
+        key = text.strip().lower()
+        exact = self.index.get(key, [])
+        if exact:
+            return Diagnosis(text, key, "exact", exact, None, None)
+
+        fuzzy_hits = self._fuzzy(key, limit=5)
+        if fuzzy_hits:
+            return Diagnosis(text, key, "fuzzy", fuzzy_hits, None, None)
+
+        # Nothing within threshold — find the single closest key anyway, unbounded.
+        closest_key, closest_dist = None, None
+        for ikey in self.index:
+            d = levenshtein(key, ikey)
+            if closest_dist is None or d < closest_dist:
+                closest_key, closest_dist = ikey, d
+        return Diagnosis(text, key, "no_match", [], closest_key, closest_dist)
 
     def convert_sentence(self, text: str, *, limit: int = 5) -> list[WordResult]:
         """Convert a whitespace-separated sentence, word by word.

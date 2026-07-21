@@ -158,15 +158,32 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**PENDING INPUT FROM USER:** the user is sending an updated Excel sheet with revised
+frequency values (and possibly more words) for `data/vocabulary.csv`. When it arrives: merge it in
+the same way the original team sheet was merged (normalize romanizations: split on comma/space,
+lowercase, dedupe; preserve the `notes` column's disambiguation guidance like the `jg`
+ចង់-vs-ចឹង note). Don't overwrite frequencies the user has deliberately tuned with guesses.
+
+**Engine accuracy is under active improvement** (see the engine-improvement plan): the user found
+many words/spellings aren't recognized. Diagnosis: 55% of the 258 words have only ONE collected
+spelling, and only 49/264 KCCs have exact phonetic rules, so real typing variation often misses.
+Plan (in order): (0) build a diagnostics tool to see exactly why a word misses, (1) add a phonetic
+normalization layer (collapse doubled letters, drop optional trailing `h`, unify interchangeable
+letter clusters — rules derived from real variant pairs already in the data), (2) smarter/wider
+fuzzy matching, (3) widen phonetic-rules coverage (revives deferred step 1.5). Vocabulary growth
+continues in parallel (both the user's additions and my own research, see below).
+
 **Phase 1 (Python prototype): steps 1.1–1.4, 1.6–1.8 DONE. 1.9 explicitly SKIPPED for now
 (picking up again later — see below). Moving into Phase 2 planning.**
 
 Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engine/`):
 - **1.1 Scaffold** — `src/`-layout package, venv + `requirements*.txt`, pytest via `pyproject.toml`.
-- **1.2 Vocabulary — DONE.** **258 words** curated by the team, in `data/vocabulary.csv`
+- **1.2 Vocabulary — DONE, still growing.** **307 words** in `data/vocabulary.csv`
   (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused;
   `romanizations` = space-separated Sing Khmer spellings). Loader + validation:
-  `vocabulary.py` (`VocabEntry`, `load()`). Still growing — anyone can add rows directly to the CSV.
+  `vocabulary.py` (`VocabEntry`, `load()`). Team-curated core + AI-researched additions (the latter
+  tagged `(AI-suggested — verify)` in `notes`; their romanizations are best-effort, verify with a
+  native speaker). Anyone can add rows directly to the CSV — no Excel needed.
 - **1.3 KCC segmentation — DONE.** `kcc.py` (`segment()`), a dependency-free Unicode rule splitting
   Khmer text into syllable clusters. Demo: `scripts/show_kccs.py`.
 - **1.4 Phonetic rules — first pass done.** `phonetic_rules.py` (`build_rules()`) derives KCC→
@@ -187,11 +204,19 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
 - **Sentence support (bonus, beyond the roadmap's per-word scope):** `Engine.convert_sentence()` /
   `convert_sentence_text()` split on spaces, convert word by word, keep punctuation, pass through
   unknowns (`nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`). No-space segmentation is unsolved (known gap).
-- **Demos:** `scripts/convert.py` (terminal — single word or sentence) and
-  `scripts/build_web_demo.py` → `web/index.html` (self-contained browser demo with fuzzy matching
-  in JS, clickable per-word alternatives). **Terminals cannot render Khmer script correctly**
-  (complex text shaping) — that's a display limitation, not a data bug; always verify Khmer output
-  visually in a browser, not a terminal.
+- **How to test (preferred): `scripts/serve.py`** — `PYTHONPATH=src python scripts/serve.py`, then
+  open http://localhost:8000. A tiny stdlib web server that uses the REAL engine and **auto-reloads
+  `vocabulary.csv` on change** (edit the CSV in VS Code → refresh browser → see the effect; no
+  rebuild). This is the standard test loop now — do NOT hand-generate `web/index.html` each time.
+  Khmer renders correctly because it's a browser (terminals can't shape Khmer — display limit, not a
+  data bug).
+- **`scripts/diagnose.py`** — explains WHY input did/didn't convert: EXACT vs FUZZY (with distance)
+  vs NO MATCH (shows nearest known spelling + raw edit distance, ignoring the threshold), so
+  "missing word" is distinguishable from "spelling too far off". Backed by `Engine.diagnose()` /
+  `Diagnosis` in `lookup.py`. Use this to find real coverage gaps before adding words/rules.
+- Other demos: `scripts/convert.py` (terminal, word or sentence); `scripts/build_web_demo.py` →
+  static `web/index.html` (offline standalone, self-contained, JS reimplements matching — only
+  needed for sharing a no-server file).
 - **UX decision (carries into Phase 2):** behaves like iOS Text Replacement (auto-converts inline)
   but with a tap-to-swap suggestion strip for homophones, since Sing Khmer spellings are ambiguous
   in a way fixed iOS shortcuts aren't. See Phase 2 plan above for how this becomes the Android IME.
