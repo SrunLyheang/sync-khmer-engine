@@ -66,8 +66,8 @@ Goal: prove romanized→Khmer matching works before building any UI.
 - [~] 1.4 Build the `phonetic_rules` table (KCC → Latin spellings + confidence weights) — exact
       rules done (49/264 KCCs from single-KCC words); rest deferred (see finding below)
 - [ ] 1.5 Skim IDRI-LAB's romanizer for reference logic
-- [ ] 1.6 Script to generate the `reverse_index` programmatically
-- [ ] 1.7 Core lookup function: Latin input → ranked Khmer candidates
+- [x] 1.6 Script to generate the `reverse_index` programmatically
+- [x] 1.7 Core lookup function: Latin input → ranked Khmer candidates
 - [ ] 1.8 Fuzzy/edit-distance fallback for non-exact matches
 - [ ] 1.9 Test against real romanized chat examples, measure accuracy
 - [ ] 1.10 Iterate on rules/weights based on failures
@@ -156,8 +156,17 @@ should be built primarily from the collected word→romanization data (ground tr
 generalization layer* for unseen input, not the primary lookup source. This revises the CLAUDE.md
 "three-part data model" emphasis.
 
-**Next up: step 1.6/1.7** — build the reverse index from the collected romanizations and the core
-lookup (Latin input → ranked Khmer candidates). This is the first point with a runnable demo.
+**Phase 1, steps 1.6 & 1.7 — DONE. The converter works.** `reverse_index.py` (`build_index()` +
+`Candidate`) builds the Latin→Khmer lookup table from collected romanizations (backbone) plus a
+generated layer from phonetic rules; `lookup.py` (`Engine` + `convert()`) does exact-match ranked
+lookup. Interactive demo: `PYTHONPATH=src python scripts/convert.py` (or pass words as args).
+Verified: `jg → ចង់(5), ចឹង(4)` (homophones ranked by frequency — the exact ambiguity the user
+flagged), `nh → ខ្ញុំ`, `sl → ស្រឡាញ់`, `ss → សង្សារ`; unknown input returns empty. 353 spellings
+indexed. Tests in `tests/test_reverse_index.py`, `tests/test_lookup.py` (41 tests total).
+
+**Next up: step 1.8** — fuzzy/edit-distance fallback for input with no exact match (e.g. typos).
+Then 1.9 (measure accuracy on real chat) and 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to
+widen the generated layer).
 
 **Reminders:** team's disambiguation notes captured in `data/vocabulary.csv` (e.g. `jg` = ចង់ vs
 ចឹង by sentence position → needs the user-selection UX in 1.7). Project is still **local-only**
