@@ -42,10 +42,21 @@ def test_sentence_conversion_joins_words():
     assert eng.convert_sentence_text("nh sl bong") == "ខ្ញុំ ស្រឡាញ់ បង"
 
 
-def test_sentence_keeps_unknown_words_and_punctuation():
+def test_decoder_handles_no_spaces():
+    """The segmentation decoder converts run-together input with no spaces."""
     eng = Engine()
-    words = eng.convert_sentence("nh, zzz bong!")
-    assert words[0].best == "ខ្ញុំ,"          # punctuation preserved
-    assert words[1].best == "zzz"              # unknown word falls through
-    assert words[1].matched is False
-    assert words[2].best == "បង!"
+    assert eng.convert_sentence_text("nhslbong") == "ខ្ញុំ ស្រឡាញ់ បង"
+
+
+def test_decoder_matches_multiword_spelling():
+    """A multi-word spelling (space inside one spelling) matches as one unit."""
+    eng = Engine()
+    assert eng.convert_sentence_text("msel minh") == "ម្សិលមិញ"
+
+
+def test_decoder_passes_unknown_words_through():
+    eng = Engine()
+    segs = eng.convert_sentence("nh zzzzq bong")
+    bests = [s.best for s in segs]
+    assert "ខ្ញុំ" in bests and "បង" in bests
+    assert any(s.surface == "zzzzq" and not s.matched for s in segs)

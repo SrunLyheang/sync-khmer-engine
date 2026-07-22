@@ -183,12 +183,15 @@ continues in parallel (both the user's additions and my own research, see below)
 
 Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engine/`):
 - **1.1 Scaffold** — `src/`-layout package, venv + `requirements*.txt`, pytest via `pyproject.toml`.
-- **1.2 Vocabulary — DONE, still growing.** **426 words** in `data/vocabulary.csv`
-  (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused;
-  `romanizations` = space-separated Sing Khmer spellings). Loader + validation:
-  `vocabulary.py` (`VocabEntry`, `load()`). Team-curated core + AI-researched additions (the latter
-  tagged `(AI-suggested — verify)` in `notes`; their romanizations are best-effort, verify with a
-  native speaker). Anyone can add rows directly to the CSV — no Excel needed.
+- **1.2 Vocabulary — DONE, still growing.** **474 words** in `data/vocabulary.csv`
+  (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused).
+  **romanizations format = COMMA-separated alternatives; a single alternative MAY contain spaces =
+  a multi-word spelling** (e.g. `lea hz, lea hx, lea hy` = 3 alternatives; `msel minh` = one
+  two-word spelling for ម្សិលមិញ). Parsed by `vocabulary.parse_romanizations()` (splits on comma).
+  Loader + validation: `vocabulary.py` (`VocabEntry`, `load()`). Team-curated core + AI-researched
+  additions (latter tagged `(AI-suggested — verify)` in `notes`). Anyone edits rows directly in the
+  CSV — no Excel needed. **When adding: use commas between spellings**, spaces only inside one
+  multi-word spelling. (Docs: `data/README.md`.)
 - **1.3 KCC segmentation — DONE.** `kcc.py` (`segment()`), a dependency-free Unicode rule splitting
   Khmer text into syllable clusters. Demo: `scripts/show_kccs.py`.
 - **1.4 Phonetic rules — first pass done.** `phonetic_rules.py` (`build_rules()`) derives KCC→
@@ -206,9 +209,17 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
   then frequency. Homophones return ranked options (`jg → ចង់(5), ចឹង(4)`).
 - **1.8 Fuzzy matching — DONE.** `fuzzy.py` (Levenshtein edit distance); typos fall back to the
   closest known spelling (`srolan → ស្រឡាញ់`).
-- **Sentence support (bonus, beyond the roadmap's per-word scope):** `Engine.convert_sentence()` /
-  `convert_sentence_text()` split on spaces, convert word by word, keep punctuation, pass through
-  unknowns (`nh sl bong → ខ្ញុំ ស្រឡាញ់ បង`). No-space segmentation is unsolved (known gap).
+- **Segmentation decoder — DONE (fixes two user-reported bugs).** `Engine.decode()` (in `lookup.py`,
+  a Viterbi-style DP over the reverse index, `_segment_spans`) replaced the old naive space-split.
+  It covers a whole message with the best sequence of known spellings, so it works **WITH OR WITHOUT
+  spaces** (`nhslbong → ខ្ញុំ ស្រឡាញ់ បង`) and matches **multi-word spellings** as one unit
+  (`msel minh → ម្សិលមិញ`). Unknown/leftover tokens are fuzzy-matched, then passed through. Single-char
+  spellings (`b`, `s`) only match as whole space-delimited tokens so they don't chop longer runs.
+  `convert_sentence*` now delegate to `decode`. Known remaining gap: a multi-word spelling typed with
+  NO internal space (`mselminh`) isn't matched; and no-space + typo together is weak.
+  - This fixed: (bug 1) "had to use spaces" — now optional; (bug 2) `minh` wrongly → ម្សិលមិញ, caused
+    by the earlier merge splitting the multi-word spelling `msel minh` on the space. Fixed by the
+    comma format (above) so `msel minh` is one spelling and `minh` is free.
 - **How to test (preferred): `scripts/serve.py`** — `PYTHONPATH=src python scripts/serve.py`, then
   open http://localhost:8000. A tiny stdlib web server that uses the REAL engine and **auto-reloads
   `vocabulary.csv` on change** (edit the CSV in VS Code → refresh browser → see the effect; no

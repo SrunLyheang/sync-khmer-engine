@@ -35,19 +35,20 @@ def show_word(engine: Engine, word: str) -> None:
 
 
 def show_sentence(engine: Engine, text: str) -> None:
-    """Print a full sentence conversion plus a per-word breakdown."""
-    words = engine.convert_sentence(text)
+    """Print a full message conversion plus a per-segment breakdown."""
+    segments = engine.decode(text)
     print("  " + engine.convert_sentence_text(text))
-    print("  ── word by word ──")
-    for w in words:
+    print("  ── segment by segment ──")
+    for w in segments:
         if w.matched:
             alts = "  ".join(f"{c.khmer}{_TAG.get(c.source, '')}" for c in w.candidates)
-            print(f"    {w.core!r} -> {alts}")
+            print(f"    {w.surface!r} -> {alts}")
         else:
-            print(f"    {w.core!r} -> (no match — kept as-is)")
+            print(f"    {w.surface!r} -> (no match — kept as-is)")
 
 
 def handle(engine: Engine, text: str) -> None:
+    # The decoder handles single words, spaced sentences, AND no-space input.
     if " " in text.strip():
         show_sentence(engine, text)
     else:
