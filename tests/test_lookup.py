@@ -54,6 +54,20 @@ def test_decoder_matches_multiword_spelling():
     assert eng.convert_sentence_text("msel minh") == "ម្សិលមិញ"
 
 
+def test_compound_word_preferred_over_split():
+    """A whole compound word beats splitting it into two known words."""
+    eng = Engine()
+    assert eng.convert_sentence_text("bongrean") == "បង្រៀន"  # not បង រៀន
+
+
+def test_readings_offers_compound_and_split():
+    """Alternative readings let the user switch compound <-> split."""
+    eng = Engine()
+    r = eng.readings("bongrean")
+    assert "បង្រៀន" in r and "បង រៀន" in r
+    assert r[0] == "បង្រៀន"  # compound first
+
+
 def test_decoder_passes_unknown_words_through():
     eng = Engine()
     segs = eng.convert_sentence("nh zzzzq bong")

@@ -64,13 +64,15 @@ PAGE = r"""<!doctype html>
 </style></head><body>
 <h1>Sing Khmer — live tester</h1>
 <p class="hint">Uses the real engine. Edit <code>data/vocabulary.csv</code> in VS Code, then just
-refresh this page — no rebuild needed. Try <code>nh sl bong</code>.</p>
+refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>.</p>
 <textarea id="in" rows="2" placeholder="nh sl bong" autofocus></textarea>
 <div id="out" class="khmer"></div>
+<div id="readings"></div>
 <div id="bd"></div>
 <script>
-const inEl = document.getElementById('in'), outEl = document.getElementById('out'), bdEl = document.getElementById('bd');
-let chosen = {}, timer = null;
+const inEl = document.getElementById('in'), outEl = document.getElementById('out'),
+      rdEl = document.getElementById('readings'), bdEl = document.getElementById('bd');
+let chosen = {}, timer = null, override = null;
 async function run(){
   const q = inEl.value;
   const res = await fetch('/convert?q=' + encodeURIComponent(q));
@@ -90,11 +92,21 @@ async function run(){
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ <span class="unknown">no match</span></div>`;
     }
   });
-  outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
+  const readings = data.readings || [];
+  outEl.innerHTML = (override !== null ? override : out.trim()) || '<span class="hint">…</span>';
+  // whole-message alternative readings (compound vs. split) — click to switch
+  if (readings.length > 1){
+    rdEl.innerHTML = '<span class="hint">readings: </span>' + readings.map(r =>
+      `<span class="alt khmer ${(override!==null?override:out.trim())===r?'chosen':''}"
+        data-r="${encodeURIComponent(r)}">${r}</span>`).join('');
+    rdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
+      override = decodeURIComponent(el.dataset.r); run(); });
+  } else { rdEl.innerHTML = ''; }
   bdEl.innerHTML = bd;
-  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => { chosen[+el.dataset.w] = +el.dataset.a; run(); });
+  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
+    override = null; chosen[+el.dataset.w] = +el.dataset.a; run(); });
 }
-inEl.addEventListener('input', () => { chosen = {}; clearTimeout(timer); timer = setTimeout(run, 120); });
+inEl.addEventListener('input', () => { chosen = {}; override = null; clearTimeout(timer); timer = setTimeout(run, 120); });
 run();
 </script></body></html>
 """
@@ -127,7 +139,9 @@ class Handler(BaseHTTPRequestHandler):
                         for c in w.candidates
                     ],
                 })
-            self._send(200, json.dumps({"words": words}), "application/json; charset=utf-8")
+            readings = get_engine().readings(q)
+            self._send(200, json.dumps({"words": words, "readings": readings}),
+                       "application/json; charset=utf-8")
             return
         self._send(404, "not found", "text/plain")
 
