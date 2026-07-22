@@ -77,20 +77,28 @@ async function run(){
   const q = inEl.value;
   const res = await fetch('/convert?q=' + encodeURIComponent(q));
   const data = await res.json();
-  let out = '', bd = '';
+  let out = '', bd = '', prevKhmer = false;
   data.words.forEach((w, i) => {
-    if (w.candidates.length){
+    const isKhmer = w.candidates.length > 0;
+    let piece;
+    if (isKhmer){
       const ci = Math.min(chosen[i] || 0, w.candidates.length - 1);
-      out += w.lead + w.candidates[ci].khmer + w.trail + ' ';
+      piece = w.lead + w.candidates[ci].khmer + w.trail;
       const note = { generated:' (auto)', fuzzy:' (~typo)' };
       const alts = w.candidates.map((c, ai) =>
         `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}"
          title="score ${c.score}${note[c.source]||''}">${c.khmer}</span>`).join('');
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}</div>`;
-    } else if (w.core) {
-      out += `<span class="unknown">${w.token}</span> `;
+    } else if (w.core){
+      piece = `<span class="unknown">${w.token}</span>`;
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ <span class="unknown">no match</span></div>`;
-    }
+    } else { return; }
+    // Khmer words run together; space only around non-Khmer, none before punctuation.
+    const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(w.core);
+    if (out === '') out = piece;
+    else if (isPunct || (prevKhmer && isKhmer)) out += piece;
+    else out += ' ' + piece;
+    prevKhmer = isKhmer;
   });
   const readings = data.readings || [];
   outEl.innerHTML = (override !== null ? override : out.trim()) || '<span class="hint">…</span>';

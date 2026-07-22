@@ -37,15 +37,16 @@ def test_real_data_homophone_ranking():
     assert lookup("nh", engine=eng)[0].khmer == "ខ្ញុំ"
 
 
-def test_sentence_conversion_joins_words():
+def test_sentence_conversion_runs_khmer_together():
+    """Khmer output has NO spaces between words (as Khmer is actually written)."""
     eng = Engine()
-    assert eng.convert_sentence_text("nh sl bong") == "ខ្ញុំ ស្រឡាញ់ បង"
+    assert eng.convert_sentence_text("nh sl bong") == "ខ្ញុំស្រឡាញ់បង"
 
 
 def test_decoder_handles_no_spaces():
     """The segmentation decoder converts run-together input with no spaces."""
     eng = Engine()
-    assert eng.convert_sentence_text("nhslbong") == "ខ្ញុំ ស្រឡាញ់ បង"
+    assert eng.convert_sentence_text("nhslbong") == "ខ្ញុំស្រឡាញ់បង"
 
 
 def test_decoder_matches_multiword_spelling():
@@ -64,7 +65,7 @@ def test_readings_offers_compound_and_split():
     """Alternative readings let the user switch compound <-> split."""
     eng = Engine()
     r = eng.readings("bongrean")
-    assert "បង្រៀន" in r and "បង រៀន" in r
+    assert "បង្រៀន" in r and "បងរៀន" in r   # compound vs. split (both no-space)
     assert r[0] == "បង្រៀន"  # compound first
 
 

@@ -110,21 +110,29 @@ function decode(text){
 
 function render(){
   const segs = decode(inEl.value);
-  let out = '', bd = '';
+  let out = '', bd = '', prevKhmer = false;
   segs.forEach((s, i) => {
-    if (s.candidates.length){
+    const isKhmer = s.candidates.length > 0;
+    let piece;
+    if (isKhmer){
       const ci = Math.min(chosen[i] || 0, s.candidates.length - 1);
-      out += s.lead + s.candidates[ci][0] + s.trail + ' ';
+      piece = s.lead + s.candidates[ci][0] + s.trail;
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
       const alts = s.candidates.map((c, ai) =>
         `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}" `
         + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
       bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}</div>`;
     } else {
-      out += `<span class="unknown">${s.lead}${s.surface}${s.trail}</span> `;
+      piece = `<span class="unknown">${s.lead}${s.surface}${s.trail}</span>`;
       if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
         + `→ <span class="unknown">no match yet</span></div>`;
     }
+    // Khmer words run together; space only around non-Khmer, none before punctuation.
+    const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(s.surface);
+    if (out === '') out = piece;
+    else if (isPunct || (prevKhmer && isKhmer)) out += piece;
+    else out += ' ' + piece;
+    prevKhmer = isKhmer;
   });
   outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
   bdEl.innerHTML = bd;
