@@ -26,6 +26,7 @@ _TOKEN_RE = re.compile(r"^(\W*)(.*?)(\W*)$")
 # Segmentation scoring knobs.
 _LEN_WEIGHT = 3.0        # reward for covering more characters with a real spelling
 _UNKNOWN_PENALTY = 2.0   # cost per character left unmatched
+_WORD_COST = 6.0         # per-word cost so one whole word beats splitting it in two
 
 
 @dataclass(frozen=True)
@@ -104,54 +105,56 @@ class Engine:
         ][:limit]
 
     # ---- whole-message decoding (segmentation) ------------------------------------
-    def _segment_spans(self, lower: str) -> list[tuple[int, int, str | None]]:
-        """Best cover of `lower` by known spellings, via dynamic programming.
+    def _key_score(self, key: str) -> float:
+        # Reward frequency + coverage; a per-word cost so a single whole word
+        # (e.g. បង្រៀន) beats splitting it into two (បង + រៀន).
+        return self.index[key][0].score + _LEN_WEIGHT * len(key) - _WORD_COST
 
-        Returns spans (start, end, key-or-None). A key span is an exact index hit
-        (may contain spaces = a multi-word spelling); None spans are single
-        non-matching characters. Works with or without spaces because spaces are
-        just free separators. Single-character spellings only match as whole
-        space-delimited tokens (so `b`/`s` don't chop longer runs)."""
+    def _segment_kbest(self, lower: str, k: int) -> list[list[tuple[int, int, str | None]]]:
+        """Top-`k` ways to cover `lower` with known spellings (Viterbi k-best).
+
+        Each result is a list of spans (start, end, key-or-None); a key span is an
+        exact index hit (may contain spaces = multi-word spelling), None spans are
+        single non-matching characters. Alternatives let the caller offer the user
+        different readings (compound word vs. split)."""
         n = len(lower)
-        NEG = float("-inf")
-        dp = [NEG] * (n + 1)
-        dp[0] = 0.0
-        back: list[tuple[int, str | None]] = [(0, None)] * (n + 1)
+        # dp[i] = list of (score, prev_i, prev_rank, key) sorted best-first.
+        dp: list[list[tuple[float, int, int, str | None]]] = [[] for _ in range(n + 1)]
+        dp[0] = [(0.0, -1, -1, None)]
         for i in range(1, n + 1):
-            # non-matching char (space = free, other = penalty) — always available
+            cands: list[tuple[float, int, int, str | None]] = []
             step = 0.0 if lower[i - 1] == " " else -_UNKNOWN_PENALTY
-            if dp[i - 1] + step > dp[i]:
-                dp[i] = dp[i - 1] + step
-                back[i] = (i - 1, None)
-            # known spelling ending at i
+            for rank, (sc, *_r) in enumerate(dp[i - 1]):
+                cands.append((sc + step, i - 1, rank, None))
             for j in range(max(0, i - self._max_key_len), i):
-                if dp[j] <= NEG:
+                if not dp[j]:
                     continue
                 sub = lower[j:i]
-                cands = self.index.get(sub)
-                if not cands:
+                if sub not in self.index:
                     continue
                 if len(sub) == 1 and not (
                     (j == 0 or lower[j - 1] == " ") and (i == n or lower[i] == " ")
                 ):
                     continue
-                score = dp[j] + cands[0].score + _LEN_WEIGHT * len(sub)
-                if score > dp[i]:
-                    dp[i] = score
-                    back[i] = (j, sub)
-        spans: list[tuple[int, int, str | None]] = []
-        i = n
-        while i > 0:
-            j, key = back[i]
-            spans.append((j, i, key))
-            i = j
-        spans.reverse()
-        return spans
+                ks = self._key_score(sub)
+                for rank, (sc, *_r) in enumerate(dp[j]):
+                    cands.append((sc + ks, j, rank, sub))
+            cands.sort(key=lambda x: -x[0])
+            dp[i] = cands[:k]
 
-    def decode(self, text: str, *, limit: int = 5) -> list[Segment]:
-        """Decode a whole message into matched/unknown segments (see class docstring)."""
-        lower = text.lower()
-        spans = self._segment_spans(lower)
+        paths: list[list[tuple[int, int, str | None]]] = []
+        for start_rank in range(len(dp[n])):
+            spans: list[tuple[int, int, str | None]] = []
+            i, rank = n, start_rank
+            while i > 0:
+                _sc, pj, pr, key = dp[i][rank]
+                spans.append((pj, i, key))
+                i, rank = pj, pr
+            spans.reverse()
+            paths.append(spans)
+        return paths
+
+    def _spans_to_segments(self, text: str, spans, *, limit: int) -> list[Segment]:
         segments: list[Segment] = []
         raw_start: int | None = None
 
@@ -179,6 +182,25 @@ class Engine:
                 segments.append(Segment(text[j:i], tuple(self.index[key][:limit])))
         flush_raw(len(text))
         return segments
+
+    def decode(self, text: str, *, limit: int = 5) -> list[Segment]:
+        """Decode a whole message into matched/unknown segments (best reading)."""
+        paths = self._segment_kbest(text.lower(), 1)
+        spans = paths[0] if paths else []
+        return self._spans_to_segments(text, spans, limit=limit)
+
+    def readings(self, text: str, *, k: int = 3) -> list[str]:
+        """Up to `k` distinct whole-message readings, best first — so the UI can let
+        the user switch between e.g. បង្រៀន (one word) and បង រៀន (two words)."""
+        out: list[str] = []
+        for spans in self._segment_kbest(text.lower(), k * 2):
+            segs = self._spans_to_segments(text, spans, limit=1)
+            reading = " ".join(s.best for s in segs)
+            if reading not in out:
+                out.append(reading)
+            if len(out) >= k:
+                break
+        return out
 
     def convert_sentence(self, text: str, *, limit: int = 5) -> list[Segment]:
         """Decode a whole message (alias for `decode`, works with/without spaces)."""

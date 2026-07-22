@@ -67,7 +67,7 @@ let chosen = {};
 // matches multi-word spellings). See src/sing_khmer_engine/lookup.py.
 const KEYS = Object.keys(INDEX);
 const MAXLEN = KEYS.reduce((m, k) => Math.max(m, k.length), 1);
-const LEN_WEIGHT = 3.0, UNKNOWN_PENALTY = 2.0;
+const LEN_WEIGHT = 3.0, UNKNOWN_PENALTY = 2.0, WORD_COST = 6.0;
 
 function lev(a, b){
   if (a === b) return 0;
@@ -103,7 +103,7 @@ function spans(lower){
       const sub = lower.slice(j, i), cands = INDEX[sub];
       if (!cands) continue;
       if (sub.length === 1 && !((j===0||lower[j-1]===' ') && (i===n||lower[i]===' '))) continue;
-      const sc = dp[j] + cands[0][1] + LEN_WEIGHT*sub.length;
+      const sc = dp[j] + cands[0][1] + LEN_WEIGHT*sub.length - WORD_COST;
       if (sc > dp[i]){ dp[i] = sc; back[i] = [j, sub]; }
     }
   }

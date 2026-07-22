@@ -220,6 +220,15 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
   - This fixed: (bug 1) "had to use spaces" — now optional; (bug 2) `minh` wrongly → ម្សិលមិញ, caused
     by the earlier merge splitting the multi-word spelling `msel minh` on the space. Fixed by the
     comma format (above) so `msel minh` is one spelling and `minh` is free.
+- **Compound words + alternative readings — DONE (fixes 3rd user bug).** The decoder is now k-best
+  (`_segment_kbest`) with a per-word cost (`_WORD_COST`) so a whole compound word beats splitting it:
+  `bongrean → បង្រៀន` (was wrongly `បង រៀន`). `Engine.readings(text, k)` returns the top distinct
+  whole-message readings so the UI can let the user **switch** between the compound and the split
+  (`bongrean → [បង្រៀន, បង រៀន]`). `serve.py` shows these as a clickable "readings:" row.
+  **DATA DEPENDENCY:** compound/multi-KCC words must be IN `vocabulary.csv` (e.g. `បង្រៀន,,4,false,
+  bongrean,`) — the developer should keep adding these ("connect the KCCs"). The engine can only
+  offer a compound it knows. `bong rean` typed WITH a space still splits unless បង្រៀន also has the
+  multi-word spelling `bong rean` — worth adding both spellings for common compounds.
 - **How to test (preferred): `scripts/serve.py`** — `PYTHONPATH=src python scripts/serve.py`, then
   open http://localhost:8000. A tiny stdlib web server that uses the REAL engine and **auto-reloads
   `vocabulary.csv` on change** (edit the CSV in VS Code → refresh browser → see the effect; no
