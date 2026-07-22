@@ -383,24 +383,72 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ត្រង់,,2,false,trong,
 ចរឹក,,3,false,jrik jarik,
 អូន,,5,false,oun o,family: younger one / darling (term of endearment)
-គេ,,5,true,ke,people: they / someone / people-in-general (AI-suggested — verify)
-ខ្លួនឯង,,4,false,kluon eng,people: oneself / yourself (AI-suggested — verify)
+ច្រៀង,,4,false,jreang,
+បង្រៀន,, 4,false,bongrean,
+ជាតិ,,4,false,jeat cheat,
+គ្រូ,,5,false,kru,
+កម្សាន្ត,,4,false,komsan,
+មាត់,,3,false,mort mouth,
+ស្ទឹង,,2,false,sterng,
+សិស្សានុសិស្ស,,1,false,sersa nuk sers,
+សិក្សា,,3,false,serksa,
+រៀប,,4,false,reab reap,
+រៀបចំ,,2,false,reab jom reap jom,
+សម្ភារៈ,,2,false, somphearek,
+ថ្នាក់,,3,false, tnak,
+ទី,,2,false,ti,
+ពន្យល់,,2,false,ponyol pyol,
+មេរៀន,,2,false,merean marean,
+គណិត,,2,false,knit,
+យ៉ាង,,2,false,yang,
+ច្បាស់,,3,false,jbas chbas,
+លាស់,,3,false,lors,
+ទាំង,,4,false,teang tang taeng,
+ដំណើរ,,4,false,domner,
+ខេត្ត,,3,false,khet,
+សៀមរាប,,3,false,siemreap,
+ទស្សនា,,1,false,tursna,
+អង្គរវត្ត,,2,false,angkorwat,
+កាល,,5,false,kal,
+ពី,,5,false,pi,
+ហត់,,3,false,hort hot,
+ទុំ,,3,false,tum tom,
+ដុំ,,3,false, dom dum,
+ល្មម,,3,false,lmom lamom,
+ស្រោម,,3,false,sroum,
+ស្វែង,,3,false,sveng,
+ថ្នល់,,4,false,tnol,
+លិច,,3,false,lech,
+ដោយ,,5,false,doy,
+ភាព,,5,false,pheap,
+រីករាយ,,5,false,rikreay,
+ធ្លាប់,,5,false,tlob,
+បទ,,3,false,bot,
+បត,,3,false,bot,
+ជុំ,,3,false,jom jum,
+គ្នា,,5,false,knea,
+ដើម្បី,,5,false,dermbei dermbey,
+កំប្លែង,,2,true,komplaeng,
+កុមារ,,2,false,komar
+រាល់,,5,false,rorl,
+គេ,,5,false,ke,people: they / someone / people-in-general (AI-suggested — verify)
+ខ្លួនឯង,,4,false,kluon eng klun eng,people: oneself / yourself (AI-suggested — verify)
 លា,,4,false,lea,verb: say goodbye / leave (AI-suggested — verify)
-ចាប់ផ្ដើម,,4,false,jabpdeum jabpderm,verb: start / begin (AI-suggested — verify)
-សម្រេច,,4,false,somrech,verb: decide / achieve (AI-suggested — verify)
-ខ្ចី,,4,false,kchei kchi,verb: borrow / lend (AI-suggested — verify)
-ចែក,,4,false,chek,verb: share / divide (AI-suggested — verify)
-ត្រៀម,,3,false,treum,verb: prepare / get ready (AI-suggested — verify)
-ជ្រើស,,3,false,chreus,verb: choose / select (AI-suggested — verify)
+ចាប់ផ្ដើម,,4,false,jappderm jabpderm,verb: start / begin (AI-suggested — verify)
+សម្រេច,,4,false,somrach,verb: decide / achieve (AI-suggested — verify)
+ខ្ចី,,4,false,kjey kjei,verb: borrow / lend (AI-suggested — verify)
+ចែក,,4,false,jek,verb: share / divide (AI-suggested — verify)
+ត្រៀម,,3,false,tream,verb: prepare / get ready (AI-suggested — verify)
+ជ្រើស,,3,false,jrers,verb: choose / select (AI-suggested — verify)
 ភ្ញាក់,,4,false,phneak pnhak,verb: wake up (AI-suggested — verify)
 ខ្វល់,,4,true,kvol kvorl,verb: worry / care about (AI-suggested — verify)
 ខ្វះ,,4,false,kvas kvah,verb: lack / be short of (AI-suggested — verify)
-បោក,,4,true,bok,verb: cheat / trick / con (AI-suggested — verify)
-អផ្សុក,,4,true,ophsok orphsok,feeling: bored / lonely (AI-suggested — verify)
-ភ្ញាក់ផ្អើល,,3,false,phneak p'ael,feeling: surprised / startled (AI-suggested — verify)
-ស្ងាត់,,3,false,sngat,adjective: quiet / silent (AI-suggested — verify)
-លឿន,,4,false,luon leurn,adjective: fast / quick (AI-suggested — verify)
-យឺត,,4,false,yeut yut,adjective: slow / late (AI-suggested — verify)
+បោក,,4,true,boak bork,verb: cheat / trick / con (AI-suggested — verify)
+អផ្សុក,,4,true,opsok orphsok ophsok,feeling: bored / lonely (AI-suggested — verify)
+ភ្ញាក់ផ្អើល,,3,false,phneak p'ael phneak p'erl,feeling: surprised / startled (AI-suggested — verify)
+ស្ងាត់,,3,false,sngat sgnat,adjective: quiet / silent (AI-suggested — verify)
+លឿន,,4,false,lern leurn,adjective: fast / quick (AI-suggested — verify)
+យឺត,,4,false,yeut yert,adjective: slow / late (AI-suggested — verify)
 ស្រស់,,3,false,sros,adjective: fresh (AI-suggested — verify)
 ក្រ,,3,false,kror kro,adjective: poor (AI-suggested — verify)
 មុន,,5,false,mun,time: before / earlier (AI-suggested — verify)
@@ -414,14 +462,14 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ភូមិ,,3,false,phum,place: village (AI-suggested — verify)
 ធនាគារ,,3,false,thoneakea theanakea,place: bank (AI-suggested — verify)
 កន្លែង,,4,false,kanleng konleng,noun: place / spot (AI-suggested — verify)
-ខ្យល់,,4,false,khyol kyol,nature: wind / air (AI-suggested — verify)
+ខ្យល់,,4,false,kjorl kjol,nature: wind / air (AI-suggested — verify)
 ព្រះអាទិត្យ,,3,false,preah atit,nature: sun (AI-suggested — verify)
 ព្រះច័ន្ទ,,3,false,preah chan,nature: moon (AI-suggested — verify)
 ផ្កាយ,,3,false,phkay pkay,nature: star (AI-suggested — verify)
-ភ្នំ,,3,false,phnum,nature: mountain / hill (AI-suggested — verify)
+ភ្នំ,,3,false,phnum phnom,nature: mountain / hill (AI-suggested — verify)
 សមុទ្រ,,3,false,samot samut,nature: sea / ocean (AI-suggested — verify)
 ទន្លេ,,3,false,tonle,nature: river (AI-suggested — verify)
-ហ្នឹង,,5,true,nheng nheung,chat: this / that (colloquial) (AI-suggested — verify)
+ហ្នឹង,,5,true,ng neung,chat: this / that (colloquial) (AI-suggested — verify)
 ម្លេះ,,4,true,mles mleh,chat: that much / so (colloquial) (AI-suggested — verify)
 សូន្យ,,3,false,soun son,number: zero (AI-suggested — verify)
 លាន,,3,false,lean,number: million (AI-suggested — verify)
