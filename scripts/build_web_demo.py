@@ -53,7 +53,7 @@ HTML = r"""<!doctype html>
 <p class="hint">Type romanized Khmer — spaces optional. Try: <code>nh sl bong</code>,
 &nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>. Click a highlighted word to pick a
 different option.</p>
-<textarea id="in" rows="2" placeholder="nh sl bong" autofocus></textarea>
+<textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="output" class="khmer"></div>
 <div id="breakdown"></div>
 <script>

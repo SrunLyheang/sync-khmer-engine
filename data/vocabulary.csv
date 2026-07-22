@@ -4,9 +4,36 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 លាហើយ,,2,false,"lea+hz, lea+hx, lea+hy",
 អរគុណ,,3,false,"orkun, orkon",
 សុំទោស,,4,false,"somtos, sumtos",
+ភ្លេី,,2,false,pler,
+រន្ធត់,,1,false,runthud ronthud,
+រន្ទះ,,1,false,runteas,
+បាញ់,,2,false,banh,
+បុរី,,2,false,borey,
+បារី,,2,false,barey,
+បារម្មណ៌,,2,false,barom,
+ព្រួយ,,2,false,prouy,
+បារម្ភ,,2,false,barom,
+ធម្មជាតិ,,3,false,thoumjeat thormjeat,
+សូរ,,3,false,so,
+សូ,,2,false,so,
+សំឡេង,,3,false,somleng,
+មាស,,2,false,meas,
+ពៅ,,2,false,pov,
+អំ,,2,false,om,
+អ៊ុំ,,1,false,oum,
+អុំ,,1,false,oum,
+ទូក,,2,false,tuk,
+ទូល,,1,false,tul,
+ទួល,,2,false,toul,
+លាយ,,1,false,leay,
+ប្តូរ,,3,false,pdo,
+
+ខ្សោះ,,3,false,ksos,
 បាទ,,3,false,"bart, bat",
 ចាស,,3,false,"ja, jah",
-ទេ,,5,false,"te, the",
+ទេ,,5,false,"te, teh",
+ទំនេរ,,4,false,tomne tne,
+ម៉េស,,4,false,mes,
 ខ្ញុំ,,5,false,"nh, knh, nhom, nhum",
 អ្នក,,5,false,nek,
 គាត់,,5,false,"kort., kort",
@@ -22,21 +49,26 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ពេលណា,,5,false,"pel+na, bel+na",
 ហេតុអ្វី,,4,false,"het+ey, heth+avey, het+avey, heth+ey",
 ម៉េច,,4,true,"mx, mex, mix",
-ប៉ុន្មាន,,4,false,punman,
+ប៉ុន្មាន,,4,false,punman marn ,
 ទៅ,,5,false,"tv, tov",
 មក,,5,false,"mk, mor, mok",
 ញ៉ាំ,,5,false,nham,
 ផឹក,,4,false,pherk,
 ដេក,,4,false,dek,
 ដើរ,,4,false,der,
-និយាយ,,1,false,niyey,
+និយាយ,,1,false,niyey yy,
 មើល,,4,false,"merl, mer",
 ស្តាប់,,4,false,sdap,
+ប្រេី,,4,false,brer,
+ខាង,,4,false,khang,
+
 ដឹង,,5,false,"dg, derng",
 ចង់,,5,false,"jg, jorng","if the jg is in the start or the middle of the sentence it will translate to ចង់ if at the end it will be ចឹង, there are more scenrios where this changes so make an option for user to select"
 អាច,,4,false,ach,ach can also mean អាចម៍
 ធ្វើ,,5,false,tver,
 មាន,,5,false,mean,
+អាចម៍,, 3,false,ach,
+
 ទិញ,,4,false,"tenh, tinh",
 ស្រឡាញ់,,4,false,"sl, srolanh",
 ចូលចិត្ត,,4,false,jol+jit,
@@ -44,7 +76,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 យល់,,4,false,yol,
 រៀន,,4,false,rean,
 ធ្វើការ,,4,false,"tver+ka, ther+ka",
-ជួយ,,4,false,juy,
+ជួយ,,4,false,juy jouy,
 រង់ចាំ,,2,false,rong+jam,
 ល្អ,,3,false,loar,
 អាក្រក់,,3,false,"akk, akkrok, akrok",
@@ -94,18 +126,23 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 កូន,,5,false,kon,family: child
 សង្សារ,,5,true,"ss, songsa",family: boy/girlfriend (very common in chat)
 ប្ដី,,4,false,"pdei, pdey",family: husband
-ប្រពន្ធ,,4,false,"ppun, pp",family: wife
+ប្រពន្ធ,,4,false,"ppun",family: wife
 ជីតា,,1,false,jita,family: grandfather
 ជីដូន,,1,false,jidon,family: grandmother
 មិត្ត,,5,false,mit,people: friend
 លោក,,3,false,lok,people: Mr / sir
 នាង,,3,false,neang,people: she / Miss
-ខ្លួន,,4,false,klun,people: self / oneself
 យក,,5,false,"yor, yok",verb: take
 ដាក់,,5,false,dak,verb: put
+សម្ដេច,,3,false,somdach,
+
+សម្ដី,,3,false,somdei somdey,
+សម្ដែង,,3,false,somdaeng,
+សម្លាញ់,,3,false,somlanh sml,
 បើក,,5,false,berk,verb: open / drive / turn on
 បិទ,,4,false,bit,verb: close / turn off
 លេង,,5,false,"lg, leng",verb: play
+លែង,,4,false,"lg, laeng leng",
 គិត,,5,false,kit,verb: think
 ចាំ,,5,false,jam,verb: wait / remember (colloquial 'hold on')
 ភ្លេច,,4,false,"plex, plech",verb: forget
@@ -128,6 +165,17 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ចុះ,,4,false,jos,verb: go down
 សើច,,4,false,"serj, serch",verb: laugh
 យំ,,3,false,"yum, yom",verb: cry
+សម្លាប់,,2,false,somlab,
+ងាប់,,3,false,ngob ngoub,
+ទូរ,,3,false,tu,
+កក,,2,false,kork ,
+ក្រូច,,2,false,kroch,
+ឆ្មា,,2,false,chma,
+ជុះ,,2,false,jus,
+ដូរ,,3,false,do,
+ជួញ,,3,false,jounh,
+
+កក់,,1,false,kork,
 សប្បាយ,,5,false,"sabay, sby",feeling: happy / fun
 ខឹង,,4,true,khg,feeling: angry (common in chat)
 ស្រួល,,3,false,srul,adjective: comfortable / easy
@@ -187,9 +235,54 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ដូច,,3,false,doch,grammar: like / similar to
 ដូចគ្នា,,5,true,doch+knea,chat: same / me too
 គ្រាន់តែ,,4,false,kroun+tae,grammar: just / merely
-ជាមួយ,,4,false,"jeamouy, cheamouy, jeamuy, cheamuy",grammar: with / together
+ជាមួយ,,4,false,"jeamouy, jmuy, cheamouy, jeamuy, cheamuy",grammar: with / together
+តាម,,4,false,tam,
+ដាន,,3,false,dan,
 សម្រាប់,,4,false,"somrab, somrap",grammar: for
 ព្រោះ,,5,false,prus,grammar: because
+ស្រែក,,5,false,sraek,
+ស្រែ,,3,false,srae,
+ស្រី,,3,false,srey srei,
+ដក,,3,false,dork ,
+បូក,,3,false,bok,
+បូម,,2,false,bom bum,
+ហូរ,,3,false,ho,
+ហាម,,3,false,ham,
+កុំ,,3,false,kom,
+ចម្ការ,,2,false,jomka,
+ចម្លង,,3,false,jlong jomlong,
+ច្រឡំ,,3,false,jlom jrolom,
+បន្ថែម,,2,false,bonthaem,
+ជួល,,3,false,joul jul,
+ក្ដៅ,, 5,false,kdav,
+រងារ,,3,false, rongea,
+វ៉ាកង,,3,false, vakong,
+វ៉ាក់សាំង,,3,false,vaksang,
+ឈាន,,3,false,chean,
+ចង,,3,false,jong,
+ក,,1,false,kor,
+ខ,,1,false,khor,
+ខូច,,3,false,khoch,
+ប្រុស,,3,false,bros,
+បុរស,,2,false,boros,
+ឌឺ,,2,false,due,
+ដៀល,,2,false,deal,
+សៀវ,,2,false,seav,
+ភៅ,,3,false,phov,
+ស្បែក,,2,false,sbaek,
+នាឡិកា,,2,false,nealika,
+ឋាន,,2,false,than,
+សួគ៌,,1,false,sur,
+នរក,,3,false,noruk,
+មោទន,,3,false,motanak,
+ដូង,,2,false,dong,
+ឆែក,,1,false,check chaek,
+កុក,,2,false,kok,
+ឆ្លង,,2,false, chlong,
+ថែម,,2,false, thaem,
+ថែ,,2,false,thae,
+ទាំ,,2,false,torm,
+
 ប៉ុន្តែ,,4,false,puntae,grammar: but (more formal than តែ) we usually say tae
 ទាំងអស់,,4,false,"tang+os, teang+os",grammar: all / everything
 ម្នាក់,,4,false,mnek,grammar: one person / alone
@@ -204,12 +297,18 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ផ្ញើ,,4,false,phner,verb: send
 ទទួល,,4,false,"ttul, tutul",verb: receive / accept
 អាន,,4,false,"arn, an",verb: read
+ជា,,4,false,jea,
 សរសេរ,,4,false,sorsey,verb: write
+សាក,,4,false,sark,
+ល្បង,,4,false,lbong lborng,
 លក់,,4,false,"louk, luk",verb: sell
 បង់,,4,false,bong,verb: pay
 ចាយ,,3,false,jay,verb: spend
 ជឿ,,4,false,jer,verb: believe
 សង្ឃឹម,,3,false,songkhrim,verb: hope
+ថើប,,3,false,therb,
+គូទ,,3,false,kut,
+វាយ​,,3,false,vai veay,
 ស្ដាយ,,3,false,sday,verb: regret / miss
 កុហក,,3,false,"kohork, khk",verb: lie / deceive
 កើត,,5,false,kert,verb: happen / be born / can
@@ -267,6 +366,9 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ដេញ,,4,false,denh,verb: chase / drive away (AI-suggested — verify)
 ធម្មតា,,4,false,"tmd, tomada",
 ព្យាយាម,,4,false,"pjeayeam, pyeayeam, pyayeam",verb: try / make effort (AI-suggested — verify)
+ទាន,,3,false,tean,
+ប្រៀប,,2,false,breab preap,
+ធៀប,,2,false,theab
 ដែល,,4,false,del,
 ងើប,,4,false,ngerb,
 រៀង,,3,true,reang,
@@ -291,7 +393,6 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ក្នុង,,4,false,knong,
 ករណី,,2,false,"karnei, kanei",
 លើក,,1,false,lerk,
-លែង,,1,false,lg,
 លើកលែង,,2,false,lerk+lg,
 លើស,,5,false,lers,
 សោរ,,2,false,soa,
@@ -305,6 +406,11 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ពិធី,,4,false,pithi,
 រៀល,,3,false,riel,
 ភ្លេង,,3,false,pleng,
+ទន្ទេញ,,3,false,tontenh ttenh,
+ជក់,,3,false,jouk juk,
+បែក,,3,false,bek,
+
+លំហាត់,,2,false,lomhat,
 រើស,,3,false,rers,
 ពេញ,,2,false,penh,
 ម៉ាប់,,3,true,"mab, map",
@@ -344,7 +450,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ដោះស្រាយ,,2,false,dos+sray,
 ហេវ,,3,true,hev,
 នាគ,,4,true,neak,
-គឺ,,5,false,"kue, ker",
+គឺ,,5,false,"kue, ker, kir",
 ថង់,,1,false,thorng,
 ភ្លៀង,,3,false,"pleang, plieng",weather: rain (AI-suggested — verify)
 បាល់,,3,false,ball,
@@ -352,6 +458,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 បំផុត,,3,false,bomphot,
 ខួរ,,3,false,khur,
 រវល់,,5,false,"rvol, rovol",
+
 គំនិត,,4,false,komnit,
 រាង,,4,false,reang,
 រាងកាយ,,2,false,reang+kay,
@@ -390,6 +497,9 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 សូវ,,5,true,sov,
 គ្រប់,,5,false,krob,
 គ្រាប់,,2,false,"kroub, krob",
+ល្បី,,3,false, lbei labei,
+អា,,5,false,ah,
+
 បុក,,3,false,bok,
 ល្ហុង,,3,false,lbaeng,
 កំពុង,,3,false,"kompong, pong",
@@ -443,7 +553,9 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 រាល់,,5,false,rorl,
 ធុញ,,4,false,thunh,
 គេ,,5,false,ke,people: they / someone / people-in-general (AI-suggested — verify)
-ខ្លួនឯង,,4,false,"kluon, eng, klun",people: oneself / yourself (AI-suggested — verify)
+ខ្លួន,,4,false,"kluon, klun",people: oneself / yourself (AI-suggested — verify)
+ឯង,,4,false,"eg, eng",
+
 លា,,4,false,lea,verb: say goodbye / leave (AI-suggested — verify)
 ចាប់ផ្ដើម,,4,false,"jappderm, jabpderm",verb: start / begin (AI-suggested — verify)
 សម្រេច,,4,false,somrach,verb: decide / achieve (AI-suggested — verify)
@@ -458,6 +570,12 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 អផ្សុក,,4,true,"opsok, orphsok, ophsok",feeling: bored / lonely (AI-suggested — verify)
 ភ្ញាក់ផ្អើល,,3,false,"phneak, p'ael, p'erl",feeling: surprised / startled (AI-suggested — verify)
 ស្ងាត់,,3,false,"sngat, sgnat",adjective: quiet / silent (AI-suggested — verify)
+ស្ងោរ,,2,false,sgnoa sgoa,
+ស្ងោ,,2,false,sgnoa sgoa,
+ជ្រក់,,2,false,jruk,
+ក្ដាម,,2,false,kdam,
+ក្ដិច,,2,false, kdech,
+
 លឿន,,4,false,"lern, leurn",adjective: fast / quick (AI-suggested — verify)
 យឺត,,4,false,"yeut, yert",adjective: slow / late (AI-suggested — verify)
 ស្រស់,,3,false,sros,adjective: fresh (AI-suggested — verify)
@@ -476,6 +594,9 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ខ្យល់,,4,false,"kjorl, kjol",nature: wind / air (AI-suggested — verify)
 ព្រះអាទិត្យ,,3,false,"preah, atit",nature: sun (AI-suggested — verify)
 ព្រះច័ន្ទ,,3,false,"preah, chan",nature: moon (AI-suggested — verify)
+សេដ,,3, false, sad,
+ចិន,,3,false,jen,
+
 ផ្កាយ,,3,false,"phkay, pkay",nature: star (AI-suggested — verify)
 ភ្នំ,,3,false,"phnum, phnom",nature: mountain / hill (AI-suggested — verify)
 សមុទ្រ,,3,false,"samot, samut",nature: sea / ocean (AI-suggested — verify)

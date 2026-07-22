@@ -65,7 +65,7 @@ PAGE = r"""<!doctype html>
 <h1>Sing Khmer — live tester</h1>
 <p class="hint">Uses the real engine. Edit <code>data/vocabulary.csv</code> in VS Code, then just
 refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>.</p>
-<textarea id="in" rows="2" placeholder="nh sl bong" autofocus></textarea>
+<textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="out" class="khmer"></div>
 <div id="readings"></div>
 <div id="bd"></div>
