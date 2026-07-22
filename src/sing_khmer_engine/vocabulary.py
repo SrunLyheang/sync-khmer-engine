@@ -22,6 +22,24 @@ _TRUE_VALUES = {"true", "1", "yes", "y"}
 _FALSE_VALUES = {"false", "0", "no", "n"}
 
 
+def parse_romanizations(raw: str) -> tuple[str, ...]:
+    """Split a romanizations cell into alternative spellings.
+
+    Alternatives are separated by COMMAS; a single alternative MAY contain spaces
+    (a multi-word spelling like ``msel minh`` for ម្សិលមិញ). Each alternative is
+    lowercased with internal whitespace collapsed; duplicates are dropped, order
+    kept.
+    """
+    out: list[str] = []
+    seen: set[str] = set()
+    for alt in (raw or "").split(","):
+        alt = " ".join(alt.strip().lower().split())
+        if alt and alt not in seen:
+            seen.add(alt)
+            out.append(alt)
+    return tuple(out)
+
+
 @dataclass(frozen=True)
 class VocabEntry:
     """A single curated vocabulary entry.
@@ -118,7 +136,7 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
                     meaning=meaning,
                     frequency=_parse_frequency(row["frequency"], row_num=row_num),
                     is_slang=_parse_bool(row["is_slang"], row_num=row_num),
-                    romanizations=tuple((row.get("romanizations") or "").split()),
+                    romanizations=parse_romanizations(row.get("romanizations") or ""),
                     notes=(row.get("notes") or "").strip(),
                 )
             )

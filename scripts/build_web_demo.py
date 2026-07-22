@@ -50,8 +50,9 @@ HTML = r"""<!doctype html>
 </head>
 <body>
 <h1>Sing Khmer → Khmer converter</h1>
-<p class="hint">Type romanized Khmer with spaces between words. Try: <code>nh sl bong</code>,
-&nbsp;<code>bong sabay te</code>. Click a highlighted word below to pick a different option.</p>
+<p class="hint">Type romanized Khmer — spaces optional. Try: <code>nh sl bong</code>,
+&nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>. Click a highlighted word to pick a
+different option.</p>
 <textarea id="in" rows="2" placeholder="nh sl bong" autofocus></textarea>
 <div id="output" class="khmer"></div>
 <div id="breakdown"></div>
@@ -62,62 +63,88 @@ const outEl = document.getElementById('output');
 const bdEl = document.getElementById('breakdown');
 let chosen = {};
 
+// Segmentation decoder — mirrors the Python engine (works with/without spaces,
+// matches multi-word spellings). See src/sing_khmer_engine/lookup.py.
 const KEYS = Object.keys(INDEX);
+const MAXLEN = KEYS.reduce((m, k) => Math.max(m, k.length), 1);
+const LEN_WEIGHT = 3.0, UNKNOWN_PENALTY = 2.0;
 
-function tokenize(t){ return t.split(/\s+/).filter(x => x.length); }
-function splitPunct(tok){ const m = tok.match(/^([^\p{L}\p{N}]*)(.*?)([^\p{L}\p{N}]*)$/u);
-  return { lead: m[1], core: m[2], trail: m[3] }; }
-
-function lev(a, b){                       // edit distance
+function lev(a, b){
   if (a === b) return 0;
   let prev = Array.from({length: b.length + 1}, (_, i) => i);
   for (let i = 1; i <= a.length; i++){
     let cur = [i];
-    for (let j = 1; j <= b.length; j++){
-      const cost = a[i-1] === b[j-1] ? 0 : 1;
-      cur.push(Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + cost));
-    }
+    for (let j = 1; j <= b.length; j++)
+      cur.push(Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1]===b[j-1]?0:1)));
     prev = cur;
   }
   return prev[b.length];
 }
-
-// Exact match, else closest known spellings by edit distance (mirrors the Python engine).
-function lookup(key){
+function fuzzy(key){
   if (INDEX[key]) return INDEX[key];
-  const k = key.length <= 3 ? 1 : 2;
-  const best = {};                        // khmer -> [distance, score]
+  const k = key.length <= 3 ? 1 : 2, best = {};
   for (const ik of KEYS){
     if (Math.abs(ik.length - key.length) > k) continue;
-    const d = lev(key, ik);
-    if (d > k) continue;
-    for (const c of INDEX[ik]){
-      const cur = best[c[0]];
-      if (!cur || d < cur[0] || (d === cur[0] && c[1] > cur[1])) best[c[0]] = [d, c[1]];
+    const d = lev(key, ik); if (d > k) continue;
+    for (const c of INDEX[ik]){ const cur = best[c[0]];
+      if (!cur || d < cur[0] || (d===cur[0] && c[1] > cur[1])) best[c[0]] = [d, c[1]]; }
+  }
+  return Object.entries(best).sort((x,y)=>x[1][0]-y[1][0]||y[1][1]-x[1][1])
+    .map(([kh,[d,s]])=>[kh, +(s/(1+d)).toFixed(3), 'fuzzy']);
+}
+function spans(lower){
+  const n = lower.length, dp = Array(n+1).fill(-Infinity), back = Array(n+1).fill(null);
+  dp[0] = 0; back[0] = [0, null];
+  for (let i = 1; i <= n; i++){
+    const step = lower[i-1] === ' ' ? 0 : -UNKNOWN_PENALTY;
+    if (dp[i-1] + step > dp[i]){ dp[i] = dp[i-1] + step; back[i] = [i-1, null]; }
+    for (let j = Math.max(0, i-MAXLEN); j < i; j++){
+      if (dp[j] <= -Infinity) continue;
+      const sub = lower.slice(j, i), cands = INDEX[sub];
+      if (!cands) continue;
+      if (sub.length === 1 && !((j===0||lower[j-1]===' ') && (i===n||lower[i]===' '))) continue;
+      const sc = dp[j] + cands[0][1] + LEN_WEIGHT*sub.length;
+      if (sc > dp[i]){ dp[i] = sc; back[i] = [j, sub]; }
     }
   }
-  return Object.entries(best)
-    .sort((x, y) => x[1][0] - y[1][0] || y[1][1] - x[1][1])
-    .map(([kh, [d, s]]) => [kh, +(s / (1 + d)).toFixed(3), 'fuzzy']);
+  const out = []; let i = n;
+  while (i > 0){ const [j, key] = back[i]; out.push([j, i, key]); i = j; }
+  return out.reverse();
+}
+function decode(text){
+  const lower = text.toLowerCase(), segs = []; let rawStart = null;
+  const flush = (end) => {
+    if (rawStart === null) return;
+    const chunk = text.slice(rawStart, end); rawStart = null;
+    for (const m of chunk.matchAll(/\S+/g)){
+      const mm = m[0].match(/^([^\p{L}\p{N}]*)(.*?)([^\p{L}\p{N}]*)$/u), core = mm[2];
+      if (!core){ segs.push({surface: m[0], candidates: [], lead: '', trail: ''}); continue; }
+      segs.push({surface: core, candidates: fuzzy(core.toLowerCase()), lead: mm[1], trail: mm[3]});
+    }
+  };
+  for (const [j, i, key] of spans(lower)){
+    if (key === null){ if (rawStart === null) rawStart = j; }
+    else { flush(j); segs.push({surface: text.slice(j, i), candidates: INDEX[key], lead: '', trail: ''}); }
+  }
+  flush(text.length);
+  return segs;
 }
 
 function render(){
-  const toks = tokenize(inEl.value);
+  const segs = decode(inEl.value);
   let out = '', bd = '';
-  toks.forEach((tok, i) => {
-    const { lead, core, trail } = splitPunct(tok);
-    const cands = core ? lookup(core.toLowerCase()) : [];
-    if (cands.length){
-      const ci = Math.min(chosen[i] || 0, cands.length - 1);
-      out += lead + cands[ci][0] + trail + ' ';
+  segs.forEach((s, i) => {
+    if (s.candidates.length){
+      const ci = Math.min(chosen[i] || 0, s.candidates.length - 1);
+      out += s.lead + s.candidates[ci][0] + s.trail + ' ';
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
-      const alts = cands.map((c, ai) =>
+      const alts = s.candidates.map((c, ai) =>
         `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}" `
         + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
-      bd += `<div class="wtile"><span class="latin">${core}</span>→ ${alts}</div>`;
+      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}</div>`;
     } else {
-      out += `<span class="unknown">${tok}</span> `;
-      if (core) bd += `<div class="wtile"><span class="latin">${core}</span>`
+      out += `<span class="unknown">${s.lead}${s.surface}${s.trail}</span> `;
+      if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
         + `→ <span class="unknown">no match yet</span></div>`;
     }
   });

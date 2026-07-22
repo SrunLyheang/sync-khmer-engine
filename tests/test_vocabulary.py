@@ -22,15 +22,19 @@ def test_seed_entries_are_valid_and_unique():
         assert isinstance(e.is_slang, bool)
 
 
-def test_romanizations_parse_into_tuple(tmp_path):
-    """The romanizations cell is split on whitespace into a tuple of spellings."""
+def test_romanizations_parse_on_commas(tmp_path):
+    """Romanizations split on COMMAS; a single alternative may contain spaces
+    (a multi-word spelling)."""
     csv_path = tmp_path / "rom.csv"
     csv_path.write_text(
         "khmer,frequency,is_slang,romanizations,notes\n"
-        "ចឹង,4,true,jueng jg jhg,\n",
+        'ចឹង,4,true,"jueng, jg, jhg",\n'
+        "ម្សិលមិញ,3,false,msel minh,\n",
         encoding="utf-8",
     )
-    assert load(csv_path)[0].romanizations == ("jueng", "jg", "jhg")
+    entries = load(csv_path)
+    assert entries[0].romanizations == ("jueng", "jg", "jhg")
+    assert entries[1].romanizations == ("msel minh",)   # multi-word kept as one
 
 
 def test_real_data_has_romanizations():

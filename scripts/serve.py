@@ -118,9 +118,10 @@ class Handler(BaseHTTPRequestHandler):
         if parsed.path == "/convert":
             q = parse_qs(parsed.query).get("q", [""])[0]
             words = []
-            for w in get_engine().convert_sentence(q):
+            for w in get_engine().decode(q):
                 words.append({
-                    "token": w.token, "core": w.core, "lead": w.lead, "trail": w.trail,
+                    "token": f"{w.lead}{w.surface}{w.trail}", "core": w.surface,
+                    "lead": w.lead, "trail": w.trail,
                     "candidates": [
                         {"khmer": c.khmer, "score": c.score, "source": c.source}
                         for c in w.candidates
