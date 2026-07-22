@@ -20,7 +20,7 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 | `meaning`       | yes      | Short English gloss. |
 | `frequency`     | yes      | Rough commonness, integer **1–5** (5 = most common). Used later to rank candidates. |
 | `is_slang`      | yes      | `true` for casual/chat slang, `false` for an ordinary common word. |
-| `romanizations` | no       | The Sing Khmer (Latin) spellings people type for this word. **Separate alternatives with COMMAS** (e.g. `jueng, jg, jhg`). A single spelling **may contain spaces** if the word is typed as two Latin words (e.g. `msel minh` for ម្សិលមិញ — one spelling, kept whole). Optional per row. |
+| `romanizations` | no       | The Sing Khmer (Latin) spellings people type. **Separate alternatives with commas OR spaces** — both work (`jueng jg jhg` = `jueng, jg, jhg` = three spellings). For a spelling that's genuinely **two Latin words** (typed with a space, like ម្សិលមិញ), join them with a **`+`**: `msel+minh`. Optional per row. |
 | `notes`         | no       | Freeform hints — usage, disambiguation, anything else. |
 
 ### Frequency scale (rough)
@@ -35,11 +35,10 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 
 1. Add one row per word. Keep `khmer` unique.
 2. Set `frequency` to an integer 1–5 and `is_slang` to `true`/`false`.
-3. In `romanizations`, list the Latin spellings you'd actually type for the word, separated by
-   **commas** (e.g. `jueng, jg, jhg`). If a spelling is naturally two words, keep it as one
-   comma-item with a space inside (e.g. `msel minh`). Leave it blank if you're not sure yet.
-   **IMPORTANT:** use commas between alternatives — a plain space now means "part of the same
-   multi-word spelling", not "a different spelling".
+3. In `romanizations`, list the spellings you'd actually type — separated by **spaces or commas**
+   (both mean "a different spelling"): `jueng jg jhg`. Only if a single spelling is genuinely two
+   Latin words (like `msel minh` for ម្សិលមិញ) join them with a **`+`**: `msel+minh`. Leave blank
+   if unsure.
 4. Run `pytest` (or `python -c "from sing_khmer_engine.vocabulary import load; print(len(load()))"`)
    to confirm the file still parses and validates.
 
