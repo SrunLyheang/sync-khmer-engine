@@ -194,7 +194,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ទាំងអស់,,4,false,"tang os, teang os",grammar: all / everything
 ម្នាក់,,4,false,mnek,grammar: one person / alone
 រួច,,4,false,rouch,grammar: already / finished / then
-កំពុង,,4,false,kompong,grammar: currently (-ing)
+ផង,,5,true,phg pg,
 នឹង,,5,false,"ng, nerng",grammar: will (future)
 បាត់,,3,false,bat,verb: gone / lost / disappear
 ឈឺ,,4,false,"chue, cheu",verb/adj: sick / hurt / in pain
@@ -384,9 +384,18 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 ចរឹក,,3,false,"jrik, jarik",
 អូន,,5,false,"oun, o",family: younger one / darling (term of endearment)
 ច្រៀង,,4,false,jreang,
-បង្រៀន,, 4,false,bongrean,
+បង្រៀន,, 4,false,bongrean prean,
 ជាតិ,,4,false,"jeat, cheat",
 គ្រូ,,5,false,kru,
+សូវ,,5,true,sov,
+គ្រប់,,5,false, krob, 
+គ្រាប់,,2,false,kroub krob,
+បុក,,3,false,bok,
+ល្ហុង,,3,false,lbaeng,
+កំពុង,,3,false,kompong pong,
+រដូវ,,5,true,rodov,
+ពង,,2,false,pong,
+ទា,,3,false,tea,
 កម្សាន្ត,,4,false,komsan,
 មាត់,,3,false,"mort, mouth",
 ស្ទឹង,,2,false,sterng,
@@ -432,6 +441,7 @@ khmer,meaning,frequency,is_slang,romanizations,notes
 កំប្លែង,,2,true,komplaeng,
 កុមារ,,2,false,komar,
 រាល់,,5,false,rorl,
+ធុញ,,4,false,thunh,
 គេ,,5,false,ke,people: they / someone / people-in-general (AI-suggested — verify)
 ខ្លួនឯង,,4,false,"kluon, eng, klun",people: oneself / yourself (AI-suggested — verify)
 លា,,4,false,lea,verb: say goodbye / leave (AI-suggested — verify)
