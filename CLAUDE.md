@@ -185,9 +185,13 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
 - **1.1 Scaffold** — `src/`-layout package, venv + `requirements*.txt`, pytest via `pyproject.toml`.
 - **1.2 Vocabulary — DONE, still growing.** **474 words** in `data/vocabulary.csv`
   (columns: `khmer, meaning, frequency, is_slang, romanizations, notes`; `meaning` optional/unused).
-  **romanizations format = COMMA-separated alternatives; a single alternative MAY contain spaces =
-  a multi-word spelling** (e.g. `lea hz, lea hx, lea hy` = 3 alternatives; `msel minh` = one
-  two-word spelling for ម្សិលមិញ). Parsed by `vocabulary.parse_romanizations()` (splits on comma).
+  **romanizations format = alternatives separated by SPACES **or** COMMAS (both work, matches how
+  the native speaker actually types); a genuine multi-word spelling uses `+` (e.g. `msel+minh` for
+  ម្សិលមិញ).** Parsed by `vocabulary.parse_romanizations()` (split on `[,\s]+`, then `+`→space).
+  History: format churned space→comma→(space|comma, `+`=multiword) because the developer kept using
+  spaces for alternatives out of habit; the current format respects that. The 45 genuine multi-word
+  spellings (from the Excel) were auto-migrated to `+`; 5 accidental space-alternatives
+  (`bongrean prean`, `kompong pong`, `pkert bongkert`, `kroub krob`, `phg pg`) were split back.
   Loader + validation: `vocabulary.py` (`VocabEntry`, `load()`). Team-curated core + AI-researched
   additions (latter tagged `(AI-suggested — verify)` in `notes`). Anyone edits rows directly in the
   CSV — no Excel needed. **When adding: use commas between spellings**, spaces only inside one

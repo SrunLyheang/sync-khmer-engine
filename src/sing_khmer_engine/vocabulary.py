@@ -11,6 +11,7 @@ CSV columns: ``khmer, meaning, frequency, is_slang, romanizations, notes``
 from __future__ import annotations
 
 import csv
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,15 +26,16 @@ _FALSE_VALUES = {"false", "0", "no", "n"}
 def parse_romanizations(raw: str) -> tuple[str, ...]:
     """Split a romanizations cell into alternative spellings.
 
-    Alternatives are separated by COMMAS; a single alternative MAY contain spaces
-    (a multi-word spelling like ``msel minh`` for ម្សិលមិញ). Each alternative is
-    lowercased with internal whitespace collapsed; duplicates are dropped, order
-    kept.
+    Alternatives are separated by **commas OR spaces** (so `jueng jg jhg` and
+    `jueng, jg, jhg` are equivalent — three spellings). A genuine **multi-word
+    spelling** (one spelling that's typed as two Latin words, like ``msel minh``
+    for ម្សិលមិញ) is written with a **`+`**: ``msel+minh``. Each alternative is
+    lowercased; duplicates dropped, order kept.
     """
     out: list[str] = []
     seen: set[str] = set()
-    for alt in (raw or "").split(","):
-        alt = " ".join(alt.strip().lower().split())
+    for alt in re.split(r"[,\s]+", (raw or "").strip()):
+        alt = " ".join(alt.replace("+", " ").split()).lower()   # '+' -> multi-word space
         if alt and alt not in seen:
             seen.add(alt)
             out.append(alt)

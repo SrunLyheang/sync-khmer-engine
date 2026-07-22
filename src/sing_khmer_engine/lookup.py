@@ -189,13 +189,34 @@ class Engine:
         spans = paths[0] if paths else []
         return self._spans_to_segments(text, spans, limit=limit)
 
+    @staticmethod
+    def join_segments(segments: list[Segment]) -> str:
+        """Render decoded segments the way Khmer is actually written: consecutive
+        Khmer words run together with NO space (ខ្ញុំស្រឡាញ់បង), while passed-through
+        Latin/English words keep spaces around them and punctuation attaches directly."""
+        result = ""
+        prev_khmer = False
+        for s in segments:
+            is_khmer = s.matched
+            is_punct = (not is_khmer) and bool(s.surface) and not any(
+                ch.isalnum() for ch in s.surface
+            )
+            piece = s.best
+            if not result:
+                result = piece
+            elif is_punct or (prev_khmer and is_khmer):
+                result += piece                       # no space
+            else:
+                result += " " + piece                 # space around non-Khmer
+            prev_khmer = is_khmer
+        return result
+
     def readings(self, text: str, *, k: int = 3) -> list[str]:
         """Up to `k` distinct whole-message readings, best first — so the UI can let
-        the user switch between e.g. បង្រៀន (one word) and បង រៀន (two words)."""
+        the user switch between e.g. បង្រៀន (one word) and បងរៀន (two words)."""
         out: list[str] = []
         for spans in self._segment_kbest(text.lower(), k * 2):
-            segs = self._spans_to_segments(text, spans, limit=1)
-            reading = " ".join(s.best for s in segs)
+            reading = self.join_segments(self._spans_to_segments(text, spans, limit=1))
             if reading not in out:
                 out.append(reading)
             if len(out) >= k:
@@ -207,8 +228,8 @@ class Engine:
         return self.decode(text, limit=limit)
 
     def convert_sentence_text(self, text: str) -> str:
-        """Top-pick Khmer for a whole message, segments joined with spaces."""
-        return " ".join(s.best for s in self.decode(text))
+        """Top-pick Khmer for a whole message (Khmer words run together, no spaces)."""
+        return self.join_segments(self.decode(text))
 
     # ---- diagnostics --------------------------------------------------------------
     def diagnose(self, text: str) -> Diagnosis:
