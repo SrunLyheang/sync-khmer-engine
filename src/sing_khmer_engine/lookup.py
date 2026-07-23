@@ -15,6 +15,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, replace
 
+from .english import load_english
 from .fuzzy import levenshtein, within
 from .phonetic_rules import build_rules
 from .reverse_index import Candidate, build_index
@@ -88,6 +89,7 @@ class Engine:
         vocab: list[VocabEntry] | None = None,
         *,
         use_generated: bool = True,
+        use_english: bool = True,
     ) -> None:
         self.vocab = vocab if vocab is not None else load()
         self.rules = build_rules(self.vocab)
@@ -95,6 +97,8 @@ class Engine:
         self._max_key_len = max((len(k) for k in self.index), default=1)
         # Known Khmer words, used to spot a reduplication (W+W -> W ៗ).
         self._khmer_words = {entry.khmer for entry in self.vocab}
+        # Common English words, for code-switching (pass English through, not Khmer).
+        self._english = load_english() if use_english else frozenset()
 
     # ---- single-spelling lookup (exact, then fuzzy) --------------------------------
     def convert(self, text: str, *, limit: int = 5, fuzzy: bool = True) -> list[Candidate]:
@@ -176,17 +180,30 @@ class Engine:
             paths.append(spans)
         return paths
 
+    @staticmethod
+    def _is_strong_match(inside, ts: int, te: int) -> bool:
+        """True if the whole token is covered by a single exact spelling — a strong,
+        confident Khmer match (as opposed to a pile of little pieces)."""
+        return len(inside) == 1 and inside[0][2] is not None and \
+            inside[0][0] == ts and inside[0][1] == te
+
     def _low_confidence_tokens(self, lower: str, spans) -> list[tuple[int, int]]:
-        """Whitespace tokens whose best segmentation is mostly unmatched characters —
-        i.e. a real word the engine doesn't know, forced into gibberish. Such a token
-        is passed through as Latin instead of chopped up. A token matched by a spelling
-        that legitimately spans the space (a multi-word key) is never gated."""
+        """Whitespace tokens that should pass through as Latin instead of being turned
+        into Khmer: either a word the engine can only match by chopping into gibberish
+        (mostly-unmatched), or a genuine English word that isn't a strong Khmer match
+        (code-switching). A token matched by a spelling that legitimately spans the
+        space (a multi-word key) is never gated."""
         forced: list[tuple[int, int]] = []
         for m in re.finditer(r"\S+", lower):
             ts, te = m.start(), m.end()
             if any(j < te and i > ts and (j < ts or i > te) for j, i, key in spans):
                 continue                                  # a spelling crosses this token's edge
             inside = [(j, i, key) for j, i, key in spans if ts <= j and i <= te]
+            strong = self._is_strong_match(inside, ts, te)
+            # English that isn't a strong Khmer match -> keep it as English.
+            if lower[ts:te] in self._english and not strong:
+                forced.append((ts, te))
+                continue
             unmatched = sum(i - j for j, i, key in inside if key is None)
             matched = sum(1 for _j, _i, key in inside if key is not None)
             if matched and unmatched and unmatched / (te - ts) >= _PASSTHROUGH_UNMATCHED:
@@ -195,7 +212,8 @@ class Engine:
 
     def _spans_to_segments(self, text: str, spans, *, limit: int) -> list[Segment]:
         spans = list(spans)
-        forced = self._low_confidence_tokens(text.lower(), spans)
+        lower = text.lower()
+        forced = self._low_confidence_tokens(lower, spans)
         segments: list[Segment] = []
         raw_start: int | None = None
 
@@ -229,7 +247,15 @@ class Engine:
                     raw_start = j
             else:
                 flush_raw(j)
-                segments.append(Segment(text[j:i], tuple(self.index[key][:limit])))
+                surface = text[j:i]
+                cands = list(self.index[key][:limit])
+                # If a whole-token spelling is also a real English word, offer the
+                # English original as the LAST option (hidden until expanded, never
+                # auto-picked) — e.g. "computer" -> កុំព្យូទ័រ … or English "computer".
+                boundary = (j == 0 or lower[j - 1] == " ") and (i == len(text) or lower[i] == " ")
+                if boundary and surface.lower() in self._english:
+                    cands.append(Candidate(surface, 0.0, "english"))
+                segments.append(Segment(surface, tuple(cands)))
             idx += 1
         flush_raw(len(text))
         return segments

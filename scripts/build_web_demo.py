@@ -45,6 +45,8 @@ HTML = r"""<!doctype html>
          border: 1px solid rgba(127,127,127,.5); border-radius: 6px; cursor: pointer;
          font-size: 1.4rem; }
   .alt.chosen { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .alt.en-btn { font-size: .85rem; color: #888; }
+  .alt.en-opt { display: none; font-size: 1.05rem; color: #666; }
   .hint { color: #888; font-size: .9rem; }
 </style>
 </head>
@@ -60,6 +62,7 @@ different option.</p>
 <script>
 const INDEX = __INDEX_JSON__;
 const KHMER_WORDS = new Set(__WORDS_JSON__);   // known standalone words (reduplication base)
+const ENGLISH = new Set(__ENGLISH_JSON__);     // common English words (code-switching)
 const REPEAT = "ៗ";                             // Khmer repetition sign
 const inEl = document.getElementById('in');
 const outEl = document.getElementById('output');
@@ -123,6 +126,8 @@ function lowConfidenceTokens(lower, sp){
     const ts = m.index, te = ts + m[0].length;
     if (sp.some(([j, i]) => j < te && i > ts && (j < ts || i > te))) continue;
     const inside = sp.filter(([j, i]) => ts <= j && i <= te);
+    const strong = inside.length === 1 && inside[0][2] !== null && inside[0][0] === ts && inside[0][1] === te;
+    if (ENGLISH.has(lower.slice(ts, te)) && !strong){ forced.push([ts, te]); continue; }  // keep English
     const unmatched = inside.filter(([, , key]) => key === null).reduce((a, [j, i]) => a + (i - j), 0);
     const matched = inside.filter(([, , key]) => key !== null).length;
     if (matched && unmatched && unmatched / (te - ts) >= PASSTHROUGH_UNMATCHED) forced.push([ts, te]);
@@ -152,7 +157,16 @@ function decodePart(text){
       continue;
     }
     if (key === null){ if (rawStart === null) rawStart = j; }
-    else { flush(j); segs.push({surface: text.slice(j, i), candidates: INDEX[key], lead: '', trail: ''}); }
+    else {
+      flush(j);
+      const surf = text.slice(j, i);
+      // A whole-token spelling that is also English gets the English original as the
+      // last option (hidden behind an "En" toggle; never auto-picked).
+      const boundary = (j === 0 || lower[j-1] === ' ') && (i === lower.length || lower[i] === ' ');
+      const cands = (boundary && ENGLISH.has(surf.toLowerCase()))
+        ? INDEX[key].concat([[surf, 0, 'english']]) : INDEX[key];
+      segs.push({surface: surf, candidates: cands, lead: '', trail: ''});
+    }
     idx++;
   }
   flush(text.length);
@@ -201,11 +215,14 @@ function render(){
       const shown = (s.display != null && !(i in chosen)) ? s.display : s.candidates[ci][0];
       piece = s.lead + shown + s.trail;
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
-      const alts = s.candidates.map((c, ai) =>
-        `<span class="alt khmer ${(i in chosen ? ai===ci : s.display==null && ai===ci)?'chosen':''}" data-w="${i}" data-a="${ai}" `
-        + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
+      const tile = (c, ai, extra) =>
+        `<span class="alt khmer ${extra} ${(i in chosen ? ai===ci : s.display==null && ai===ci)?'chosen':''}" `
+        + `data-w="${i}" data-a="${ai}" title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`;
+      const alts = s.candidates.map((c, ai) => c[2]==='english' ? '' : tile(c, ai, '')).join('');
+      const engHtml = s.candidates.map((c, ai) => c[2]==='english' ? tile(c, ai, `en-opt e${i}`) : '').join('');
+      const enBtn = engHtml ? `<span class="alt en-btn" data-e="${i}" title="type it in English instead">En</span>` : '';
       const rep = s.display != null ? ` <span class="hint">→ ${s.display} (repeat)</span>` : '';
-      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${rep}</div>`;
+      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${enBtn}${engHtml}${rep}</div>`;
     } else {
       piece = `<span class="unknown">${s.lead}${s.surface}${s.trail}</span>`;
       if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
@@ -220,7 +237,13 @@ function render(){
   });
   outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
   bdEl.innerHTML = bd;
-  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
+  // "En" toggle reveals the hidden English option for that word.
+  bdEl.querySelectorAll('.en-btn').forEach(el => el.onclick = () => {
+    el.classList.toggle('chosen');
+    bdEl.querySelectorAll('.e' + el.dataset.e).forEach(o => o.style.display =
+      o.style.display === 'inline-block' ? 'none' : 'inline-block');
+  });
+  bdEl.querySelectorAll('.alt[data-w]').forEach(el => el.onclick = () => {
     chosen[+el.dataset.w] = +el.dataset.a; render();
   });
 }
@@ -237,11 +260,13 @@ def main() -> None:
     index = {key: [[c.khmer, c.score, c.source] for c in cands]
              for key, cands in engine.index.items()}
     words = sorted({entry.khmer for entry in engine.vocab})
+    english = sorted(engine._english)
     out_dir = ROOT / "web"
     out_dir.mkdir(exist_ok=True)
     html = (HTML
             .replace("__INDEX_JSON__", json.dumps(index, ensure_ascii=False))
-            .replace("__WORDS_JSON__", json.dumps(words, ensure_ascii=False)))
+            .replace("__WORDS_JSON__", json.dumps(words, ensure_ascii=False))
+            .replace("__ENGLISH_JSON__", json.dumps(english, ensure_ascii=False)))
     (out_dir / "index.html").write_text(html, encoding="utf-8")
     print(f"wrote web/index.html ({len(index)} spellings). Open it in a browser.")
 

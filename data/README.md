@@ -44,3 +44,14 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 
 The loader rejects missing required fields, out-of-range frequencies, non-boolean `is_slang`
 values, and duplicate `khmer` keys — so a failing test points at the offending row number.
+
+## `english_words.txt` (Phase 3 — code-switching)
+
+A bundled list of common English words, one per line, used to detect English mixed into
+Khmer chat ("ok", "message", "javascript") so it passes through as English instead of being
+forced into Khmer. It's the [google-10000-english](https://github.com/first20hours/google-10000-english)
+common-word list (MIT-licensed), minus single letters and minus short spellings that are
+actually Sing Khmer abbreviations (`nh`, `sl`, `jg`, …), so detection only fires on genuine
+foreign words. A word that is *both* English and a real Khmer spelling (e.g. `computer`) still
+converts to Khmer first, with the English original offered as a hidden last option. Loaded by
+`sing_khmer_engine.english.load_english()`; missing file simply turns detection off.

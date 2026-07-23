@@ -123,3 +123,30 @@ def test_unknown_word_passes_through_in_a_sentence():
     assert any(s.surface == "javascript" and not s.matched for s in segs)
     bests = [s.best for s in segs]
     assert "ខ្ញុំ" in bests and "ស្រឡាញ់" in bests
+
+
+def test_english_word_passes_through():
+    """A common English word that isn't a Khmer spelling stays English."""
+    eng = Engine()
+    for word in ("javascript", "message", "ok"):
+        segs = eng.decode(word)
+        assert len(segs) == 1 and not segs[0].matched and segs[0].surface == word
+
+
+def test_english_offered_as_hidden_last_option_when_also_khmer():
+    """A word that is BOTH a Khmer spelling and English (computer) converts to Khmer,
+    with the English original appended as the last option — never auto-picked."""
+    eng = Engine()
+    seg = eng.decode("computer")[0]
+    assert seg.matched
+    assert seg.candidates[0].source != "english"                 # Khmer wins by default
+    assert seg.candidates[0].khmer == "កុំព្យូទ័រ"
+    assert seg.candidates[-1].source == "english"                # English is last
+    assert seg.candidates[-1].khmer == "computer"
+
+
+def test_english_detection_can_be_disabled():
+    """With English detection off, nothing gets the English last option."""
+    eng = Engine(use_english=False)
+    seg = eng.decode("computer")[0]
+    assert all(c.source != "english" for c in seg.candidates)
