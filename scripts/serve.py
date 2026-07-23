@@ -64,7 +64,8 @@ PAGE = r"""<!doctype html>
 </style></head><body>
 <h1>Sing Khmer — live tester</h1>
 <p class="hint">Uses the real engine. Edit <code>data/vocabulary.csv</code> in VS Code, then just
-refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>.</p>
+refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>,
+<code>muy muy</code> (→ ៗ). Single space = join; <b>double space = a real space</b>.</p>
 <textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="out" class="khmer"></div>
 <div id="readings"></div>
@@ -77,28 +78,32 @@ async function run(){
   const q = inEl.value;
   const res = await fetch('/convert?q=' + encodeURIComponent(q));
   const data = await res.json();
-  let out = '', bd = '', prevKhmer = false;
+  let out = '', bd = '', prevKhmer = false, attachNext = false;
   data.words.forEach((w, i) => {
+    if (w.space){ if (out && !out.endsWith(' ')) out += ' '; prevKhmer = false; attachNext = true; return; }
     const isKhmer = w.candidates.length > 0;
     let piece;
     if (isKhmer){
       const ci = Math.min(chosen[i] || 0, w.candidates.length - 1);
-      piece = w.lead + w.candidates[ci].khmer + w.trail;
+      // default rendering may be an override (ៗ repetition); a manual pick wins over it.
+      const shown = (w.display != null && !(i in chosen)) ? w.display : w.candidates[ci].khmer;
+      piece = w.lead + shown + w.trail;
       const note = { generated:' (auto)', fuzzy:' (~typo)' };
       const alts = w.candidates.map((c, ai) =>
-        `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}"
+        `<span class="alt khmer ${(i in chosen ? ai===ci : w.display==null && ai===ci)?'chosen':''}" data-w="${i}" data-a="${ai}"
          title="score ${c.score}${note[c.source]||''}">${c.khmer}</span>`).join('');
-      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}</div>`;
+      const rep = w.display != null ? ` <span class="hint">→ ${w.display} (repeat)</span>` : '';
+      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}${rep}</div>`;
     } else if (w.core){
       piece = `<span class="unknown">${w.token}</span>`;
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ <span class="unknown">no match</span></div>`;
     } else { return; }
     // Khmer words run together; space only around non-Khmer, none before punctuation.
     const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(w.core);
-    if (out === '') out = piece;
+    if (out === '' || attachNext) out += piece;
     else if (isPunct || (prevKhmer && isKhmer)) out += piece;
     else out += ' ' + piece;
-    prevKhmer = isKhmer;
+    prevKhmer = isKhmer; attachNext = false;
   });
   const readings = data.readings || [];
   outEl.innerHTML = (override !== null ? override : out.trim()) || '<span class="hint">…</span>';
@@ -142,6 +147,7 @@ class Handler(BaseHTTPRequestHandler):
                 words.append({
                     "token": f"{w.lead}{w.surface}{w.trail}", "core": w.surface,
                     "lead": w.lead, "trail": w.trail,
+                    "space": w.space, "display": w.display,
                     "candidates": [
                         {"khmer": c.khmer, "score": c.score, "source": c.source}
                         for c in w.candidates

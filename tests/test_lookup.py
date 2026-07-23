@@ -75,3 +75,25 @@ def test_decoder_passes_unknown_words_through():
     bests = [s.best for s in segs]
     assert "ខ្ញុំ" in bests and "បង" in bests
     assert any(s.surface == "zzzzq" and not s.matched for s in segs)
+
+
+def test_double_space_commits_a_real_space():
+    """A single space is a word boundary (no space in Khmer); a double space
+    commits a real space between the two words."""
+    eng = Engine()
+    assert eng.convert_sentence_text("nh sl") == "ខ្ញុំស្រឡាញ់"       # single = joined
+    assert eng.convert_sentence_text("nh  sl") == "ខ្ញុំ ស្រឡាញ់"    # double = real space
+
+
+def test_repeated_word_folds_to_repetition_sign():
+    """Typing a word twice renders the second as ៗ (មួយ + ៗ), with the doubled
+    form (មួយមួយ) offered as an alternative reading."""
+    eng = Engine()
+    assert eng.convert_sentence_text("muy muy") == "មួយៗ"
+    assert "មួយមួយ" in eng.readings("muy muy")
+
+
+def test_double_space_prevents_repetition_fold():
+    """A deliberate real space (double space) keeps the two words separate — no ៗ."""
+    eng = Engine()
+    assert eng.convert_sentence_text("muy  muy") == "មួយ មួយ"

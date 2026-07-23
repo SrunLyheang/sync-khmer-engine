@@ -51,13 +51,16 @@ HTML = r"""<!doctype html>
 <body>
 <h1>Sing Khmer → Khmer converter</h1>
 <p class="hint">Type romanized Khmer — spaces optional. Try: <code>nh sl bong</code>,
-&nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>. Click a highlighted word to pick a
+&nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>, &nbsp;<code>muy muy</code> (→ ៗ).
+Single space = join; <b>double space = a real space</b>. Click a highlighted word to pick a
 different option.</p>
 <textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="output" class="khmer"></div>
 <div id="breakdown"></div>
 <script>
 const INDEX = __INDEX_JSON__;
+const KHMER_WORDS = new Set(__WORDS_JSON__);   // known standalone words (reduplication base)
+const REPEAT = "ៗ";                             // Khmer repetition sign
 const inEl = document.getElementById('in');
 const outEl = document.getElementById('output');
 const bdEl = document.getElementById('breakdown');
@@ -111,7 +114,7 @@ function spans(lower){
   while (i > 0){ const [j, key] = back[i]; out.push([j, i, key]); i = j; }
   return out.reverse();
 }
-function decode(text){
+function decodePart(text){
   const lower = text.toLowerCase(), segs = []; let rawStart = null;
   const flush = (end) => {
     if (rawStart === null) return;
@@ -129,21 +132,54 @@ function decode(text){
   flush(text.length);
   return segs;
 }
+// A word repeated twice folds to the ៗ sign; the doubled form stays as an option.
+function reduplicationBase(kh){
+  if (kh.length % 2 === 0){
+    const half = kh.slice(0, kh.length/2);
+    if (kh.slice(kh.length/2) === half && KHMER_WORDS.has(half)) return half;
+  }
+  return null;
+}
+function applyRepetition(segs){
+  let prev = null;
+  for (const s of segs){
+    const word = s.candidates.length ? s.candidates[0][0] : null;
+    const canFold = word !== null && s.display == null && !s.lead && !s.trail && !s.space;
+    const base = canFold ? reduplicationBase(word) : null;
+    if (canFold && base !== null){ s.display = base + REPEAT; prev = base; }
+    else if (canFold && word === prev){ s.display = REPEAT; prev = word; }
+    else { prev = word; }
+  }
+  return segs;
+}
+// Single space = word boundary; a run of 2+ spaces commits one real space.
+function decode(text){
+  const segs = [];
+  text.split(/ {2,}/).forEach((part, idx) => {
+    if (idx > 0) segs.push({surface: ' ', candidates: [], lead: '', trail: '', space: true});
+    if (part) for (const s of decodePart(part)) segs.push(s);
+  });
+  return applyRepetition(segs);
+}
 
 function render(){
   const segs = decode(inEl.value);
-  let out = '', bd = '', prevKhmer = false;
+  let out = '', bd = '', prevKhmer = false, attachNext = false;
   segs.forEach((s, i) => {
+    if (s.space){ if (out && !out.endsWith(' ')) out += ' '; prevKhmer = false; attachNext = true; return; }
     const isKhmer = s.candidates.length > 0;
     let piece;
     if (isKhmer){
       const ci = Math.min(chosen[i] || 0, s.candidates.length - 1);
-      piece = s.lead + s.candidates[ci][0] + s.trail;
+      // default rendering may be a ៗ override; a manual pick overrides it.
+      const shown = (s.display != null && !(i in chosen)) ? s.display : s.candidates[ci][0];
+      piece = s.lead + shown + s.trail;
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
       const alts = s.candidates.map((c, ai) =>
-        `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}" `
+        `<span class="alt khmer ${(i in chosen ? ai===ci : s.display==null && ai===ci)?'chosen':''}" data-w="${i}" data-a="${ai}" `
         + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
-      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}</div>`;
+      const rep = s.display != null ? ` <span class="hint">→ ${s.display} (repeat)</span>` : '';
+      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${rep}</div>`;
     } else {
       piece = `<span class="unknown">${s.lead}${s.surface}${s.trail}</span>`;
       if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
@@ -151,10 +187,10 @@ function render(){
     }
     // Khmer words run together; space only around non-Khmer, none before punctuation.
     const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(s.surface);
-    if (out === '') out = piece;
+    if (out === '' || attachNext) out += piece;
     else if (isPunct || (prevKhmer && isKhmer)) out += piece;
     else out += ' ' + piece;
-    prevKhmer = isKhmer;
+    prevKhmer = isKhmer; attachNext = false;
   });
   outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
   bdEl.innerHTML = bd;
@@ -174,9 +210,12 @@ def main() -> None:
     engine = Engine()
     index = {key: [[c.khmer, c.score, c.source] for c in cands]
              for key, cands in engine.index.items()}
+    words = sorted({entry.khmer for entry in engine.vocab})
     out_dir = ROOT / "web"
     out_dir.mkdir(exist_ok=True)
-    html = HTML.replace("__INDEX_JSON__", json.dumps(index, ensure_ascii=False))
+    html = (HTML
+            .replace("__INDEX_JSON__", json.dumps(index, ensure_ascii=False))
+            .replace("__WORDS_JSON__", json.dumps(words, ensure_ascii=False)))
     (out_dir / "index.html").write_text(html, encoding="utf-8")
     print(f"wrote web/index.html ({len(index)} spellings). Open it in a browser.")
 

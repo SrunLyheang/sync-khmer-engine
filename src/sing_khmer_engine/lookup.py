@@ -13,7 +13,7 @@ answers:
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from .fuzzy import levenshtein, within
 from .phonetic_rules import build_rules
@@ -22,6 +22,13 @@ from .vocabulary import VocabEntry, load
 
 # Splits a whitespace token into (leading punctuation, core spelling, trailing punctuation).
 _TOKEN_RE = re.compile(r"^(\W*)(.*?)(\W*)$")
+
+# A run of 2+ spaces in the input commits a real space in the output (single space
+# stays a word boundary). Matches the iOS double-space habit — no extra keys.
+_DOUBLE_SPACE_RE = re.compile(r" {2,}")
+
+# Khmer repetition sign ( លេខទោ / ៗ): a repeated word renders as `word` + ៗ.
+_REPEAT_SIGN = "ៗ"
 
 # Segmentation scoring knobs.
 _LEN_WEIGHT = 3.0        # reward for covering more characters with a real spelling
@@ -37,6 +44,8 @@ class Segment:
     candidates: tuple[Candidate, ...]  # empty => unknown / passed through unchanged
     lead: str = ""                     # leading punctuation to keep
     trail: str = ""                    # trailing punctuation to keep
+    display: str | None = None         # explicit rendering override (e.g. ៗ for a repeat)
+    space: bool = False                # a literal space committed by a double-space
 
     @property
     def matched(self) -> bool:
@@ -44,7 +53,11 @@ class Segment:
 
     @property
     def best(self) -> str:
-        khmer = self.candidates[0].khmer if self.candidates else self.surface
+        if self.space:
+            return " "
+        khmer = self.display if self.display is not None else (
+            self.candidates[0].khmer if self.candidates else self.surface
+        )
         return f"{self.lead}{khmer}{self.trail}"
 
 
@@ -73,6 +86,8 @@ class Engine:
         self.rules = build_rules(self.vocab)
         self.index = build_index(self.vocab, self.rules if use_generated else None)
         self._max_key_len = max((len(k) for k in self.index), default=1)
+        # Known Khmer words, used to spot a reduplication (W+W -> W ៗ).
+        self._khmer_words = {entry.khmer for entry in self.vocab}
 
     # ---- single-spelling lookup (exact, then fuzzy) --------------------------------
     def convert(self, text: str, *, limit: int = 5, fuzzy: bool = True) -> list[Candidate]:
@@ -183,45 +198,105 @@ class Engine:
         flush_raw(len(text))
         return segments
 
+    def _reduplication_base(self, khmer: str) -> str | None:
+        """If `khmer` is a word repeated twice (e.g. មួយមួយ = មួយ+មួយ) whose half is a
+        known word, return that half; otherwise None. Lets មួយមួយ render as មួយ ៗ."""
+        if len(khmer) % 2 == 0:
+            half = khmer[: len(khmer) // 2]
+            if khmer[len(khmer) // 2:] == half and half in self._khmer_words:
+                return half
+        return None
+
+    def _apply_repetition(self, segments: list[Segment]) -> list[Segment]:
+        """Render a repeated word with the Khmer repetition sign ៗ instead of writing
+        the word twice: two adjacent identical words (`muy muy`) or a single doubled
+        entry (មួយមួយ) both become `word` + ៗ. The doubled form stays available as an
+        alternative reading (see `readings`)."""
+        out: list[Segment] = []
+        prev_word: str | None = None
+        for s in segments:
+            word = s.candidates[0].khmer if s.matched else None
+            can_fold = word is not None and s.display is None and not s.lead and not s.trail
+            base = self._reduplication_base(word) if can_fold else None
+            if can_fold and base is not None:                      # doubled entry (មួយមួយ)
+                out.append(replace(s, display=base + _REPEAT_SIGN))
+                prev_word = base
+            elif can_fold and word == prev_word:                   # two adjacent (muy muy)
+                out.append(replace(s, display=_REPEAT_SIGN))
+                prev_word = word
+            else:
+                out.append(s)
+                prev_word = word
+        return out
+
     def decode(self, text: str, *, limit: int = 5) -> list[Segment]:
-        """Decode a whole message into matched/unknown segments (best reading)."""
-        paths = self._segment_kbest(text.lower(), 1)
-        spans = paths[0] if paths else []
-        return self._spans_to_segments(text, spans, limit=limit)
+        """Decode a whole message into matched/unknown segments (best reading).
+
+        A run of 2+ spaces commits a real space (single space stays a word boundary);
+        a repeated word folds to the ៗ repetition sign."""
+        segments: list[Segment] = []
+        for idx, part in enumerate(_DOUBLE_SPACE_RE.split(text)):
+            if idx > 0:                                    # gap between parts = real space
+                segments.append(Segment(" ", (), space=True))
+            if not part:
+                continue
+            paths = self._segment_kbest(part.lower(), 1)
+            spans = paths[0] if paths else []
+            segments.extend(self._spans_to_segments(part, spans, limit=limit))
+        return self._apply_repetition(segments)
 
     @staticmethod
     def join_segments(segments: list[Segment]) -> str:
         """Render decoded segments the way Khmer is actually written: consecutive
         Khmer words run together with NO space (ខ្ញុំស្រឡាញ់បង), while passed-through
-        Latin/English words keep spaces around them and punctuation attaches directly."""
+        Latin/English words keep spaces around them and punctuation attaches directly.
+        A literal-space segment forces a single space between neighbours."""
         result = ""
         prev_khmer = False
+        attach_next = False                       # after a real space, attach directly
         for s in segments:
+            if s.space:
+                if result and not result.endswith(" "):
+                    result += " "
+                prev_khmer, attach_next = False, True
+                continue
             is_khmer = s.matched
             is_punct = (not is_khmer) and bool(s.surface) and not any(
                 ch.isalnum() for ch in s.surface
             )
             piece = s.best
-            if not result:
-                result = piece
+            if not result or attach_next:
+                result += piece
             elif is_punct or (prev_khmer and is_khmer):
                 result += piece                       # no space
             else:
                 result += " " + piece                 # space around non-Khmer
-            prev_khmer = is_khmer
+            prev_khmer, attach_next = is_khmer, False
         return result
 
     def readings(self, text: str, *, k: int = 3) -> list[str]:
         """Up to `k` distinct whole-message readings, best first — so the UI can let
-        the user switch between e.g. បង្រៀន (one word) and បងរៀន (two words)."""
+        the user switch between e.g. បង្រៀន (one word) and បងរៀន (two words), or a folded
+        repetition (មួយៗ) and its doubled form (មួយមួយ)."""
         out: list[str] = []
-        for spans in self._segment_kbest(text.lower(), k * 2):
-            reading = self.join_segments(self._spans_to_segments(text, spans, limit=1))
+        base = self.decode(text)
+        out.append(self.join_segments(base))
+        if any(s.display == _REPEAT_SIGN or (s.display or "").endswith(_REPEAT_SIGN)
+               for s in base):                            # offer the un-folded doubled form
+            doubled = [replace(s, display=None) if s.display and s.display.endswith(_REPEAT_SIGN)
+                       else s for s in base]
+            reading = self.join_segments(doubled)
             if reading not in out:
                 out.append(reading)
-            if len(out) >= k:
-                break
-        return out
+        if not _DOUBLE_SPACE_RE.search(text):             # compound<->split alternatives
+            for spans in self._segment_kbest(text.lower(), k * 2):
+                segs = self._apply_repetition(self._spans_to_segments(text, spans, limit=1))
+                reading = self.join_segments(segs)
+                if reading not in out:
+                    out.append(reading)
+                if len(out) >= k:
+                    break
+        return out[:k] if len(out) > k else out
 
     def convert_sentence(self, text: str, *, limit: int = 5) -> list[Segment]:
         """Decode a whole message (alias for `decode`, works with/without spaces)."""
