@@ -17,7 +17,6 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 | Column          | Required | Description |
 |-----------------|----------|-------------|
 | `khmer`         | yes      | The word or phrase in Khmer script. Must be unique across the file. |
-| `meaning`       | yes      | Short English gloss. |
 | `frequency`     | yes      | Rough commonness, integer **1–5** (5 = most common). Used later to rank candidates. |
 | `is_slang`      | yes      | `true` for casual/chat slang, `false` for an ordinary common word. |
 | `romanizations` | no       | The Sing Khmer (Latin) spellings people type. **Separate alternatives with commas OR spaces** — both work (`jueng jg jhg` = `jueng, jg, jhg` = three spellings). For a spelling that's genuinely **two Latin words** (typed with a space, like ម្សិលមិញ), join them with a **`+`**: `msel+minh`. Optional per row. |

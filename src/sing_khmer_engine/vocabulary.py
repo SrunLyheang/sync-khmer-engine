@@ -5,7 +5,7 @@ step 1.2). It is stored as a CSV so a native speaker can edit it in any spreadsh
 and loaded here into validated ``VocabEntry`` records that later steps consume
 (1.3 KCC breakdown, 1.4 phonetic rules, 1.7 lookup).
 
-CSV columns: ``khmer, meaning, frequency, is_slang, romanizations, notes``
+CSV columns: ``khmer, frequency, is_slang, romanizations, notes``
 """
 
 from __future__ import annotations
@@ -48,7 +48,6 @@ class VocabEntry:
 
     Attributes:
         khmer: The word/phrase in Khmer script (unique across the file).
-        meaning: Short English gloss.
         frequency: Rough commonness, an integer 1-5 (5 = most common).
         is_slang: True for casual/chat slang, False for an ordinary common word.
         romanizations: Sing Khmer (Latin) spellings for this word, parsed from a
@@ -57,7 +56,6 @@ class VocabEntry:
     """
 
     khmer: str
-    meaning: str
     frequency: int
     is_slang: bool
     romanizations: tuple[str, ...] = ()
@@ -122,7 +120,6 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
         seen: dict[str, int] = {}
         for row_num, row in enumerate(reader, start=2):  # row 1 is the header
             khmer = (row.get("khmer") or "").strip()
-            meaning = (row.get("meaning") or "").strip()
             if not khmer:
                 raise VocabularyError(f"row {row_num}: khmer is required")
             if khmer in seen:
@@ -135,7 +132,6 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
             entries.append(
                 VocabEntry(
                     khmer=khmer,
-                    meaning=meaning,
                     frequency=_parse_frequency(row["frequency"], row_num=row_num),
                     is_slang=_parse_bool(row["is_slang"], row_num=row_num),
                     romanizations=parse_romanizations(row.get("romanizations") or ""),

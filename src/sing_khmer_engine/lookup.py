@@ -360,10 +360,6 @@ class Engine:
                     break
         return out[:k] if len(out) > k else out
 
-    def convert_sentence(self, text: str, *, limit: int = 5) -> list[Segment]:
-        """Decode a whole message (alias for `decode`, works with/without spaces)."""
-        return self.decode(text, limit=limit)
-
     def convert_sentence_text(self, text: str) -> str:
         """Top-pick Khmer for a whole message (Khmer words run together, no spaces)."""
         return self.join_segments(self.decode(text))

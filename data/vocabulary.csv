@@ -1,890 +1,870 @@
-khmer,meaning,frequency,is_slang,romanizations,notes
-សួស្តី,,2,false,"sursdey, sursdei",
-ជំរាបសួរ,,2,false,"jomreabsur, jumreabsur, jumreapsur",
-លាហើយ,,2,false,"lea+hz, lea+hx, lea+hy",
-អរគុណ,,3,false,"orkun, orkon",
-សុំទោស,,4,false,"somtos, sumtos",
-ភ្លេី,,2,false,pler,
-រន្ធត់,,1,false,runthud ronthud,
-អារ,,5,true,ah,
-រន្ទះ,,1,false,runteas teas,
-បាញ់,,2,false,banh,
-បុរី,,2,false,borey,
-បារី,,2,false,barey,
-បារម្មណ៌,,2,false,barom,
-ព្រួយ,,2,false,prouy,
-បារម្ភ,,2,false,barom,
-ធម្មជាតិ,,3,false,thoumjeat thormjeat,
-សូរ,,3,false,so,
-សូ,,2,false,so,
-ប្រែ,,5,false,brae prae,
-ប្រួល,,5,false,prul brul,
-ស្នេហ៍,,4,false,sne,
-ស្នេហា,,4,false,sneha,
-សំឡេង,,3,false,somleng,
-ចែ,,3,false,jae,
-មាស,,2,false,meas,
-ពៅ,,2,false,pov,
-អំ,,2,false,om,
-អ៊ុំ,,1,false,oum,
-អុំ,,1,false,oum,
-ទូក,,2,false,tuk,
-ទូល,,1,false,tul,
-ទួល,,2,false,toul,
-លាយ,,1,false,leay,
-ប្តូរ,,3,false,pdo,
-
-ខ្សោះ,,3,false,ksos,
-បាទ,,3,false,"bart, bat",
-ចាស,,3,false,"ja, jah",
-ទេ,,5,false,"te, teh",
-ទំនេរ,,4,false,tomne tne,
-ម៉េស,,4,false,mes,
-ខ្ញុំ,,5,false,"nh, knh, nhom, nhum",
-អ្នក,,5,false,nek,
-គាត់,,5,false,"kort., kort",
-វា,,5,false,vea,
-យើង,,4,false,"yg, yerng",
-ពួកគេ,,3,false,"puk+ke, pouk+ke",
-នេះ,,5,false,nis,
-នោះ,,5,false,nus,
-អ្វី,,5,false,avey,
-អី,,5,true,ey,
-អ្នកណា,,4,false,"nek+nah, nek+na",
-ឯណា,,1,false,aena,
-ពេលណា,,5,false,"pel+na, bel+na",
-ហេតុអ្វី,,4,false,"het+ey, heth+avey, het+avey, heth+ey",
-ម៉េច,,4,true,"mx, mex, mix",
-ប៉ុន្មាន,,4,false,punman marn ,
-ទៅ,,5,false,"tv, tov",
-មក,,5,false,"mk, mor, mok",
-ញ៉ាំ,,5,false,nham,
-ផឹក,,4,false,pherk,
-ដេក,,4,false,dek,
-ដើរ,,4,false,der,
-និយាយ,,5,false,niyey yy,
-មើល,,4,false,"merl, mer",
-ស្តាប់,,4,false,sdap,
-ប្រេី,,4,false,brer,
-ខាង,,4,false,khang,
-
-ដឹង,,5,false,"dg, derng",
-ចង់,,5,false,"jg, jorng","if the jg is in the start or the middle of the sentence it will translate to ចង់ if at the end it will be ចឹង, there are more scenrios where this changes so make an option for user to select"
-អាច,,4,false,ach,ach can also mean អាចម៍
-ធ្វើ,,5,false,tver,
-មាន,,5,false,mean,
-អាចម៍,, 3,false,ach,
-ប្រាប់,,4,false,brab,
-ទិញ,,4,false,"tenh, tinh",
-ស្រឡាញ់,,4,false,"sl, srolanh",
-ចូលចិត្ត,,4,false,jol+jit,
-ឃើញ,,4,false,"kherng, khernh",
-យល់,,4,false,yol,
-រៀន,,4,false,rean,
-ធ្វើការ,,4,false,"tver+ka, ther+ka",
-ជួយ,,4,false,juy jouy,
-រង់ចាំ,,2,false,rong+jam,
-ម្សៅ,,2,false,msav,
-ស្រអាប់,,1,false,sro'ab,
-ភ្លឺ,,1,false,plue pler,
-ពិន,,2,false,pin,
-ខ្មោច,,2,false,kmouch,
-ប្រែត,,3,false,preth,
-ក្រពើ,,2,false,kror per,
-ពស់,,2,false,pus,
-្ន្លកន្លាត,,2,false,konlat,
-ពោះ,,2,false,purs,
-ស្រមោច,,2,false,sromouch,
-រុយ,,2,false,ruy,
-ជីង,,2,false, jing,
-ចក់,,2,false,jok,
-ស្វា,,2,false,sva,
-ក្របី,,2,false,krohper,
-ទេវតា,,2,false,tevada,
-
-ផ្លុំ,,2,false,plom,
-
-ហោះ,,2,false,hors,
-យន្ត,,2,false,yun.
-ក្រដាស,,2,false,krodas,
-ខ្នើយ,,2,false,knery,
-ផួយ,,2,false,phuy,
-ឪប,,2,false,orb oub,
-គ្រែ,,2,false,krae,
-កៅអី,,2,false,"kav ey kav ei"
-ប៊ិច,,2,false,bech,
-ពណ៌,,2,false,por,
-ត្នោត,,2,false, tnoat,
-ឈូក,,2,false,chuk,
-រាយ,,2,false, reay,
-ផ្តុំ,,2,false,pdom,
-ចៀន,,2,false,jean,
-ឆា,,2,false,cha,
-ចំហុយ,,2,false, jomhuy,
-ហុយ,,2,false,huy,
-កែប,,1,false,keb,
-កំពត,,2,false,kompot,
-កំពង់សោម,,2,false,kompong soam,
-ព្រះសីហនុ,,2,false, preah sihaknouk,
-កោះកុង,,2,false, koh kong,
-មណ្ឌលគីរី,,2,false, mondolkiri,
-រតនគីរី,,2,false, ratanakiri,
-ក្រចេះ,,1,false, krorjes,
-កំពង់ស្ពឺ,,1, false, kompong speu,
-កំពង់ធំ,,1, false, kompong thom,
-ឆ្នាំង,,1, false, chnang,
-បន្ទាយ,,1,false,bonteay,
-ជ័យ,,1,false,chei chey jei jey,
-ឧត្តរ,,1,false,oudor,
-ស្វាយ,,2,false,svay,
-តួ,,2,false,tur,
-ជំនាន់,,2,false,jom norn,
-សៀម,,2,false,siem,
-ព្រលាន,,2,false,prolean,
-ខ្លាញ់,,2,false,klanh,
-ញុក,,2,false,nhok,
-បញ្ហា,,2,false,panha,
-គុណ,,2,false,kon kun,
-សន្តិ,,2,false, sonte,
-សង្គ្រាម,,2,false,songkream,
-សម្បត្តិ,,2,false, sombath,
-សម្បូរ,,2,false,sombo,
-ម្ចូរ,,2,false, mju,
-និទ្ទេស,,2,false,nites,
-បាក់ឌុប,,2,false, bacll,
-ឌីផ្លូម,,2,false, Diplome,
-កាំភ្លើង,,2,false, kam plerng k'plerng,
-យក្ស,,2,false,yeak,
-ខណ្ឌ,,2,false,khan,
-សង្កាត់,,2,false,sangkat,
-ប៉ៃលិន,,2,false,pai lin,
-ចាម,,2, false,jam,
-ប្រមូល,,2,false, p'mol prohmol bromol,
-អ៊ីនធឺណិត,,2,false,internet,
-ច្បាប់,,2,false,jbab chbab,
-វិន័យ,,2,false,viney,
-អវត្តមាន,,2,false,avatamean,
-ស្ពាន,,2,false,spean,
-គល់,,2,false,kol,
-កល់,,2,false, kol,
-លេខ,,2,false, lek,
-បង្ហោះ,,2,false, bonghors,
-ផុស,,2,false,post,
-លីង,,2,false, link,
-ទាត់,,2,false,tort
-បោះ,,2,false,bors bos,
-
-វេលា,,2,false,velea,
-រាំ,,1,false,rorm,
-
-គក់,,2,false,kork kouk,
-ងូត,,2,false,ngut nguch,
-ចម្អិន,,2,false, jom en,
-អឹម,,2,false, em,
-អីយ៉ា,,2,false, eya,
-ញញឹម,,2,false, nhor nhem,
-យី,,5,false,yi,
-ទើស,,5,false,ters,
-កញ្ចក់,,3,false,konjork,
-ខ្ពើម,,2,false,kperm,
-ជាក់,,2,false,jaek,
-ជេរ,,2,false,je j,
-ខ្នាញ់,,2,false,knanh,
-កាយ,,2,false,kay,
-វិការ,,1,false,vika,
-ទម្រង់,,1,false,tomrong,
-ទំរង់,,1,false,tomrong,
-ទម្ងន់,,1,false,tomngun,
-ជូរ,,2,false,ju,
-ផ្អែម,,2,false,p'aem,
-ប្រៃ,,2,false,prai,
-ល្វីង,,2,false,lving
-ចត់,,3,false,jot,
-សាប,,5,false,kpus,
-តម្លៃ,,5,false,domlai,
-សមរម្យ,,3,false,somrom,
-ស្រួយ,,2,false,srouy,
-ស្រា,,5,false,sra,
-អនាម័យ,,2,false, ahnamai,
-បណ្តើរ,,4,false,bonder,
-ក្បត់,,3,false,kbot,
-ពិការ,,3,false,pik ka,
-សន្លប់,,3,false,sonlob sonlop,
-វ៉ៃ,,3,false,vai,
-រហូត,,3,false, rohot rhot,
-ផ្កា,,3,false,pka,
-ខ្មាស់,,3,false,kmas,
-ដាស់,,4,false,das,
-ប្រយោគ,,3,false,proyok,
-ប្រយ៉ុង,,3,false,pyong,
-ប្រយ័ត្ន,,3,false,pyat,
-ហតផត,,3,false,hot pot,
-ងាយ,,3,false,ngeay,
-ឡេ,,2,false,lay le,
-ប៉ះ,,4,false,pas,
-ពាល់,,3,false,pol,
-ការពារ,,3,false,karpea,
-ពារ,,3,false,pea,
-មិញ,,3,false,minh menh,
-ស្ទាប,,2,false,steab steap,
-ស្ទាវ,, 5, false,steav,
-ខេត្ត,,5,false,khet,
-ពូ,,5,false,pu,
-មីង,,5,false,ming,
-តា,,4,false,ta,
-យាយ,,3,false,yy,
-ផ្ទៃ,,5,false,ptei,
-គាំង,,5,false,keang,
-អាប់,,3,false,ap ab arb arp,
-ថូ,,3,false,tho,
-ថាស,,3,false,thas,
-ចាក់,,3,false,jak,
-ស្រះ,,3,false,sras,
-រួម,,5,false,roum rorm,
-រូម,,2,false,rom,
-បឹង,,2,false,berng,
-ជ្រោះ,,2,false, jrus,
-ជ្រេញ,,5,false,jrenh,
-សុិច,,1,false,sex,
-ធីប,,5, false,tip,
-ជូន,,4,false,jun,
-តោះ,,5,true,tos,
-ផ្នាល់,,3,false,pnorl,
-ភ្នាល់,,3,false,pnorl,
-ពរ,,3,false,por,
-ហូប,,5,false,hob,
-ក្ដី,,5,false,kdei,
-ស្រមៃ,,5,false,sromai,
-មី,,5,false,mii,
-ស្រាត,,3,false,srat,
-ក្រឡា,,2,false,krola,
-កុលាប,,2,false, kolab,
-ប្រាណ,,2,false, bran pran,
-ហាត់,,3,false, hat,
-ហ៊ាន,,3,false, hean,
-លូក,,2,false, luk,
-រឹង,,4,false, rerng,
-សើម,,3,false,serm,
-ស្ងួត,,3,false,sgnout,
-បាស,,3,false,bas,
-អាសុីត,,3,false,acid,
-ប្រាំមួយ,,3,false,"pram+muy",
-ប្រាំពីរ,,3,false,"pram+pi",
-ប្រាំបី,,3,false,"pram+bei",
-ប្រាំបួន,,3,false,"pram+boun",
-ម្ភៃ,,3,false,"mphei",
-សាមសិប,,2,false,"samsib",
-សែសិប,,2,false,"saesib",
-ហាសិប,,2,false,"hasib",
-ហុកសិប,,2,false,"hoksib",
-ចិតសិប,,2,false,"jetsib",
-ប៉ែតសិប,,2,false,"paetsib paetsip",
-កៅសិប,,2,false,"kaoseb kaosib",
-ម្សិល,,4,true,"msel",
-ថ្ងៃស្អែក,,5,false,"tgnai+saek",
-ឥឡូវនេះ,,5,false,"eylov+nis",
-ភ្លែត,,4,true,"plet",
-បន្តិចទៀត,,5,false,"bontech+teat, bontech tt",
-ខមមិន,,3,true,"comment,cmt",
-ឡាយ,,3,true,"live",
-ស៊ែរ,,3,true,"share",
-អ៊ិនបុក,,1,true,"inbox",
-បន្ទាប់ពី,,4,false,"bantorb+pi",
-មុនពេល,,4,false,"mun+pel",
-ពេលដែល,,5,false,"pel+del bel dae",
-ដូច្នេះ,,1,false,"dojneh doj + jnes",
-ទោះបីជា,,4,false,"turs+bei+jea",
-ពិតប្រាកដ,,4,false,"pit+prakot",
-មែនទែន,,5,true,"men+ten",
-ច្បាស់ណាស់,,4,false,"jbas+nas",
-ភាគច្រើន,,4,false,"peak+jrern",
-ជាទូទៅ,,3,false,"jea+tu+tov",
-លើសពី,,4,false,"lers+pi",
-
-កណ្ដាល,,4,false,"kandal",
-ជុំវិញ,,4,false,"jom+vinh",
-ល្អ,,3,false,loar,
-អាក្រក់,,3,false,"akk, akkrok, akrok",
-ធំ,,4,false,thom,
-តូច,,4,false,"toch, tuch",
-ស្អាត,,4,false,sart,
-ឆ្ងាញ់,,3,false,chganh,
-ក្តៅ,,4,false,kdav,
-ត្រជាក់,,3,false,"trojek, tjeak",
-ថ្មី,,4,false,tmey,
-ច្រើន,,4,false,jrern,
-តិច,,4,false,"tix, tic",
-ថ្ងៃនេះ,,4,false,tgnai+nis,
-ម្សិលមិញ,,3,false,msel+minh,
-ស្អែក,,3,false,"saek, s'aek",
-ឥឡូវ,,4,false,"eylov, eilov lov lv",
-ព្រឹក,,4,false,prerk,
-យប់,,4,false,yub,
-ទឹក,,3,false,terk,
-បាយ,,3,false,bay,
-ផ្ទះ,,4,false,"pteas, teas",
-លុយ,,4,false,luy,
-មនុស្ស,,4,false,"mnus, monus",
-ទូរស័ព្ទ,,3,false,"tusab, turasab",
-មិត្តភក្តិ,,2,false,mit+pheak,
-គ្រួសារ,,4,false,"krursa, kursa",
-ម៉ាក់,,4,false,mak,
-ប៉ា,,4,false,pa,
-ចឹង,,4,true,"jg, jhg, jerng",
-ណា,,3,true,"na, nah",
-អញ,,3,true,"anh"
-ហើយ,,5,false,"hz, hx, hy",
-នៅ,,5,false,"nv, nov",meaning:
-ក៏,,4,false,kor,meaning: also
-តែ,,4,false,tae,meaning: but
-ដែរ,,4,true,dae,meaning: too
-មែន,,5,false,men,meaning: Really?
-មួយ,,3,false,"muy, mouy",number: one
-ពីរ,,2,false,pi,number: two
-បី,,2,false,bei,number: three
-បួន,,2,false,boun,number: four
-ប្រាំ,,2,false,"bram, pram",number: five
-ដប់,,2,false,"dob, dop",number: ten
-រយ,,2,false,"ruoy, roy",number: hundred
-ពាន់,,2,false,"porn, poun",number: thousand
-បង,,5,false,"bong, b",family: older sibling; also 'you' to someone older
-ប្អូន,,5,false,"p""o",family: younger sibling
-កូន,,5,false,kon,family: child
-សង្សារ,,5,true,"ss, songsa",family: boy/girlfriend (very common in chat)
-ប្ដី,,4,false,"pdei, pdey",family: husband
-ប្រពន្ធ,,4,false,"ppun",family: wife
-ជីតា,,1,false,jita,family: grandfather
-ជីដូន,,1,false,jidon,family: grandmother
-មិត្ត,,5,false,mit,people: friend
-លោក,,3,false,lok,people: Mr / sir
-នាង,,3,false,neang,people: she / Miss
-យក,,5,false,"yor, yok",verb: take
-ដាក់,,5,false,dak,verb: put
-សម្ដេច,,3,false,somdach,
-
-សម្ដី,,3,false,somdei somdey,
-សម្ដែង,,3,false,somdaeng,
-សម្លាញ់,,3,false,somlanh sml,
-បើក,,5,false,berk,verb: open / drive / turn on
-បិទ,,4,false,bit,verb: close / turn off
-លេង,,5,false,"lg, leng",verb: play
-លែង,,4,false,"lg, laeng leng",
-គិត,,5,false,kit,verb: think
-ចាំ,,5,false,jam,verb: wait / remember (colloquial 'hold on')
-ភ្លេច,,4,false,"plex, plech",verb: forget
-សួរ,,5,false,sur,verb: ask
-ឆ្លើយ,,1,false,chlery,verb: answer / reply we normally use ans
-ឲ្យ,,4,false,"oy, ouy",verb: give / let (also written អោយ)
-ត្រូវ,,3,false,"trov, trv",verb: must / correct / right
-ខុស,,3,false,khos,adjective: wrong
-អស់,,4,false,"ors, os",verb/adj: run out / finished / all gone
-បាន,,5,false,ban,verb: get / can / did (very common helper word)
-រក,,5,false,"rok, ror",verb: look for / find
-ស្គាល់,,4,false,skol,verb: know (a person)
-ចេះ,,4,false,jes,verb: know how to / can
-រត់,,4,false,rut,verb: run
-ឈប់,,4,false,chob,verb: stop
-អង្គុយ,,1,false,ongkuy,verb: sit
-ចូល,,5,false,jol,verb: enter / go in
-ចេញ,,5,false,jenh,verb: exit / leave
-ឡើង,,4,false,lerng,verb: go up / rise
-ចុះ,,4,false,jos,verb: go down
-សើច,,4,false,"serj, serch",verb: laugh
-យំ,,3,false,"yum, yom",verb: cry
-សម្លាប់,,2,false,somlab,
-ងាប់,,3,false,ngob ngoub,
-ទូរ,,3,false,tu,
-កក,,2,false,kork ,
-ក្រូច,,2,false,kroch,
-ឆ្មា,,2,false,chma,
-ជុះ,,2,false,jus,
-ដូរ,,3,false,do,
-ជួញ,,3,false,jounh,
-
-កក់,,1,false,kork,
-សប្បាយ,,5,false,"sabay, sby",feeling: happy / fun
-ខឹង,,4,true,khg,feeling: angry (common in chat)
-ស្រួល,,3,false,srul,adjective: comfortable / easy
-ពិបាក,,4,false,pibak,adjective: difficult
-ណាស់,,5,false,nas,intensifier: very / a lot (very common)
-ខ្លាំង,,3,false,"klang, klg",adverb: strongly / very / hard
-ស្អប់,,3,false,"s'oab, soab",verb: hate
-ឆ្កួត,,5,true,"chkut, chkout",adjective: crazy (slang)
-អស្ចារ្យ,,3,false,"osja, orsja",adjective: amazing
-ខ្លាច,,4,false,klach,verb: afraid / scared
-ឃ្លាន,,4,false,klean,adjective: hungry
-ស្រេក,,4,false,srek,adjective: thirsty
-នឿយ,,1,false,nery,adjective: tired
-ថ្ងៃ,,5,false,tgnai,time: day / sun
-ខែ,,4,false,khae,time: month
-ឆ្នាំ,,4,false,chnam,time: year
-ម៉ោង,,5,false,"morng, mg",time: hour / o'clock / time
-នាទី,,3,false,neati,time: minute
-ល្ងាច,,4,false,lgeach,time: evening
-ពេល,,5,false,pel,time: time / when / moment
-តែងតែ,,4,false,taeng+tae,time: always / usually
-ឡាន,,4,false,lan,object: car
-ម៉ូតូ,,4,false,"moto, motor",object: motorbike
-សាលា,,5,false,"sala, sla",place: school
-ផ្សារ,,4,false,"psar, phsar",place: market
-ហាង,,5,false,hang,place: shop / store
-កាហ្វេ,,1,false,café,drink: coffee
-នំបុ័ង,,3,false,nompang,food: bread
-សាច់,,4,false,sach,food: meat
-ត្រី,,4,false,"trei, trey",food: fish
-បន្លែ,,3,false,bonlae,food: vegetable
-ថ្នាំ,,4,false,tnam,object: medicine
-សៀវភៅ,,3,false,"seav+phov, siv+phov",object: book
-អាវ,,4,false,av,clothing: shirt
-ខោ,,4,false,khoa​ khao,clothing: pants
-ភ្នែក,,4,false,pnek,body: eye
-ដៃ,,5,false,dai,body: hand / arm
-ជើង,,4,false,jerng,body: leg / foot
-ក្បាល,,4,false,kbal,body: head
-មុខ,,5,false,"muk, mok",body: face; also 'front'
-បេះដូង,,5,false,"besdong, bsd",body: heart
-ក្រហម,,4,false,krohom,color: red
-ខៀវ,,4,false,khiv,color: blue
-លឿង,,1,false,lerng,color: yellow we don’t use this much because it can be confusing it can mean up
-បៃតង,,1,false,beitorng,color: green
-ទះ,,2,false,teas,
-ខ្មៅ,,4,false,kmav,color: black
-ស,,4,false,sor,color: white
-ជិត,,4,false,jit,place: near
-ឆ្ងាយ,,4,false,chgnay,place: far
-ខាងឆ្វេង,,3,false,khang+chveng,direction: left
-ខាងស្ដាំ,,3,false,khang+sdam,direction: right
-ខាងមុខ,,3,false,"khang+muk, khang+mok",direction: front
-ខាងក្រោយ,,3,false,"khang+kroy, khang+krouy",direction: behind
-អត់,,5,true,"ot, ort",chat: no / not (very common colloquial)
-មិន,,3,false,"men, min",grammar: not
-ស្អី,,3,true,"scey, s'ey",chat: what (colloquial for អ្វី)
-ទាល់,,2,false,torl,
-ជ្រូក,,1,false,jruk,
-ដូច,,3,false,doch,grammar: like / similar to
-ដូចគ្នា,,5,true,doch+knea,chat: same / me too
-គ្រាន់តែ,,4,false,kroun+tae,grammar: just / merely
-ជាមួយ,,4,false,"jeamouy, jmuy, cheamouy, jeamuy, cheamuy",grammar: with / together
-តាម,,4,false,tam,
-ដាន,,3,false,dan,
-សម្រាប់,,4,false,"somrab, somrap",grammar: for
-ព្រោះ,,5,false,prus,grammar: because
-ស្រែក,,5,false,sraek,
-ស្រែ,,3,false,srae,
-ស្រី,,3,false,srey srei,
-ដក,,3,false,dork ,
-បូក,,3,false,bok,
-បូម,,2,false,bom bum,
-ហូរ,,3,false,ho,
-ហាម,,3,false,ham,
-កុំ,,3,false,kom,
-ចម្ការ,,2,false,jomka,
-ចម្លង,,3,false,jlong jomlong,
-ច្រឡំ,,3,false,jlom jrolom,
-បន្ថែម,,2,false,bonthaem,
-ជួល,,3,false,joul jul,
-ក្ដៅ,, 5,false,kdav,
-រងារ,,3,false, rongea,
-វ៉ាកង,,3,false, vakong,
-វ៉ាក់សាំង,,3,false,vaksang,
-ឈាន,,3,false,chean,
-ចង,,3,false,jong,
-ក,,1,false,kor,
-ខ,,1,false,khor,
-ខូច,,3,false,khoch,
-ប្រុស,,3,false,bros,
-បុរស,,2,false,boros,
-ឌឺ,,2,false,due,
-ដៀល,,2,false,deal,
-សៀវ,,2,false,seav,
-ភៅ,,3,false,phov,
-ស្បែក,,2,false,sbaek,
-នាឡិកា,,2,false,nealika,
-ឋាន,,2,false,than,
-សួគ៌,,1,false,sur,
-នរក,,3,false,noruk,
-មោទន,,3,false,motanak,
-ដូង,,2,false,dong,
-ឆែក,,1,false,check chaek,
-កុក,,2,false,kok,
-ឆ្លង,,2,false, chlong,
-ថែម,,2,false, thaem,
-ថែ,,2,false,thae,
-ទាំ,,2,false,torm,
-
-ប៉ុន្តែ,,4,false,puntae,grammar: but (more formal than តែ) we usually say tae
-ទាំងអស់,,4,false,"tang+os, teang+os",grammar: all / everything
-ម្នាក់,,4,false,mnek,grammar: one person / alone
-ផ្សេង,,5,false,pseng,
-សុី,,5,false,c,
-រួច,,4,false,rouch,grammar: already / finished / then
-ធាក់,,5,false,thaek,
-ផង,,5,true,"phg, pg",
-នឹង,,5,false,"ng, nerng",grammar: will (future)
-ម៉ា,,4,true,ma,
-លូវ,,2,true,lov,
-បាត់,,3,false,bat,verb: gone / lost / disappear
-ឈឺ,,4,false,"chue, cheu",verb/adj: sick / hurt / in pain
-ដល់,,4,false,dol,verb: arrive / reach / up to
-ហៅ,,4,false,hav,verb: call
-ជិះ,,4,false,jis,verb: ride (bike / car)
-ផ្ញើ,,4,false,phner,verb: send
-ទទួល,,4,false,"ttul, tutul",verb: receive / accept
-អាន,,4,false,"arn, an",verb: read
-សិន,,5,true,sen sin,
-ជា,,4,false,jea,
-សរសេរ,,4,false,sorsey,verb: write
-សាក,,4,false,sark,
-ល្បង,,4,false,lbong lborng,
-លក់,,4,false,"louk, luk",verb: sell
-បង់,,4,false,bong,verb: pay
-ចាយ,,3,false,jay,verb: spend
-ជឿ,,4,false,jer,verb: believe
-សង្ឃឹម,,3,false,songkhrim,verb: hope
-ថើប,,3,false,therb,
-គូទ,,3,false,kut,
-វាយ​,,3,false,vai veay,
-ស្ដាយ,,3,false,sday,verb: regret / miss
-កុហក,,3,false,"kohork, khk",verb: lie / deceive
-កើត,,5,false,kert,verb: happen / be born / can
-ស្លាប់,,2,false,"slab, slap",verb: die
-ត្រឡប់,,3,false,trolob,verb: return / go back
-ធ្លាក់,,3,false,"tlek, tleak",verb: fall / drop can also mean fail in exam
-ខ្ពស់,,3,false,kpus,adjective: tall / high
-ទាប,,3,false,"teab, teap",adjective: low / short can also be a fruit
-វែង,,3,false,veng,adjective: long
-ខ្លី,,3,false,klei,adjective: short
-ចាស់,,3,false,jas,adjective: old
-ក្មេង,,3,false,kmeng,adjective: young
-ថ្លៃ,,4,false,tlai,adjective: expensive
-ថោក,,5,false,thoak,"adjective: cheap, it can also mean calling someone cheap"
-ពិត,,5,false,pit,adjective: true / real
-ធ្ងន់,,2,false,"tgnun, tgun",adjective: heavy
-ខ្ជិល,,5,true,"kjerl, kjel",adjective: lazy (common in chat)
-ស្អុយ,,2,false,"sgnuy, s'uy",adjective: smelly / stinks
-ងងឹត,,3,false,ngornget,adjective: dark
-ម្ហូប,,5,false,mhub,noun: food / dish
-សារ,,1,false,"sa, sar",noun: message / text
-ចម្រៀង,,4,false,jomreang,noun: song
-ហ្គេម,,1,true,game,noun: game (loanword)
-រូបភាព,,3,false,rub+pheap,noun: picture / photo normally we only say rub (រូប)
-ផ្លូវ,,4,false,plov,noun: road / street / way
-ប្រទេស,,4,false,"protes, ptes",noun: country
-ភាសា,,3,false,pheasa,noun: language
-ការងារ,,4,false,ka+ngea,noun: work / job
-ភ្លើង,,4,false,plerng,noun: fire / light / electricity
-តុ,,3,false,"tok, tuk","noun: table, this can aslo mean ទុក which means keep but can also mean ទុក្ខ which is sad"
-
-ទ្វារ,,3,false,tvea,noun: door
-កុំព្យូទ័រ,,4,false,computer,noun: computer
-ទៀត,,5,false,"tt, teat",grammar: again / more / another
-បន្តិច,,5,false,"bontech, buntich",grammar: a little / a moment
-ម្ដង,,4,false,"mdg, mdong",grammar: once / one time
-នៅតែ,,4,false,"nv+tae, nov+tae",grammar: still
-ប្រហែល,,4,false,"prohel, brohel",grammar: maybe / about / around
-ពិតជា,,4,false,pit+jea,grammar: really / indeed
-របស់,,4,false,robos bos rbos,grammar: of / belongs to
-គ្រប់គ្នា,,4,false,krob+knea,grammar: everyone
-ខ្លះ,,4,false,klas,grammar: some
-ភ្លាម,,3,false,pleam,grammar: immediately
-សុំ,,5,false,"som, sum",verb: please / may I / ask for
-អូខេ,,2,true,okay,chat: okay (loanword)
-មួយមួយ,,3,true,"mouy+mouy, muy+muy",meaning one by one
-គិតថា,,3,false,kit+tha,think
-ថា,,4,false,tha,
-រឿង,,4,false,"rg, rerng",
-បើ,,3,false,ber,
-ឈ្លោះ,,3,false,chlous,
-ដោយសារ,,3,false,doysa,
-ខ្សោយ,,3,false,ksoy,
-វិញ,,3,false,"vinh, venh",
-ដេញ,,4,false,denh,verb: chase / drive away (AI-suggested — verify)
-ធម្មតា,,4,false,"tmd, tomada",
-ព្យាយាម,,4,false,"pjeayeam, pyeayeam, pyayeam",verb: try / make effort (AI-suggested — verify)
-ទាន,,3,false,tean,
-ប្រៀប,,2,false,breab preap,
-ធៀប,,2,false,theab
-ដែល,,4,false,del,
-ងើប,,4,false,ngerb,
-រៀង,,3,true,reang,
-គ្រាន់,,5,false,kroun,
-ប្រាកដ,,3,false,"pkot, prakot",
-ស្បថ,,3,false,sbot,
-ម៉ង,,5,false,"mg, morng",
-មួយថ្ងៃ,,3,false,"mgnai, mouy+tgnai",
-អារម្មណ៍,,4,false,"ahrom, arom",
-ចិត្ត,,5,false,jit,
-ងងុយ,,4,false,nguy,
-គួរ,,5,false,kur,
-សុខភាព,,3,false,sok+pheap,
-សុខ,,5,false,sok,
-ឪ្យ,,5,false,"oy, ouy",
-ហា៎,,5,true,"ha, hah",
-អើយ,,3,true,ery,
-ឪពុក,,3,false,ovpuk,
-ម្ដាយ,,3,false,mday,
-ព្រះ,,3,false,preah,
-ការ,,5,false,"ka, kar",
-ក្នុង,,4,false,knong,
-ករណី,,2,false,"karnei, kanei",
-លើក,,1,false,lerk,
-លើកលែង,,2,false,lerk+lg,
-លើស,,5,false,lers,
-សោរ,,2,false,soa,
-របៀប,,2,false,"rbeab, robeab",
-របាយការណ៍,,1,false,robayka,
-ប្រាសាទ,,4,false,prasat,
-តប,,2,false,tob,
-ទាញ,,3,false,teanh,
-សូម,,3,false,"som, sum",
-ដើរលេង,,4,false,"der+lg, der+leng",
-ពិធី,,4,false,pithi,
-រៀល,,3,false,riel,
-ភ្លេង,,3,false,pleng,
-ទន្ទេញ,,3,false,tontenh ttenh,
-ជក់,,3,false,jouk juk,
-បែក,,3,false,bek,
-
-លំហាត់,,2,false,lomhat,
-រើស,,3,false,rers,
-ពេញ,,2,false,penh,
-ម៉ាប់,,3,true,"mab, map",
-មាន់,,2,false,morn,
-គោ,,2,false,ko,
-ឆ្កែ,,4,false,chkae,
-ឮ,,2,false,ler,
-បណ្ដាញ,,1,false,bondanh,
-ទីនេះ,,3,false,ti+nis,
-ផែនទី,,1,false,phaen+ti,
-ផែនដី,,1,false,"phaen+dey, phen+dey",
-ជីវវិទ្យា,,1,false,jivek+vijea,
-ភូមិវិទ្យា,,1,false,"phum+vijea, phum+vichea",
-ភាសាខ្មែរ,,1,false,pheasa+khmer,
-គណិតវិទ្យា,,1,false,"knit+vichea, knit+vijea",
-ប្រវត្តិវិទ្យា,,2,false,"provat+vichea, provath+vichea",
-សង្គម,,2,false,songkorm,
-វិទ្យាសាស្រ្ត,,2,false,"vicheasas, vijeasas",
-ភ័យ,,4,false,phei,
-គីមី,,2,false,kimi,
-គីមីវិទ្យា,,2,false,kimivichea,
-ពេទ្យ,,4,false,pet,
-ធ្មេញ,,1,false,tmenh,
-កង់,,2,false,korng,
-សង,,2,false,sorng,
-សង់,,1,false,sorng,
-ក្ដួយ,,1,false,"kdouy, kduy",
-ក្ដ,,1,false,kdor,
-ចុយ,,4,false,"jui, joy",
-ម៉ែ,,3,false,mae,mother
-រលាយ,,4,false,"roleay, ahleay",
-គុជ,,1,false,kuch,
-ចត,,1,false,jod,
-សិស្ស,,3,false,sers,
-ដោះ,,1,false,dos,
-ស្រាយ,,1,false,sray,
-ដោះស្រាយ,,2,false,dos+sray,
-ហេវ,,3,true,hev,
-នាគ,,4,true,neak,
-គឺ,,5,false,"kue, ker, keu, kir",
-ថង់,,1,false,thorng,
-បាត,,3,false,bad bat,
-ភ្លៀង,,3,false,"pleang, plieng",weather: rain (AI-suggested — verify)
-លក្ខណៈ,,3,false,"leakhenak"
-លក្ខខណ្ឌ,,3,false,"leakhan"
-លក្ខិណា,,3,false,"leakhena"
-កុល,,3,false,"kol"
-ចន្ទ,,3,false,"jan"
-អង្គារ,,3,false,"ongkea angkea"
-អង្គរ,,3,false,"angkor"
-ពុធ,,3,false,"puth put"
-ព្រហស្បតិ៍,,3,false,"prohors"
-សុក្រ,,3,false,sok,
-សៅរ៍,,3,false,sav sao,
-អាទិត្យ,,3,false,ahtit,
-សុវណ្ណ,,3,false,sovan,
-តេឡេ,,3,false,tele,
-ក្រាម,,3,false,kram,
-ដាលីន,,1,false,dalin,
-ហេង,,5,false,heng,
-ហេតុ,,3,false,het heth,
-វ៉ា,,4,false,va,
-សា,,4,false,sa,
-សយ,,3,false,soy,
-ម៉េង,,3,false,meng,
-តេ,,3,false,te,
-សន,,3,false, sorn son,
-បាល់,,3,false,ball,
-ថ្ម,,5,false,tmor,
-អង្វរ,,3,false,ongvor angvor vor,
-គីឡូ,,3,false,kilo,
-ប្រូ,,5,false,bro,
-សុីស,,5,false,sis,
-ចុយម្រាយ,,1,false,jm,
-បំផុត,,3,false,bomphot,
-ខួរ,,3,false,khur,
-រវល់,,5,false,"rvol, rovol",
-
-គំនិត,,4,false,komnit,
-រាង,,4,false,reang,
-រាងកាយ,,2,false,reang+kay,
-អន់,,5,false,orn,
-អប់រំ,,1,false,"obrom, obrum",
-ផ្តល់,,1,false,pdol,
-សិទ្ធិ,,1,false,"seth, sith",
-សេរីភាព,,2,false,sereipheap,
-កាត់,,4,false,kat,
-សក់,,3,false,sork,
-វិជ្ជា,,3,false,"vijea, vichea",
-យ៉ាងម៉េច,,3,false,"yang+mx, yang+mix, yang+mex",
-គេង,,3,false,"keng, kg",
-ចាប់,,3,false,"jap, jab",verb: catch / hold / start (AI-suggested — verify)
-បញ្ចប់,,1,false,"bonjob, banhchob, banchob",verb: finish / end (AI-suggested — verify)
-រស់,,1,false,rurs,
-សូម្បីតែ,,2,false,sombei+tae,
-ពិរោះ,,2,false,pirus,
-សំណាង,,2,false,somnang,
-ជួប,,2,false,"joub, jub, juob, juop",verb: meet (AI-suggested — verify)
-វិញ្ញាសារ,,2,false,vinheasa,
-ឆ្វេង,,2,false,chveng,
-ស្តាំ,,2,false,sdam,sdam
-លើ,,2,false,ler,
-ក្រោម,,2,false,krom kroum krorm,
-ក្រុម,,3,false,krom,
-ហ៊ុន,,3,false,hun,
-អើ,,3,true,er,
-អឿ,,1,true,er,
-ម្រាយ,,2,true,mray,
-អឺ,,4,true,er,
-ក្រោយ,,2,false,"kroy, krouy",time: after / later (AI-suggested — verify)
-ក្រៅ,,2,false,krav,
-រដ្ឋ,,2,false,roth,
-ត្រង់,,2,false,trong,
-ចរឹក,,3,false,"jrik, jarik",
-អូន,,5,false,"oun, o",family: younger one / darling (term of endearment)
-ច្រៀង,,4,false,jreang,
-បង្រៀន,,4,false,"bongrean, bong+rean",
-ជាតិ,,4,false,"jeat, cheat",
-គ្រូ,,5,false,kru,
-សូវ,,5,true,sov,
-គ្រប់,,5,false,krob,
-គ្រាប់,,2,false,"kroub, krob",
-ល្បី,,3,false, lbei labei,
-អា,,5,false,ah,
-
-បុក,,3,false,bok,
-ល្ហុង,,3,false,lbaeng,
-កំពុង,,3,false,"kompong, pg,pong",
-រដូវ,,5,true,rodov,
-ពង,,2,false,pong,
-អក្សរ,,3,false,ahsor arsor,
-ទា,,3,false,tea,
-កម្សាន្ត,,4,false,komsan,
-មាត់,,3,false,"mort, mouth",
-កំហុស,,3,false,"komhus",
-ឆ្គង,,3,false,"chkong",
-អរ,,3,false,or,
-
-ជាង,,3,false,jeang,
-ឬ,,4,false,or,
-
-ស្ទឹង,,2,false,sterng,
-សិស្សានុសិស្ស,,1,false,"sersa, nuk, sers",
-សិក្សា,,3,false,serksa,
-រៀប,,4,false,"reab, reap",
-រៀបចំ,,2,false,"reab, jom, reap",
-សម្ភារៈ,,2,false,somphearek,
-ថ្នាក់,,3,false,tnak,
-ទី,,2,false,ti,
-អប,,3,false,ob,
-សាទរ,,3,false,sator sato,
-ជីវិត,,3,false,jivit jvit,
-ចិញ្ចឹម,,3,false,jenhjem jem,
-ពន្យល់,,2,false,"ponyol, pyol",
-មេរៀន,,2,false,"merean, marean",
-គណិត,,2,false,knit,
-យ៉ាង,,2,false,yang,
-ច្បាស់,,3,false,"jbas, chbas",
-លាស់,,3,false,lors,
-ទាំង,,4,false,"teang, tang, taeng",
-ដំណើរ,,4,false,domner,
-
-សៀមរាប,,3,false,siemreap,
-ទស្សនា,,1,false,tursna,
-អង្គរវត្ត,,2,false,angkorwat,
-កាល,,5,false,kal,
-ពី,,5,false,pi,
-ហត់,,3,false,"hort, hot",
-ទុំ,,3,false,"tum, tom",
-ដុំ,,3,false,"dom, dum",
-ល្មម,,3,false,"lmom, lamom",
-ស្រោម,,3,false,sroum,
-ស្វែង,,3,false,sveng,
-ថ្នល់,,4,false,tnol,
-លិច,,3,false,lech,
-បង្កើត,,3,false,"pkert, bongkert",
-ដោយ,,5,false,doy,
-ភាព,,5,false,pheap,
-រីករាយ,,5,false,rikreay,
-ធ្លាប់,,5,false,tlob,
-បទ,,3,false,bot,
-បត,,3,false,bot,
-ជុំ,,3,false,"jom, jum",
-គ្នា,,5,false,knea,
-ដើម្បី,,5,false,"dermbei, dermbey",
-កំប្លែង,,2,true,komplaeng,
-កុមារ,,2,false,komar,
-រាល់,,5,false,rorl,
-ធុញ,,4,false,thunh,
-គេ,,5,false,ke,people: they / someone / people-in-general (AI-suggested — verify)
-ខ្លួន,,4,false,"kluon, klun",people: oneself / yourself (AI-suggested — verify)
-ឯង,,4,false,"eg, eng",
-
-លា,,4,false,lea,verb: say goodbye / leave (AI-suggested — verify)
-ចាប់ផ្ដើម,,4,false,"jappderm, jabpderm",verb: start / begin (AI-suggested — verify)
-សម្រេច,,4,false,somrach,verb: decide / achieve (AI-suggested — verify)
-ខ្ចី,,4,false,"kjey, kjei",verb: borrow / lend (AI-suggested — verify)
-ចែក,,4,false,jek,verb: share / divide (AI-suggested — verify)
-ត្រៀម,,3,false,tream,verb: prepare / get ready (AI-suggested — verify)
-ជ្រើស,,3,false,jrers,verb: choose / select (AI-suggested — verify)
-ភ្ញាក់,,4,false,"phneak, pnhak",verb: wake up (AI-suggested — verify)
-ខ្វល់,,4,true,"kvol, kvorl",verb: worry / care about (AI-suggested — verify)
-ខ្វះ,,4,false,"kvas, kvah",verb: lack / be short of (AI-suggested — verify)
-បោក,,4,true,"boak, bork",verb: cheat / trick / con (AI-suggested — verify)
-អផ្សុក,,4,true,"opsok, orphsok, ophsok",feeling: bored / lonely (AI-suggested — verify)
-ភ្ញាក់ផ្អើល,,3,false,"phneak, p'ael, p'erl",feeling: surprised / startled (AI-suggested — verify)
-ស្ងាត់,,3,false,"sngat, sgnat",adjective: quiet / silent (AI-suggested — verify)
-ស្ងោរ,,2,false,sgnoa sgoa,
-ស្ងោ,,2,false,sgnoa sgoa,
-ជ្រក់,,2,false,jruk,
-ក្ដាម,,2,false,kdam,
-ក្ដិច,,2,false, kdech,
-
-លឿន,,4,false,"lern, leurn",adjective: fast / quick (AI-suggested — verify)
-យឺត,,4,false,"yeut, yert",adjective: slow / late (AI-suggested — verify)
-ស្រស់,,3,false,sros,adjective: fresh (AI-suggested — verify)
-ក្រ,,3,false,"kror, kro",adjective: poor (AI-suggested — verify)
-មុន,,5,false,mun,time: before / earlier (AI-suggested — verify)
-ឆាប់,,4,false,chab,time: soon / quickly (AI-suggested — verify)
-យូរ,,4,false,"yu, you",time: long (duration) (AI-suggested — verify)
-ម្ដងទៀត,,4,false,"mdong, teat",adverb: again / once more (AI-suggested — verify)
-ពេលក្រោយ,,4,false,"pel, kroy",time: later / next time (AI-suggested — verify)
-បន្ទប់,,4,false,"bantub, bontub",place: room (AI-suggested — verify)
-ក្រុង,,4,false,krong,place: city / town (AI-suggested — verify)
-ស្រុក,,4,false,srok,place: district / homeland / countryside (AI-suggested — verify)
-ភូមិ,,3,false,phum,place: village (AI-suggested — verify)
-ធនាគារ,,3,false,"thoneakea, theanakea",place: bank (AI-suggested — verify)
-កន្លែង,,4,false,"kanleng, konleng",noun: place / spot (AI-suggested — verify)
-ខ្យល់,,4,false,"kjorl, kjol",nature: wind / air (AI-suggested — verify)
-ព្រះអាទិត្យ,,3,false,"preah, atit",nature: sun (AI-suggested — verify)
-ព្រះច័ន្ទ,,3,false,"preah, chan",nature: moon (AI-suggested — verify)
-សេដ,,3, false, sad,
-ចិន,,3,false,jen,
-
-ផ្កាយ,,3,false,"phkay, pkay",nature: star (AI-suggested — verify)
-ភ្នំ,,3,false,"phnum, phnom",nature: mountain / hill (AI-suggested — verify)
-សមុទ្រ,,3,false,"samot, samut",nature: sea / ocean (AI-suggested — verify)
-ទន្លេ,,3,false,tonle,nature: river (AI-suggested — verify)
-ហ្នឹង,,5,true,"ng, neung",chat: this / that (colloquial) (AI-suggested — verify)
-ម្លេះ,,4,true,"mles, mleh",chat: that much / so (colloquial) (AI-suggested — verify)
-សូន្យ,,3,false,"soun, son",number: zero (AI-suggested — verify)
-លាន,,3,false,lean,number: million (AI-suggested — verify)
+khmer,frequency,is_slang,romanizations,notes
+សួស្តី,2,false,"sursdey, sursdei",
+ជំរាបសួរ,2,false,"jomreabsur, jumreabsur, jumreapsur",
+លាហើយ,2,false,"lea+hz, lea+hx, lea+hy",
+អរគុណ,3,false,"orkun, orkon",
+សុំទោស,4,false,"somtos, sumtos",
+ភ្លេី,2,false,pler,
+រន្ធត់,1,false,"runthud, ronthud",
+អារ,5,true,ah,
+រន្ទះ,1,false,"runteas, teas",
+បាញ់,2,false,banh,
+បុរី,2,false,borey,
+បារី,2,false,barey,
+បារម្មណ៌,2,false,barom,
+ព្រួយ,2,false,prouy,
+បារម្ភ,2,false,barom,
+ធម្មជាតិ,3,false,"thoumjeat, thormjeat",
+សូរ,3,false,so,
+សូ,2,false,so,
+ប្រែ,5,false,"brae, prae",
+ប្រួល,5,false,"prul, brul",
+ស្នេហ៍,4,false,sne,
+ស្នេហា,4,false,sneha,
+សំឡេង,3,false,somleng,
+ចែ,3,false,jae,
+មាស,2,false,meas,
+ពៅ,2,false,pov,
+អំ,2,false,om,
+អ៊ុំ,1,false,oum,
+អុំ,1,false,oum,
+ទូក,2,false,tuk,
+ទូល,1,false,tul,
+ទួល,2,false,toul,
+លាយ,1,false,leay,
+ប្តូរ,3,false,pdo,
+ខ្សោះ,3,false,ksos,
+បាទ,3,false,"bart, bat",
+ចាស,3,false,"ja, jah",
+ទេ,5,false,"te, teh",
+ទំនេរ,4,false,"tomne, tne",
+ម៉េស,4,false,mes,
+ខ្ញុំ,5,false,"nh, knh, nhom, nhum",
+អ្នក,5,false,nek,
+គាត់,5,false,kort,
+វា,5,false,vea,
+យើង,4,false,"yg, yerng",
+ពួកគេ,3,false,"puk+ke, pouk+ke",
+នេះ,5,false,nis,
+នោះ,5,false,nus,
+អ្វី,5,false,avey,
+អី,5,true,ey,
+អ្នកណា,4,false,"nek+nah, nek+na",
+ឯណា,1,false,aena,
+ពេលណា,5,false,"pel+na, bel+na",
+ហេតុអ្វី,4,false,"het+ey, heth+avey, het+avey, heth+ey",
+ម៉េច,4,true,"mx, mex, mix",
+ប៉ុន្មាន,4,false,"punman, marn",
+ទៅ,5,false,"tv, tov",
+មក,5,false,"mk, mor, mok",
+ញ៉ាំ,5,false,nham,
+ផឹក,4,false,pherk,
+ដេក,4,false,dek,
+ដើរ,4,false,der,
+និយាយ,5,false,"niyey, yy",
+មើល,4,false,"merl, mer",
+ស្តាប់,4,false,sdap,
+ប្រេី,4,false,brer,
+ខាង,4,false,khang,
+ដឹង,5,false,"dg, derng",
+ចង់,5,false,"jg, jorng","if the jg is in the start or the middle of the sentence it will translate to ចង់ if at the end it will be ចឹង, there are more scenrios where this changes so make an option for user to select"
+អាច,4,false,ach,ach can also mean អាចម៍
+ធ្វើ,5,false,tver,
+មាន,5,false,mean,
+អាចម៍,3,false,ach,
+ប្រាប់,4,false,brab,
+ទិញ,4,false,"tenh, tinh",
+ស្រឡាញ់,4,false,"sl, srolanh",
+ចូលចិត្ត,4,false,jol+jit,
+ឃើញ,4,false,"kherng, khernh",
+យល់,4,false,yol,
+រៀន,4,false,rean,
+ធ្វើការ,4,false,"tver+ka, ther+ka",
+ជួយ,4,false,"juy, jouy",
+រង់ចាំ,2,false,rong+jam,
+ម្សៅ,2,false,msav,
+ស្រអាប់,1,false,sro'ab,
+ភ្លឺ,1,false,"plue, pler",
+ពិន,2,false,pin,
+ខ្មោច,2,false,kmouch,
+ប្រែត,3,false,preth,
+ក្រពើ,2,false,"kror, per",
+ពស់,2,false,pus,
+្ន្លកន្លាត,2,false,konlat,
+ពោះ,2,false,purs,
+ស្រមោច,2,false,sromouch,
+រុយ,2,false,ruy,
+ជីង,2,false,jing,
+ចក់,2,false,jok,
+ស្វា,2,false,sva,
+ក្របី,2,false,krohper,
+ទេវតា,2,false,tevada,
+ផ្លុំ,2,false,plom,
+ហោះ,2,false,hors,
+យន្ត,2,false,yun,
+ក្រដាស,2,false,krodas,
+ខ្នើយ,2,false,knery,
+ផួយ,2,false,phuy,
+ឪប,2,false,"orb, oub",
+គ្រែ,2,false,krae,
+កៅអី,2,false,"kav, ey, ei",
+ប៊ិច,2,false,bech,
+ពណ៌,2,false,por,
+ត្នោត,2,false,tnoat,
+ឈូក,2,false,chuk,
+រាយ,2,false,reay,
+ផ្តុំ,2,false,pdom,
+ចៀន,2,false,jean,
+ឆា,2,false,cha,
+ចំហុយ,2,false,jomhuy,
+ហុយ,2,false,huy,
+កែប,1,false,keb,
+កំពត,2,false,kompot,
+កំពង់សោម,2,false,"kompong, soam",
+ព្រះសីហនុ,2,false,"preah, sihaknouk",
+កោះកុង,2,false,"koh, kong",
+មណ្ឌលគីរី,2,false,mondolkiri,
+រតនគីរី,2,false,ratanakiri,
+ក្រចេះ,1,false,krorjes,
+កំពង់ស្ពឺ,1,false,"kompong, speu",
+កំពង់ធំ,1,false,"kompong, thom",
+ឆ្នាំង,1,false,chnang,
+បន្ទាយ,1,false,bonteay,
+ជ័យ,1,false,"chei, chey, jei, jey",
+ឧត្តរ,1,false,oudor,
+ស្វាយ,2,false,svay,
+តួ,2,false,tur,
+ជំនាន់,2,false,"jom, norn",
+សៀម,2,false,siem,
+ព្រលាន,2,false,prolean,
+ខ្លាញ់,2,false,klanh,
+ញុក,2,false,nhok,
+បញ្ហា,2,false,panha,
+គុណ,2,false,"kon, kun",
+សន្តិ,2,false,sonte,
+សង្គ្រាម,2,false,songkream,
+សម្បត្តិ,2,false,sombath,
+សម្បូរ,2,false,sombo,
+ម្ចូរ,2,false,mju,
+និទ្ទេស,2,false,nites,
+បាក់ឌុប,2,false,bacll,
+ឌីផ្លូម,2,false,diplome,
+កាំភ្លើង,2,false,"kam, plerng, k'plerng",
+យក្ស,2,false,yeak,
+ខណ្ឌ,2,false,khan,
+សង្កាត់,2,false,sangkat,
+ប៉ៃលិន,2,false,"pai, lin",
+ចាម,2,false,jam,
+ប្រមូល,2,false,"p'mol, prohmol, bromol",
+អ៊ីនធឺណិត,2,false,internet,
+ច្បាប់,2,false,"jbab, chbab",
+វិន័យ,2,false,viney,
+អវត្តមាន,2,false,avatamean,
+ស្ពាន,2,false,spean,
+គល់,2,false,kol,
+កល់,2,false,kol,
+លេខ,2,false,lek,
+បង្ហោះ,2,false,bonghors,
+ផុស,2,false,post,
+លីង,2,false,link,
+ទាត់,2,false,tort,
+បោះ,2,false,"bors, bos",
+វេលា,2,false,velea,
+រាំ,1,false,rorm,
+គក់,2,false,"kork, kouk",
+ងូត,2,false,"ngut, nguch",
+ចម្អិន,2,false,"jom, en",
+អឹម,2,false,em,
+អីយ៉ា,2,false,eya,
+ញញឹម,2,false,"nhor, nhem",
+យី,5,false,yi,
+ទើស,5,false,ters,
+កញ្ចក់,3,false,konjork,
+ខ្ពើម,2,false,kperm,
+ជាក់,2,false,jaek,
+ជេរ,2,false,"je, j",
+ខ្នាញ់,2,false,knanh,
+កាយ,2,false,kay,
+វិការ,1,false,vika,
+ទម្រង់,1,false,tomrong,
+ទំរង់,1,false,tomrong,
+ទម្ងន់,1,false,tomngun,
+ជូរ,2,false,ju,
+ផ្អែម,2,false,p'aem,
+ប្រៃ,2,false,prai,
+ល្វីង,2,false,lving,
+ចត់,3,false,jot,
+សាប,5,false,kpus,
+តម្លៃ,5,false,domlai,
+សមរម្យ,3,false,somrom,
+ស្រួយ,2,false,srouy,
+ស្រា,5,false,sra,
+អនាម័យ,2,false,ahnamai,
+បណ្តើរ,4,false,bonder,
+ក្បត់,3,false,kbot,
+ពិការ,3,false,"pik, ka",
+សន្លប់,3,false,"sonlob, sonlop",
+វ៉ៃ,3,false,vai,
+រហូត,3,false,"rohot, rhot",
+ផ្កា,3,false,pka,
+ខ្មាស់,3,false,kmas,
+ដាស់,4,false,das,
+ប្រយោគ,3,false,proyok,
+ប្រយ៉ុង,3,false,pyong,
+ប្រយ័ត្ន,3,false,pyat,
+ហតផត,3,false,"hot, pot",
+ងាយ,3,false,ngeay,
+ឡេ,2,false,"lay, le",
+ប៉ះ,4,false,pas,
+ពាល់,3,false,pol,
+ការពារ,3,false,karpea,
+ពារ,3,false,pea,
+មិញ,3,false,"minh, menh",
+ស្ទាប,2,false,"steab, steap",
+ស្ទាវ,5,false,steav,
+ខេត្ត,5,false,khet,
+ពូ,5,false,pu,
+មីង,5,false,ming,
+តា,4,false,ta,
+យាយ,3,false,yy,
+ផ្ទៃ,5,false,ptei,
+គាំង,5,false,keang,
+អាប់,3,false,"ap, ab, arb, arp",
+ថូ,3,false,tho,
+ថាស,3,false,thas,
+ចាក់,3,false,jak,
+ស្រះ,3,false,sras,
+រួម,5,false,"roum, rorm",
+រូម,2,false,rom,
+បឹង,2,false,berng,
+ជ្រោះ,2,false,jrus,
+ជ្រេញ,5,false,jrenh,
+សុិច,1,false,sex,
+ធីប,5,false,tip,
+ជូន,4,false,jun,
+តោះ,5,true,tos,
+ផ្នាល់,3,false,pnorl,
+ភ្នាល់,3,false,pnorl,
+ពរ,3,false,por,
+ហូប,5,false,hob,
+ក្ដី,5,false,kdei,
+ស្រមៃ,5,false,sromai,
+មី,5,false,mii,
+ស្រាត,3,false,srat,
+ក្រឡា,2,false,krola,
+កុលាប,2,false,kolab,
+ប្រាណ,2,false,"bran, pran",
+ហាត់,3,false,hat,
+ហ៊ាន,3,false,hean,
+លូក,2,false,luk,
+រឹង,4,false,rerng,
+សើម,3,false,serm,
+ស្ងួត,3,false,sgnout,
+បាស,3,false,bas,
+អាសុីត,3,false,acid,
+ប្រាំមួយ,3,false,pram+muy,
+ប្រាំពីរ,3,false,pram+pi,
+ប្រាំបី,3,false,pram+bei,
+ប្រាំបួន,3,false,pram+boun,
+ម្ភៃ,3,false,mphei,
+សាមសិប,2,false,samsib,
+សែសិប,2,false,saesib,
+ហាសិប,2,false,hasib,
+ហុកសិប,2,false,hoksib,
+ចិតសិប,2,false,jetsib,
+ប៉ែតសិប,2,false,"paetsib, paetsip",
+កៅសិប,2,false,"kaoseb, kaosib",
+ម្សិល,4,true,msel,
+ថ្ងៃស្អែក,5,false,tgnai+saek,
+ឥឡូវនេះ,5,false,eylov+nis,
+ភ្លែត,4,true,plet,
+បន្តិចទៀត,5,false,"bontech+teat, bontech, tt",
+ខមមិន,3,true,"comment, cmt",
+ឡាយ,3,true,live,
+ស៊ែរ,3,true,share,
+អ៊ិនបុក,1,true,inbox,
+បន្ទាប់ពី,4,false,bantorb+pi,
+មុនពេល,4,false,mun+pel,
+ពេលដែល,5,false,"pel+del, bel, dae",
+ដូច្នេះ,1,false,"dojneh, doj, jnes",
+ទោះបីជា,4,false,turs+bei+jea,
+ពិតប្រាកដ,4,false,pit+prakot,
+មែនទែន,5,true,men+ten,
+ច្បាស់ណាស់,4,false,jbas+nas,
+ភាគច្រើន,4,false,peak+jrern,
+ជាទូទៅ,3,false,jea+tu+tov,
+លើសពី,4,false,lers+pi,
+កណ្ដាល,4,false,kandal,
+ជុំវិញ,4,false,jom+vinh,
+ល្អ,3,false,loar,
+អាក្រក់,3,false,"akk, akkrok, akrok",
+ធំ,4,false,thom,
+តូច,4,false,"toch, tuch",
+ស្អាត,4,false,sart,
+ឆ្ងាញ់,3,false,chganh,
+ក្តៅ,4,false,kdav,
+ត្រជាក់,3,false,"trojek, tjeak",
+ថ្មី,4,false,tmey,
+ច្រើន,4,false,jrern,
+តិច,4,false,"tix, tic",
+ថ្ងៃនេះ,4,false,tgnai+nis,
+ម្សិលមិញ,3,false,msel+minh,
+ស្អែក,3,false,"saek, s'aek",
+ឥឡូវ,4,false,"eylov, eilov, lov, lv",
+ព្រឹក,4,false,prerk,
+យប់,4,false,yub,
+ទឹក,3,false,terk,
+បាយ,3,false,bay,
+ផ្ទះ,4,false,"pteas, teas",
+លុយ,4,false,luy,
+មនុស្ស,4,false,"mnus, monus",
+ទូរស័ព្ទ,3,false,"tusab, turasab",
+មិត្តភក្តិ,2,false,mit+pheak,
+គ្រួសារ,4,false,"krursa, kursa",
+ម៉ាក់,4,false,mak,
+ប៉ា,4,false,pa,
+ចឹង,4,true,"jg, jhg, jerng",
+ណា,3,true,"na, nah",
+អញ,3,true,anh,
+ហើយ,5,false,"hz, hx, hy",
+នៅ,5,false,"nv, nov",
+ក៏,4,false,kor,also
+តែ,4,false,tae,but
+ដែរ,4,true,dae,too
+មែន,5,false,men,Really?
+មួយ,3,false,"muy, mouy",number: one
+ពីរ,2,false,pi,number: two
+បី,2,false,bei,number: three
+បួន,2,false,boun,number: four
+ប្រាំ,2,false,"bram, pram",number: five
+ដប់,2,false,"dob, dop",number: ten
+រយ,2,false,"ruoy, roy",number: hundred
+ពាន់,2,false,"porn, poun",number: thousand
+បង,5,false,"bong, b",family: older sibling; also 'you' to someone older
+ប្អូន,5,false,p'o,family: younger sibling
+កូន,5,false,kon,family: child
+សង្សារ,5,true,"ss, songsa",family: boy/girlfriend (very common in chat)
+ប្ដី,4,false,"pdei, pdey",family: husband
+ប្រពន្ធ,4,false,ppun,family: wife
+ជីតា,1,false,jita,family: grandfather
+ជីដូន,1,false,jidon,family: grandmother
+មិត្ត,5,false,mit,people: friend
+លោក,3,false,lok,people: Mr / sir
+នាង,3,false,neang,people: she / Miss
+យក,5,false,"yor, yok",verb: take
+ដាក់,5,false,dak,verb: put
+សម្ដេច,3,false,somdach,
+សម្ដី,3,false,"somdei, somdey",
+សម្ដែង,3,false,somdaeng,
+សម្លាញ់,3,false,"somlanh, sml",
+បើក,5,false,berk,verb: open / drive / turn on
+បិទ,4,false,bit,verb: close / turn off
+លេង,5,false,"lg, leng",verb: play
+លែង,4,false,"lg, laeng, leng",
+គិត,5,false,kit,verb: think
+ចាំ,5,false,jam,verb: wait / remember (colloquial 'hold on')
+ភ្លេច,4,false,"plex, plech",verb: forget
+សួរ,5,false,sur,verb: ask
+ឆ្លើយ,1,false,chlery,verb: answer / reply we normally use ans
+ឲ្យ,4,false,"oy, ouy",verb: give / let (also written អោយ)
+ត្រូវ,3,false,"trov, trv",verb: must / correct / right
+ខុស,3,false,khos,adjective: wrong
+អស់,4,false,"ors, os",verb/adj: run out / finished / all gone
+បាន,5,false,ban,verb: get / can / did (very common helper word)
+រក,5,false,"rok, ror",verb: look for / find
+ស្គាល់,4,false,skol,verb: know (a person)
+ចេះ,4,false,jes,verb: know how to / can
+រត់,4,false,rut,verb: run
+ឈប់,4,false,chob,verb: stop
+អង្គុយ,1,false,ongkuy,verb: sit
+ចូល,5,false,jol,verb: enter / go in
+ចេញ,5,false,jenh,verb: exit / leave
+ឡើង,4,false,lerng,verb: go up / rise
+ចុះ,4,false,jos,verb: go down
+សើច,4,false,"serj, serch",verb: laugh
+យំ,3,false,"yum, yom",verb: cry
+សម្លាប់,2,false,somlab,
+ងាប់,3,false,"ngob, ngoub",
+ទូរ,3,false,tu,
+កក,2,false,kork,
+ក្រូច,2,false,kroch,
+ឆ្មា,2,false,chma,
+ជុះ,2,false,jus,
+ដូរ,3,false,do,
+ជួញ,3,false,jounh,
+កក់,1,false,kork,
+សប្បាយ,5,false,"sabay, sby",feeling: happy / fun
+ខឹង,4,true,khg,feeling: angry (common in chat)
+ស្រួល,3,false,srul,adjective: comfortable / easy
+ពិបាក,4,false,pibak,adjective: difficult
+ណាស់,5,false,nas,intensifier: very / a lot (very common)
+ខ្លាំង,3,false,"klang, klg",adverb: strongly / very / hard
+ស្អប់,3,false,"s'oab, soab",verb: hate
+ឆ្កួត,5,true,"chkut, chkout",adjective: crazy (slang)
+អស្ចារ្យ,3,false,"osja, orsja",adjective: amazing
+ខ្លាច,4,false,klach,verb: afraid / scared
+ឃ្លាន,4,false,klean,adjective: hungry
+ស្រេក,4,false,srek,adjective: thirsty
+នឿយ,1,false,nery,adjective: tired
+ថ្ងៃ,5,false,tgnai,time: day / sun
+ខែ,4,false,khae,time: month
+ឆ្នាំ,4,false,chnam,time: year
+ម៉ោង,5,false,"morng, mg",time: hour / o'clock / time
+នាទី,3,false,neati,time: minute
+ល្ងាច,4,false,lgeach,time: evening
+ពេល,5,false,pel,time: time / when / moment
+តែងតែ,4,false,taeng+tae,time: always / usually
+ឡាន,4,false,lan,object: car
+ម៉ូតូ,4,false,"moto, motor",object: motorbike
+សាលា,5,false,"sala, sla",place: school
+ផ្សារ,4,false,"psar, phsar",place: market
+ហាង,5,false,hang,place: shop / store
+កាហ្វេ,1,false,cafe,drink: coffee
+នំបុ័ង,3,false,nompang,food: bread
+សាច់,4,false,sach,food: meat
+ត្រី,4,false,"trei, trey",food: fish
+បន្លែ,3,false,bonlae,food: vegetable
+ថ្នាំ,4,false,tnam,object: medicine
+សៀវភៅ,3,false,"seav+phov, siv+phov",object: book
+អាវ,4,false,av,clothing: shirt
+ខោ,4,false,"khoa, khao",clothing: pants
+ភ្នែក,4,false,pnek,body: eye
+ដៃ,5,false,dai,body: hand / arm
+ជើង,4,false,jerng,body: leg / foot
+ក្បាល,4,false,kbal,body: head
+មុខ,5,false,"muk, mok",body: face; also 'front'
+បេះដូង,5,false,"besdong, bsd",body: heart
+ក្រហម,4,false,krohom,color: red
+ខៀវ,4,false,khiv,color: blue
+លឿង,1,false,lerng,color: yellow we don’t use this much because it can be confusing it can mean up
+បៃតង,1,false,beitorng,color: green
+ទះ,2,false,teas,
+ខ្មៅ,4,false,kmav,color: black
+ស,4,false,sor,color: white
+ជិត,4,false,jit,place: near
+ឆ្ងាយ,4,false,chgnay,place: far
+ខាងឆ្វេង,3,false,khang+chveng,direction: left
+ខាងស្ដាំ,3,false,khang+sdam,direction: right
+ខាងមុខ,3,false,"khang+muk, khang+mok",direction: front
+ខាងក្រោយ,3,false,"khang+kroy, khang+krouy",direction: behind
+អត់,5,true,"ot, ort",chat: no / not (very common colloquial)
+មិន,3,false,"men, min",grammar: not
+ស្អី,3,true,"scey, s'ey",chat: what (colloquial for អ្វី)
+ទាល់,2,false,torl,
+ជ្រូក,1,false,jruk,
+ដូច,3,false,doch,grammar: like / similar to
+ដូចគ្នា,5,true,doch+knea,chat: same / me too
+គ្រាន់តែ,4,false,kroun+tae,grammar: just / merely
+ជាមួយ,4,false,"jeamouy, jmuy, cheamouy, jeamuy, cheamuy",grammar: with / together
+តាម,4,false,tam,
+ដាន,3,false,dan,
+សម្រាប់,4,false,"somrab, somrap",grammar: for
+ព្រោះ,5,false,prus,grammar: because
+ស្រែក,5,false,sraek,
+ស្រែ,3,false,srae,
+ស្រី,3,false,"srey, srei",
+ដក,3,false,dork,
+បូក,3,false,bok,
+បូម,2,false,"bom, bum",
+ហូរ,3,false,ho,
+ហាម,3,false,ham,
+កុំ,3,false,kom,
+ចម្ការ,2,false,jomka,
+ចម្លង,3,false,"jlong, jomlong",
+ច្រឡំ,3,false,"jlom, jrolom",
+បន្ថែម,2,false,bonthaem,
+ជួល,3,false,"joul, jul",
+ក្ដៅ,5,false,kdav,
+រងារ,3,false,rongea,
+វ៉ាកង,3,false,vakong,
+វ៉ាក់សាំង,3,false,vaksang,
+ឈាន,3,false,chean,
+ចង,3,false,jong,
+ក,1,false,kor,
+ខ,1,false,khor,
+ខូច,3,false,khoch,
+ប្រុស,3,false,bros,
+បុរស,2,false,boros,
+ឌឺ,2,false,due,
+ដៀល,2,false,deal,
+សៀវ,2,false,seav,
+ភៅ,3,false,phov,
+ស្បែក,2,false,sbaek,
+នាឡិកា,2,false,nealika,
+ឋាន,2,false,than,
+សួគ៌,1,false,sur,
+នរក,3,false,noruk,
+មោទន,3,false,motanak,
+ដូង,2,false,dong,
+ឆែក,1,false,"check, chaek",
+កុក,2,false,kok,
+ឆ្លង,2,false,chlong,
+ថែម,2,false,thaem,
+ថែ,2,false,thae,
+ទាំ,2,false,torm,
+ប៉ុន្តែ,4,false,puntae,grammar: but (more formal than តែ) we usually say tae
+ទាំងអស់,4,false,"tang+os, teang+os",grammar: all / everything
+ម្នាក់,4,false,mnek,grammar: one person / alone
+ផ្សេង,5,false,pseng,
+សុី,5,false,c,
+រួច,4,false,rouch,grammar: already / finished / then
+ធាក់,5,false,thaek,
+ផង,5,true,"phg, pg",
+នឹង,5,false,"ng, nerng",grammar: will (future)
+ម៉ា,4,true,ma,
+លូវ,2,true,lov,
+បាត់,3,false,bat,verb: gone / lost / disappear
+ឈឺ,4,false,"chue, cheu",verb/adj: sick / hurt / in pain
+ដល់,4,false,dol,verb: arrive / reach / up to
+ហៅ,4,false,hav,verb: call
+ជិះ,4,false,jis,verb: ride (bike / car)
+ផ្ញើ,4,false,phner,verb: send
+ទទួល,4,false,"ttul, tutul",verb: receive / accept
+អាន,4,false,"arn, an",verb: read
+សិន,5,true,"sen, sin",
+ជា,4,false,jea,
+សរសេរ,4,false,sorsey,verb: write
+សាក,4,false,sark,
+ល្បង,4,false,"lbong, lborng",
+លក់,4,false,"louk, luk",verb: sell
+បង់,4,false,bong,verb: pay
+ចាយ,3,false,jay,verb: spend
+ជឿ,4,false,jer,verb: believe
+សង្ឃឹម,3,false,songkhrim,verb: hope
+ថើប,3,false,therb,
+គូទ,3,false,kut,
+វាយ​,3,false,"vai, veay",
+ស្ដាយ,3,false,sday,verb: regret / miss
+កុហក,3,false,"kohork, khk",verb: lie / deceive
+កើត,5,false,kert,verb: happen / be born / can
+ស្លាប់,2,false,"slab, slap",verb: die
+ត្រឡប់,3,false,trolob,verb: return / go back
+ធ្លាក់,3,false,"tlek, tleak",verb: fall / drop can also mean fail in exam
+ខ្ពស់,3,false,kpus,adjective: tall / high
+ទាប,3,false,"teab, teap",adjective: low / short can also be a fruit
+វែង,3,false,veng,adjective: long
+ខ្លី,3,false,klei,adjective: short
+ចាស់,3,false,jas,adjective: old
+ក្មេង,3,false,kmeng,adjective: young
+ថ្លៃ,4,false,tlai,adjective: expensive
+ថោក,5,false,thoak,"adjective: cheap, it can also mean calling someone cheap"
+ពិត,5,false,pit,adjective: true / real
+ធ្ងន់,2,false,"tgnun, tgun",adjective: heavy
+ខ្ជិល,5,true,"kjerl, kjel",adjective: lazy (common in chat)
+ស្អុយ,2,false,"sgnuy, s'uy",adjective: smelly / stinks
+ងងឹត,3,false,ngornget,adjective: dark
+ម្ហូប,5,false,mhub,noun: food / dish
+សារ,1,false,"sa, sar",noun: message / text
+ចម្រៀង,4,false,jomreang,noun: song
+ហ្គេម,1,true,game,noun: game (loanword)
+រូបភាព,3,false,rub+pheap,noun: picture / photo normally we only say rub (រូប)
+ផ្លូវ,4,false,plov,noun: road / street / way
+ប្រទេស,4,false,"protes, ptes",noun: country
+ភាសា,3,false,pheasa,noun: language
+ការងារ,4,false,ka+ngea,noun: work / job
+ភ្លើង,4,false,plerng,noun: fire / light / electricity
+តុ,3,false,"tok, tuk","noun: table, this can aslo mean ទុក which means keep but can also mean ទុក្ខ which is sad"
+ទ្វារ,3,false,tvea,noun: door
+កុំព្យូទ័រ,4,false,computer,noun: computer
+ទៀត,5,false,"tt, teat",grammar: again / more / another
+បន្តិច,5,false,"bontech, buntich",grammar: a little / a moment
+ម្ដង,4,false,"mdg, mdong",grammar: once / one time
+នៅតែ,4,false,"nv+tae, nov+tae",grammar: still
+ប្រហែល,4,false,"prohel, brohel",grammar: maybe / about / around
+ពិតជា,4,false,pit+jea,grammar: really / indeed
+របស់,4,false,"robos, bos, rbos",grammar: of / belongs to
+គ្រប់គ្នា,4,false,krob+knea,grammar: everyone
+ខ្លះ,4,false,klas,grammar: some
+ភ្លាម,3,false,pleam,grammar: immediately
+សុំ,5,false,"som, sum",verb: please / may I / ask for
+អូខេ,2,true,okay,chat: okay (loanword)
+មួយមួយ,3,true,"mouy+mouy, muy+muy",meaning one by one
+គិតថា,3,false,kit+tha,think
+ថា,4,false,tha,
+រឿង,4,false,"rg, rerng",
+បើ,3,false,ber,
+ឈ្លោះ,3,false,chlous,
+ដោយសារ,3,false,doysa,
+ខ្សោយ,3,false,ksoy,
+វិញ,3,false,"vinh, venh",
+ដេញ,4,false,denh,verb: chase / drive away (AI-suggested — verify)
+ធម្មតា,4,false,"tmd, tomada",
+ព្យាយាម,4,false,"pjeayeam, pyeayeam, pyayeam",verb: try / make effort (AI-suggested — verify)
+ទាន,3,false,tean,
+ប្រៀប,2,false,"breab, preap",
+ធៀប,2,false,theab,
+ដែល,4,false,del,
+ងើប,4,false,ngerb,
+រៀង,3,true,reang,
+គ្រាន់,5,false,kroun,
+ប្រាកដ,3,false,"pkot, prakot",
+ស្បថ,3,false,sbot,
+ម៉ង,5,false,"mg, morng",
+មួយថ្ងៃ,3,false,"mgnai, mouy+tgnai",
+អារម្មណ៍,4,false,"ahrom, arom",
+ចិត្ត,5,false,jit,
+ងងុយ,4,false,nguy,
+គួរ,5,false,kur,
+សុខភាព,3,false,sok+pheap,
+សុខ,5,false,sok,
+ឪ្យ,5,false,"oy, ouy",
+ហា៎,5,true,"ha, hah",
+អើយ,3,true,ery,
+ឪពុក,3,false,ovpuk,
+ម្ដាយ,3,false,mday,
+ព្រះ,3,false,preah,
+ការ,5,false,"ka, kar",
+ក្នុង,4,false,knong,
+ករណី,2,false,"karnei, kanei",
+លើក,1,false,lerk,
+លើកលែង,2,false,lerk+lg,
+លើស,5,false,lers,
+សោរ,2,false,soa,
+របៀប,2,false,"rbeab, robeab",
+របាយការណ៍,1,false,robayka,
+ប្រាសាទ,4,false,prasat,
+តប,2,false,tob,
+ទាញ,3,false,teanh,
+សូម,3,false,"som, sum",
+ដើរលេង,4,false,"der+lg, der+leng",
+ពិធី,4,false,pithi,
+រៀល,3,false,riel,
+ភ្លេង,3,false,pleng,
+ទន្ទេញ,3,false,"tontenh, ttenh",
+ជក់,3,false,"jouk, juk",
+បែក,3,false,bek,
+លំហាត់,2,false,lomhat,
+រើស,3,false,rers,
+ពេញ,2,false,penh,
+ម៉ាប់,3,true,"mab, map",
+មាន់,2,false,morn,
+គោ,2,false,ko,
+ឆ្កែ,4,false,chkae,
+ឮ,2,false,ler,
+បណ្ដាញ,1,false,bondanh,
+ទីនេះ,3,false,ti+nis,
+ផែនទី,1,false,phaen+ti,
+ផែនដី,1,false,"phaen+dey, phen+dey",
+ជីវវិទ្យា,1,false,jivek+vijea,
+ភូមិវិទ្យា,1,false,"phum+vijea, phum+vichea",
+ភាសាខ្មែរ,1,false,pheasa+khmer,
+គណិតវិទ្យា,1,false,"knit+vichea, knit+vijea",
+ប្រវត្តិវិទ្យា,2,false,"provat+vichea, provath+vichea",
+សង្គម,2,false,songkorm,
+វិទ្យាសាស្រ្ត,2,false,"vicheasas, vijeasas",
+ភ័យ,4,false,phei,
+គីមី,2,false,kimi,
+គីមីវិទ្យា,2,false,kimivichea,
+ពេទ្យ,4,false,pet,
+ធ្មេញ,1,false,tmenh,
+កង់,2,false,korng,
+សង,2,false,sorng,
+សង់,1,false,sorng,
+ក្ដួយ,1,false,"kdouy, kduy",
+ក្ដ,1,false,kdor,
+ចុយ,4,false,"jui, joy",
+ម៉ែ,3,false,mae,mother
+រលាយ,4,false,"roleay, ahleay",
+គុជ,1,false,kuch,
+ចត,1,false,jod,
+សិស្ស,3,false,sers,
+ដោះ,1,false,dos,
+ស្រាយ,1,false,sray,
+ដោះស្រាយ,2,false,dos+sray,
+ហេវ,3,true,hev,
+នាគ,4,true,neak,
+គឺ,5,false,"kue, ker, keu, kir",
+ថង់,1,false,thorng,
+បាត,3,false,"bad, bat",
+ភ្លៀង,3,false,"pleang, plieng",weather: rain (AI-suggested — verify)
+លក្ខណៈ,3,false,leakhenak,
+លក្ខខណ្ឌ,3,false,leakhan,
+លក្ខិណា,3,false,leakhena,
+កុល,3,false,kol,
+ចន្ទ,3,false,jan,
+អង្គារ,3,false,"ongkea, angkea",
+អង្គរ,3,false,angkor,
+ពុធ,3,false,"puth, put",
+ព្រហស្បតិ៍,3,false,prohors,
+សុក្រ,3,false,sok,
+សៅរ៍,3,false,"sav, sao",
+អាទិត្យ,3,false,ahtit,
+សុវណ្ណ,3,false,sovan,
+តេឡេ,3,false,tele,
+ក្រាម,3,false,kram,
+ដាលីន,1,false,dalin,
+ហេង,5,false,heng,
+ហេតុ,3,false,"het, heth",
+វ៉ា,4,false,va,
+សា,4,false,sa,
+សយ,3,false,soy,
+ម៉េង,3,false,meng,
+តេ,3,false,te,
+សន,3,false,"sorn, son",
+បាល់,3,false,ball,
+ថ្ម,5,false,tmor,
+អង្វរ,3,false,"ongvor, angvor, vor",
+គីឡូ,3,false,kilo,
+ប្រូ,5,false,bro,
+សុីស,5,false,sis,
+ចុយម្រាយ,1,false,jm,
+បំផុត,3,false,bomphot,
+ខួរ,3,false,khur,
+រវល់,5,false,"rvol, rovol",
+គំនិត,4,false,komnit,
+រាង,4,false,reang,
+រាងកាយ,2,false,reang+kay,
+អន់,5,false,orn,
+អប់រំ,1,false,"obrom, obrum",
+ផ្តល់,1,false,pdol,
+សិទ្ធិ,1,false,"seth, sith",
+សេរីភាព,2,false,sereipheap,
+កាត់,4,false,kat,
+សក់,3,false,sork,
+វិជ្ជា,3,false,"vijea, vichea",
+យ៉ាងម៉េច,3,false,"yang+mx, yang+mix, yang+mex",
+គេង,3,false,"keng, kg",
+ចាប់,3,false,"jap, jab",verb: catch / hold / start (AI-suggested — verify)
+បញ្ចប់,1,false,"bonjob, banhchob, banchob",verb: finish / end (AI-suggested — verify)
+រស់,1,false,rurs,
+សូម្បីតែ,2,false,sombei+tae,
+ពិរោះ,2,false,pirus,
+សំណាង,2,false,somnang,
+ជួប,2,false,"joub, jub, juob, juop",verb: meet (AI-suggested — verify)
+វិញ្ញាសារ,2,false,vinheasa,
+ឆ្វេង,2,false,chveng,
+ស្តាំ,2,false,sdam,sdam
+លើ,2,false,ler,
+ក្រោម,2,false,"krom, kroum, krorm",
+ក្រុម,3,false,krom,
+ហ៊ុន,3,false,hun,
+អើ,3,true,er,
+អឿ,1,true,er,
+ម្រាយ,2,true,mray,
+អឺ,4,true,er,
+ក្រោយ,2,false,"kroy, krouy",time: after / later (AI-suggested — verify)
+ក្រៅ,2,false,krav,
+រដ្ឋ,2,false,roth,
+ត្រង់,2,false,trong,
+ចរឹក,3,false,"jrik, jarik",
+អូន,5,false,"oun, o",family: younger one / darling (term of endearment)
+ច្រៀង,4,false,jreang,
+បង្រៀន,4,false,"bongrean, bong+rean",
+ជាតិ,4,false,"jeat, cheat",
+គ្រូ,5,false,kru,
+សូវ,5,true,sov,
+គ្រប់,5,false,krob,
+គ្រាប់,2,false,"kroub, krob",
+ល្បី,3,false,"lbei, labei",
+អា,5,false,ah,
+បុក,3,false,bok,
+ល្ហុង,3,false,lbaeng,
+កំពុង,3,false,"kompong, pg, pong",
+រដូវ,5,true,rodov,
+ពង,2,false,pong,
+អក្សរ,3,false,"ahsor, arsor",
+ទា,3,false,tea,
+កម្សាន្ត,4,false,komsan,
+មាត់,3,false,"mort, mouth",
+កំហុស,3,false,komhus,
+ឆ្គង,3,false,chkong,
+អរ,3,false,or,
+ជាង,3,false,jeang,
+ឬ,4,false,or,
+ស្ទឹង,2,false,sterng,
+សិស្សានុសិស្ស,1,false,"sersa, nuk, sers",
+សិក្សា,3,false,serksa,
+រៀប,4,false,"reab, reap",
+រៀបចំ,2,false,"reab, jom, reap",
+សម្ភារៈ,2,false,somphearek,
+ថ្នាក់,3,false,tnak,
+ទី,2,false,ti,
+អប,3,false,ob,
+សាទរ,3,false,"sator, sato",
+ជីវិត,3,false,"jivit, jvit",
+ចិញ្ចឹម,3,false,"jenhjem, jem",
+ពន្យល់,2,false,"ponyol, pyol",
+មេរៀន,2,false,"merean, marean",
+គណិត,2,false,knit,
+យ៉ាង,2,false,yang,
+ច្បាស់,3,false,"jbas, chbas",
+លាស់,3,false,lors,
+ទាំង,4,false,"teang, tang, taeng",
+ដំណើរ,4,false,domner,
+សៀមរាប,3,false,siemreap,
+ទស្សនា,1,false,tursna,
+អង្គរវត្ត,2,false,angkorwat,
+កាល,5,false,kal,
+ពី,5,false,pi,
+ហត់,3,false,"hort, hot",
+ទុំ,3,false,"tum, tom",
+ដុំ,3,false,"dom, dum",
+ល្មម,3,false,"lmom, lamom",
+ស្រោម,3,false,sroum,
+ស្វែង,3,false,sveng,
+ថ្នល់,4,false,tnol,
+លិច,3,false,lech,
+បង្កើត,3,false,"pkert, bongkert",
+ដោយ,5,false,doy,
+ភាព,5,false,pheap,
+រីករាយ,5,false,rikreay,
+ធ្លាប់,5,false,tlob,
+បទ,3,false,bot,
+បត,3,false,bot,
+ជុំ,3,false,"jom, jum",
+គ្នា,5,false,knea,
+ដើម្បី,5,false,"dermbei, dermbey",
+កំប្លែង,2,true,komplaeng,
+កុមារ,2,false,komar,
+រាល់,5,false,rorl,
+ធុញ,4,false,thunh,
+គេ,5,false,ke,people: they / someone / people-in-general (AI-suggested — verify)
+ខ្លួន,4,false,"kluon, klun",people: oneself / yourself (AI-suggested — verify)
+ឯង,4,false,"eg, eng",
+លា,4,false,lea,verb: say goodbye / leave (AI-suggested — verify)
+ចាប់ផ្ដើម,4,false,"jappderm, jabpderm",verb: start / begin (AI-suggested — verify)
+សម្រេច,4,false,somrach,verb: decide / achieve (AI-suggested — verify)
+ខ្ចី,4,false,"kjey, kjei",verb: borrow / lend (AI-suggested — verify)
+ចែក,4,false,jek,verb: share / divide (AI-suggested — verify)
+ត្រៀម,3,false,tream,verb: prepare / get ready (AI-suggested — verify)
+ជ្រើស,3,false,jrers,verb: choose / select (AI-suggested — verify)
+ភ្ញាក់,4,false,"phneak, pnhak",verb: wake up (AI-suggested — verify)
+ខ្វល់,4,true,"kvol, kvorl",verb: worry / care about (AI-suggested — verify)
+ខ្វះ,4,false,"kvas, kvah",verb: lack / be short of (AI-suggested — verify)
+បោក,4,true,"boak, bork",verb: cheat / trick / con (AI-suggested — verify)
+អផ្សុក,4,true,"opsok, orphsok, ophsok",feeling: bored / lonely (AI-suggested — verify)
+ភ្ញាក់ផ្អើល,3,false,"phneak, p'ael, p'erl",feeling: surprised / startled (AI-suggested — verify)
+ស្ងាត់,3,false,"sngat, sgnat",adjective: quiet / silent (AI-suggested — verify)
+ស្ងោរ,2,false,"sgnoa, sgoa",
+ស្ងោ,2,false,"sgnoa, sgoa",
+ជ្រក់,2,false,jruk,
+ក្ដាម,2,false,kdam,
+ក្ដិច,2,false,kdech,
+លឿន,4,false,"lern, leurn",adjective: fast / quick (AI-suggested — verify)
+យឺត,4,false,"yeut, yert",adjective: slow / late (AI-suggested — verify)
+ស្រស់,3,false,sros,adjective: fresh (AI-suggested — verify)
+ក្រ,3,false,"kror, kro",adjective: poor (AI-suggested — verify)
+មុន,5,false,mun,time: before / earlier (AI-suggested — verify)
+ឆាប់,4,false,chab,time: soon / quickly (AI-suggested — verify)
+យូរ,4,false,"yu, you",time: long (duration) (AI-suggested — verify)
+ម្ដងទៀត,4,false,"mdong, teat",adverb: again / once more (AI-suggested — verify)
+ពេលក្រោយ,4,false,"pel, kroy",time: later / next time (AI-suggested — verify)
+បន្ទប់,4,false,"bantub, bontub",place: room (AI-suggested — verify)
+ក្រុង,4,false,krong,place: city / town (AI-suggested — verify)
+ស្រុក,4,false,srok,place: district / homeland / countryside (AI-suggested — verify)
+ភូមិ,3,false,phum,place: village (AI-suggested — verify)
+ធនាគារ,3,false,"thoneakea, theanakea",place: bank (AI-suggested — verify)
+កន្លែង,4,false,"kanleng, konleng",noun: place / spot (AI-suggested — verify)
+ខ្យល់,4,false,"kjorl, kjol",nature: wind / air (AI-suggested — verify)
+ព្រះអាទិត្យ,3,false,"preah, atit",nature: sun (AI-suggested — verify)
+ព្រះច័ន្ទ,3,false,"preah, chan",nature: moon (AI-suggested — verify)
+សេដ,3,false,sad,
+ចិន,3,false,jen,
+ផ្កាយ,3,false,"phkay, pkay",nature: star (AI-suggested — verify)
+ភ្នំ,3,false,"phnum, phnom",nature: mountain / hill (AI-suggested — verify)
+សមុទ្រ,3,false,"samot, samut",nature: sea / ocean (AI-suggested — verify)
+ទន្លេ,3,false,tonle,nature: river (AI-suggested — verify)
+ហ្នឹង,5,true,"ng, neung",chat: this / that (colloquial) (AI-suggested — verify)
+ម្លេះ,4,true,"mles, mleh",chat: that much / so (colloquial) (AI-suggested — verify)
+សូន្យ,3,false,"soun, son",number: zero (AI-suggested — verify)
+លាន,3,false,lean,number: million (AI-suggested — verify)

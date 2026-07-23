@@ -5,7 +5,7 @@ from sing_khmer_engine.vocabulary import VocabEntry
 
 
 def _entry(khmer, roms, freq=5):
-    return VocabEntry(khmer=khmer, meaning="", frequency=freq,
+    return VocabEntry(khmer=khmer, frequency=freq,
                       is_slang=False, romanizations=tuple(roms))
 
 
