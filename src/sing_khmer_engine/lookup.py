@@ -35,6 +35,13 @@ _LEN_WEIGHT = 3.0        # reward for covering more characters with a real spell
 _UNKNOWN_PENALTY = 2.0   # cost per character left unmatched
 _WORD_COST = 6.0         # per-word cost so one whole word beats splitting it in two
 
+# Confidence gate: if a single run-together token can only be "matched" by chopping
+# it into pieces while leaving at least this fraction of its characters unmatched,
+# the match is almost certainly accidental gibberish — pass the token through as-is
+# (e.g. "javascript" stays "javascript" instead of becoming ចាសវ៉ា script). A genuine
+# Sing Khmer token (nhslbong) leaves zero characters unmatched, so it is never gated.
+_PASSTHROUGH_UNMATCHED = 0.34
+
 
 @dataclass(frozen=True)
 class Segment:
@@ -169,7 +176,26 @@ class Engine:
             paths.append(spans)
         return paths
 
+    def _low_confidence_tokens(self, lower: str, spans) -> list[tuple[int, int]]:
+        """Whitespace tokens whose best segmentation is mostly unmatched characters —
+        i.e. a real word the engine doesn't know, forced into gibberish. Such a token
+        is passed through as Latin instead of chopped up. A token matched by a spelling
+        that legitimately spans the space (a multi-word key) is never gated."""
+        forced: list[tuple[int, int]] = []
+        for m in re.finditer(r"\S+", lower):
+            ts, te = m.start(), m.end()
+            if any(j < te and i > ts and (j < ts or i > te) for j, i, key in spans):
+                continue                                  # a spelling crosses this token's edge
+            inside = [(j, i, key) for j, i, key in spans if ts <= j and i <= te]
+            unmatched = sum(i - j for j, i, key in inside if key is None)
+            matched = sum(1 for _j, _i, key in inside if key is not None)
+            if matched and unmatched and unmatched / (te - ts) >= _PASSTHROUGH_UNMATCHED:
+                forced.append((ts, te))
+        return forced
+
     def _spans_to_segments(self, text: str, spans, *, limit: int) -> list[Segment]:
+        spans = list(spans)
+        forced = self._low_confidence_tokens(text.lower(), spans)
         segments: list[Segment] = []
         raw_start: int | None = None
 
@@ -188,13 +214,23 @@ class Engine:
                 cands = tuple(self.convert(core, limit=limit))
                 segments.append(Segment(core, cands, lead, trail))
 
-        for j, i, key in spans:
+        idx = 0
+        while idx < len(spans):
+            j, i, key = spans[idx]
+            region = next((r for r in forced if r[0] <= j and i <= r[1]), None)
+            if region is not None:                       # low-confidence token -> passthrough
+                flush_raw(region[0])
+                segments.append(Segment(text[region[0]:region[1]], ()))
+                while idx < len(spans) and region[0] <= spans[idx][0] and spans[idx][1] <= region[1]:
+                    idx += 1
+                continue
             if key is None:
                 if raw_start is None:
                     raw_start = j
             else:
                 flush_raw(j)
                 segments.append(Segment(text[j:i], tuple(self.index[key][:limit])))
+            idx += 1
         flush_raw(len(text))
         return segments
 

@@ -97,3 +97,29 @@ def test_double_space_prevents_repetition_fold():
     """A deliberate real space (double space) keeps the two words separate — no ៗ."""
     eng = Engine()
     assert eng.convert_sentence_text("muy  muy") == "មួយ មួយ"
+
+
+def test_unknown_word_passes_through_instead_of_gibberish():
+    """A word the engine can only match by chopping into junk is left as Latin,
+    not turned into gibberish Khmer."""
+    eng = Engine()
+    for word in ("javascript", "helloworld", "programming"):
+        segs = eng.decode(word)
+        assert len(segs) == 1
+        assert not segs[0].matched          # passed through
+        assert segs[0].surface == word
+
+
+def test_confidence_gate_keeps_real_no_space_khmer():
+    """The gate must NOT fire on legitimate run-together Sing Khmer (0 unmatched)."""
+    eng = Engine()
+    assert eng.convert_sentence_text("nhslbong") == "ខ្ញុំស្រឡាញ់បង"
+
+
+def test_unknown_word_passes_through_in_a_sentence():
+    """An unknown word between known ones passes through; the rest still converts."""
+    eng = Engine()
+    segs = eng.decode("nh javascript sl")
+    assert any(s.surface == "javascript" and not s.matched for s in segs)
+    bests = [s.best for s in segs]
+    assert "ខ្ញុំ" in bests and "ស្រឡាញ់" in bests

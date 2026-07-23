@@ -92,8 +92,24 @@ function spans(lower){
   while (i > 0){ const [j, key] = back[i]; out.push([j, i, key]); i = j; }
   return out.reverse();
 }
+// Confidence gate: a token that only "matches" by leaving a big chunk unmatched is
+// gibberish (javascript -> ចាសវ៉ា script); pass it through as Latin instead.
+const PASSTHROUGH_UNMATCHED = 0.34;
+function lowConfidenceTokens(lower, sp){
+  const forced = [];
+  for (const m of lower.matchAll(/\S+/g)){
+    const ts = m.index, te = ts + m[0].length;
+    if (sp.some(([j, i]) => j < te && i > ts && (j < ts || i > te))) continue;
+    const inside = sp.filter(([j, i]) => ts <= j && i <= te);
+    const unmatched = inside.filter(([, , key]) => key === null).reduce((a, [j, i]) => a + (i - j), 0);
+    const matched = inside.filter(([, , key]) => key !== null).length;
+    if (matched && unmatched && unmatched / (te - ts) >= PASSTHROUGH_UNMATCHED) forced.push([ts, te]);
+  }
+  return forced;
+}
 function decodePart(text){
-  const lower = text.toLowerCase(), segs = []; let rawStart = null;
+  const lower = text.toLowerCase(), sp = spans(lower), forced = lowConfidenceTokens(lower, sp);
+  const segs = []; let rawStart = null;
   const flush = (end) => {
     if (rawStart === null) return;
     const chunk = text.slice(rawStart, end); rawStart = null;
@@ -103,9 +119,19 @@ function decodePart(text){
       segs.push({surface: core, candidates: fuzzy(core.toLowerCase()), lead: mm[1], trail: mm[3]});
     }
   };
-  for (const [j, i, key] of spans(lower)){
+  let idx = 0;
+  while (idx < sp.length){
+    const [j, i, key] = sp[idx];
+    const region = forced.find(r => r[0] <= j && i <= r[1]);
+    if (region){                                       // low-confidence token -> passthrough
+      flush(region[0]);
+      segs.push({surface: text.slice(region[0], region[1]), candidates: [], lead: '', trail: ''});
+      while (idx < sp.length && region[0] <= sp[idx][0] && sp[idx][1] <= region[1]) idx++;
+      continue;
+    }
     if (key === null){ if (rawStart === null) rawStart = j; }
     else { flush(j); segs.push({surface: text.slice(j, i), candidates: INDEX[key], lead: '', trail: ''}); }
+    idx++;
   }
   flush(text.length);
   return segs;
