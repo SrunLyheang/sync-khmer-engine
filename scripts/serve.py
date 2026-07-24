@@ -60,8 +60,8 @@ PAGE = r"""<!doctype html>
   .alt { display:inline-block; margin:.15rem .3rem .15rem 0; padding:.1rem .55rem;
          border:1px solid rgba(127,127,127,.5); border-radius:6px; cursor:pointer; font-size:1.4rem; }
   .alt.chosen { background:#2563eb; color:#fff; border-color:#2563eb; }
-  .alt.en-btn { font-size:.85rem; color:#888; }
-  .alt.en-opt { display:none; font-size:1.05rem; color:#666; }
+  .alt.en-show { font-size:1.05rem; font-style:italic; color:#555; border-style:dashed; }
+  .alt.en-show.chosen { color:#fff; }
   .hint { color:#888; font-size:.9rem; }
 </style></head><body>
 <h1>Sing Khmer — live tester</h1>
@@ -91,16 +91,17 @@ async function run(){
       const shown = (w.display != null && !(i in chosen)) ? w.display : w.candidates[ci].khmer;
       piece = w.lead + shown + w.trail;
       const note = { generated:' (auto)', fuzzy:' (~typo)' };
-      const tile = (c, ai, extra) =>
-        `<span class="alt khmer ${extra} ${(i in chosen ? ai===ci : w.display==null && ai===ci)?'chosen':''}"
-         data-w="${i}" data-a="${ai}" title="score ${c.score}${note[c.source]||''}">${c.khmer}</span>`;
-      // English original (if any) is the last option, hidden behind an "En" toggle.
-      const alts = w.candidates.map((c, ai) => c.source==='english' ? '' : tile(c, ai, '')).join('');
-      const engHtml = w.candidates.map((c, ai) => c.source==='english'
-        ? tile(c, ai, `en-opt e${i}`) : '').join('');
-      const enBtn = engHtml ? `<span class="alt en-btn" data-e="${i}" title="type it in English instead">En</span>` : '';
+      const chosenCls = (ai) => ((i in chosen ? ai===ci : w.display==null && ai===ci) ? 'chosen' : '');
+      // Khmer candidates first; the English original (if any) shows as a visible
+      // last option — pickable, but never the default (Khmer wins unless clicked).
+      const alts = w.candidates.map((c, ai) => c.source==='english' ? '' :
+        `<span class="alt khmer ${chosenCls(ai)}" data-w="${i}" data-a="${ai}"
+         title="score ${c.score}${note[c.source]||''}">${c.khmer}</span>`).join('');
+      const engTiles = w.candidates.map((c, ai) => c.source!=='english' ? '' :
+        `<span class="alt en-show ${(i in chosen && chosen[i]===ai)?'chosen':''}" data-w="${i}" data-a="${ai}"
+         title="type it in English instead">En: ${c.khmer}</span>`).join('');
       const rep = w.display != null ? ` <span class="hint">→ ${w.display} (repeat)</span>` : '';
-      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}${enBtn}${engHtml}${rep}</div>`;
+      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}${engTiles}${rep}</div>`;
     } else if (w.core){
       piece = `<span class="unknown">${w.token}</span>`;
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ <span class="unknown">no match</span></div>`;
@@ -123,12 +124,6 @@ async function run(){
       override = decodeURIComponent(el.dataset.r); run(); });
   } else { rdEl.innerHTML = ''; }
   bdEl.innerHTML = bd;
-  // "En" toggle reveals the hidden English option for that word.
-  bdEl.querySelectorAll('.en-btn').forEach(el => el.onclick = () => {
-    el.classList.toggle('chosen');
-    bdEl.querySelectorAll('.e' + el.dataset.e).forEach(o => o.style.display =
-      o.style.display === 'inline-block' ? 'none' : 'inline-block');
-  });
   bdEl.querySelectorAll('.alt[data-w]').forEach(el => el.onclick = () => {
     override = null; chosen[+el.dataset.w] = +el.dataset.a; run(); });
 }

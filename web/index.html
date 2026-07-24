@@ -23,8 +23,8 @@
          border: 1px solid rgba(127,127,127,.5); border-radius: 6px; cursor: pointer;
          font-size: 1.4rem; }
   .alt.chosen { background: #2563eb; color: #fff; border-color: #2563eb; }
-  .alt.en-btn { font-size: .85rem; color: #888; }
-  .alt.en-opt { display: none; font-size: 1.05rem; color: #666; }
+  .alt.en-show { font-size: 1.05rem; font-style: italic; color: #555; border-style: dashed; }
+  .alt.en-show.chosen { color: #fff; }
   .hint { color: #888; font-size: .9rem; }
 </style>
 </head>
@@ -193,14 +193,17 @@ function render(){
       const shown = (s.display != null && !(i in chosen)) ? s.display : s.candidates[ci][0];
       piece = s.lead + shown + s.trail;
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
-      const tile = (c, ai, extra) =>
-        `<span class="alt khmer ${extra} ${(i in chosen ? ai===ci : s.display==null && ai===ci)?'chosen':''}" `
-        + `data-w="${i}" data-a="${ai}" title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`;
-      const alts = s.candidates.map((c, ai) => c[2]==='english' ? '' : tile(c, ai, '')).join('');
-      const engHtml = s.candidates.map((c, ai) => c[2]==='english' ? tile(c, ai, `en-opt e${i}`) : '').join('');
-      const enBtn = engHtml ? `<span class="alt en-btn" data-e="${i}" title="type it in English instead">En</span>` : '';
+      const chosenCls = (ai) => ((i in chosen ? ai===ci : s.display==null && ai===ci) ? 'chosen' : '');
+      // Khmer candidates first; the English original (if any) shows as a visible
+      // last option — pickable, but never the default.
+      const alts = s.candidates.map((c, ai) => c[2]==='english' ? '' :
+        `<span class="alt khmer ${chosenCls(ai)}" data-w="${i}" data-a="${ai}" `
+        + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
+      const engTiles = s.candidates.map((c, ai) => c[2]!=='english' ? '' :
+        `<span class="alt en-show ${(i in chosen && chosen[i]===ai)?'chosen':''}" data-w="${i}" data-a="${ai}" `
+        + `title="type it in English instead">En: ${c[0]}</span>`).join('');
       const rep = s.display != null ? ` <span class="hint">→ ${s.display} (repeat)</span>` : '';
-      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${enBtn}${engHtml}${rep}</div>`;
+      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${engTiles}${rep}</div>`;
     } else {
       piece = `<span class="unknown">${s.lead}${s.surface}${s.trail}</span>`;
       if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
@@ -215,12 +218,6 @@ function render(){
   });
   outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
   bdEl.innerHTML = bd;
-  // "En" toggle reveals the hidden English option for that word.
-  bdEl.querySelectorAll('.en-btn').forEach(el => el.onclick = () => {
-    el.classList.toggle('chosen');
-    bdEl.querySelectorAll('.e' + el.dataset.e).forEach(o => o.style.display =
-      o.style.display === 'inline-block' ? 'none' : 'inline-block');
-  });
   bdEl.querySelectorAll('.alt[data-w]').forEach(el => el.onclick = () => {
     chosen[+el.dataset.w] = +el.dataset.a; render();
   });
