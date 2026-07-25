@@ -9,22 +9,22 @@ def _engine(entries):
 
 
 def test_exact_match_returns_word():
-    eng = _engine([VocabEntry("ខ្ញុំ", "", 5, False, ("nh", "knh"))])
+    eng = _engine([VocabEntry("ខ្ញុំ", 5, False, ("nh", "knh"))])
     assert [c.khmer for c in eng.convert("nh")] == ["ខ្ញុំ"]
 
 
 def test_input_is_case_and_space_insensitive():
-    eng = _engine([VocabEntry("ខ្ញុំ", "", 5, False, ("nh",))])
+    eng = _engine([VocabEntry("ខ្ញុំ", 5, False, ("nh",))])
     assert eng.convert("  NH ")[0].khmer == "ខ្ញុំ"
 
 
 def test_unknown_input_returns_empty():
-    eng = _engine([VocabEntry("ខ្ញុំ", "", 5, False, ("nh",))])
+    eng = _engine([VocabEntry("ខ្ញុំ", 5, False, ("nh",))])
     assert eng.convert("zzz") == []
 
 
 def test_limit_is_respected():
-    vocab = [VocabEntry(k, "", 5, False, ("x",)) for k in ("ក", "ខ", "គ", "ឃ")]
+    vocab = [VocabEntry(k, 5, False, ("x",)) for k in ("ក", "ខ", "គ", "ឃ")]
     assert len(_engine(vocab).convert("x", limit=2)) == 2
 
 
@@ -71,7 +71,82 @@ def test_readings_offers_compound_and_split():
 
 def test_decoder_passes_unknown_words_through():
     eng = Engine()
-    segs = eng.convert_sentence("nh zzzzq bong")
+    segs = eng.decode("nh zzzzq bong")
     bests = [s.best for s in segs]
     assert "ខ្ញុំ" in bests and "បង" in bests
     assert any(s.surface == "zzzzq" and not s.matched for s in segs)
+
+
+def test_double_space_commits_a_real_space():
+    """A single space is a word boundary (no space in Khmer); a double space
+    commits a real space between the two words."""
+    eng = Engine()
+    assert eng.convert_sentence_text("nh sl") == "ខ្ញុំស្រឡាញ់"       # single = joined
+    assert eng.convert_sentence_text("nh  sl") == "ខ្ញុំ ស្រឡាញ់"    # double = real space
+
+
+def test_repeated_word_folds_to_repetition_sign():
+    """Typing a word twice renders the second as ៗ (មួយ + ៗ), with the doubled
+    form (មួយមួយ) offered as an alternative reading."""
+    eng = Engine()
+    assert eng.convert_sentence_text("muy muy") == "មួយៗ"
+    assert "មួយមួយ" in eng.readings("muy muy")
+
+
+def test_double_space_prevents_repetition_fold():
+    """A deliberate real space (double space) keeps the two words separate — no ៗ."""
+    eng = Engine()
+    assert eng.convert_sentence_text("muy  muy") == "មួយ មួយ"
+
+
+def test_unknown_word_passes_through_instead_of_gibberish():
+    """A word the engine can only match by chopping into junk is left as Latin,
+    not turned into gibberish Khmer."""
+    eng = Engine()
+    for word in ("javascript", "helloworld", "programming"):
+        segs = eng.decode(word)
+        assert len(segs) == 1
+        assert not segs[0].matched          # passed through
+        assert segs[0].surface == word
+
+
+def test_confidence_gate_keeps_real_no_space_khmer():
+    """The gate must NOT fire on legitimate run-together Sing Khmer (0 unmatched)."""
+    eng = Engine()
+    assert eng.convert_sentence_text("nhslbong") == "ខ្ញុំស្រឡាញ់បង"
+
+
+def test_unknown_word_passes_through_in_a_sentence():
+    """An unknown word between known ones passes through; the rest still converts."""
+    eng = Engine()
+    segs = eng.decode("nh javascript sl")
+    assert any(s.surface == "javascript" and not s.matched for s in segs)
+    bests = [s.best for s in segs]
+    assert "ខ្ញុំ" in bests and "ស្រឡាញ់" in bests
+
+
+def test_english_word_passes_through():
+    """A common English word that isn't a Khmer spelling stays English."""
+    eng = Engine()
+    for word in ("javascript", "message", "ok"):
+        segs = eng.decode(word)
+        assert len(segs) == 1 and not segs[0].matched and segs[0].surface == word
+
+
+def test_english_offered_as_hidden_last_option_when_also_khmer():
+    """A word that is BOTH a Khmer spelling and English (computer) converts to Khmer,
+    with the English original appended as the last option — never auto-picked."""
+    eng = Engine()
+    seg = eng.decode("computer")[0]
+    assert seg.matched
+    assert seg.candidates[0].source != "english"                 # Khmer wins by default
+    assert seg.candidates[0].khmer == "កុំព្យូទ័រ"
+    assert seg.candidates[-1].source == "english"                # English is last
+    assert seg.candidates[-1].khmer == "computer"
+
+
+def test_english_detection_can_be_disabled():
+    """With English detection off, nothing gets the English last option."""
+    eng = Engine(use_english=False)
+    seg = eng.decode("computer")[0]
+    assert all(c.source != "english" for c in seg.candidates)

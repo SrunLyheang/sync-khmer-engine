@@ -45,19 +45,25 @@ HTML = r"""<!doctype html>
          border: 1px solid rgba(127,127,127,.5); border-radius: 6px; cursor: pointer;
          font-size: 1.4rem; }
   .alt.chosen { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .alt.en-show { font-size: 1.05rem; font-style: italic; color: #555; border-style: dashed; }
+  .alt.en-show.chosen { color: #fff; }
   .hint { color: #888; font-size: .9rem; }
 </style>
 </head>
 <body>
 <h1>Sing Khmer → Khmer converter</h1>
 <p class="hint">Type romanized Khmer — spaces optional. Try: <code>nh sl bong</code>,
-&nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>. Click a highlighted word to pick a
+&nbsp;<code>nhslbong</code>, &nbsp;<code>msel minh</code>, &nbsp;<code>muy muy</code> (→ ៗ).
+Single space = join; <b>double space = a real space</b>. Click a highlighted word to pick a
 different option.</p>
 <textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="output" class="khmer"></div>
 <div id="breakdown"></div>
 <script>
 const INDEX = __INDEX_JSON__;
+const KHMER_WORDS = new Set(__WORDS_JSON__);   // known standalone words (reduplication base)
+const ENGLISH = new Set(__ENGLISH_JSON__);     // common English words (code-switching)
+const REPEAT = "ៗ";                             // Khmer repetition sign
 const inEl = document.getElementById('in');
 const outEl = document.getElementById('output');
 const bdEl = document.getElementById('breakdown');
@@ -111,8 +117,26 @@ function spans(lower){
   while (i > 0){ const [j, key] = back[i]; out.push([j, i, key]); i = j; }
   return out.reverse();
 }
-function decode(text){
-  const lower = text.toLowerCase(), segs = []; let rawStart = null;
+// Confidence gate: a token that only "matches" by leaving a big chunk unmatched is
+// gibberish (javascript -> ចាសវ៉ា script); pass it through as Latin instead.
+const PASSTHROUGH_UNMATCHED = 0.34;
+function lowConfidenceTokens(lower, sp){
+  const forced = [];
+  for (const m of lower.matchAll(/\S+/g)){
+    const ts = m.index, te = ts + m[0].length;
+    if (sp.some(([j, i]) => j < te && i > ts && (j < ts || i > te))) continue;
+    const inside = sp.filter(([j, i]) => ts <= j && i <= te);
+    const strong = inside.length === 1 && inside[0][2] !== null && inside[0][0] === ts && inside[0][1] === te;
+    if (ENGLISH.has(lower.slice(ts, te)) && !strong){ forced.push([ts, te]); continue; }  // keep English
+    const unmatched = inside.filter(([, , key]) => key === null).reduce((a, [j, i]) => a + (i - j), 0);
+    const matched = inside.filter(([, , key]) => key !== null).length;
+    if (matched && unmatched && unmatched / (te - ts) >= PASSTHROUGH_UNMATCHED) forced.push([ts, te]);
+  }
+  return forced;
+}
+function decodePart(text){
+  const lower = text.toLowerCase(), sp = spans(lower), forced = lowConfidenceTokens(lower, sp);
+  const segs = []; let rawStart = null;
   const flush = (end) => {
     if (rawStart === null) return;
     const chunk = text.slice(rawStart, end); rawStart = null;
@@ -122,28 +146,86 @@ function decode(text){
       segs.push({surface: core, candidates: fuzzy(core.toLowerCase()), lead: mm[1], trail: mm[3]});
     }
   };
-  for (const [j, i, key] of spans(lower)){
+  let idx = 0;
+  while (idx < sp.length){
+    const [j, i, key] = sp[idx];
+    const region = forced.find(r => r[0] <= j && i <= r[1]);
+    if (region){                                       // low-confidence token -> passthrough
+      flush(region[0]);
+      segs.push({surface: text.slice(region[0], region[1]), candidates: [], lead: '', trail: ''});
+      while (idx < sp.length && region[0] <= sp[idx][0] && sp[idx][1] <= region[1]) idx++;
+      continue;
+    }
     if (key === null){ if (rawStart === null) rawStart = j; }
-    else { flush(j); segs.push({surface: text.slice(j, i), candidates: INDEX[key], lead: '', trail: ''}); }
+    else {
+      flush(j);
+      const surf = text.slice(j, i);
+      // A whole-token spelling that is also English gets the English original as the
+      // last option (hidden behind an "En" toggle; never auto-picked).
+      const boundary = (j === 0 || lower[j-1] === ' ') && (i === lower.length || lower[i] === ' ');
+      const cands = (boundary && ENGLISH.has(surf.toLowerCase()))
+        ? INDEX[key].concat([[surf, 0, 'english']]) : INDEX[key];
+      segs.push({surface: surf, candidates: cands, lead: '', trail: ''});
+    }
+    idx++;
   }
   flush(text.length);
   return segs;
 }
+// A word repeated twice folds to the ៗ sign; the doubled form stays as an option.
+function reduplicationBase(kh){
+  if (kh.length % 2 === 0){
+    const half = kh.slice(0, kh.length/2);
+    if (kh.slice(kh.length/2) === half && KHMER_WORDS.has(half)) return half;
+  }
+  return null;
+}
+function applyRepetition(segs){
+  let prev = null;
+  for (const s of segs){
+    const word = s.candidates.length ? s.candidates[0][0] : null;
+    const canFold = word !== null && s.display == null && !s.lead && !s.trail && !s.space;
+    const base = canFold ? reduplicationBase(word) : null;
+    if (canFold && base !== null){ s.display = base + REPEAT; prev = base; }
+    else if (canFold && word === prev){ s.display = REPEAT; prev = word; }
+    else { prev = word; }
+  }
+  return segs;
+}
+// Single space = word boundary; a run of 2+ spaces commits one real space.
+function decode(text){
+  const segs = [];
+  text.split(/ {2,}/).forEach((part, idx) => {
+    if (idx > 0) segs.push({surface: ' ', candidates: [], lead: '', trail: '', space: true});
+    if (part) for (const s of decodePart(part)) segs.push(s);
+  });
+  return applyRepetition(segs);
+}
 
 function render(){
   const segs = decode(inEl.value);
-  let out = '', bd = '', prevKhmer = false;
+  let out = '', bd = '', prevKhmer = false, attachNext = false;
   segs.forEach((s, i) => {
+    if (s.space){ if (out && !out.endsWith(' ')) out += ' '; prevKhmer = false; attachNext = true; return; }
     const isKhmer = s.candidates.length > 0;
     let piece;
     if (isKhmer){
       const ci = Math.min(chosen[i] || 0, s.candidates.length - 1);
-      piece = s.lead + s.candidates[ci][0] + s.trail;
+      // default rendering may be a ៗ override; a manual pick overrides it.
+      const shown = (s.display != null && !(i in chosen)) ? s.display : s.candidates[ci][0];
+      piece = s.lead + shown + s.trail;
       const note = { generated: ' (auto)', fuzzy: ' (~typo)' };
-      const alts = s.candidates.map((c, ai) =>
-        `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}" `
+      const chosenCls = (ai) => ((i in chosen ? ai===ci : s.display==null && ai===ci) ? 'chosen' : '');
+      // Khmer candidates first; the English original (if any) shows as a visible
+      // last option — pickable, but never the default.
+      const alts = s.candidates.map((c, ai) => c[2]==='english' ? '' :
+        `<span class="alt khmer ${chosenCls(ai)}" data-w="${i}" data-a="${ai}" `
         + `title="score ${c[1]}${note[c[2]]||''}">${c[0]}</span>`).join('');
-      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}</div>`;
+      const engTiles = s.candidates.map((c, ai) => c[2]!=='english' ? '' :
+        `<span class="alt en-show ${(i in chosen && chosen[i]===ai)?'chosen':''}" data-w="${i}" data-a="${ai}" `
+        + `title="type it in English instead">En: ${c[0]}</span>`).join('');
+      const rep = s.display != null ? ` <span class="hint">→ ${s.display} (repeat)</span>` : '';
+      bd += `<div class="wtile"><span class="latin">${s.surface}</span>→ ${alts}${engTiles}${rep}</div>`;
     } else {
       piece = `<span class="unknown">${s.lead}${s.surface}${s.trail}</span>`;
       if (s.surface.trim()) bd += `<div class="wtile"><span class="latin">${s.surface}</span>`
@@ -151,14 +233,14 @@ function render(){
     }
     // Khmer words run together; space only around non-Khmer, none before punctuation.
     const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(s.surface);
-    if (out === '') out = piece;
+    if (out === '' || attachNext) out += piece;
     else if (isPunct || (prevKhmer && isKhmer)) out += piece;
     else out += ' ' + piece;
-    prevKhmer = isKhmer;
+    prevKhmer = isKhmer; attachNext = false;
   });
   outEl.innerHTML = out.trim() || '<span class="hint">…</span>';
   bdEl.innerHTML = bd;
-  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
+  bdEl.querySelectorAll('.alt[data-w]').forEach(el => el.onclick = () => {
     chosen[+el.dataset.w] = +el.dataset.a; render();
   });
 }
@@ -174,9 +256,14 @@ def main() -> None:
     engine = Engine()
     index = {key: [[c.khmer, c.score, c.source] for c in cands]
              for key, cands in engine.index.items()}
+    words = sorted({entry.khmer for entry in engine.vocab})
+    english = sorted(engine._english)
     out_dir = ROOT / "web"
     out_dir.mkdir(exist_ok=True)
-    html = HTML.replace("__INDEX_JSON__", json.dumps(index, ensure_ascii=False))
+    html = (HTML
+            .replace("__INDEX_JSON__", json.dumps(index, ensure_ascii=False))
+            .replace("__WORDS_JSON__", json.dumps(words, ensure_ascii=False))
+            .replace("__ENGLISH_JSON__", json.dumps(english, ensure_ascii=False)))
     (out_dir / "index.html").write_text(html, encoding="utf-8")
     print(f"wrote web/index.html ({len(index)} spellings). Open it in a browser.")
 

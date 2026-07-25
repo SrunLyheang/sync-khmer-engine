@@ -60,11 +60,14 @@ PAGE = r"""<!doctype html>
   .alt { display:inline-block; margin:.15rem .3rem .15rem 0; padding:.1rem .55rem;
          border:1px solid rgba(127,127,127,.5); border-radius:6px; cursor:pointer; font-size:1.4rem; }
   .alt.chosen { background:#2563eb; color:#fff; border-color:#2563eb; }
+  .alt.en-show { font-size:1.05rem; font-style:italic; color:#555; border-style:dashed; }
+  .alt.en-show.chosen { color:#fff; }
   .hint { color:#888; font-size:.9rem; }
 </style></head><body>
 <h1>Sing Khmer — live tester</h1>
 <p class="hint">Uses the real engine. Edit <code>data/vocabulary.csv</code> in VS Code, then just
-refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>.</p>
+refresh this page — no rebuild needed. Try <code>nhslbong</code>, <code>bongrean</code>,
+<code>muy muy</code> (→ ៗ). Single space = join; <b>double space = a real space</b>.</p>
 <textarea id="in" rows="2" placeholder="Input your text" autofocus></textarea>
 <div id="out" class="khmer"></div>
 <div id="readings"></div>
@@ -77,28 +80,38 @@ async function run(){
   const q = inEl.value;
   const res = await fetch('/convert?q=' + encodeURIComponent(q));
   const data = await res.json();
-  let out = '', bd = '', prevKhmer = false;
+  let out = '', bd = '', prevKhmer = false, attachNext = false;
   data.words.forEach((w, i) => {
+    if (w.space){ if (out && !out.endsWith(' ')) out += ' '; prevKhmer = false; attachNext = true; return; }
     const isKhmer = w.candidates.length > 0;
     let piece;
     if (isKhmer){
       const ci = Math.min(chosen[i] || 0, w.candidates.length - 1);
-      piece = w.lead + w.candidates[ci].khmer + w.trail;
+      // default rendering may be an override (ៗ repetition); a manual pick wins over it.
+      const shown = (w.display != null && !(i in chosen)) ? w.display : w.candidates[ci].khmer;
+      piece = w.lead + shown + w.trail;
       const note = { generated:' (auto)', fuzzy:' (~typo)' };
-      const alts = w.candidates.map((c, ai) =>
-        `<span class="alt khmer ${ai===ci?'chosen':''}" data-w="${i}" data-a="${ai}"
+      const chosenCls = (ai) => ((i in chosen ? ai===ci : w.display==null && ai===ci) ? 'chosen' : '');
+      // Khmer candidates first; the English original (if any) shows as a visible
+      // last option — pickable, but never the default (Khmer wins unless clicked).
+      const alts = w.candidates.map((c, ai) => c.source==='english' ? '' :
+        `<span class="alt khmer ${chosenCls(ai)}" data-w="${i}" data-a="${ai}"
          title="score ${c.score}${note[c.source]||''}">${c.khmer}</span>`).join('');
-      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}</div>`;
+      const engTiles = w.candidates.map((c, ai) => c.source!=='english' ? '' :
+        `<span class="alt en-show ${(i in chosen && chosen[i]===ai)?'chosen':''}" data-w="${i}" data-a="${ai}"
+         title="type it in English instead">En: ${c.khmer}</span>`).join('');
+      const rep = w.display != null ? ` <span class="hint">→ ${w.display} (repeat)</span>` : '';
+      bd += `<div class="wtile"><span class="latin">${w.core}</span>→ ${alts}${engTiles}${rep}</div>`;
     } else if (w.core){
       piece = `<span class="unknown">${w.token}</span>`;
       bd += `<div class="wtile"><span class="latin">${w.core}</span>→ <span class="unknown">no match</span></div>`;
     } else { return; }
     // Khmer words run together; space only around non-Khmer, none before punctuation.
     const isPunct = !isKhmer && !/[\p{L}\p{N}]/u.test(w.core);
-    if (out === '') out = piece;
+    if (out === '' || attachNext) out += piece;
     else if (isPunct || (prevKhmer && isKhmer)) out += piece;
     else out += ' ' + piece;
-    prevKhmer = isKhmer;
+    prevKhmer = isKhmer; attachNext = false;
   });
   const readings = data.readings || [];
   outEl.innerHTML = (override !== null ? override : out.trim()) || '<span class="hint">…</span>';
@@ -111,7 +124,7 @@ async function run(){
       override = decodeURIComponent(el.dataset.r); run(); });
   } else { rdEl.innerHTML = ''; }
   bdEl.innerHTML = bd;
-  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
+  bdEl.querySelectorAll('.alt[data-w]').forEach(el => el.onclick = () => {
     override = null; chosen[+el.dataset.w] = +el.dataset.a; run(); });
 }
 inEl.addEventListener('input', () => { chosen = {}; override = null; clearTimeout(timer); timer = setTimeout(run, 120); });
@@ -142,6 +155,7 @@ class Handler(BaseHTTPRequestHandler):
                 words.append({
                     "token": f"{w.lead}{w.surface}{w.trail}", "core": w.surface,
                     "lead": w.lead, "trail": w.trail,
+                    "space": w.space, "display": w.display,
                     "candidates": [
                         {"khmer": c.khmer, "score": c.score, "source": c.source}
                         for c in w.candidates

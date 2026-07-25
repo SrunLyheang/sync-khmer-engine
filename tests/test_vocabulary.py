@@ -47,7 +47,7 @@ def test_romanizations_optional_column(tmp_path):
     """A file without the romanizations column still loads (empty romanizations)."""
     csv_path = tmp_path / "no_rom.csv"
     csv_path.write_text(
-        "khmer,meaning,frequency,is_slang,notes\nល្អ,good,5,false,\n",
+        "khmer,frequency,is_slang,notes\nល្អ,5,false,\n",
         encoding="utf-8",
     )
     entries = load(csv_path)
@@ -62,9 +62,9 @@ def _write_csv(path, rows):
 def test_rejects_duplicate_khmer(tmp_path):
     csv_path = _write_csv(
         tmp_path / "dup.csv",
-        "khmer,meaning,frequency,is_slang,notes\n"
-        "ល្អ,good,5,false,\n"
-        "ល្អ,good again,4,false,\n",
+        "khmer,frequency,is_slang,notes\n"
+        "ល្អ,5,false,\n"
+        "ល្អ,4,false,\n",
     )
     with pytest.raises(VocabularyError, match="duplicate"):
         load(csv_path)
@@ -73,8 +73,8 @@ def test_rejects_duplicate_khmer(tmp_path):
 def test_rejects_out_of_range_frequency(tmp_path):
     csv_path = _write_csv(
         tmp_path / "freq.csv",
-        "khmer,meaning,frequency,is_slang,notes\n"
-        "ល្អ,good,9,false,\n",
+        "khmer,frequency,is_slang,notes\n"
+        "ល្អ,9,false,\n",
     )
     with pytest.raises(VocabularyError, match="frequency"):
         load(csv_path)
@@ -83,8 +83,8 @@ def test_rejects_out_of_range_frequency(tmp_path):
 def test_rejects_bad_boolean(tmp_path):
     csv_path = _write_csv(
         tmp_path / "bool.csv",
-        "khmer,meaning,frequency,is_slang,notes\n"
-        "ល្អ,good,5,maybe,\n",
+        "khmer,frequency,is_slang,notes\n"
+        "ល្អ,5,maybe,\n",
     )
     with pytest.raises(VocabularyError, match="is_slang"):
         load(csv_path)
@@ -93,7 +93,7 @@ def test_rejects_bad_boolean(tmp_path):
 def test_rejects_missing_column(tmp_path):
     csv_path = _write_csv(
         tmp_path / "missing.csv",
-        "khmer,meaning,frequency\nល្អ,good,5\n",
+        "khmer,frequency\nល្អ,5\n",
     )
     with pytest.raises(VocabularyError, match="missing required column"):
         load(csv_path)
