@@ -74,6 +74,12 @@ matches ~48%** of the time, and most misses are one vowel off (a readable near-m
 expected: Sing Khmer is informal, so a fixed rule can't nail every personal choice. It's good
 enough to **propose** spellings for new words, which is exactly what `VERIFY_WORDS.md` is for.
 
+**But exact-match is the wrong yardstick.** Because there's no single correct spelling, what the
+engine actually optimizes is **recall** — *if a spelling weren't stored, would we still find the
+word?* The romanizer generates plausible *variants* of every word (not just one guess) and feeds
+them into the engine, which lifts recall from ~38% (fuzzy only) to **~79%**. See `STRATEGY.md` for
+the full picture and `scripts/recall.py` to measure it.
+
 ## Try it
 
 ```
