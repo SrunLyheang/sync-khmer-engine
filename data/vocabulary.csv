@@ -561,7 +561,7 @@ khmer,frequency,is_slang,romanizations,notes
 ផ្លូវ,4,false,"plov, phlov",noun: road / street / way
 ប្រទេស,4,false,"protes, ptes",noun: country
 ភាសា,3,false,pheasa,noun: language
-ការងារ,4,false,ka+ngea,noun: work / job
+ការងារ,4,false,"ka+ngea, karngea",noun: work / job
 ភ្លើង,4,false,plerng,noun: fire / light / electricity
 តុ,3,false,"tok, tuk","noun: table, this can aslo mean ទុក which means keep but can also mean ទុក្ខ which is sad"
 ទ្វារ,3,false,tvea,noun: door
@@ -874,3 +874,5 @@ khmer,frequency,is_slang,romanizations,notes
 ស្ករ,4,false,skor,
 ដំរី,3,false,domrey,
 ខ្ទឹម,3,false,"khterm, kheum",
+គុយទាវ,3,false,"kuyteav, kteav",
+ស្ពៃ,2,false,spei,

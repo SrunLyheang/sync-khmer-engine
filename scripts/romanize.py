@@ -194,9 +194,13 @@ def romanize(khmer: str, rules: dict[str, str]) -> str:
     kccs = segment(khmer)
     out: list[str] = []
     for i, kcc in enumerate(kccs):
-        is_last = i == len(kccs) - 1
-        if is_last and _is_bare_final(kcc):                       # 1. final reduction
-            out.append(_FINAL.get(kcc[0], _CONS.get(kcc[0], "")))
+        # A bare consonant that isn't word-initial closes a syllable (a coda), so it
+        # reduces and takes NO inherent vowel — medial យ in គុយទាវ is just "y".
+        if i > 0 and _is_bare_final(kcc):                         # 1. final/coda reduction
+            if kcc[0] == "រ" and i != len(kccs) - 1:
+                out.append("r")                                  # medial រ is kept (karngea)
+            else:                                                # word-final រ is silent
+                out.append(_FINAL.get(kcc[0], _CONS.get(kcc[0], "")))
         elif kcc in rules:                                        # 2. learned spelling
             out.append(rules[kcc])
         else:                                                     # 3. compositional
