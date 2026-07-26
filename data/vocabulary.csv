@@ -395,7 +395,7 @@ khmer,frequency,is_slang,romanizations,notes
 កក់,1,false,kork,
 សប្បាយ,5,false,"sabay, sby",feeling: happy / fun
 ខឹង,4,true,khg,feeling: angry (common in chat)
-ស្រួល,3,false,srul,adjective: comfortable / easy
+ស្រួល,3,false,"srul, sruol",adjective: comfortable / easy
 ពិបាក,4,false,pibak,adjective: difficult
 ណាស់,5,false,nas,intensifier: very / a lot (very common)
 ខ្លាំង,3,false,"klang, klg",adverb: strongly / very / hard
@@ -558,7 +558,7 @@ khmer,frequency,is_slang,romanizations,notes
 ចម្រៀង,4,false,jomreang,noun: song
 ហ្គេម,1,true,game,noun: game (loanword)
 រូបភាព,3,false,rub+pheap,noun: picture / photo normally we only say rub (រូប)
-ផ្លូវ,4,false,plov,noun: road / street / way
+ផ្លូវ,4,false,"plov, phlov",noun: road / street / way
 ប្រទេស,4,false,"protes, ptes",noun: country
 ភាសា,3,false,pheasa,noun: language
 ការងារ,4,false,ka+ngea,noun: work / job
@@ -868,3 +868,9 @@ khmer,frequency,is_slang,romanizations,notes
 ម្លេះ,4,true,"mles, mleh",chat: that much / so (colloquial) (AI-suggested — verify)
 សូន្យ,3,false,"soun, son",number: zero (AI-suggested — verify)
 លាន,3,false,lean,number: million (AI-suggested — verify)
+ខ្លា,3,false,"khla, kla",
+ចៀម,2,false,jeam,
+ស្លឹក,3,false,slerk,
+ស្ករ,4,false,skor,
+ដំរី,3,false,domrey,
+ខ្ទឹម,3,false,"khterm, kheum",

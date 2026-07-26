@@ -70,7 +70,7 @@ interchangeable pairs:
 
 Running the rule *backwards* on the words already in the database — regenerate each word's
 spelling and check it against what people actually typed — the single best guess **exactly
-matches ~46%** of the time, and most misses are one vowel off (a readable near-miss). That's
+matches ~48%** of the time, and most misses are one vowel off (a readable near-miss). That's
 expected: Sing Khmer is informal, so a fixed rule can't nail every personal choice. It's good
 enough to **propose** spellings for new words, which is exactly what `VERIFY_WORDS.md` is for.
 

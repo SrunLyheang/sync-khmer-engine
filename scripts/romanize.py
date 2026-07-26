@@ -55,10 +55,11 @@ _CONS = {
 }
 
 # Dependent vowel -> (a-series reading, o-series reading). "" is the inherent vowel.
+# Calibrated against user corrections (បិទ->bit, ស្លឹក->slerk, ដំរី->domrey, ចៀម->jeam).
 _VOW = {
-    "": ("o", "o"), "ា": ("a", "ea"), "ិ": ("e", "i"), "ី": ("ey", "i"),
-    "ឹ": ("eu", "eu"), "ឺ": ("eu", "eu"), "ុ": ("o", "u"), "ូ": ("o", "u"),
-    "ួ": ("uo", "uo"), "ើ": ("er", "er"), "ឿ": ("oe", "oe"), "ៀ": ("ie", "ie"),
+    "": ("o", "o"), "ា": ("a", "ea"), "ិ": ("i", "i"), "ី": ("ey", "ey"),
+    "ឹ": ("er", "er"), "ឺ": ("eu", "eu"), "ុ": ("o", "u"), "ូ": ("o", "u"),
+    "ួ": ("uo", "uo"), "ើ": ("er", "er"), "ឿ": ("oe", "oe"), "ៀ": ("ea", "ea"),
     "េ": ("e", "e"), "ែ": ("ae", "ea"), "ៃ": ("ai", "ey"), "ោ": ("ao", "ou"),
     "ៅ": ("ov", "ov"), "ុំ": ("om", "um"), "ំ": ("om", "um"), "ាំ": ("am", "oam"),
     "ះ": ("h", "h"),
