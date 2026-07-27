@@ -147,6 +147,14 @@ class Romanizer:
 
     def __init__(self, vocab: list[VocabEntry]) -> None:
         self.rules = self._build_rules(vocab)
+        # For compound splitting: the set of known Khmer words, and each word's
+        # collected single-word spellings (so a compound is built from verified parts).
+        self._words = {e.khmer for e in vocab}
+        self._roms: dict[str, list[str]] = {}
+        for e in vocab:
+            singles = [r for r in e.romanizations if " " not in r]
+            if singles:
+                self._roms[e.khmer] = singles
 
     @staticmethod
     def _build_rules(vocab: list[VocabEntry]) -> dict[str, str]:
@@ -225,8 +233,42 @@ class Romanizer:
         seen: set[str] = set()
         return [o for o in opts if not (o in seen or seen.add(o))][:3]
 
+    def split_compound(self, khmer: str) -> list[str] | None:
+        """Split a 3+-syllable word into known DB words (fewest parts), else None.
+
+        Khmer compounds are known words joined — ពាក់កណ្ដាល = ពាក់ + កណ្ដាល — so a compound's
+        spelling is best built from its parts' verified spellings, not guessed syllable by
+        syllable."""
+        kccs = segment(khmer)
+        n = len(kccs)
+        if n < 3:
+            return None
+        dp: list[list[str] | None] = [None] * (n + 1)
+        dp[0] = []
+        for i in range(1, n + 1):
+            for j in range(i):
+                if dp[j] is None:
+                    continue
+                sub = "".join(kccs[j:i])
+                if sub in self._words:
+                    cand = dp[j] + [sub]
+                    if dp[i] is None or len(cand) < len(dp[i]):
+                        dp[i] = cand
+        parts = dp[n]
+        return parts if parts and len(parts) >= 2 else None
+
+    def _part_spellings(self, part: str) -> list[str]:
+        """A part's verified spellings (or a syllable guess if it has none)."""
+        return list(self._roms.get(part, []))[:2] or [self._romanize_syllables(part)]
+
     def romanize(self, khmer: str) -> str:
         """The single best-guess Sing Khmer spelling."""
+        parts = self.split_compound(khmer)
+        if parts:                                        # build from verified parts
+            return "".join(self._part_spellings(p)[0] for p in parts)
+        return self._romanize_syllables(khmer)
+
+    def _romanize_syllables(self, khmer: str) -> str:
         kccs = segment(khmer)
         out: list[str] = []
         for i, kcc in enumerate(kccs):
@@ -265,11 +307,18 @@ class Romanizer:
         kccs = segment(khmer)
         if not kccs:
             return []
+        parts = self.split_compound(khmer)
         results = [""]
-        for i in range(len(kccs)):
-            results = [r + o for r in results for o in self._options(kccs, i)]
-            if len(results) > 40:                        # bound combinatorial blow-up
-                results = results[:40]
+        if parts:                                        # join verified parts' spellings
+            for p in parts:
+                results = [r + o for r in results for o in self._part_spellings(p)]
+                if len(results) > 40:
+                    results = results[:40]
+        else:                                            # syllable-by-syllable
+            for i in range(len(kccs)):
+                results = [r + o for r in results for o in self._options(kccs, i)]
+                if len(results) > 40:                    # bound combinatorial blow-up
+                    results = results[:40]
         primary = self.romanize(khmer)
         ordered = [primary] + [r for r in results if r != primary]
         ordered += [rs for s in ordered for rs in self._respellings(s)]  # widen
