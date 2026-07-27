@@ -17,8 +17,8 @@ from dataclasses import dataclass, replace
 
 from .english import load_english
 from .fuzzy import levenshtein, within
-from .phonetic_rules import build_rules
 from .reverse_index import Candidate, build_index
+from .romanizer import Romanizer
 from .vocabulary import VocabEntry, load
 
 # Splits a whitespace token into (leading punctuation, core spelling, trailing punctuation).
@@ -92,8 +92,13 @@ class Engine:
         use_english: bool = True,
     ) -> None:
         self.vocab = vocab if vocab is not None else load()
-        self.rules = build_rules(self.vocab)
-        self.index = build_index(self.vocab, self.rules if use_generated else None)
+        # The romanizer generates plausible spelling variants so a reasonable spelling
+        # nobody has typed yet still matches (coverage for the "everyone spells it
+        # differently" reality). Variants are scored below collected spellings.
+        self.romanizer = Romanizer(self.vocab)
+        self.index = build_index(
+            self.vocab, self.romanizer.variants if use_generated else None
+        )
         self._max_key_len = max((len(k) for k in self.index), default=1)
         # Known Khmer words, used to spot a reduplication (W+W -> W ៗ).
         self._khmer_words = {entry.khmer for entry in self.vocab}
