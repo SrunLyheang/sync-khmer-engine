@@ -88,6 +88,25 @@ def _is_bare_final(kcc: str) -> bool:
     )
 
 
+def _is_closed_cluster(kcc: str) -> bool:
+    """A consonant CLUSTER (has a subscript) with no vowel — e.g. ព្យ, ង្ស, ទ្ធ. As a
+    word-final syllable it is pronounced as just its base consonant (ទ្រព្យ -> trorp, not
+    tropyo), so it reduces like a bare final instead of taking an inherent vowel."""
+    return (
+        any(ord(c) == _COENG for c in kcc)
+        and not any(0x17B6 <= ord(c) <= 0x17C5 for c in kcc)
+        and not any(c in _INDEP for c in kcc)
+    )
+
+
+def _final_reduce(kcc: str) -> str:
+    """Reduced reading of a word-final consonant syllable: its base consonant, no vowel."""
+    for c in kcc:
+        if _is_cons(c):
+            return _FINAL.get(c, _CONS.get(c, ""))
+    return ""
+
+
 def _compose(kcc: str, force_series: int | None = None) -> str:
     """Build a syllable's spelling from the consonant + vowel tables (layer 3)."""
     chars = list(kcc)
@@ -196,6 +215,8 @@ class Romanizer:
         is_last = i == len(kccs) - 1
         if i > 0 and _is_bare_final(kcc):
             return self._coda(kcc, is_last)
+        if is_last and _is_closed_cluster(kcc):          # final cluster -> reduce
+            return [_final_reduce(kcc)]
         opts: list[str] = []
         if kcc in self.rules:
             opts.append(self.rules[kcc])
@@ -214,6 +235,8 @@ class Romanizer:
                     out.append("r")                      # medial រ kept
                 else:
                     out.append(_FINAL.get(kcc[0], _CONS.get(kcc[0], "")))
+            elif i == len(kccs) - 1 and _is_closed_cluster(kcc):
+                out.append(_final_reduce(kcc))           # final cluster -> base consonant
             elif kcc in self.rules:
                 out.append(self.rules[kcc])
             else:
