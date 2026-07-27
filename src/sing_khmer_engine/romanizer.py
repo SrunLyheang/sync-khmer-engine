@@ -68,7 +68,13 @@ _FINAL = {
 
 _TRUST = 0.7          # keep a learned spelling only with direct or >=2x aligned support
 _ALIGN_WEIGHT = 0.35
-_MAX_VARIANTS = 6     # cap on generated variants per word
+_MAX_VARIANTS = 8     # cap on generated variants per word
+
+# Common ways people re-spell the same sound (learned from verification batches), applied
+# on top of the per-syllable options to widen coverage: aspiration is often dropped
+# (phnaek/pnaek, phdol/pdol), ិ wavers e<->i (kech/kich), a coda "o" is often "or"
+# (bonto/bontor). Each is tried once per candidate; results are scored low and capped.
+_SUBSTITUTIONS = (("ph", "p"), ("th", "t"), ("kh", "k"))
 
 
 def _is_cons(ch: str) -> bool:
@@ -214,6 +220,23 @@ class Romanizer:
                 out.append(_compose(kcc))
         return "".join(out)
 
+    @staticmethod
+    def _respellings(word: str) -> list[str]:
+        """One-step re-spellings of a candidate (drop aspiration, e<->i, coda o<->or)."""
+        out: list[str] = []
+        for a, b in _SUBSTITUTIONS:
+            if a in word:
+                out.append(word.replace(a, b))
+        if "e" in word:
+            out.append(word.replace("e", "i", 1))
+        if "i" in word:
+            out.append(word.replace("i", "e", 1))
+        if word.endswith("or"):
+            out.append(word[:-1])                        # ...or -> ...o
+        elif word.endswith("o"):
+            out.append(word + "r")                       # ...o  -> ...or
+        return out
+
     def variants(self, khmer: str, cap: int = _MAX_VARIANTS) -> list[str]:
         """A small set of plausible spellings (best first), for the generated layer."""
         kccs = segment(khmer)
@@ -226,6 +249,7 @@ class Romanizer:
                 results = results[:40]
         primary = self.romanize(khmer)
         ordered = [primary] + [r for r in results if r != primary]
+        ordered += [rs for s in ordered for rs in self._respellings(s)]  # widen
         seen: set[str] = set()
         out: list[str] = []
         for s in ordered:
