@@ -7,12 +7,12 @@
 <style>
   :root{
     --bg:#f6f8f7; --card:#fff; --ink:#15201d; --muted:#5d6f68; --line:#e0e8e4;
-    --accent:#0f766e; --accent-ink:#0b5a54; --accent-soft:#d8ece7;
+    --accent:#0f766e; --accent-soft:#d8ece7;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark){
     :root{ --bg:#0e1513; --card:#151e1b; --ink:#e8efec; --muted:#93a49d; --line:#243230;
-           --accent:#57c9bd; --accent-ink:#7fdacf; --accent-soft:#173029; }
+           --accent:#57c9bd; --accent-soft:#173029; }
   }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body{ margin:0; background:var(--bg); color:var(--ink); line-height:1.5;
@@ -27,10 +27,11 @@
             font-size:1.15rem; padding:.2rem; outline:none; font-family:inherit; }
   textarea::placeholder{ color:var(--muted); }
   .hint{ color:var(--muted); font-size:.82rem; }
+  .hint.ok{ color:var(--accent); font-weight:600; }
   #outCard{ margin-top:.7rem; }
   #out{ font-size:1.9rem; line-height:2.9rem; min-height:2.6rem; word-break:break-word; }
   #out .ph{ color:var(--muted); font-size:1rem; }
-  .row{ display:flex; gap:.5rem; align-items:center; margin-top:.7rem; flex-wrap:wrap; }
+  .row{ display:flex; gap:.5rem; align-items:center; margin-top:.6rem; flex-wrap:wrap; }
   button{ font:inherit; border-radius:10px; border:1px solid var(--line); background:var(--card);
           color:var(--ink); padding:.55rem .9rem; cursor:pointer; }
   button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
@@ -39,13 +40,15 @@
       margin:1.4rem 0 .5rem; font-weight:700; }
   .tile{ background:var(--card); border:1px solid var(--line); border-radius:12px;
          padding:.5rem .7rem; margin-bottom:.45rem; }
-  .latin{ color:var(--muted); font-size:.85rem; margin-right:.35rem; font-family:ui-monospace,monospace; }
+  .latin{ color:var(--muted); font-size:.85rem; margin-right:.35rem;
+          font-family:ui-monospace,Menlo,monospace; }
   .alt{ display:inline-block; margin:.2rem .3rem .2rem 0; padding:.25rem .6rem; font-size:1.25rem;
         border:1px solid var(--line); border-radius:9px; cursor:pointer; }
   .alt.chosen{ background:var(--accent); border-color:var(--accent); color:#fff; }
   .alt.en{ font-size:1rem; font-style:italic; border-style:dashed; }
-  .unknown{ color:#d9534f; }
-  input[type=text]{ width:100%; font:inherit; padding:.55rem .7rem; border-radius:10px;
+  .unknown{ color:#d9534f; font-size:.9rem; }
+  .ask{ margin-top:.5rem; padding-top:.5rem; border-top:1px dashed var(--line); }
+  input[type=text]{ flex:1; min-width:10rem; font:inherit; padding:.5rem .7rem; border-radius:10px;
                     border:1px solid var(--line); background:var(--bg); color:var(--ink); }
   .notice{ background:var(--accent-soft); border:1px solid var(--line); border-radius:12px;
            padding:.8rem; font-size:.85rem; margin-bottom:.9rem; }
@@ -60,14 +63,14 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Sing Khmer</h1><span class="khmer">សុីងខ្មែរ</span>
-  </header>
+  <header><h1>Sing Khmer</h1><span class="khmer">សុីងខ្មែរ</span></header>
 
-  <div class="notice" id="notice">
+  <div class="notice">
     <b>យើងរក្សាទុកអត្ថបទដែលអ្នកវាយ / We save what you type</b>
-    This is a test app. The text you type is saved (anonymously — no name, no phone number) so we can
-    learn how people really spell Khmer and improve the converter.
+    This is a test app. What you type is saved — anonymously, with no name, phone number or
+    IP address — so we can learn how people really spell Khmer and improve the converter.
+    Emails, links and long numbers are removed automatically, and messages are deleted after
+    90 days.
     <b style="margin-top:.4rem">សូមកុំវាយពាក្យសម្ងាត់ ឬព័ត៌មានផ្ទាល់ខ្លួន។</b>
     Please don't type passwords or anything private.
     <label class="sw"><input type="checkbox" id="optout"> Don't save my text / កុំរក្សាទុក</label>
@@ -95,7 +98,7 @@
     <h2>Words — tap to change</h2><div id="bd"></div>
   </div>
 
-  <h2>Wrong? Tell us / មិនត្រូវ?</h2>
+  <h2>Missing a word? / បាត់ពាក្យ?</h2>
   <div class="card">
     <div class="row" style="margin-top:0">
       <input type="text" id="fbSpell" placeholder="What you typed (e.g. nekna)">
@@ -110,142 +113,6 @@
   </div>
 </div>
 <div class="toast" id="toast"></div>
-
-<script>
-const $ = id => document.getElementById(id);
-const inEl=$('in'), outEl=$('out'), bdEl=$('bd'), bdWrap=$('bdWrap'),
-      rdEl=$('readings'), rdWrap=$('readingsWrap');
-let chosen={}, override=null, timer=null, lastData=null, queue=[], lastLogged='';
-
-// Anonymous, random id kept only in this browser. No accounts, no IP stored.
-const SID = (() => {
-  let s = localStorage.getItem('sk_sid');
-  if(!s){ s = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
-          localStorage.setItem('sk_sid', s); }
-  return s;
-})();
-const optout = $('optout');
-optout.checked = localStorage.getItem('sk_optout') === '1';
-optout.onchange = () => localStorage.setItem('sk_optout', optout.checked ? '1' : '0');
-const saving = () => !optout.checked;
-
-function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 1600); }
-
-function currentOutput(){
-  if(override !== null) return override;
-  if(!lastData) return '';
-  let out='', prevKh=false, attach=false;
-  lastData.words.forEach((w,i)=>{
-    if(w.space){ if(out && !out.endsWith(' ')) out+=' '; prevKh=false; attach=true; return; }
-    const isKh = w.candidates.length>0;
-    let piece;
-    if(isKh){
-      const ci=Math.min(chosen[i]||0, w.candidates.length-1);
-      const shown=(w.display!=null && !(i in chosen)) ? w.display : w.candidates[ci].khmer;
-      piece=w.lead+shown+w.trail;
-    } else if(w.core){ piece=w.token; } else { return; }
-    const isPunct = !isKh && !/[\p{L}\p{N}]/u.test(w.core);
-    if(out==='' || attach) out+=piece;
-    else if(isPunct || (prevKh && isKh)) out+=piece;
-    else out+=' '+piece;
-    prevKh=isKh; attach=false;
-  });
-  return out.trim();
-}
-
-function render(){
-  const text = currentOutput();
-  outEl.innerHTML = text ? '' : '<span class="ph">ខ្មែរ will appear here…</span>';
-  if(text) outEl.textContent = text;
-
-  let bd='';
-  (lastData ? lastData.words : []).forEach((w,i)=>{
-    if(w.space) return;
-    if(w.candidates.length){
-      const ci=Math.min(chosen[i]||0, w.candidates.length-1);
-      const alts=w.candidates.map((c,ai)=>{
-        const on = (i in chosen) ? ai===ci : (w.display==null && ai===ci);
-        const en = c.source==='english' ? ' en' : '';
-        const label = c.source==='english' ? ('En: '+c.khmer) : c.khmer;
-        return `<span class="alt khmer${en} ${on?'chosen':''}" data-w="${i}" data-a="${ai}">${label}</span>`;
-      }).join('');
-      const rep = w.display!=null ? ` <span class="hint">→ ${w.display} (ៗ)</span>` : '';
-      bd += `<div class="tile"><span class="latin">${w.core}</span>${alts}${rep}</div>`;
-    } else if(w.core && /[\p{L}\p{N}]/u.test(w.core)){
-      bd += `<div class="tile"><span class="latin">${w.core}</span>`
-          + `<span class="unknown">no match — tell us below</span></div>`;
-    }
-  });
-  bdEl.innerHTML = bd; bdWrap.style.display = bd ? '' : 'none';
-  bdEl.querySelectorAll('.alt').forEach(el => el.onclick = () => {
-    override=null; chosen[+el.dataset.w]=+el.dataset.a; render(); });
-
-  const rs = (lastData && lastData.readings) || [];
-  if(rs.length>1){
-    rdWrap.style.display='';
-    rdEl.innerHTML = rs.map(r=>`<span class="alt khmer ${text===r?'chosen':''}"
-      data-r="${encodeURIComponent(r)}">${r}</span>`).join('');
-    rdEl.querySelectorAll('.alt').forEach(el=>el.onclick=()=>{
-      override=decodeURIComponent(el.dataset.r); render(); });
-  } else { rdWrap.style.display='none'; }
-}
-
-async function convert(){
-  const q = inEl.value;
-  if(!q.trim()){ lastData=null; render(); return; }
-  try{
-    const res = await fetch('/api/convert', {method:'POST',
-      headers:{'Content-Type':'application/json'}, body: JSON.stringify({text:q})});
-    lastData = await res.json();
-  }catch(e){ return; }
-  render();
-}
-
-// Log SETTLED text (after typing pauses) — not every keystroke.
-function queueTyped(){
-  if(!saving()) return;
-  const input = inEl.value.trim(); if(!input || input===lastLogged) return;
-  lastLogged = input;
-  queue.push({kind:'typed', input_text:input, output_text:currentOutput()});
-  flush();
-}
-async function flush(){
-  if(!queue.length || !saving()) return;
-  const events = queue.splice(0, queue.length);
-  try{ await fetch('/api/log', {method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({session_id:SID, events})}); }catch(e){}
-}
-
-inEl.addEventListener('input', ()=>{
-  chosen={}; override=null;
-  clearTimeout(timer);
-  convert();
-  timer = setTimeout(queueTyped, 1500);   // settled = 1.5s after they stop typing
-});
-window.addEventListener('pagehide', flush);
-
-$('copy').onclick = async () => {
-  const text = currentOutput();
-  if(!text){ toast('Nothing to copy'); return; }
-  try{ await navigator.clipboard.writeText(text); toast('Copied ✓'); }
-  catch(e){ toast('Press and hold to copy'); }
-  if(saving()){ queue.push({kind:'copied', input_text:inEl.value.trim(), output_text:text}); flush(); }
-};
-$('clear').onclick = () => { inEl.value=''; lastData=null; chosen={}; override=null;
-  lastLogged=''; render(); inEl.focus(); };
-
-$('send').onclick = async () => {
-  const spelling=$('fbSpell').value.trim(), khmer=$('fbKhmer').value.trim();
-  if(!spelling){ toast('Type what you typed'); return; }
-  try{
-    await fetch('/api/feedback', {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({session_id:SID, spelling, expected_khmer:khmer, note:''})});
-    $('fbSpell').value=''; $('fbKhmer').value=''; toast('Thank you! អរគុណ');
-  }catch(e){ toast('Could not send'); }
-};
-
-render();
-</script>
+<script src="/app.js"></script>
 </body>
 </html>
