@@ -9,7 +9,7 @@ Usage (from the project root):
     PYTHONPATH=src python scripts/convert.py nh sl bong      # a sentence -> converted + breakdown
 
 NOTE: terminals often can't render Khmer script correctly (the letters may look
-broken). That's a terminal font limitation, not a data problem — open web/index.html
+broken). That's a terminal font limitation, not a data problem — run the web app
 in a browser to see it render properly.
 """
 

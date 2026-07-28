@@ -150,3 +150,24 @@ def test_english_detection_can_be_disabled():
     eng = Engine(use_english=False)
     seg = eng.decode("computer")[0]
     assert all(c.source != "english" for c in seg.candidates)
+
+
+def test_word_that_is_both_khmer_and_english_offers_an_english_option():
+    """map/tv are real English AND real Sing Khmer spellings. They must convert to Khmer,
+    with English offered as a tappable option that is never picked automatically."""
+    eng = Engine()
+    for spelling, khmer in (("map", "ម៉ាប់"), ("tv", "ទៅ"), ("computer", "កុំព្យូទ័រ")):
+        seg = eng.decode(spelling)[0]
+        assert seg.candidates[0].khmer == khmer          # Khmer wins by default
+        assert seg.candidates[0].source != "english"
+        assert seg.candidates[-1].source == "english"    # English is offered, last
+        assert seg.candidates[-1].khmer == spelling
+
+
+def test_sing_khmer_spellings_get_no_english_option():
+    """A pure Sing Khmer abbreviation must not sprout a nonsense 'English: dg' chip."""
+    eng = Engine()
+    for spelling in ("nh", "sl", "jg", "bong", "dg", "der"):
+        seg = eng.decode(spelling)[0]
+        assert seg.matched
+        assert all(c.source != "english" for c in seg.candidates)
