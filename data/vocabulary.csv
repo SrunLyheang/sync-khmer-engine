@@ -294,7 +294,10 @@ khmer,frequency,is_slang,romanizations,notes
 ភាគច្រើន,4,false,peak+jrern,
 ជាទូទៅ,3,false,jea+tu+tov,
 លើសពី,4,false,lers+pi,
-កណ្ដាល,4,false,kandal,
+កណ្ដាល,4,false,kandal kdal kondal,
+កាក,4,true, kak,
+សង្ហារ,4,false,songha,
+
 ជុំវិញ,4,false,jom+vinh,
 ល្អ,3,false,loar,
 អាក្រក់,3,false,"akk, akkrok, akrok",
@@ -1014,7 +1017,8 @@ khmer,frequency,is_slang,romanizations,notes
 បញ្ជី,4,false,bonhji,
 ក្លាយ,4,false,klay,
 កាប់,4,false,kap,
-ពាក់,4,false,peak,
+
+ពាក់,4,false,peak pek,
 ឈ្មួញ,4,false,chmuonh,
 សុទ្ធ,4,false,soth,
 ច្រក,4,false,jrok,
@@ -1230,3 +1234,6 @@ khmer,frequency,is_slang,romanizations,notes
 ពិន្ទុ,3,false,pintuk,
 ព្រហ្ម,3,false,prorm,
 ចិត្រ,3,false,jit,
+ទំនង,3,false,tomnong tnong,
+ខំ,5,false,khom,
+
