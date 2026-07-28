@@ -8,11 +8,14 @@ def test_bundled_list_loads_common_words():
     assert "computer" in words and "javascript" in words and "message" in words
 
 
-def test_short_sing_khmer_abbreviations_are_not_english():
-    """nh / sl / jg are Sing Khmer, not English — they must be filtered out."""
+def test_list_noise_that_looks_like_sing_khmer_is_filtered():
+    """Short entries are kept only if genuinely common, so google-list noise that is really
+    Sing Khmer (dg=ដឹង, der=ដើរ, das=ដាស់, av=អាវ) never counts as English."""
     words = load_english()
-    for abbr in ("nh", "sl", "jg"):
-        assert abbr not in words
+    for noise in ("dg", "der", "das", "av", "nh", "sl", "jg"):
+        assert noise not in words
+    for real in ("do", "no", "map", "tv"):     # ...while real short words survive
+        assert real in words
 
 
 def test_is_english_is_case_insensitive():

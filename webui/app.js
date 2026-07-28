@@ -108,7 +108,8 @@ function render() {
         const isEnglish = c.source === 'english';
         const on = (i in chosen) ? ai === ci : (w.display == null && ai === ci);
         const b = el('span', 'alt khmer' + (isEnglish ? ' en' : '') + (on ? ' chosen' : ''),
-                     isEnglish ? 'En: ' + c.khmer : c.khmer);
+                     isEnglish ? 'English: ' + c.khmer : c.khmer);
+        if (isEnglish) b.title = 'Keep this word in English instead of Khmer';
         b.onclick = () => { override = null; chosen[i] = ai; render(); };
         tile.appendChild(b);
       });

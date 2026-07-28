@@ -42,3 +42,9 @@ htmlcov/
 .idea/
 *.swp
 .DS_Store
+
+# Generated / local-only — not part of the app
+*.xlsx
+user_feedback.xlsx
+backups/
+TODO.md

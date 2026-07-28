@@ -5,11 +5,22 @@ engine should leave those as English rather than forcing them into Khmer. This
 module loads a bundled list of common English words and answers ``is_english``.
 
 The list is ``data/english_words.txt`` — the google-10000-english common-word list
-(MIT-licensed), minus single letters and minus short spellings that are actually
-Sing Khmer abbreviations (nh, sl, jg, …), so detection only fires on genuine
-foreign words. A word that is *both* English and a real Khmer spelling (e.g.
-``computer``) is still handled as Khmer first, with English offered as a hidden
-last option (see ``lookup.Engine``).
+(MIT-licensed), filtered as follows:
+
+* single letters are dropped (they collide with everything and mean nothing);
+* **short words (<= 3 letters) must be genuinely common** (inside the top ~1200 of the
+  frequency-ordered source). That keeps real words like ``do``, ``no``, ``map``, ``tv``
+  while dropping list noise and foreign fragments — ``dg``, ``der``, ``das``, ``av`` —
+  which are far more likely to be Sing Khmer spellings (ដឹង, ដើរ, ដាស់, អាវ) than
+  someone's English.
+
+Longer words are kept as-is: a 4+ letter English word is rarely also a Sing Khmer spelling.
+
+Note what this filter is *not* doing: it no longer removes words just because they collide
+with the vocabulary. That protection lives in ``lookup._low_confidence_tokens``, which
+refuses to pass a token through as English when it is a strong Khmer match. So a word that
+is *both* (``computer``, ``map``, ``tv``) converts to Khmer as usual and simply gains an
+English option the user can tap — which is the point.
 """
 
 from __future__ import annotations

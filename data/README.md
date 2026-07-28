@@ -49,8 +49,10 @@ values, and duplicate `khmer` keys — so a failing test points at the offending
 A bundled list of common English words, one per line, used to detect English mixed into
 Khmer chat ("ok", "message", "javascript") so it passes through as English instead of being
 forced into Khmer. It's the [google-10000-english](https://github.com/first20hours/google-10000-english)
-common-word list (MIT-licensed), minus single letters and minus short spellings that are
-actually Sing Khmer abbreviations (`nh`, `sl`, `jg`, …), so detection only fires on genuine
-foreign words. A word that is *both* English and a real Khmer spelling (e.g. `computer`) still
-converts to Khmer first, with the English original offered as a hidden last option. Loaded by
+common-word list (MIT-licensed). Single letters are dropped, and **short words (≤3 letters) are
+kept only if they're genuinely common** (top ~1200 of the frequency-ordered source) — so `do`,
+`no`, `map`, `tv` stay while list noise like `dg`, `der`, `das`, `av` is dropped, since those are
+far more likely to be Sing Khmer spellings (ដឹង, ដើរ, ដាស់, អាវ). A word that is *both* English and
+a real Khmer spelling (`computer`, `map`, `tv`) converts to Khmer first and gains a tappable
+**English** option. Loaded by
 `sing_khmer_engine.english.load_english()`; missing file simply turns detection off.
