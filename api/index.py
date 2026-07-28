@@ -10,7 +10,8 @@ carried a hand-synced JavaScript copy of the decoder.)
                         every signal itself, so the browser cannot misreport what happened
     POST /api/feedback  "this spelling should be this Khmer word"
     GET  /api/health    engine + storage status
-    GET  /admin         aggregate stats, behind ADMIN_TOKEN
+    GET  /review        stats + the correction review queue, behind a reviewer account
+    GET  /admin         redirects to /review
 
 Run locally:  PYTHONPATH=src uvicorn api.index:app --reload
 """
@@ -18,16 +19,15 @@ Run locally:  PYTHONPATH=src uvicorn api.index:app --reload
 from __future__ import annotations
 
 import csv
-import html
 import io
 import logging
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote
 
 from fastapi import FastAPI, Request, Response
-from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
+from fastapi.responses import (HTMLResponse, JSONResponse, PlainTextResponse,
+                               RedirectResponse)
 from pydantic import BaseModel, Field
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -266,6 +266,10 @@ def health() -> JSONResponse:
         "spellings": len(ENGINE.index),
         "storage": m,
         "location": diag["location"],   # where to go looking for the rows
+        # Unset on serverless means every instance signs with its own key: random sign-outs
+        # and invite links that can't be redeemed. Surface it rather than leaving it to be
+        # discovered as flakiness.
+        "secret_key_set": not security.SECRET_KEY_IS_EPHEMERAL,
         "connected": is_ok,
         "env_var": diag["env_var"],
         "tables": diag["tables"],
@@ -295,9 +299,17 @@ def _csv_safe(value) -> str:
 def admin_export(request: Request, token: str = "", what: str = "corrections") -> Response:
     """Download one view as CSV — the way to get this data into a spreadsheet or an editor.
 
-    Same 404-on-bad-token as /admin, so the route doesn't announce that it exists.
+    Owner only, by either route: the signed-in session (how the dashboard's link works) or
+    ADMIN_TOKEN as a header (so `scripts/` and any automation keep working). These export
+    what users actually typed, so an invited reviewer doesn't get them.
+
+    A caller who is neither gets a 404, so the route doesn't announce that it exists.
     """
-    if not security.admin_ok(token or request.headers.get("x-admin-token")):
+    from api import accounts
+
+    who = accounts.current(request)
+    if not ((who and who["role"] == "owner")
+            or security.admin_ok(token or request.headers.get("x-admin-token"))):
         return PlainTextResponse("404", status_code=404)
     if what not in storage.EXPORTS:
         return PlainTextResponse("unknown export", status_code=400)
@@ -321,65 +333,14 @@ def admin_export(request: Request, token: str = "", what: str = "corrections") -
     )
 
 
-@app.get("/admin", response_class=HTMLResponse)
-def admin(request: Request, token: str = "") -> HTMLResponse:
-    """Aggregates only — never anyone's messages."""
-    if not security.admin_ok(token or request.headers.get("x-admin-token")):
-        return HTMLResponse("<h1>404</h1>", status_code=404)
-    s = storage.stats()
-    e = html.escape
+@app.get("/admin")
+def admin_redirect() -> Response:
+    """The stats page and the review queue are one page now, at /review.
 
-    def rows(items, cols):
-        if not items:
-            return "<tr><td colspan='9'>nothing yet</td></tr>"
-        return "".join(
-            "<tr>" + "".join(f"<td>{e(str(it[c]))}</td>" for c in cols) + "</tr>"
-            for it in items
-        )
-
-    def download(what, items):
-        """Count plus a download link — so "0 rows" reads as an answer, not a malfunction."""
-        n = len(items)
-        return (f'<span class="n">{n} row{"" if n == 1 else "s"}</span> · '
-                f'<a href="/admin/export.csv?what={what}&token={quote(token)}">download CSV</a>')
-
-    return HTMLResponse(f"""<!doctype html><meta charset="utf-8">
-<meta name="robots" content="noindex"><title>Sing Khmer — stats</title>
-<style>body{{font-family:system-ui;margin:2rem auto;max-width:56rem;padding:0 1rem}}
-table{{border-collapse:collapse;width:100%;margin:.5rem 0 2rem}}
-td,th{{border:1px solid #ddd;padding:.4rem .6rem;text-align:left;font-size:.9rem}}
-th{{background:#0f766e;color:#fff}} .big{{font-size:2rem;font-weight:700}}
-.card{{display:inline-block;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.2rem;
-margin:0 .8rem .8rem 0}} .n{{color:#666}} a{{color:#0f766e}}</style>
-<h1>Sing Khmer — usage</h1>
-<div>
-  <div class="card"><div class="big">{s.get('unknown_rate', 0)}%</div>words we couldn't convert</div>
-  <div class="card"><div class="big">{s.get('copy_rate', 0)}%</div>conversions copied</div>
-  <div class="card"><div class="big">{s.get('sessions', 0)}</div>people</div>
-  <div class="card"><div class="big">{s.get('conversions', 0)}</div>conversions</div>
-  <div class="card"><div class="big">{s.get('corrections', 0)}</div>corrections sent</div>
-</div>
-<p><b>Words people sent us</b> through "Missing a word?" — newest first. The same answer from
-several people is one row with a higher <i>people</i> count, which is the whole signal: one
-person can be wrong or joking, five agreeing rarely are.<br>
-{download('corrections', s.get('recent_corrections', []))}</p>
-<table><tr><th>they typed</th><th>should be</th><th>people</th><th>times</th><th>where</th>
-<th>last sent</th></tr>
-{rows(s.get('recent_corrections', []),
-      ['spelling', 'khmer', 'people', 'times', 'source', 'last_seen'])}</table>
-
-<p><b>Words we couldn't convert</b> is the number to watch — it's the share of everything typed
-that the dictionary is still missing. Sorted by how many <i>different</i> people hit each one.<br>
-{download('missing', s.get('top_missing', []))}</p>
-<table><tr><th>missing spelling</th><th>times</th><th>people</th></tr>
-{rows(s.get('top_missing', []), ['spelling', 'times', 'people'])}</table>
-<p><b>Words people corrected by hand</b> — the engine ranked the wrong option first. Strongest
-evidence you have, because they chose it and then used it.<br>
-{download('overrides', s.get('top_overrides', []))}</p>
-<table><tr><th>spelling</th><th>engine said</th><th>they chose</th><th>people</th><th>times</th></tr>
-{rows(s.get('top_overrides', []), ['spelling', 'engine_top', 'chosen', 'people', 'times'])}</table>
-<p style="color:#666;font-size:.85rem">storage: {e(str(s.get('location')))} · aggregates only,
-no messages shown here.</p>""")
+    Kept as a redirect so existing links and bookmarks still land somewhere useful — and
+    without the `?token=` it used to need, since the dashboard authenticates with an account.
+    """
+    return RedirectResponse("/review", status_code=302)
 
 
 # The review dashboard lives beside the stats page, not on top of it. The unknown-word rate

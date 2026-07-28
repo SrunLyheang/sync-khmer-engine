@@ -269,7 +269,52 @@ def migrate() -> None:
             "CREATE INDEX IF NOT EXISTS review_actions_ts ON review_actions (ts DESC)",
         ):
             cur.execute(ddl)
+        _add_missing_columns(cur)
     _MIGRATED = True
+
+
+# Columns added to tables that already existed in the wild. `CREATE TABLE IF NOT EXISTS`
+# silently does NOTHING when the table is already there, so every column added above this
+# line is invisible to any database created before it — which is every deployment holding
+# real data. That is not theoretical: `corrections.flag_reason` shipped this way and made
+# the review queue return 500 ("column does not exist") on the live site while working
+# perfectly against a fresh local database.
+#
+# Anything added to an existing table has to be listed here too.
+_ADDED_COLUMNS = (
+    ("corrections", "flag_reason", "TEXT"),
+    ("review_actions", "reviewer_id", "INTEGER"),
+)
+
+
+def _existing_columns(cur, table: str) -> set[str]:
+    """Column names of `table`. SQLite has no information_schema; Postgres has no PRAGMA."""
+    if mode() == "postgres":
+        cur.execute(
+            "SELECT column_name FROM information_schema.columns WHERE table_name = %s",
+            (table,),
+        )
+    else:
+        cur.execute(f"PRAGMA table_info({table})")
+        return {r[1] for r in cur.fetchall()}
+    return {r[0] for r in cur.fetchall()}
+
+
+def _add_missing_columns(cur) -> list[str]:
+    """Bring an older database up to date. Returns what it added, for logging and tests.
+
+    Checking first rather than using `ADD COLUMN IF NOT EXISTS`, because SQLite has no such
+    form — and this has to behave identically on the dev database and on Neon.
+    """
+    added = []
+    for table, column, coltype in _ADDED_COLUMNS:
+        if column in _existing_columns(cur, table):
+            continue
+        cur.execute(f"ALTER TABLE {table} ADD COLUMN {column} {coltype}")
+        added.append(f"{table}.{column}")
+    if added:
+        log.info("migrate: added missing columns %s", ", ".join(added))
+    return added
 
 
 def touch_session(cur, ph: str, session_id: str) -> None:

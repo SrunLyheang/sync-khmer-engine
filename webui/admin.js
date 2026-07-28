@@ -45,17 +45,36 @@
   }
 
   // ---- API helpers ------------------------------------------------------------
-  async function apiGet(path) {
-    const res = await fetch('/admin/api/' + path, { headers: HEADERS, credentials: 'same-origin' });
-    return res.json();
+  /* A 500 answers with the plain text "Internal Server Error", so calling res.json() on
+     every response turned a server fault into "Unexpected token 'I'" — and the page just
+     went blank. Parse only what is actually JSON, and keep the status so the UI can say
+     what went wrong. `body` is always an object, so callers never guard for null. */
+  async function request(path, options) {
+    const res = await fetch('/admin/api/' + path, options);
+    let body = {};
+    const type = res.headers.get('content-type') || '';
+    if (type.indexOf('json') !== -1) {
+      try { body = await res.json(); } catch (e) { body = {}; }
+    } else {
+      body = { error: (await res.text()).slice(0, 200) };
+    }
+    return { ok: res.ok, status: res.status, body: body };
   }
 
+  async function apiGet(path) {
+    const r = await request(path, { headers: HEADERS, credentials: 'same-origin' });
+    if (!r.ok) throw Object.assign(new Error('http_' + r.status), r);
+    return r.body;
+  }
+
+  /* POST callers inspect .error themselves (bad_login, owner_only, already_reviewed…),
+     so this returns the body for any status rather than throwing. */
   async function apiPost(path, body) {
-    const res = await fetch('/admin/api/' + path, {
+    const r = await request(path, {
       method: 'POST', headers: HEADERS, credentials: 'same-origin',
       body: JSON.stringify(body),
     });
-    return res.json();
+    return r.body;
   }
 
   // ---- render -----------------------------------------------------------------
@@ -63,6 +82,17 @@
     const d = document.createElement('div');
     d.textContent = s;
     return d.innerHTML;
+  }
+
+  /* "Nothing here yet" and "this broke" must not look the same — a blank panel was the only
+     symptom the last server error produced. Built as nodes because `detail` can carry text
+     straight from the server. */
+  function emptyState(icon, title, detail) {
+    const box = el('div', 'empty');
+    box.appendChild(el('div', 'empty-icon', icon));
+    box.appendChild(el('p', null, title));
+    if (detail) box.appendChild(el('p', 'empty-detail', detail));
+    return box;
   }
 
   function badge(action, status) {
@@ -170,6 +200,29 @@
     }
     bindButtons();
     updateSubmitButton();
+  }
+
+  /* The old /admin page, folded in. Numbers render as 0 rather than staying blank, so an
+     untouched deployment reads as "nothing yet" instead of "something is broken". */
+  function renderUsage(u) {
+    u = u || {};
+    $('#uUnknown').textContent = (u.unknown_rate != null ? u.unknown_rate : 0) + '%';
+    $('#uCopy').textContent = (u.copy_rate != null ? u.copy_rate : 0) + '%';
+    $('#uPeople').textContent = u.sessions != null ? u.sessions : 0;
+    $('#uConversions').textContent = u.conversions != null ? u.conversions : 0;
+
+    const box = $('#downloads');
+    if (!u.can_download) { box.style.display = 'none'; return; }
+    box.style.display = '';
+    box.replaceChildren(el('span', null, 'Download: '));
+    [['corrections', 'words people sent'],
+     ['missing', "words we couldn't convert"],
+     ['overrides', 'words corrected by hand']].forEach(function (pair, i) {
+      if (i) box.appendChild(el('span', null, ' · '));
+      const a = el('a', null, pair[1]);
+      a.href = '/admin/export.csv?what=' + pair[0];
+      box.appendChild(a);
+    });
   }
 
   function updateStats(counts) {
@@ -333,13 +386,15 @@
     content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading…</div>';
 
     try {
-      var [qData, hData] = await Promise.all([
+      var [qData, hData, uData] = await Promise.all([
         apiGet('queue'),
         apiGet('history'),
+        apiGet('stats'),
       ]);
       queue = qData.items || [];
       historyItems = hData.actions || [];
       updateStats(qData.counts || { total: 0, pending: 0, accepted: 0, rejected: 0 });
+      renderUsage(uData);
       updateSubmitButton();
       render();
 
@@ -351,7 +406,12 @@
         btnSubmit.title = 'Set GITHUB_TOKEN and GITHUB_REPO env vars to enable submission.';
       }
     } catch (e) {
-      content.innerHTML = '<div class="empty"><div class="empty-icon">⚠</div><p>Failed to load. Check your connection and admin token.</p></div>';
+      // Name the failure. "Blank page" used to be the only symptom of a 500.
+      const detail = e && e.status
+        ? 'The server answered ' + e.status + ((e.body && e.body.error)
+            ? ' \u2014 ' + String(e.body.error).slice(0, 160) : '')
+        : 'Could not reach the server.';
+      content.replaceChildren(emptyState('\u26a0', 'Could not load the queue', detail));
       console.error(e);
     }
   }

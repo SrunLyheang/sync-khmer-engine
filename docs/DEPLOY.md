@@ -24,9 +24,9 @@ evidence so your review time goes to the top of the list — you stay the judge.
 
 ## How you can tell if the app has the words people want
 
-Open `/admin?token=…`. The number to watch is **"words we couldn't convert"** — the share of
-everything typed that your dictionary is still missing. Watch it fall as you add words. The same
-page lists the top missing spellings and the words people most often had to correct by hand.
+Open **`/review`** and sign in. The number to watch is **"words we couldn't convert"** — the
+share of everything typed that your dictionary is still missing. Watch it fall as you add words.
+The same page carries the review queue, so the words causing that number are right underneath it.
 
 ## Run it on your machine
 
@@ -50,9 +50,13 @@ These steps need your accounts, so they're yours to do. Everything else is commi
    function is detected automatically.
 2. **Add Postgres**: project → *Storage* → **Neon**. It sets `DATABASE_URL` for you.
 3. **Set environment variables**:
-   - `SECRET_KEY` — any long random string. Signs session cookies; without it, sessions reset on
-     every deploy and your per-person counts get noisier.
-   - `ADMIN_TOKEN` — a long random string. Without it `/admin` stays a 404 for everyone.
+   - `SECRET_KEY` — any long random string. **Set this before inviting anyone.** It signs
+     session cookies *and* invite links, and without it every serverless instance invents its
+     own key: reviewers get signed out at random and invite links stop working depending on
+     which instance answers. `/api/health` reports `secret_key_set`, and the dashboard refuses
+     to issue invites while it is missing rather than handing out dead links.
+   - `ADMIN_TOKEN` — a long random string. Needed once to create your owner account at
+     `/review`, and as the way back in if you ever lose that password.
 4. **Deploy**, then check `/api/health` shows `"storage":"postgres"`.
 5. **Share the link.**
 
@@ -77,12 +81,12 @@ If you attached Postgres in Vercel but `/api/health` still shows `degraded` or y
    - `env_var`: Which environment variable was matched (`DATABASE_URL`, `POSTGRES_URL`, `DATABASE_URL_UNPOOLED`, `POSTGRES_URL_NON_POOLING`, or `NEON_DATABASE_URL`). If none are set, `checked_env_vars` lists all names searched.
    - `connected`: `true` when database connection succeeds. Returns `503` with `error_type` and `error` text if connection fails.
    - `tables`: Shows current row counts for `sessions`, `conversions`, and `corrections`.
+   - `secret_key_set`: `false` means sign-ins and invite links will behave unpredictably.
 3. **Tables appear on first visit:** Schema migrations run automatically when `/api/health` or write endpoints are called. Simply visiting `/api/health` creates the database tables so they appear in your Neon console table browser.
 
 ## Getting friends to help you verify words
 
-People review at **`/review`**. Each helper gets their own account, so the dashboard can say
-who accepted what and mean it.
+Everything lives on one page: **`/review`** shows the usage numbers and the review queue together. (`/admin` redirects there.) Each helper gets their own account, so the dashboard can say who accepted what and mean it.
 
 1. **Create your owner account.** Visit `/review` on the deployed site. Because no account
    exists yet it asks for `ADMIN_TOKEN` — paste it, pick a name and a password. That first
@@ -100,7 +104,9 @@ Roles are deliberately simple:
 
 | | reviewer | owner |
 |---|---|---|
+| See the usage numbers | ✅ | ✅ |
 | Accept / reject / undo words | ✅ | ✅ |
+| Download the CSVs | — | ✅ |
 | See the history of who did what | ✅ | ✅ |
 | Invite and disable helpers | — | ✅ |
 | Open the dictionary pull request | — | ✅ |
