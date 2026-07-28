@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import logging
 import os
 import re
 import secrets
@@ -27,10 +28,21 @@ import uuid
 from collections import defaultdict, deque
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
+SECRET_KEY_IS_EPHEMERAL = not SECRET_KEY
 if not SECRET_KEY:
     # Ephemeral fallback: sessions simply don't survive a restart. Set SECRET_KEY in
     # production (see DEPLOY.md) so returning visitors keep the same id.
     SECRET_KEY = secrets.token_hex(32)
+    if os.environ.get("VERCEL"):
+        # On serverless this is not a small inconvenience. Each instance invents its own
+        # key, so a cookie signed by one is rejected by the next — people get signed out at
+        # random — and `accounts._invite_hash` uses the same key, so an invite created on
+        # one instance can never be redeemed on another.
+        logging.getLogger("sing_khmer.security").error(
+            "SECRET_KEY is not set. On serverless every instance signs with a different "
+            "key, so reviewer sign-ins and invite links will fail unpredictably. Set "
+            "SECRET_KEY to any long random string (see docs/DEPLOY.md)."
+        )
 
 COOKIE_NAME = "sk_session"
 COOKIE_MAX_AGE = 60 * 60 * 24 * 180
