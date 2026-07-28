@@ -1,7 +1,0 @@
-# Minimal project config — no packaging/build backend yet.
-# Configures pytest so tests can import `sing_khmer_engine` from src/ and the web app
-# from api/ without an editable install.
-
-[tool.pytest.ini_options]
-pythonpath = ["src", "."]
-testpaths = ["tests"]
