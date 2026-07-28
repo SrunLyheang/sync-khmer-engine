@@ -33,9 +33,23 @@ htmlcov/
 # Jupyter
 .ipynb_checkpoints/
 
-# Environment / secrets
+# Environment / secrets — never let a connection string or token reach GitHub
 .env
 .env.*
+secrets.json
+*.pem
+*.key
+*.p12
+credentials.json
+
+# Databases. These hold real users' messages, so a stray copy in the repo would publish
+# them. Ignored by extension rather than by name, because SQLITE_PATH can point anywhere.
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
 
 # Editor / OS
 .vscode/
@@ -47,8 +61,6 @@ htmlcov/
 node_modules/
 
 # Generated / local-only — not part of the app
-local.db
-local.db-journal
 *.xlsx
 user_feedback.xlsx
 backups/
