@@ -307,8 +307,7 @@ def admin_export(request: Request, token: str = "", what: str = "corrections") -
     """
     from api import accounts
 
-    who = accounts.current(request)
-    if not ((who and who["role"] == "owner")
+    if not (accounts.is_owner(request)
             or security.admin_ok(token or request.headers.get("x-admin-token"))):
         return PlainTextResponse("404", status_code=404)
     if what not in storage.EXPORTS:

@@ -40,8 +40,7 @@ def _guard(request: Request) -> dict | None:
 
 
 def _owner(request: Request) -> dict | None:
-    who = accounts.current(request)
-    return who if who and who["role"] == "owner" else None
+    return accounts.is_owner(request)
 
 
 def _sid(request: Request) -> str:

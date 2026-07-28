@@ -2,5 +2,6 @@
 # The engine itself (src/sing_khmer_engine) is pure standard library — these are only
 # needed for the web app in api/ (see DEPLOY.md).
 fastapi>=0.115
+pydantic>=2.0
 psycopg[binary]>=3.2
 httpx>=0.27

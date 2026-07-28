@@ -132,10 +132,12 @@ Two things to know about how submissions are treated:
 a word, so there is no file to open and no `git pull` that brings the data down. Three ways to
 read it, easiest first:
 
-1. **`/admin?token=…` on the deployed site.** Lists the words people sent, the words the engine
-   couldn't convert, and the words people corrected by hand. Each table has a **download CSV**
-   link — that file opens directly in VS Code, Excel or Sheets. This is the one to reach for
-   when the data is on Vercel, because it needs no connection string on your machine.
+1. **`/review` on the deployed site**, signed in as the owner. Lists the words people sent, the
+   words the engine couldn't convert, and the words people corrected by hand. Each table has a
+   **download CSV** link (`/admin/export.csv?what=...&token=...` if you're scripting it, or just
+   the button in the dashboard) — that file opens directly in VS Code, Excel or Sheets. This is
+   the one to reach for when the data is on Vercel, because it needs no connection string on
+   your machine.
 2. **`python scripts/show_feedback.py`** — the same three views printed in the terminal. No
    `ADMIN_TOKEN`, no spreadsheet. It prints the database it read first, so an empty result tells
    you *which* empty database you're looking at (usually: you ran it locally while the data is
@@ -159,6 +161,20 @@ never updates on its own. Three sheets, each ranked by how many different people
 3. **Missing words** — spellings that converted to nothing (your coverage gap)
 
 Review, then fold what you agree with into `data/vocabulary.csv` — same as every batch so far.
+
+## Growing the vocabulary from a frequency list
+
+Besides words that come in from real usage, `scripts/pick_words.py` and
+`scripts/pick_compounds.py` mine a frequency-ranked Khmer wordlist (e.g. SEALang's
+`seafreq.txt`) for candidates not yet in the DB:
+
+```bash
+PYTHONPATH=src python scripts/pick_words.py seafreq.txt        # everyday 2-syllable words
+PYTHONPATH=src python scripts/pick_compounds.py seafreq.txt     # compounds of words you already have
+```
+
+Both print `khmer<TAB>predicted-spelling[<TAB>parts]` for you to eyeball before adding to
+`data/vocabulary.csv` — nothing is written automatically.
 
 ## Privacy and security
 

@@ -5,8 +5,5 @@
   "private": true,
   "scripts": {
     "build": "echo 'No build step required for vanilla JS'"
-  },
-  "dependencies": {
-    "@vercel/speed-insights": "^1.1.0"
   }
 }

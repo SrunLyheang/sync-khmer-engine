@@ -186,7 +186,6 @@ window.SkI18n = (function () {
     setLang,
     toggle,
     langs: SK_LANGS,
-    current: () => lang,
     /** Re-render dynamic content (word tiles, output) when the language changes. */
     onChange: (fn) => listeners.push(fn),
   };

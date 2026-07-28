@@ -338,3 +338,13 @@ def current(request) -> dict | None:
         return None
     who = get(rid)
     return who if who and who["status"] == "active" else None
+
+
+def is_owner(request) -> dict | None:
+    """The signed-in account for a request, if they are the owner; otherwise None.
+
+    Shared by every route that needs an owner check, so "who counts as the owner"
+    has one definition instead of being reimplemented per call site.
+    """
+    who = current(request)
+    return who if who and who["role"] == "owner" else None

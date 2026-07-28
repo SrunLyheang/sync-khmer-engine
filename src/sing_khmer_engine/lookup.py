@@ -15,7 +15,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, replace
 
-from .english import load_english
+from .english import is_english, load_english
 from .fuzzy import levenshtein, within
 from .reverse_index import Candidate, build_index
 from .romanizer import Romanizer
@@ -227,7 +227,7 @@ class Engine:
             inside = [(j, i, key) for j, i, key in spans if ts <= j and i <= te]
             strong = self._is_strong_match(inside, ts, te)
             # English that isn't a strong Khmer match -> keep it as English.
-            if lower[ts:te] in self._english and not strong:
+            if is_english(lower[ts:te], self._english) and not strong:
                 forced.append((ts, te))
                 continue
             unmatched = sum(i - j for j, i, key in inside if key is None)
@@ -287,7 +287,7 @@ class Engine:
                 # English original as the LAST option (hidden until expanded, never
                 # auto-picked) — e.g. "computer" -> កុំព្យូទ័រ … or English "computer".
                 boundary = (j == 0 or lower[j - 1] == " ") and (i == len(text) or lower[i] == " ")
-                if boundary and surface.lower() in self._english:
+                if boundary and is_english(surface, self._english):
                     cands.append(Candidate(surface, 0.0, "english"))
                 segments.append(Segment(surface, tuple(cands)))
             idx += 1
