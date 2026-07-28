@@ -1,8 +1,8 @@
 """Sing Khmer web app — the real engine behind a small, hardened HTTP API.
 
-Deployable counterpart to `scripts/serve.py` (which stays as the zero-dependency local
-tester). One engine serves the browser, and real usage is recorded so the vocabulary grows
-from how people actually type.
+The one and only UI: a single engine serves the browser, and real usage is recorded so the
+vocabulary grows from how people actually type. (This replaced two earlier testers that each
+carried a hand-synced JavaScript copy of the decoder.)
 
     GET  /              the web app
     POST /api/convert   {text} -> {words[], readings[], text}

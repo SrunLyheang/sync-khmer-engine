@@ -87,7 +87,7 @@ asset** (`reverse_index.json`: `spelling -> [[khmer, score, source], ...]`) that
 Android app. Kotlin only needs to: (a) look up a key in that JSON (trivial `Map` access), and
 (b) implement edit-distance fuzzy fallback for keys with no exact match (the one piece that
 genuinely depends on live user input, so it must run on-device — port `fuzzy.py`'s `levenshtein`,
-~15 lines of Kotlin). This mirrors what `scripts/build_web_demo.py` already does for the browser
+~15 lines of Kotlin). This mirrors what the web app already does for the browser
 demo — Android is the same pattern, native.
 
 **UX model (decided from Phase 1 testing):** behaves like iOS Text Replacement (auto-converts
@@ -198,7 +198,8 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
   multi-word spelling. (Docs: `data/README.md`.)
 - **1.3 KCC segmentation — DONE.** `kcc.py` (`segment()`), a dependency-free Unicode rule splitting
   Khmer text into syllable clusters. Demo: `scripts/show_kccs.py`.
-- **1.4 Phonetic rules — first pass done.** `phonetic_rules.py` (`build_rules()`) derives KCC→
+- **1.4 Phonetic rules — SUPERSEDED (file deleted).** The romanizer (`romanizer.py`) replaced this
+  entirely; kept here as history. `phonetic_rules.py` (`build_rules()`) derived KCC→
   spelling rules from **direct** evidence only (single-KCC words = unambiguous ground truth); the
   **aligned** heuristic (two-KCC anchored subtraction) exists but is off by default — it
   misattributes spellings. 49/264 KCCs covered exactly (`data/phonetic_rules.csv`); the rest are
@@ -228,24 +229,22 @@ Summary of what's built (all in `sing-khmer-engine-2` repo, `src/sing_khmer_engi
   (`_segment_kbest`) with a per-word cost (`_WORD_COST`) so a whole compound word beats splitting it:
   `bongrean → បង្រៀន` (was wrongly `បង រៀន`). `Engine.readings(text, k)` returns the top distinct
   whole-message readings so the UI can let the user **switch** between the compound and the split
-  (`bongrean → [បង្រៀន, បង រៀន]`). `serve.py` shows these as a clickable "readings:" row.
+  (`bongrean → [បង្រៀន, បង រៀន]`). The web app shows these as a clickable "readings" row.
   **DATA DEPENDENCY:** compound/multi-KCC words must be IN `vocabulary.csv` (e.g. `បង្រៀន,,4,false,
   bongrean,`) — the developer should keep adding these ("connect the KCCs"). The engine can only
   offer a compound it knows. `bong rean` typed WITH a space still splits unless បង្រៀន also has the
   multi-word spelling `bong rean` — worth adding both spellings for common compounds.
-- **How to test (preferred): `scripts/serve.py`** — `PYTHONPATH=src python scripts/serve.py`, then
-  open http://localhost:8000. A tiny stdlib web server that uses the REAL engine and **auto-reloads
-  `vocabulary.csv` on change** (edit the CSV in VS Code → refresh browser → see the effect; no
-  rebuild). This is the standard test loop now — do NOT hand-generate `web/index.html` each time.
-  Khmer renders correctly because it's a browser (terminals can't shape Khmer — display limit, not a
-  data bug).
+- **How to test (preferred): the web app** — `PYTHONPATH=src uvicorn api.index:app --reload`, then
+  open http://localhost:8000. It uses the REAL engine (no duplicated decoder), and needs no database
+  locally — it falls back to SQLite. Khmer renders correctly because it's a browser (terminals can't
+  shape Khmer — a display limit, not a data bug). See `docs/DEPLOY.md`.
+  NOTE: `scripts/serve.py` and `scripts/build_web_demo.py` + `web/` were DELETED — each carried a
+  hand-synced JavaScript copy of the decoder. The web app replaces both.
 - **`scripts/diagnose.py`** — explains WHY input did/didn't convert: EXACT vs FUZZY (with distance)
   vs NO MATCH (shows nearest known spelling + raw edit distance, ignoring the threshold), so
   "missing word" is distinguishable from "spelling too far off". Backed by `Engine.diagnose()` /
   `Diagnosis` in `lookup.py`. Use this to find real coverage gaps before adding words/rules.
-- Other demos: `scripts/convert.py` (terminal, word or sentence); `scripts/build_web_demo.py` →
-  static `web/index.html` (offline standalone, self-contained, JS reimplements matching — only
-  needed for sharing a no-server file).
+- Other demos: `scripts/convert.py` (terminal, word or sentence).
 - **UX decision (carries into Phase 2):** behaves like iOS Text Replacement (auto-converts inline)
   but with a tap-to-swap suggestion strip for homophones, since Sing Khmer spellings are ambiguous
   in a way fixed iOS shortcuts aren't. See Phase 2 plan above for how this becomes the Android IME.

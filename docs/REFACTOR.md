@@ -55,3 +55,10 @@ reports **0 errors, 0 warnings**.
   shared module would mean a build step and real regression risk for a testing-only aid,
   so the duplication stays — both are kept in sync by hand and both are verified (pytest
   for the engine, `node` for the offline port).
+
+---
+
+**Update (later):** the duplication described above was resolved by deleting it. `web/`,
+`scripts/build_web_demo.py` and `scripts/serve.py` are gone — the FastAPI web app in `api/` is now
+the only UI and uses the real Python engine, so there is no second decoder to keep in sync.
+`phonetic_rules.py` was also removed once `romanizer.py` superseded it.

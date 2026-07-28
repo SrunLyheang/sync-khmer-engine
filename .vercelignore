@@ -1,9 +1,17 @@
-# Keep the deployed function small — none of this is needed at runtime.
+# Keep the deployed function small. Only what the running app needs is shipped:
+#   api/  src/  webui/  data/  requirements.txt  vercel.json
+# Everything below is development-only.
+
 .venv/
 tests/
-web/
-scripts/build_web_demo.py
-scripts/serve.py
-*.xlsx
+scripts/
+docs/
+db/                     # the app creates its own tables; schema.sql is reference only
+backups/
+__pycache__/
+.pytest_cache/
+requirements-dev.txt
+
+# Docs and generated spreadsheets never need to be uploaded.
 *.md
-!DEPLOY.md
+*.xlsx
