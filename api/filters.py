@@ -1,11 +1,16 @@
-"""Quality filter for user submissions — catches obvious garbage before it reaches review.
+"""Quality hints for user submissions — sorts the queue, never empties it.
 
-Spellings and Khmer words are scored 0 (clean) to 3 (definitely trash).
-Score 3 items are rejected silently at write time. Score 2 items are stored
-but flagged for the admin to review with a warning.
+Spellings and Khmer words are scored 0 (clean) to 3 (almost certainly junk). **The score
+decides where something appears, not whether it survives.** Anything scoring 2 or more is
+stored with `status='flagged'` and shown in a "needs a look" tab; nothing is discarded.
 
-Criteria are tuned for Sing Khmer romanization specifically — a spelling that
-would be nonsense in English (e.g. "srolanh") is perfectly valid here.
+That's a deliberate reversal. Score-3 items used to be dropped before they were written, and
+`/api/feedback` still answered "Thank you!", so a real word could vanish with no trace
+anywhere. Since these submissions are the entire point of the app, the cost of wrongly
+deleting one is far higher than the cost of a human glancing at a bad row.
+
+Criteria are tuned for Sing Khmer romanization specifically — a spelling that would be
+nonsense in English (e.g. "srolanh") is perfectly valid here.
 """
 
 from __future__ import annotations
@@ -35,14 +40,19 @@ _ALTERNATE = re.compile(r"(.{2,3})\1{2,}")
 _ALL_VOWEL = re.compile(r"^[aeiou]{4,}$")
 _ALL_CONS = re.compile(r"^[bcdfghjklmnpqrstvwxyz]{8,}$")
 
-# Obvious English profanity / troll words.
-_PROFANITY = {
-    "fuck", "shit", "dick", "cock", "cunt", "piss", "bastard",
-    "asshole", "bitch", "whore", "slut", "nigger", "faggot",
-    "retard", "moron", "idiot", "dumbass", "penis", "vagina",
-    "sex", "porn", "xxx", "rape", "kill", "die", "suicide",
-    "hitler", "nazi",
-}
+# There is deliberately NO profanity wordlist here.
+#
+# Sing Khmer romanization is phonetic, so ordinary Khmer words land on English profanity by
+# coincidence. Measured against data/vocabulary.csv, a wordlist rejected three spellings that
+# are already verified in the dictionary:
+#
+#     porn -> ពាន់   (thousand)
+#     sex  -> សុិច
+#     die  -> ដៃ     (hand — currently stored as "dai")
+#
+# Blocking those quietly deletes some of the most common words in the language, and the person
+# who submitted them never finds out. A human reading the queue spots an actual troll in a
+# second; a regex cannot tell one from the word for "thousand".
 
 # Domain-like or URL fragments that slipped past redaction.
 _DOMAIN_LIKE = re.compile(r"\.(com|net|org|io|xyz|tk|ml|ga|cf)\b", re.IGNORECASE)
@@ -91,10 +101,6 @@ def score_spelling(text: str) -> tuple[int, str]:
         return 3, "all_vowels"
     if _ALL_CONS.match(t):
         return 2, "all_consonants"
-
-    # Profanity
-    if t in _PROFANITY:
-        return 3, "profanity"
 
     # Domain-like
     if _DOMAIN_LIKE.search(t):

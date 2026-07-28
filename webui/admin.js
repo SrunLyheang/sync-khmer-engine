@@ -1,14 +1,18 @@
-/* Sing Khmer — Admin Review Dashboard
- * Handles queue loading, accept/reject, undo, tab switching, and GitHub submission.
- * Requires ADMIN_TOKEN in the page URL (/?token=...) or x-admin-token header.
+/* Sing Khmer — review dashboard.
+ * Queue loading, accept/reject, undo, tab switching, and GitHub submission.
+ *
+ * Auth is a signed HttpOnly cookie issued by the server, so there is nothing to put in the
+ * URL and nothing here can forge an identity. The earlier version read ADMIN_TOKEN from
+ * ?token= — which leaks into browser history, logs and Referer headers — and let the browser
+ * declare the reviewer's name, which made the audit trail unverifiable.
  */
 
 (function () {
   'use strict';
 
   // ---- state ------------------------------------------------------------------
-  const TOKEN = new URLSearchParams(location.search).get('token') || '';
-  const HEADERS = { 'Content-Type': 'application/json', 'x-admin-token': TOKEN };
+  const HEADERS = { 'Content-Type': 'application/json' };
+  let me = null;                // the signed-in account, from /admin/api/me
 
   let queue = [];               // all items from /admin/api/queue
   let historyItems = [];        // from /admin/api/history
@@ -26,26 +30,6 @@
   const listCount    = $('#listCount');
   const content      = $('#content');
   const toasts       = $('#toasts');
-  const reviewerName = $('#reviewerName');
-
-  // ---- reviewer name persistence ----------------------------------------------
-  const REVIEWER_KEY = 'sk_admin_reviewer';
-  reviewerName.value = localStorage.getItem(REVIEWER_KEY) || '';
-  reviewerName.addEventListener('change', () => {
-    localStorage.setItem(REVIEWER_KEY, reviewerName.value.trim());
-    updateReviewerHeader();
-  });
-  reviewerName.addEventListener('input', () => {
-    localStorage.setItem(REVIEWER_KEY, reviewerName.value.trim());
-  });
-
-  function updateReviewerHeader() {
-    const name = reviewerName.value.trim();
-    if (name) HEADERS['x-reviewer-name'] = name;
-    else delete HEADERS['x-reviewer-name'];
-  }
-  updateReviewerHeader();
-
   // ---- toast ------------------------------------------------------------------
   function toast(msg, type) {
     type = type || 'info';
@@ -62,15 +46,14 @@
 
   // ---- API helpers ------------------------------------------------------------
   async function apiGet(path) {
-    const url = '/admin/api/' + path + (path.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(TOKEN);
-    const res = await fetch(url, { headers: HEADERS });
+    const res = await fetch('/admin/api/' + path, { headers: HEADERS, credentials: 'same-origin' });
     return res.json();
   }
 
   async function apiPost(path, body) {
-    const url = '/admin/api/' + path + '?token=' + encodeURIComponent(TOKEN);
-    const res = await fetch(url, {
-      method: 'POST', headers: HEADERS, body: JSON.stringify(body),
+    const res = await fetch('/admin/api/' + path, {
+      method: 'POST', headers: HEADERS, credentials: 'same-origin',
+      body: JSON.stringify(body),
     });
     return res.json();
   }
@@ -93,7 +76,7 @@
   function renderCard(item) {
     const r = item.review;
     const acted = r && r.status !== 'reverted';
-    const isMine = r && r.reviewer === reviewerName.value.trim();
+    const isMine = r && me && r.reviewer === me.name;
 
     let actionsHtml = '';
     if (!acted) {
@@ -240,7 +223,7 @@
   }
 
   async function act(spelling, khmer, action) {
-    if (!reviewerName.value.trim()) {
+    if (!(me && me.name)) {
       toast('Please enter your name first.', 'err');
       return;
     }
@@ -267,7 +250,7 @@
 
   // ---- submit to GitHub -------------------------------------------------------
   btnSubmit.addEventListener('click', async function () {
-    if (!reviewerName.value.trim()) {
+    if (!(me && me.name)) {
       toast('Please enter your name first.', 'err');
       return;
     }
@@ -392,10 +375,168 @@
     });
   }
 
-  // ---- init -------------------------------------------------------------------
-  if (!TOKEN) {
-    content.innerHTML = '<div class="empty"><div class="empty-icon">🔒</div><p>Admin token required. Add <code>?token=…</code> to the URL.</p></div>';
-  } else {
+  // ---- sign in ----------------------------------------------------------------
+  /* The gate is built with createElement rather than innerHTML because a name typed here is
+     echoed straight back. Everything else on this page goes through escapeHtml(). */
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function field(label, type, id) {
+    const wrap = el('label', 'gate-field');
+    wrap.appendChild(el('span', null, label));
+    const input = el('input');
+    input.type = type;
+    input.id = id;
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  const GATE_ERRORS = {
+    bad_login: 'Wrong name or password.',
+    bad_invite: "That invite link isn't valid.",
+    invite_used: 'That invite has already been used — ask for a new one.',
+    invite_expired: 'That invite has expired — ask for a new one.',
+    name_taken: 'Someone already uses that name.',
+    weak_password: 'Password must be at least 8 characters.',
+    bad_name: 'Name can be 2–40 letters, spaces, apostrophes or hyphens.',
+    already_bootstrapped: 'An owner account already exists — sign in instead.',
+    slow_down: 'Too many attempts. Wait a few minutes.',
+    storage_unavailable: 'The database is unreachable right now.',
+  };
+
+  function gate(mode, invite) {
+    const box = el('div', 'gate');
+    box.appendChild(el('h2', null, {
+      login: 'Sign in to review',
+      join: 'Create your reviewer account',
+      bootstrap: 'Create the owner account',
+    }[mode]));
+
+    if (mode === 'join') {
+      box.appendChild(el('p', 'gate-note', 'You were invited to help verify Sing Khmer words.'));
+    }
+    if (mode === 'bootstrap') {
+      box.appendChild(el('p', 'gate-note',
+        'This is the first account, so it becomes the owner. Paste ADMIN_TOKEN to prove it is you.'));
+      box.appendChild(field('Admin token', 'password', 'gAdmin'));
+    }
+    box.appendChild(field('Your name', 'text', 'gName'));
+    box.appendChild(field('Password', 'password', 'gPass'));
+
+    const err = el('p', 'gate-error');
+    const btn = el('button', 'btn btn-primary', mode === 'login' ? 'Sign in' : 'Create account');
+
+    const go = async function () {
+      err.textContent = '';
+      btn.disabled = true;
+      try {
+        const body = {
+          name: (document.getElementById('gName').value || '').trim(),
+          password: document.getElementById('gPass').value || '',
+        };
+        if (mode === 'bootstrap') body.admin_token = document.getElementById('gAdmin').value || '';
+        if (mode === 'join') body.invite = invite;
+        const out = await apiPost(mode === 'bootstrap' ? 'bootstrap' : mode, body);
+        if (out && out.ok) {
+          me = out;
+          // Drop the invite out of the URL so it can't be replayed from history.
+          history.replaceState(null, '', '/review');
+          start();
+          return;
+        }
+        err.textContent = GATE_ERRORS[out && out.error] || 'Could not sign in.';
+      } catch (e) {
+        err.textContent = 'Could not reach the server.';
+      } finally {
+        btn.disabled = false;
+      }
+    };
+
+    btn.onclick = go;
+    box.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+    box.appendChild(btn);
+    box.appendChild(err);
+
+    if (mode === 'join') {
+      const alt = el('p', 'gate-note');
+      const a = el('a', null, 'Already have an account? Sign in');
+      a.href = '#';
+      a.onclick = function (e) { e.preventDefault(); showGate('login'); };
+      alt.appendChild(a);
+      box.appendChild(alt);
+    }
+    return box;
+  }
+
+  function showGate(mode, invite) {
+    document.body.classList.add('signed-out');
+    content.replaceChildren(gate(mode, invite));
+  }
+
+  function start() {
+    document.body.classList.remove('signed-out');
+    const label = document.getElementById('whoami');
+    if (label && me) label.textContent = me.name + (me.role === 'owner' ? ' · owner' : '');
+    const inviteBtn = document.getElementById('btnInvite');
+    if (inviteBtn) inviteBtn.style.display = (me && me.role === 'owner') ? '' : 'none';
     refresh();
   }
+
+  const logoutBtn = document.getElementById('btnLogout');
+  if (logoutBtn) {
+    logoutBtn.onclick = async function () {
+      await apiPost('logout', {});
+      me = null;
+      location.href = '/review';
+    };
+  }
+
+  const inviteBtn = document.getElementById('btnInvite');
+  if (inviteBtn) {
+    inviteBtn.onclick = async function () {
+      const out = await apiPost('invite', {});
+      if (!out || !out.ok) { toast('Could not create an invite', 'error'); return; }
+      // Shown once — the server keeps only a hash, so this link cannot be recovered later.
+      const box = el('div', 'invite-out');
+      box.appendChild(el('p', null,
+        'Send this link to your helper. It works once and expires in ' +
+        out.expires_days + ' days. It is not stored, so copy it now.'));
+      const input = el('input', 'invite-url');
+      input.type = 'text';
+      input.readOnly = true;
+      input.value = out.url;
+      box.appendChild(input);
+      content.replaceChildren(box);
+      input.focus();
+      input.select();
+      try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'success'); }
+      catch (e) { toast('Copy the link below', 'info'); }
+    };
+  }
+
+  // ---- init -------------------------------------------------------------------
+  (async function init() {
+    const invite = new URLSearchParams(location.search).get('invite');
+    let state = {};
+    try {
+      state = await apiGet('me');
+    } catch (e) {
+      content.replaceChildren(el('div', 'empty', 'Could not reach the server.'));
+      return;
+    }
+    if (state.signed_in) {
+      me = state;
+      start();
+    } else if (invite) {
+      showGate('join', invite);
+    } else if (state.needs_bootstrap) {
+      showGate('bootstrap');
+    } else {
+      showGate('login');
+    }
+  })();
 })();
