@@ -1,69 +1,73 @@
-/* Sing Khmer — warm, with character, but only where character helps.
+/* Sing Khmer — "one script, two surfaces it has always been written on."
  *
- * The first version was ornate: a diamond tile behind every pixel, gold glow on the hero,
- * numbered step chips, three card variants with coloured left stripes. The rewrite stripped
- * all of it and read flat. This keeps the palette and the Khmer detailing that gave the page
- * its identity, and spends it in three places instead of everywhere:
+ * Design idea: every version of Khmer writing has been inscribed onto something —
+ * incised into palm leaf (sleuk rith) and rubbed with dark resin, or inlaid in gold
+ * over black lacquerware (juk). This app does the same job their scribes did: take
+ * a rough draft and fix it into proper script. So the light theme reads as ink on a
+ * dried palm leaf; the dark theme reads as gold leaf on black lacquer. Same accent
+ * hue family in both — sienna ink lightens straight into gold leaf — just a different
+ * surface catching it.
  *
- *   1. the header mark      — one jade tile with a gold hairline
- *   2. the section rules    — a thin gold line trailing each label, so sections read as steps
- *   3. the output card      — the answer, and the only card that gets lifted
- *
- * Everything else is quiet on purpose: gold is a 1px line here, never a fill or a glow, and
- * there is one card style rather than four.
+ * The one recurring device is the manuscript cord: sleuk rith leaves are bound in a
+ * stack by a string threaded through a punched hole. That becomes the "knot" motif —
+ * a small dot beside every section label, and a literal knotted thread tying your
+ * typed leaf to the Khmer leaf it becomes. Spent in exactly those two places; nowhere
+ * else does the page reach for ornament.
  */
 
 :root {
-  --bg: #faf7f0;
-  --bg-wash: rgba(15, 76, 69, 0.05);
-  --surface: #fffdf9;
-  --surface-raised: #ffffff;
-  --ink: #17211e;
-  --ink-soft: #3c4a45;
-  --muted: #77857e;
-  --line: #e8e0d2;
-  --line-strong: #d8ccb8;
-  --accent: #0f4c45;
-  --accent-hover: #0a3833;
-  --accent-ink: #ffffff;
-  --accent-soft: #e7f0ee;
-  --gold: #a67c14;
-  --gold-line: rgba(166, 124, 20, 0.35);
-  --danger: #b03d2c;
+  --bg: #ece1c3;
+  --bg-wash: rgba(122, 51, 36, 0.06);
+  --surface: #f6efdc;
+  --surface-raised: #fbf7ec;
+  --ink: #2a2013;
+  --ink-soft: #55442c;
+  --muted: #8d7a58;
+  --line: #d9c89b;
+  --line-strong: #c4ad7b;
+  --accent: #7a3324;
+  --accent-hover: #5e2519;
+  --accent-ink: #f6efdc;
+  --accent-soft: rgba(122, 51, 36, 0.09);
+  --thread: #93701f;
+  --thread-line: rgba(147, 112, 31, 0.45);
+  --danger: #a23b28;
 
-  --radius: 12px;
-  --radius-lg: 18px;
-  --shadow: 0 1px 2px rgba(23, 33, 30, 0.04), 0 1px 3px rgba(23, 33, 30, 0.03);
-  --shadow-raised: 0 2px 4px rgba(23, 33, 30, 0.04), 0 12px 32px rgba(23, 33, 30, 0.08);
-  --shadow-lift: 0 10px 34px rgba(23, 33, 30, 0.16);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 2px rgba(42, 32, 19, 0.05), 0 1px 3px rgba(42, 32, 19, 0.04);
+  --shadow-raised: 0 2px 4px rgba(42, 32, 19, 0.05), 0 14px 32px rgba(42, 32, 19, 0.09);
+  --shadow-lift: 0 10px 34px rgba(42, 32, 19, 0.22);
   --touch: 48px;
 
-  --font-ui: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Fraunces", "Noto Serif Khmer", serif;
+  --font-ui: "Work Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-khmer: "Noto Sans Khmer", "Khmer OS", "Battambang", system-ui, sans-serif;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1614;
-    --bg-wash: rgba(87, 191, 177, 0.06);
-    --surface: #18211e;
-    --surface-raised: #1d2825;
-    --ink: #edf3f1;
-    --ink-soft: #c2cec9;
-    --muted: #8a9993;
-    --line: #293632;
-    --line-strong: #35453f;
-    --accent: #57bfb1;
-    --accent-hover: #74d3c6;
-    --accent-ink: #08130f;
-    --accent-soft: #16241f;
-    --gold: #d4ac52;
-    --gold-line: rgba(212, 172, 82, 0.32);
-    --danger: #e07a6a;
+    --bg: #14110c;
+    --bg-wash: rgba(214, 154, 73, 0.08);
+    --surface: #1c1710;
+    --surface-raised: #251e15;
+    --ink: #f2e6c9;
+    --ink-soft: #cdb98d;
+    --muted: #8d7c5c;
+    --line: #33291b;
+    --line-strong: #473820;
+    --accent: #d69a49;
+    --accent-hover: #e6b167;
+    --accent-ink: #1b1509;
+    --accent-soft: rgba(214, 154, 73, 0.14);
+    --thread: #c2703a;
+    --thread-line: rgba(194, 112, 58, 0.45);
+    --danger: #dd7a53;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-raised: 0 2px 4px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
-    --shadow-lift: 0 10px 34px rgba(0, 0, 0, 0.45);
+    --shadow-raised: 0 2px 4px rgba(0, 0, 0, 0.3), 0 14px 32px rgba(0, 0, 0, 0.4);
+    --shadow-lift: 0 10px 34px rgba(0, 0, 0, 0.5);
     color-scheme: dark;
   }
 }
@@ -81,7 +85,6 @@ body {
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  /* One soft wash behind the header instead of a pattern across the whole page. */
   background:
     radial-gradient(115% 45% at 50% -5%, var(--bg-wash) 0%, transparent 70%),
     var(--bg);
@@ -89,7 +92,6 @@ body {
   background-attachment: fixed;
 }
 
-/* In Khmer, Khmer becomes the base font rather than the exception. */
 html[data-lang="km"] body { font-family: var(--font-khmer); }
 
 .khmer { font-family: var(--font-khmer); }
@@ -108,35 +110,36 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
   margin-bottom: 0.6rem;
 }
 
-/* The one piece of ornament: a jade tile with the Khmer letter, ringed in gold. */
+/* A small inlaid tile: gold-on-black in dark mode (lacquer), ink-on-leaf in light. */
 .mark {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--gold-line);
-  color: var(--accent-ink);
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
   font-family: var(--font-khmer);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   line-height: 1;
   user-select: none;
+  box-shadow: inset 0 0 0 1px var(--thread-line);
 }
 
 .top h1 {
   flex: 1;
   margin: 0;
-  font-family: var(--font-ui);
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.55rem;
+  letter-spacing: -0.01em;
 }
 
 .tagline {
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.5rem;
   color: var(--muted);
   font-size: 0.9rem;
   max-width: 32rem;
@@ -147,7 +150,7 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
   min-height: 34px;
   padding: 0.3rem 0.8rem;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--surface);
   color: var(--ink-soft);
   font-family: var(--font-khmer);
@@ -160,15 +163,25 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
 .lang:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+/* The manuscript cord, threaded once under the header — not repeated as a page border. */
+.thread {
+  display: block;
+  height: 1px;
+  margin: 0 0 1.5rem;
+  background-image: repeating-linear-gradient(
+    90deg, var(--thread-line) 0, var(--thread-line) 5px, transparent 5px, transparent 10px
+  );
+}
+
 /* ---- sections -------------------------------------------------------------------- */
 .section { margin-bottom: 1.4rem; }
 
-/* The trailing gold rule is what makes these read as ordered steps — it replaces the
-   numbered chips without adding an element to the markup. */
+/* The knot: a small dot standing in for the hole punched through a palm leaf, with the
+   cord trailing off after it — this is what makes the sections read as a bound stack. */
 .section-label {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.6rem;
   margin: 0 0 0.6rem;
   font-family: var(--font-ui);
   font-size: 0.72rem;
@@ -178,11 +191,22 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
   color: var(--muted);
 }
 
+.section-label::before {
+  content: "";
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--thread);
+}
+
 .section-label::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, var(--gold-line), transparent);
+  background-image: repeating-linear-gradient(
+    90deg, var(--thread-line) 0, var(--thread-line) 3px, transparent 3px, transparent 7px
+  );
 }
 
 html[data-lang="km"] .section-label {
@@ -217,7 +241,32 @@ html[data-lang="km"] .section-label {
   position: absolute;
   inset: 0 0 auto;
   height: 2px;
-  background: linear-gradient(90deg, var(--gold-line), transparent 70%);
+  background: linear-gradient(90deg, var(--thread-line), transparent 70%);
+}
+
+/* The tie: your typed leaf, knotted to the Khmer leaf it becomes. The one place the
+   cord is vertical and literal rather than a section-label flourish. */
+.tie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  margin: -0.5rem 0 0.3rem;
+}
+
+.tie-line {
+  width: 1px;
+  flex: 1;
+  background: var(--thread-line);
+}
+
+.tie-knot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--thread);
+  flex-shrink: 0;
 }
 
 .hint {
@@ -254,7 +303,7 @@ input[type=text] {
   min-height: var(--touch);
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--bg);
   color: var(--ink);
   font-family: inherit;
@@ -306,7 +355,7 @@ input[type=text]:focus {
 button {
   min-height: var(--touch);
   padding: 0 1.15rem;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid transparent;
   font-family: inherit;
   font-size: 0.95rem;
@@ -369,12 +418,12 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
   box-shadow: var(--shadow);
 }
 
+/* The raw spelling you typed, set in mono — a keystroke, not yet a word. */
 .latin {
-  font-family: var(--font-ui);
+  font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
@@ -386,12 +435,14 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
 }
 
 .alt {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   min-height: 40px;
   padding: 0.25rem 0.8rem;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--bg);
   font-family: var(--font-khmer);
   font-size: 1.1rem;
@@ -406,6 +457,22 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
   border-color: var(--accent);
   box-shadow: inset 0 0 0 1px var(--accent);
 }
+
+/* A quiet provenance mark: solid = a spelling someone actually typed, ring = derived
+   from the sound rules, dashed ring = a fuzzy guess. Small on purpose — it rewards a
+   closer look rather than asking for one. */
+.alt::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alt[data-source="collected"]::before { background: var(--thread); }
+.alt[data-source="generated"]::before { background: transparent; box-shadow: inset 0 0 0 1px var(--thread); }
+.alt[data-source="fuzzy"]::before { background: transparent; border: 1px dashed var(--muted); }
+.alt.en::before { display: none; }
 
 .alt.en {
   border-style: dashed;
@@ -504,6 +571,6 @@ label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
 /* ---- wider screens --------------------------------------------------------------- */
 @media (min-width: 560px) {
   .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .top h1 { font-size: 1.5rem; }
-  .mark { width: 46px; height: 46px; font-size: 1.5rem; }
+  .top h1 { font-size: 1.75rem; }
+  .mark { width: 44px; height: 44px; font-size: 1.4rem; }
 }

@@ -163,6 +163,7 @@ function wordTile(w, i) {
     const on = (i in chosen) ? ai === ci : (w.display == null && ai === ci);
     const b = el('span', 'alt khmer' + (isEnglish ? ' en' : '') + (on ? ' chosen' : ''),
                  isEnglish ? t('words.english', { word: c.khmer }) : c.khmer);
+    b.dataset.source = c.source;
     if (isEnglish) b.title = t('words.englishHint');
     b.setAttribute('role', 'button');
     b.setAttribute('tabindex', '0');
