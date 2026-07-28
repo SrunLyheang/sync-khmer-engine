@@ -1,165 +1,109 @@
 <!doctype html>
 <html lang="km" data-lang="km">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#ece1c3" />
-    <meta name="google" content="notranslate" />
-    <title>Sing Khmer — សុីងខ្មែរ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles.css" />
-    <script src="/speed-insights.js"></script>
-  </head>
-  <body>
-    <!-- Visible text lives in webui/i18n.js and is filled in through data-i18n. Anything
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ece1c3">
+<meta name="google" content="notranslate">
+<title>Sing Khmer — សុីងខ្មែរ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="/speed-insights.js"></script>
+</head>
+<body>
+<!-- Visible text lives in webui/i18n.js and is filled in through data-i18n. Anything
      hardcoded here would only ever appear in one language. -->
-    <div class="wrap">
-      <header>
-        <div class="top">
-          <span class="mark" aria-hidden="true">ខ</span>
-          <h1 data-i18n="app.name">Sing Khmer</h1>
-          <button
-            type="button"
-            class="lang"
-            id="lang"
-            data-i18n-title="lang.switch"
-          ></button>
-        </div>
-        <p class="tagline" data-i18n="app.tagline"></p>
-      </header>
-      <div class="thread" aria-hidden="true"></div>
+<div class="wrap">
 
-      <div class="notice" id="notice">
-        <button
-          type="button"
-          class="notice-toggle"
-          id="noticeToggle"
-          aria-expanded="false"
-          aria-controls="noticeBody"
-        >
-          <span data-i18n="notice.title"></span>
-          <span class="notice-chevron" aria-hidden="true">▼</span>
-        </button>
-        <div class="notice-body" id="noticeBody">
-          <p data-i18n="notice.what"></p>
-          <p data-i18n="notice.retention"></p>
-          <p class="warn" data-i18n="notice.warn"></p>
-          <label class="sw">
-            <input type="checkbox" id="optout" />
-            <span data-i18n="notice.optout"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Typing and the Khmer it produces are one object, so they're one panel rather than two
-       labelled cards stacked on each other. The labels survive as aria-labels. -->
-      <section class="panel">
-        <div class="panel-part" data-i18n-aria="input.label">
-          <textarea
-            id="in"
-            rows="3"
-            autofocus
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-            data-i18n-placeholder="input.placeholder"
-          ></textarea>
-        </div>
-        <div class="panel-part panel-out" data-i18n-aria="output.label">
-          <div id="out" class="khmer"></div>
-          <div class="converting" id="converting" role="status">
-            <span class="spinner" aria-hidden="true"></span>
-            <span data-i18n="output.converting"></span>
-          </div>
-          <div class="row">
-            <button
-              type="button"
-              class="primary"
-              id="copy"
-              data-i18n="output.copy"
-            ></button>
-            <button
-              type="button"
-              class="secondary"
-              id="clear"
-              data-i18n="output.clear"
-            ></button>
-          </div>
-        </div>
-      </section>
-      <p class="note" data-i18n="input.hint"></p>
-
-      <section
-        class="section"
-        id="readingsWrap"
-        style="display: none"
-        aria-labelledby="readingsLabel"
-      >
-        <h2
-          class="section-label"
-          id="readingsLabel"
-          data-i18n="readings.title"
-        ></h2>
-        <div id="readings" class="card"></div>
-      </section>
-
-      <section
-        class="section"
-        id="bdWrap"
-        style="display: none"
-        aria-labelledby="bdLabel"
-      >
-        <h2 class="section-label" id="bdLabel" data-i18n="words.title"></h2>
-        <div id="bd" class="card"></div>
-      </section>
-
-      <section class="section" aria-labelledby="feedbackLabel">
-        <h2
-          class="section-label"
-          id="feedbackLabel"
-          data-i18n="feedback.label"
-        ></h2>
-        <div class="card">
-          <div class="row" style="margin-top: 0">
-            <input
-              type="text"
-              id="fbSpell"
-              data-i18n-placeholder="feedback.spelling"
-              data-i18n-aria="feedback.spelling"
-            />
-          </div>
-          <div class="row">
-            <input
-              type="text"
-              id="fbKhmer"
-              class="khmer"
-              data-i18n-placeholder="feedback.khmer"
-              data-i18n-aria="feedback.khmer"
-            />
-          </div>
-          <div class="row">
-            <button
-              type="button"
-              class="primary"
-              id="send"
-              data-i18n="common.send"
-            ></button>
-          </div>
-          <p class="hint" data-i18n="feedback.hint"></p>
-        </div>
-      </section>
+  <header>
+    <div class="top">
+      <span class="mark" aria-hidden="true">ខ</span>
+      <h1 data-i18n="app.name">Sing Khmer</h1>
+      <button type="button" class="lang" id="lang" data-i18n-title="lang.switch"></button>
     </div>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="/i18n.js"></script>
-    <script src="/app.js"></script>
-    <script defer src="/_vercel/insights/script.js"></script>
-  </body>
+    <p class="tagline" data-i18n="app.tagline"></p>
+  </header>
+  <div class="thread" aria-hidden="true"></div>
+
+  <div class="notice" id="notice">
+    <button type="button" class="notice-toggle" id="noticeToggle"
+            aria-expanded="false" aria-controls="noticeBody">
+      <span data-i18n="notice.title"></span>
+      <span class="notice-chevron" aria-hidden="true">▼</span>
+    </button>
+    <div class="notice-body" id="noticeBody">
+      <p data-i18n="notice.what"></p>
+      <p data-i18n="notice.retention"></p>
+      <p class="warn" data-i18n="notice.warn"></p>
+      <label class="sw">
+        <input type="checkbox" id="optout">
+        <span data-i18n="notice.optout"></span>
+      </label>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="inputLabel">
+    <h2 class="section-label" id="inputLabel" data-i18n="input.label"></h2>
+    <div class="card">
+      <textarea id="in" rows="3" autofocus autocomplete="off" autocapitalize="off"
+        spellcheck="false" data-i18n-placeholder="input.placeholder"></textarea>
+      <p class="hint" data-i18n="input.hint"></p>
+    </div>
+  </section>
+
+  <div class="tie" aria-hidden="true">
+    <span class="tie-line"></span><span class="tie-knot"></span><span class="tie-line"></span>
+  </div>
+
+  <section class="section" aria-labelledby="outputLabel">
+    <h2 class="section-label" id="outputLabel" data-i18n="output.label"></h2>
+    <div class="card card-output">
+      <div id="out" class="khmer"></div>
+      <div class="converting" id="converting" role="status">
+        <span class="spinner" aria-hidden="true"></span>
+        <span data-i18n="output.converting"></span>
+      </div>
+      <div class="row">
+        <button type="button" class="primary" id="copy" data-i18n="output.copy"></button>
+        <button type="button" class="secondary" id="clear" data-i18n="output.clear"></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="readingsWrap" style="display:none" aria-labelledby="readingsLabel">
+    <h2 class="section-label" id="readingsLabel" data-i18n="readings.title"></h2>
+    <div id="readings"></div>
+  </section>
+
+  <section class="section" id="bdWrap" style="display:none" aria-labelledby="bdLabel">
+    <h2 class="section-label" id="bdLabel" data-i18n="words.title"></h2>
+    <div id="bd"></div>
+  </section>
+
+  <section class="section" aria-labelledby="feedbackLabel">
+    <h2 class="section-label" id="feedbackLabel" data-i18n="feedback.label"></h2>
+    <div class="card">
+      <div class="row" style="margin-top:0">
+        <input type="text" id="fbSpell" data-i18n-placeholder="feedback.spelling"
+               data-i18n-aria="feedback.spelling">
+      </div>
+      <div class="row">
+        <input type="text" id="fbKhmer" class="khmer" data-i18n-placeholder="feedback.khmer"
+               data-i18n-aria="feedback.khmer">
+      </div>
+      <div class="row">
+        <button type="button" class="primary" id="send" data-i18n="common.send"></button>
+      </div>
+      <p class="hint" data-i18n="feedback.hint"></p>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/i18n.js"></script>
+<script src="/app.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
 </html>

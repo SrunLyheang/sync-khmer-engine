@@ -202,7 +202,7 @@
     $$('.accept-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.card-item');
-        act(card.dataset.spelling, card.dataset.khmer, 'accept');
+        act(card.dataset.spelling, card.dataset.khmer, 'accept', btn);
       });
     });
 
@@ -210,41 +210,74 @@
     $$('.reject-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.card-item');
-        act(card.dataset.spelling, card.dataset.khmer, 'reject');
+        act(card.dataset.spelling, card.dataset.khmer, 'reject', btn);
       });
     });
 
     // Undo buttons
     $$('.undo-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        undo(parseInt(btn.dataset.id));
+        undo(parseInt(btn.dataset.id), btn);
       });
     });
   }
 
-  async function act(spelling, khmer, action) {
+  async function act(spelling, khmer, action, btnEl) {
     if (!(me && me.name)) {
       toast('Please enter your name first.', 'err');
       return;
     }
-    updateReviewerHeader();
-    var result = await apiPost('act', { spelling: spelling, khmer: khmer, action: action });
-    if (result.ok) {
-      toast((action === 'accept' ? 'Accepted: ' : 'Rejected: ') + spelling + ' → ' + khmer, 'ok');
-      await refresh();
-    } else {
-      toast(result.error || 'Action failed', 'err');
+    if (btnEl) {
+      var parent = btnEl.closest('.actions');
+      if (parent) {
+        parent.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+      }
+      btnEl.innerHTML = '<span class="spinner-sm"></span> ' + (action === 'accept' ? 'Accepting…' : 'Rejecting…');
+    }
+    try {
+      var result = await apiPost('act', { spelling: spelling, khmer: khmer, action: action });
+      if (result.ok) {
+        toast((action === 'accept' ? 'Accepted: ' : 'Rejected: ') + spelling + ' → ' + khmer, 'ok');
+        await refresh();
+      } else {
+        toast(result.error || 'Action failed', 'err');
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.textContent = action === 'accept' ? 'Accept' : 'Reject';
+        }
+      }
+    } catch (e) {
+      toast('Network error', 'err');
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.textContent = action === 'accept' ? 'Accept' : 'Reject';
+      }
     }
   }
 
-  async function undo(id) {
-    updateReviewerHeader();
-    var result = await apiPost('undo', { id: id });
-    if (result.ok) {
-      toast('Undone: ' + result.spelling + ' → ' + result.khmer, 'info');
-      await refresh();
-    } else {
-      toast(result.error || 'Undo failed', 'err');
+  async function undo(id, btnEl) {
+    if (btnEl) {
+      btnEl.disabled = true;
+      btnEl.innerHTML = '<span class="spinner-sm"></span> Undoing…';
+    }
+    try {
+      var result = await apiPost('undo', { id: id });
+      if (result.ok) {
+        toast('Undone: ' + result.spelling + ' → ' + result.khmer, 'info');
+        await refresh();
+      } else {
+        toast(result.error || 'Undo failed', 'err');
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.textContent = 'Undo';
+        }
+      }
+    } catch (e) {
+      toast('Network error', 'err');
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.textContent = 'Undo';
+      }
     }
   }
 
@@ -254,7 +287,6 @@
       toast('Please enter your name first.', 'err');
       return;
     }
-    updateReviewerHeader();
 
     // Get the accepted items details
     var accepted = queue.filter(function (i) {
@@ -291,7 +323,7 @@
 
     overlay.querySelector('#modalConfirm').addEventListener('click', async function () {
       overlay.querySelector('#modalConfirm').disabled = true;
-      overlay.querySelector('#modalConfirm').textContent = 'Submitting…';
+      overlay.querySelector('#modalConfirm').innerHTML = '<span class="spinner-sm"></span> Submitting…';
       overlay.querySelector('#modalCancel').disabled = true;
 
       var result = await apiPost('submit', {});
@@ -328,9 +360,19 @@
     render();
   });
 
+  function renderSkeleton() {
+    return '<div class="skeleton-list">' +
+      '<div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line medium"></div></div>' +
+      '<div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line short"></div></div>' +
+      '<div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line medium"></div></div>' +
+    '</div>';
+  }
+
   // ---- data loading -----------------------------------------------------------
   async function refresh() {
-    content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading…</div>';
+    if (!content.querySelector('.card-item') && !content.querySelector('.history-table')) {
+      content.innerHTML = renderSkeleton();
+    }
 
     try {
       var [qData, hData] = await Promise.all([
