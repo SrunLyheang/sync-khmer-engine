@@ -102,7 +102,10 @@ function render() {
     if (w.space) return;
     if (w.candidates.length) {
       const tile = el('div', 'tile');
-      tile.appendChild(el('span', 'latin', w.core));
+      const header = el('div', 'tile-header');
+      header.appendChild(el('span', 'latin', w.core));
+      tile.appendChild(header);
+      const altRow = el('div', 'alt-row');
       const ci = Math.min(chosen[i] || 0, w.candidates.length - 1);
       w.candidates.forEach((c, ai) => {
         const isEnglish = c.source === 'english';
@@ -110,9 +113,13 @@ function render() {
         const b = el('span', 'alt khmer' + (isEnglish ? ' en' : '') + (on ? ' chosen' : ''),
                      isEnglish ? 'English: ' + c.khmer : c.khmer);
         if (isEnglish) b.title = 'Keep this word in English instead of Khmer';
+        b.setAttribute('role', 'button');
+        b.setAttribute('tabindex', '0');
         b.onclick = () => { override = null; chosen[i] = ai; render(); };
-        tile.appendChild(b);
+        b.onkeydown = (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); b.click(); } };
+        altRow.appendChild(b);
       });
+      tile.appendChild(altRow);
       if (w.display != null) tile.appendChild(el('span', 'hint', ' → ' + w.display + ' (ៗ)'));
       tiles.push(tile);
     } else if (w.core && /[\p{L}\p{N}]/u.test(w.core)) {

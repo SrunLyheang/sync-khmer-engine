@@ -3,120 +3,811 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f4c45">
 <title>Sing Khmer — សុីងខ្មែរ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#f6f8f7; --card:#fff; --ink:#15201d; --muted:#5d6f68; --line:#e0e8e4;
-    --accent:#0f766e; --accent-soft:#d8ece7;
-    color-scheme: light dark;
+  :root {
+    --bg: #faf6ef;
+    --bg-pattern: rgba(201, 162, 39, 0.06);
+    --card: #fffdf9;
+    --card-elevated: #ffffff;
+    --ink: #1a2421;
+    --ink-soft: #3d4a46;
+    --muted: #6b7a74;
+    --line: #e4ddd2;
+    --line-strong: #d4c9b8;
+    --accent: #0f4c45;
+    --accent-hover: #0a3a35;
+    --accent-soft: #e4f2ef;
+    --gold: #c9a227;
+    --gold-soft: #f5ecd4;
+    --gold-glow: rgba(201, 162, 39, 0.25);
+    --danger: #b84332;
+    --danger-soft: #fceae7;
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 22px;
+    --shadow-sm: 0 1px 2px rgba(26, 36, 33, 0.04), 0 2px 8px rgba(26, 36, 33, 0.04);
+    --shadow: 0 4px 20px rgba(26, 36, 33, 0.07);
+    --shadow-lg: 0 12px 40px rgba(26, 36, 33, 0.1);
+    --touch: 48px;
+    --font-ui: "DM Sans", system-ui, -apple-system, sans-serif;
+    --font-khmer: "Noto Sans Khmer", "Khmer OS", "Battambang", system-ui, sans-serif;
+    color-scheme: light;
   }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#0e1513; --card:#151e1b; --ink:#e8efec; --muted:#93a49d; --line:#243230;
-           --accent:#57c9bd; --accent-soft:#173029; }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1614;
+      --bg-pattern: rgba(201, 162, 39, 0.04);
+      --card: #171f1c;
+      --card-elevated: #1c2623;
+      --ink: #eef3f1;
+      --ink-soft: #c5d0cb;
+      --muted: #8a9a93;
+      --line: #2a3834;
+      --line-strong: #354842;
+      --accent: #4db8ab;
+      --accent-hover: #6ecfc3;
+      --accent-soft: #152622;
+      --gold: #e0bc4a;
+      --gold-soft: #2a2418;
+      --gold-glow: rgba(224, 188, 74, 0.15);
+      --danger: #e07a6a;
+      --danger-soft: #2a1a18;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+    }
   }
-  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body{ margin:0; background:var(--bg); color:var(--ink); line-height:1.5;
-        font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  .khmer{ font-family:"Noto Sans Khmer","Khmer OS","Battambang","Hanuman",system-ui,sans-serif; }
-  .wrap{ max-width:640px; margin:0 auto; padding:1rem 1rem 4rem; }
-  header{ display:flex; align-items:baseline; gap:.5rem; margin:.4rem 0 1rem; }
-  h1{ font-size:1.25rem; margin:0; letter-spacing:-.01em; }
-  header span{ color:var(--muted); font-size:.85rem; }
-  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:.9rem; }
-  textarea{ width:100%; border:0; background:transparent; color:var(--ink); resize:none;
-            font-size:1.15rem; padding:.2rem; outline:none; font-family:inherit; }
-  textarea::placeholder{ color:var(--muted); }
-  .hint{ color:var(--muted); font-size:.82rem; }
-  .hint.ok{ color:var(--accent); font-weight:600; }
-  #outCard{ margin-top:.7rem; }
-  #out{ font-size:1.9rem; line-height:2.9rem; min-height:2.6rem; word-break:break-word; }
-  #out .ph{ color:var(--muted); font-size:1rem; }
-  .row{ display:flex; gap:.5rem; align-items:center; margin-top:.6rem; flex-wrap:wrap; }
-  button{ font:inherit; border-radius:10px; border:1px solid var(--line); background:var(--card);
-          color:var(--ink); padding:.55rem .9rem; cursor:pointer; }
-  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
-  button:active{ transform:translateY(1px); }
-  h2{ font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
-      margin:1.4rem 0 .5rem; font-weight:700; }
-  .tile{ background:var(--card); border:1px solid var(--line); border-radius:12px;
-         padding:.5rem .7rem; margin-bottom:.45rem; }
-  .latin{ color:var(--muted); font-size:.85rem; margin-right:.35rem;
-          font-family:ui-monospace,Menlo,monospace; }
-  .alt{ display:inline-block; margin:.2rem .3rem .2rem 0; padding:.25rem .6rem; font-size:1.25rem;
-        border:1px solid var(--line); border-radius:9px; cursor:pointer; }
-  .alt.chosen{ background:var(--accent); border-color:var(--accent); color:#fff; }
-  .alt.en{ font-size:1rem; font-style:italic; border-style:dashed; }
-  .unknown{ color:#d9534f; font-size:.9rem; }
-  .ask{ margin-top:.5rem; padding-top:.5rem; border-top:1px dashed var(--line); }
-  input[type=text]{ flex:1; min-width:10rem; font:inherit; padding:.5rem .7rem; border-radius:10px;
-                    border:1px solid var(--line); background:var(--bg); color:var(--ink); }
-  .notice{ background:var(--accent-soft); border:1px solid var(--line); border-radius:12px;
-           padding:.8rem; font-size:.85rem; margin-bottom:.9rem; }
-  .notice b{ display:block; margin-bottom:.2rem; }
-  label.sw{ display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--muted);
-            margin-top:.6rem; cursor:pointer; }
-  .toast{ position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%);
-          background:var(--accent); color:#fff; padding:.55rem 1rem; border-radius:999px;
-          font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s; }
-  .toast.show{ opacity:1; }
+
+  *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    font-family: var(--font-ui);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle Khmer-inspired diamond pattern */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+    background-image:
+      linear-gradient(135deg, var(--bg-pattern) 25%, transparent 25%),
+      linear-gradient(225deg, var(--bg-pattern) 25%, transparent 25%),
+      linear-gradient(45deg, var(--bg-pattern) 25%, transparent 25%),
+      linear-gradient(315deg, var(--bg-pattern) 25%, transparent 25%);
+    background-size: 28px 28px;
+    background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+  }
+
+  .khmer { font-family: var(--font-khmer); }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: max(1rem, env(safe-area-inset-top)) 1.15rem calc(5rem + env(safe-area-inset-bottom));
+  }
+
+  /* ---- Header ---- */
+  .hero {
+    text-align: center;
+    padding: 1.5rem 0 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-ornament::before,
+  .hero-ornament::after {
+    content: "";
+    flex: 1;
+    max-width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 1px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, var(--accent) 0%, #0a3a35 100%);
+    color: var(--gold);
+    font-family: var(--font-khmer);
+    font-size: 1.5rem;
+    font-weight: 700;
+    box-shadow: var(--shadow), 0 0 0 3px var(--gold-glow);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hero-badge {
+      background: linear-gradient(145deg, #1a4a44 0%, #0f2e2a 100%);
+    }
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .hero-sub {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-khmer);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hero-sub { color: var(--gold); }
+  }
+
+  .hero-tagline {
+    margin: 0.65rem auto 0;
+    max-width: 28rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---- Flow steps ---- */
+  .flow-steps {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding: 0 0.25rem;
+  }
+
+  .flow-step {
+    flex: 1;
+    text-align: center;
+    padding: 0.55rem 0.35rem;
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    border: 1px solid var(--line);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  .flow-step span {
+    display: block;
+    font-family: var(--font-khmer);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.15rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .flow-step span { color: var(--gold); }
+  }
+
+  /* ---- Section labels ---- */
+  .section {
+    margin-bottom: 1.1rem;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.55rem 0.15rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .section-num { background: var(--gold); color: var(--ink); }
+  }
+
+  .section-label .khmer-inline {
+    font-family: var(--font-khmer);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* ---- Cards ---- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-gold {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow), inset 0 0 0 1px var(--gold-glow);
+  }
+
+  .card-input {
+    padding: 0.85rem 1rem;
+    border-left: 4px solid var(--accent);
+  }
+
+  .card-output {
+    padding: 1.1rem 1.15rem 1rem;
+    background: var(--card-elevated);
+    border-left: 4px solid var(--gold);
+  }
+
+  /* ---- Input ---- */
+  textarea {
+    width: 100%;
+    min-height: 5.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    resize: none;
+    font-size: 1.12rem;
+    line-height: 1.65;
+    padding: 0.15rem 0;
+    outline: none;
+    font-family: var(--font-ui);
+  }
+
+  textarea::placeholder { color: var(--muted); opacity: 0.75; }
+
+  .hint {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-top: 0.55rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--line);
+  }
+
+  .hint.ok { color: var(--accent); font-weight: 600; border-top: none; padding-top: 0; margin-top: 0; }
+
+  /* ---- Output ---- */
+  #out {
+    font-size: clamp(1.65rem, 5vw, 2rem);
+    line-height: 1.75;
+    min-height: 3rem;
+    word-break: break-word;
+    color: var(--ink);
+    padding: 0.25rem 0;
+  }
+
+  #out .ph {
+    color: var(--muted);
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: stretch;
+    margin-top: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  /* ---- Buttons ---- */
+  button {
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--card-elevated);
+    color: var(--ink);
+    padding: 0 1.15rem;
+    min-height: var(--touch);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+
+  button:hover {
+    border-color: var(--line-strong);
+    background: var(--bg);
+  }
+
+  button:active { transform: scale(0.98); }
+
+  button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    flex: 1;
+    min-width: 8rem;
+  }
+
+  button.primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  button.secondary {
+    min-width: 5.5rem;
+  }
+
+  /* ---- Word tiles & alternatives ---- */
+  h2.section-heading {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.5rem 0 0.65rem 0.15rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  h2.section-heading::before {
+    content: "";
+    width: 4px;
+    height: 14px;
+    border-radius: 2px;
+    background: var(--gold);
+  }
+
+  .tile {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.55rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tile-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .latin {
+    display: inline-block;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .alt-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .alt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch);
+    min-width: var(--touch);
+    padding: 0.45rem 1rem;
+    font-size: 1.3rem;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+    background: var(--card-elevated);
+    transition: border-color 0.15s, background 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: var(--shadow-sm);
+    user-select: none;
+  }
+
+  .alt:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+  }
+
+  .alt:active { transform: scale(0.97); }
+
+  .alt.chosen {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: var(--shadow);
+  }
+
+  .alt.en {
+    font-size: 0.95rem;
+    font-style: italic;
+    border-style: dashed;
+    font-family: var(--font-ui);
+    min-height: 40px;
+    padding: 0.35rem 0.85rem;
+  }
+
+  .unknown {
+    color: var(--danger);
+    font-size: 0.88rem;
+    font-weight: 600;
+    background: var(--danger-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  .ask {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--line);
+  }
+
+  .ask .row { margin-top: 0.5rem; }
+
+  /* ---- Form inputs ---- */
+  input[type=text] {
+    flex: 1;
+    min-width: 0;
+    min-height: var(--touch);
+    font: inherit;
+    font-size: 1rem;
+    padding: 0 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  input[type=text]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  input[type=text]::placeholder { color: var(--muted); opacity: 0.75; }
+
+  /* ---- Privacy notice (collapsible) ---- */
+  .notice {
+    background: var(--gold-soft);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .notice-toggle {
+    width: 100%;
+    min-height: var(--touch);
+    padding: 0.85rem 1rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    cursor: pointer;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .notice-toggle:hover { background: rgba(201, 162, 39, 0.08); }
+
+  .notice-toggle .khmer-title {
+    font-family: var(--font-khmer);
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: block;
+    color: var(--accent);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .notice-toggle .khmer-title { color: var(--gold); }
+  }
+
+  .notice-toggle .en-title {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+
+  .notice-chevron {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .notice.open .notice-chevron { transform: rotate(180deg); }
+
+  .notice-body {
+    display: none;
+    padding: 0 1rem 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .notice.open .notice-body { display: block; }
+
+  .notice-body p { margin: 0 0 0.65rem; }
+
+  .notice-body .warn {
+    font-family: var(--font-khmer);
+    font-weight: 600;
+    color: var(--danger);
+    margin-top: 0.5rem;
+  }
+
+  label.sw {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    min-height: var(--touch);
+  }
+
+  label.sw input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* ---- Toast ---- */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(12px);
+    background: var(--accent);
+    color: #fff;
+    padding: 0.75rem 1.35rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    max-width: calc(100vw - 2rem);
+    text-align: center;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ---- Feedback section ---- */
+  .feedback-card {
+    border-left: 4px solid var(--accent);
+  }
+
+  .feedback-card .hint {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0.65rem;
+    font-style: italic;
+  }
+
+  /* ---- Readings ---- */
+  #readings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  #readings .alt {
+    font-size: 1.15rem;
+    min-height: 44px;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 420px) {
+    .flow-steps { flex-direction: column; gap: 0.35rem; }
+    .flow-step { display: flex; align-items: center; gap: 0.5rem; text-align: left; padding: 0.5rem 0.75rem; }
+    .flow-step span { margin-bottom: 0; min-width: 3.5rem; }
+    .hero h1 { font-size: 1.45rem; }
+    .hero-sub { font-size: 1.2rem; }
+  }
+
+  @media (min-width: 600px) {
+    .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
 </style>
 <script src="/speed-insights.js"></script>
 </head>
 <body>
 <div class="wrap">
-  <header><h1>Sing Khmer</h1><span class="khmer">សុីងខ្មែរ</span></header>
 
-  <div class="notice">
-    <b>យើងរក្សាទុកអត្ថបទដែលអ្នកវាយ / We save what you type</b>
-    This is a test app. What you type is saved — anonymously, with no name, phone number or
-    IP address — so we can learn how people really spell Khmer and improve the converter.
-    Emails, links and long numbers are removed automatically, and messages are deleted after
-    90 days.
-    <b style="margin-top:.4rem">សូមកុំវាយពាក្យសម្ងាត់ ឬព័ត៌មានផ្ទាល់ខ្លួន។</b>
-    Please don't type passwords or anything private.
-    <label class="sw"><input type="checkbox" id="optout"> Don't save my text / កុំរក្សាទុក</label>
+  <header class="hero">
+    <div class="hero-ornament">
+      <div class="hero-badge" aria-hidden="true">ខ</div>
+    </div>
+    <h1>Sing Khmer</h1>
+    <p class="hero-sub khmer">សុីងខ្មែរ</p>
+    <p class="hero-tagline">Type Latin letters the way you chat — get proper Khmer script instantly.</p>
+  </header>
+
+  <div class="flow-steps" aria-hidden="true">
+    <div class="flow-step"><span>① វាយ</span>Type Latin</div>
+    <div class="flow-step"><span>② ឃើញ</span>See Khmer</div>
+    <div class="flow-step"><span>③ ជ្រើស</span>Tap to fix</div>
   </div>
 
-  <div class="card">
-    <textarea id="in" rows="3" autofocus autocomplete="off" autocapitalize="off"
-      spellcheck="false" placeholder="វាយជាអក្សរឡាតាំង... try: nh sl bong"></textarea>
-    <div class="hint">Space = join words · double space = real space · type a word twice → ៗ</div>
-  </div>
-
-  <div class="card" id="outCard">
-    <div id="out" class="khmer"><span class="ph">ខ្មែរ will appear here…</span></div>
-    <div class="row">
-      <button class="primary" id="copy">Copy / ចម្លង</button>
-      <button id="clear">Clear</button>
+  <div class="notice" id="notice">
+    <button type="button" class="notice-toggle" id="noticeToggle" aria-expanded="false" aria-controls="noticeBody">
+      <span>
+        <span class="khmer-title">យើងរក្សាទុកអត្ថបទដែលអ្នកវាយ</span>
+        <span class="en-title">We save what you type — tap to learn more</span>
+      </span>
+      <span class="notice-chevron" aria-hidden="true">▼</span>
+    </button>
+    <div class="notice-body" id="noticeBody">
+      <p>This is a test app. What you type is saved — anonymously, with no name, phone number or IP address — so we can learn how people really spell Khmer and improve the converter.</p>
+      <p>Emails, links and long numbers are removed automatically, and messages are deleted after 90 days.</p>
+      <p class="warn">សូមកុំវាយពាក្យសម្ងាត់ ឬព័ត៌មានផ្ទាល់ខ្លួន។</p>
+      <p>Please don't type passwords or anything private.</p>
+      <label class="sw">
+        <input type="checkbox" id="optout">
+        <span>Don't save my text / <span class="khmer">កុំរក្សាទុក</span></span>
+      </label>
     </div>
   </div>
 
+  <section class="section" aria-labelledby="inputLabel">
+    <div class="section-label" id="inputLabel">
+      <span class="section-num">1</span>
+      <span>Type here / <span class="khmer-inline">វាយទីនេះ</span></span>
+    </div>
+    <div class="card card-input">
+      <textarea id="in" rows="3" autofocus autocomplete="off" autocapitalize="off"
+        spellcheck="false" placeholder="វាយជាអក្សរឡាតាំង… try: nh sl bong"></textarea>
+      <div class="hint">Space joins words · double space = real space · type a word twice → ៗ</div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="outputLabel">
+    <div class="section-label" id="outputLabel">
+      <span class="section-num">2</span>
+      <span>Your Khmer / <span class="khmer-inline">អក្សរខ្មែររបស់អ្នក</span></span>
+    </div>
+    <div class="card card-output card-gold" id="outCard">
+      <div id="out" class="khmer"><span class="ph">ខ្មែរ will appear here…</span></div>
+      <div class="row">
+        <button type="button" class="primary" id="copy">Copy / ចម្លង</button>
+        <button type="button" class="secondary" id="clear">Clear</button>
+      </div>
+    </div>
+  </section>
+
   <div id="readingsWrap" style="display:none">
-    <h2>Other readings</h2><div id="readings"></div>
+    <h2 class="section-heading">Other readings / ការអានផ្សេង</h2>
+    <div id="readings"></div>
   </div>
 
   <div id="bdWrap" style="display:none">
-    <h2>Words — tap to change</h2><div id="bd"></div>
+    <h2 class="section-heading">Tap a word to change / ចុចដើម្បីផ្លាស់ប្តូរ</h2>
+    <div id="bd"></div>
   </div>
 
-  <h2>Missing a word? / បាត់ពាក្យ?</h2>
-  <div class="card">
-    <div class="row" style="margin-top:0">
-      <input type="text" id="fbSpell" placeholder="What you typed (e.g. nekna)">
+  <section class="section" aria-labelledby="feedbackLabel">
+    <div class="section-label" id="feedbackLabel">
+      <span class="section-num">3</span>
+      <span>Missing a word? / <span class="khmer-inline">បាត់ពាក្យ?</span></span>
     </div>
-    <div class="row">
-      <input type="text" id="fbKhmer" class="khmer" placeholder="The Khmer it should be (អ្នកណា)">
+    <div class="card feedback-card">
+      <div class="row" style="margin-top:0">
+        <input type="text" id="fbSpell" placeholder="What you typed (e.g. nekna)" aria-label="Roman spelling">
+      </div>
+      <div class="row">
+        <input type="text" id="fbKhmer" class="khmer" placeholder="The Khmer it should be (អ្នកណា)" aria-label="Expected Khmer word">
+      </div>
+      <div class="row">
+        <button type="button" class="primary" id="send">Send / ផ្ញើ</button>
+      </div>
+      <div class="hint">This is the most useful thing you can do — it adds real words to the dictionary.</div>
     </div>
-    <div class="row"><button class="primary" id="send">Send</button></div>
-    <div class="hint" style="margin-top:.5rem">
-      This is the most useful thing you can do — it adds real words to the dictionary.
-    </div>
-  </div>
+  </section>
+
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/app.js"></script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
+  // Collapsible privacy notice
+  (function () {
+    var notice = document.getElementById('notice');
+    var toggle = document.getElementById('noticeToggle');
+    var stored = localStorage.getItem('sk_notice_open');
+    if (stored === '1') {
+      notice.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    toggle.addEventListener('click', function () {
+      var open = notice.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      localStorage.setItem('sk_notice_open', open ? '1' : '0');
+    });
+  })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
