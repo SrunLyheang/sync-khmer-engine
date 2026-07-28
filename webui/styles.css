@@ -1,0 +1,377 @@
+/* Sing Khmer — one accent, one surface, one border, two shadows.
+ *
+ * The page had a diamond-tiled background, an ornamented hero badge, a gold accent layered
+ * over the jade one, numbered step chips and three coloured card variants. All of it competed
+ * with the only thing that matters here: a big input and big Khmer output. It's gone.
+ *
+ * Kept because they earn it: light/dark from the system, 48px touch targets, safe-area
+ * padding for notched phones.
+ */
+
+:root {
+  --bg: #fbf9f5;
+  --surface: #ffffff;
+  --ink: #1a2320;
+  --muted: #6d7a75;
+  --line: #e5e0d7;
+  --accent: #0f4c45;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8f1ef;
+  --danger: #b84332;
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(26, 35, 32, 0.05);
+  --shadow-lift: 0 8px 28px rgba(26, 35, 32, 0.12);
+  --touch: 48px;
+
+  --font-ui: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-khmer: "Noto Sans Khmer", "Khmer OS", "Battambang", system-ui, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121917;
+    --surface: #1a2320;
+    --ink: #eef3f1;
+    --muted: #93a19b;
+    --line: #2b3a35;
+    --accent: #5cc4b6;
+    --accent-ink: #0d1a17;
+    --accent-soft: #17251f;
+    --danger: #e07a6a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-lift: 0 8px 28px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* In Khmer, Khmer becomes the base font rather than the exception. */
+html[data-lang="km"] body { font-family: var(--font-khmer); }
+
+.khmer { font-family: var(--font-khmer); }
+
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1.15rem calc(4rem + env(safe-area-inset-bottom));
+}
+
+/* ---- header ---- */
+.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0 0.25rem;
+}
+
+.top h1 {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  margin: 0.15rem 0 1.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---- language switch ---- */
+.lang {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-khmer);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.lang:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---- section ---- */
+.section { margin-bottom: 1.25rem; }
+
+.section-label {
+  margin: 0 0 0.5rem 0.1rem;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+html[data-lang="km"] .section-label {
+  font-family: var(--font-khmer);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.hint {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.hint.ok { color: var(--accent); font-weight: 600; }
+
+/* ---- input ---- */
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 5rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+}
+
+textarea::placeholder, input::placeholder { color: var(--muted); opacity: 0.8; }
+
+input[type=text] {
+  width: 100%;
+  min-height: var(--touch);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+
+input[type=text]:focus, textarea:focus-visible { outline: none; }
+input[type=text]:focus { border-color: var(--accent); }
+
+/* ---- output ---- */
+#out {
+  font-family: var(--font-khmer);
+  font-size: clamp(1.5rem, 5vw, 1.9rem);
+  line-height: 1.75;
+  min-height: 2.75rem;
+  word-break: break-word;
+}
+
+#out .ph { color: var(--muted); font-size: 1.05rem; }
+
+/* Only shown when a conversion is genuinely slow — see SLOW_MS in app.js. */
+.converting {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.converting.show { display: flex; }
+
+/* ---- buttons ---- */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+button {
+  min-height: var(--touch);
+  padding: 0 1.1rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+button.primary { background: var(--accent); color: var(--accent-ink); flex: 1; }
+button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+button:active { transform: translateY(1px); }
+
+/* One rule covers every pending button, so no caller has to remember the look. */
+button[disabled] { opacity: 0.65; cursor: default; pointer-events: none; }
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 2.5s; }
+}
+
+/* ---- word tiles ---- */
+#bd { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+}
+
+.latin {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.alt-row, #readings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.alt {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-khmer);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.alt.chosen { background: var(--accent-soft); border-color: var(--accent); }
+.alt.en { border-style: dashed; font-family: var(--font-ui); font-size: 0.95rem; }
+.alt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.unknown {
+  margin-left: 0.5rem;
+  color: var(--danger);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+}
+
+.ask { margin-top: 0.6rem; }
+.ask .row { margin-top: 0.5rem; }
+
+/* ---- privacy notice ---- */
+.notice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.notice-toggle {
+  width: 100%;
+  min-height: var(--touch);
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: left;
+  justify-content: space-between;
+}
+
+.notice-chevron { transition: transform 0.2s; font-size: 0.7rem; }
+.notice.open .notice-chevron { transform: rotate(180deg); }
+
+.notice-body {
+  display: none;
+  padding: 0 0.9rem 0.9rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.notice.open .notice-body { display: block; }
+.notice-body p { margin: 0 0 0.6rem; }
+.notice-body .warn { color: var(--danger); }
+
+label.sw {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--touch);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
+
+/* ---- toast ---- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(10px);
+  max-width: calc(100vw - 2rem);
+  padding: 0.7rem 1.25rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: var(--shadow-lift);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

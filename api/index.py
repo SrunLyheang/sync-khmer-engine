@@ -185,14 +185,17 @@ def feedback(body: FeedbackIn, request: Request) -> JSONResponse:
         return JSONResponse({"ok": False, "error": "bad_spelling"}, status_code=400)
     if not khmer:
         return JSONResponse({"ok": False, "error": "need_khmer"}, status_code=400)
+    # Say so, rather than thanking someone for a word that went nowhere. This used to answer
+    # {"ok": true, "stored": false} with a 200, so a degraded deployment looked like it was
+    # collecting data when nothing was being written.
     if not storage.available():
-        return JSONResponse({"ok": True, "stored": False})
+        return JSONResponse({"ok": False, "error": "not_stored"}, status_code=503)
     source = "inline" if body.source == "inline" else "form"
     try:
         storage.record_correction(request.state.session_id, spelling, khmer, source)
     except Exception:
         log.exception("record_correction failed")
-        return JSONResponse({"ok": False}, status_code=200)
+        return JSONResponse({"ok": False, "error": "not_stored"}, status_code=500)
     return JSONResponse({"ok": True, "stored": True})
 
 
@@ -204,20 +207,28 @@ def home() -> HTMLResponse:
     return HTMLResponse((ROOT / "webui" / "index.html").read_text(encoding="utf-8"))
 
 
-@app.get("/app.js")
-def app_js() -> Response:
-    return Response(
-        (ROOT / "webui" / "app.js").read_text(encoding="utf-8"),
-        media_type="application/javascript",
-    )
+# A fixed table, not a path parameter: the browser never gets to name a file, so there is
+# no traversal surface. Adding an asset means adding a line here.
+STATIC = {
+    "/app.js": ("app.js", "application/javascript"),
+    "/i18n.js": ("i18n.js", "application/javascript"),
+    "/speed-insights.js": ("speed-insights.js", "application/javascript"),
+    "/styles.css": ("styles.css", "text/css"),
+}
 
 
-@app.get("/speed-insights.js")
-def speed_insights_js() -> Response:
-    return Response(
-        (ROOT / "webui" / "speed-insights.js").read_text(encoding="utf-8"),
-        media_type="application/javascript",
-    )
+def _serve_static(filename: str, media_type: str):
+    def handler() -> Response:
+        return Response(
+            (ROOT / "webui" / filename).read_text(encoding="utf-8"),
+            media_type=media_type,
+        )
+
+    return handler
+
+
+for _route, (_filename, _media_type) in STATIC.items():
+    app.get(_route)(_serve_static(_filename, _media_type))
 
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
@@ -247,6 +258,7 @@ def health() -> JSONResponse:
         "words": len(ENGINE.vocab),
         "spellings": len(ENGINE.index),
         "storage": m,
+        "location": diag["location"],   # where to go looking for the rows
         "connected": is_ok,
         "env_var": diag["env_var"],
         "tables": diag["tables"],
@@ -293,6 +305,14 @@ margin:0 .8rem .8rem 0}}</style>
   <div class="card"><div class="big">{s.get('conversions', 0)}</div>conversions</div>
   <div class="card"><div class="big">{s.get('corrections', 0)}</div>corrections sent</div>
 </div>
+<p><b>Words people sent us</b> through "Missing a word?" — newest first. The same answer from
+several people is one row with a higher <i>people</i> count, which is the whole signal: one
+person can be wrong or joking, five agreeing rarely are.</p>
+<table><tr><th>they typed</th><th>should be</th><th>people</th><th>times</th><th>where</th>
+<th>last sent</th></tr>
+{rows(s.get('recent_corrections', []),
+      ['spelling', 'khmer', 'people', 'times', 'source', 'last_seen'])}</table>
+
 <p><b>Words we couldn't convert</b> is the number to watch — it's the share of everything typed
 that the dictionary is still missing. Sorted by how many <i>different</i> people hit each one.</p>
 <table><tr><th>missing spelling</th><th>times</th><th>people</th></tr>
@@ -301,7 +321,7 @@ that the dictionary is still missing. Sorted by how many <i>different</i> people
 evidence you have, because they chose it and then used it.</p>
 <table><tr><th>spelling</th><th>engine said</th><th>they chose</th><th>people</th><th>times</th></tr>
 {rows(s.get('top_overrides', []), ['spelling', 'engine_top', 'chosen', 'people', 'times'])}</table>
-<p style="color:#666;font-size:.85rem">storage: {e(str(s.get('storage')))} · aggregates only,
+<p style="color:#666;font-size:.85rem">storage: {e(str(s.get('location')))} · aggregates only,
 no messages shown here.</p>""")
 
 

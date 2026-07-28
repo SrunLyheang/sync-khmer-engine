@@ -28,8 +28,11 @@ import re
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 log = logging.getLogger("sing_khmer.storage")
+
+ROOT = Path(__file__).resolve().parents[1]
 
 DB_ENV_VARS = (
     "DATABASE_URL",
@@ -40,7 +43,10 @@ DB_ENV_VARS = (
 )
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
-SQLITE_PATH = os.environ.get("SQLITE_PATH", "/tmp/sing_khmer.db")
+# Anchored to the repo root, not the working directory, so the dev database doesn't move
+# depending on where uvicorn was started from. It used to live in /tmp, which made it
+# invisible ("I sent a word and see nothing") and wiped it on reboot. Gitignored.
+SQLITE_PATH = os.environ.get("SQLITE_PATH", str(ROOT / "local.db"))
 # Vercel sets VERCEL=1. Its disk is wiped on every deploy, so falling back to SQLite there
 # would silently throw away everything — refuse instead of pretending to store data.
 IS_SERVERLESS = bool(os.environ.get("VERCEL"))
@@ -114,6 +120,21 @@ def redact_error(msg: str) -> str:
     return msg
 
 
+def location() -> str:
+    """Where the data actually is, in words — for humans looking for their rows.
+
+    Never the connection string: for Postgres this names the *environment variable*, so it
+    can be printed in a terminal or rendered on /admin without leaking credentials.
+    """
+    m = mode()
+    if m == "sqlite":
+        return f"sqlite file: {SQLITE_PATH}"
+    if m == "postgres":
+        _, env_var = get_db_env()
+        return f"postgres (from ${env_var})"
+    return "disabled — nothing is being stored"
+
+
 def diagnose() -> dict:
     """Diagnose storage connectivity, table existence, and row counts."""
     url, env_var = get_db_env()
@@ -121,6 +142,7 @@ def diagnose() -> dict:
 
     result = {
         "storage": m,
+        "location": location(),
         "env_var": env_var,
         "checked_env_vars": list(DB_ENV_VARS) if env_var is None else None,
         "connected": False,
@@ -339,9 +361,9 @@ def record_correction(session_id: str, spelling: str, expected_khmer: str, sourc
 def stats() -> dict:
     """Aggregates only — never raw messages. Powers /admin."""
     if not available():
-        return {"storage": mode()}
+        return {"storage": mode(), "location": location()}
     migrate()
-    out: dict = {"storage": mode()}
+    out: dict = {"storage": mode(), "location": location()}
     with connect() as (conn, ph):
         cur = conn.cursor()
 
@@ -377,7 +399,33 @@ def stats() -> dict:
             {"spelling": r[0], "engine_top": r[1], "chosen": r[2], "people": r[3], "times": r[4]}
             for r in cur.fetchall()
         ]
+        out["recent_corrections"] = recent_corrections(cur, 50)
     return out
+
+
+def recent_corrections(cur, limit: int = 50) -> list[dict]:
+    """What people typed into "Missing a word?", newest first.
+
+    Grouped by (spelling, khmer) so the same answer from five people is one row with
+    `people = 5` — agreement is the whole signal — rather than five rows to read past.
+    """
+    cur.execute(
+        "SELECT spelling, expected_khmer, COUNT(DISTINCT session_id) AS people,"
+        " COUNT(*) AS times, MIN(source) AS source, MAX(ts) AS last_seen"
+        " FROM corrections GROUP BY spelling, expected_khmer"
+        f" ORDER BY last_seen DESC LIMIT {int(limit)}"
+    )
+    return [
+        {
+            "spelling": r[0],
+            "khmer": r[1],
+            "people": r[2],
+            "times": r[3],
+            "source": r[4],
+            "last_seen": str(r[5])[:19],
+        }
+        for r in cur.fetchall()
+    ]
 
 
 def purge_expired(now: datetime | None = None) -> int:
