@@ -312,3 +312,5 @@ window.SkI18n.onChange((lang) => {
   render();               // word tiles and the placeholder carry translated text too
 });
 window.SkI18n.apply();
+const bootLoader = $('bootLoader');
+if (bootLoader) bootLoader.classList.add('is-hidden');

@@ -263,18 +263,89 @@ def _github_api(path: str, method: str = "GET", data: dict | None = None) -> dic
         else:
             return {"ok": False, "error": f"unknown_method: {method}"}
         if r.status_code >= 400:
-            return {"ok": False, "error": f"github_api_error_{r.status_code}",
-                    "detail": r.text[:500]}
+            detail = r.text[:500]
+            try:
+                parsed = r.json()
+                if isinstance(parsed, dict):
+                    detail = parsed.get("message") or detail
+            except Exception:
+                pass
+            return {
+                "ok": False,
+                "error": f"github_api_error_{r.status_code}",
+                "detail": detail,
+                "github_status": r.status_code,
+            }
         return {"ok": True, "data": r.json() if r.text else {}}
+    except httpx.TimeoutException:
+        return {"ok": False, "error": "github_timeout", "detail": "GitHub did not respond in time."}
+    except httpx.RequestError as e:
+        return {"ok": False, "error": "github_network_error", "detail": str(e)[:200]}
     except Exception as e:
-        return {"ok": False, "error": str(e)[:200]}
+        return {"ok": False, "error": "github_request_failed", "detail": str(e)[:200]}
+
+
+def _github_hint(step: str, result: dict, owner: str, repo: str) -> str:
+    status = result.get("github_status")
+    detail = str(result.get("detail", "")).lower()
+    full_repo = f"{owner}/{repo}"
+
+    if result.get("error") == "github_timeout":
+        return "Try again. GitHub did not respond before the timeout."
+    if result.get("error") == "github_network_error":
+        return "Check the deployment can reach api.github.com, then try again."
+    if status == 401:
+        return "Check GITHUB_TOKEN. It is missing, expired, or invalid."
+    if status == 403:
+        return (
+            "Give GITHUB_TOKEN write access to the repo. Fine-grained tokens need Contents "
+            "read/write and Pull requests read/write."
+        )
+    if status == 404 and step == "vocabulary":
+        return (
+            f"Check GITHUB_REPO is {full_repo}, the token can access it, and "
+            "data/vocabulary.csv exists on the master branch."
+        )
+    if status == 404 and step == "master":
+        return "The master branch was not found. If the repo uses main, update the submit code/base branch."
+    if status == 404:
+        return f"Check GITHUB_REPO is {full_repo} and the token has access to that repo."
+    if status == 409:
+        return "The branch changed while submitting. Refresh the admin page and try again."
+    if status == 422 and step == "branch":
+        return "A review branch with this name already exists. Delete old review branches or try again tomorrow."
+    if status == 422 and step == "pull":
+        return "GitHub rejected the PR. Check whether a PR from this review branch already exists."
+    if "reference already exists" in detail:
+        return "Delete the existing review branch on GitHub, then try again."
+    return "Open the browser console or deployment logs for the full GitHub response."
+
+
+def _github_failure(message: str, result: dict, step: str, owner: str, repo: str) -> JSONResponse:
+    return JSONResponse(
+        {
+            "ok": False,
+            "error": message,
+            "detail": result.get("detail") or result.get("error", ""),
+            "hint": _github_hint(step, result, owner, repo),
+            "github_status": result.get("github_status"),
+        },
+        status_code=502,
+    )
 
 
 def _get_repo() -> tuple[str, str] | None:
-    """Return (owner, repo) from GITHUB_REPO env var. Default: SrunLyheang/sing-khmer-engine-2."""
+    """Return (owner, repo) from GITHUB_REPO.
+
+    Accept both the compact `owner/repo` form and common GitHub URLs so deploy config mistakes
+    don't make the dashboard look broken.
+    """
     repo = os.environ.get("GITHUB_REPO", "SrunLyheang/sing-khmer-engine-2").strip()
+    repo = re.sub(r"^git@github\.com:", "", repo)
+    repo = re.sub(r"^https?://github\.com/", "", repo)
+    repo = repo.removesuffix(".git").strip("/")
     parts = repo.split("/")
-    if len(parts) != 2 or not parts[0] or not parts[1]:
+    if len(parts) != 2 or not all(re.fullmatch(r"[A-Za-z0-9_.-]+", p) for p in parts):
         return None
     return parts[0], parts[1]
 
@@ -351,13 +422,24 @@ async def submit(request: Request):
     token = os.environ.get("GITHUB_TOKEN", "")
     if not token:
         return JSONResponse(
-            {"ok": False, "error": "GitHub token not configured. Set GITHUB_TOKEN env var."},
+            {
+                "ok": False,
+                "error": "GitHub token is not configured.",
+                "hint": "Set GITHUB_TOKEN in the deployment environment, then redeploy.",
+            },
             status_code=503,
         )
 
     repo_info = _get_repo()
     if not repo_info:
-        return JSONResponse({"ok": False, "error": "Bad GITHUB_REPO format"}, status_code=500)
+        return JSONResponse(
+            {
+                "ok": False,
+                "error": "GitHub repo is not configured correctly.",
+                "hint": "Set GITHUB_REPO to owner/repo, for example SrunLyheang/sing-khmer-engine-2.",
+            },
+            status_code=400,
+        )
     owner, repo = repo_info
 
     # 1. Get accepted items
@@ -369,11 +451,7 @@ async def submit(request: Request):
     file_path = "data/vocabulary.csv"
     current = _github_api(f"/repos/{owner}/{repo}/contents/{file_path}?ref=master")
     if not current["ok"]:
-        return JSONResponse(
-            {"ok": False, "error": "Failed to fetch vocabulary.csv",
-             "detail": current.get("error", "")},
-            status_code=502,
-        )
+        return _github_failure("Could not read data/vocabulary.csv from GitHub.", current, "vocabulary", owner, repo)
     file_sha = current["data"]["sha"]
     import base64
     original = base64.b64decode(current["data"]["content"]).decode("utf-8")
@@ -384,11 +462,7 @@ async def submit(request: Request):
     # 4. Get master SHA
     master = _github_api(f"/repos/{owner}/{repo}/git/ref/heads/master")
     if not master["ok"]:
-        return JSONResponse(
-            {"ok": False, "error": "Failed to get master ref",
-             "detail": master.get("error", "")},
-            status_code=502,
-        )
+        return _github_failure("Could not find the master branch on GitHub.", master, "master", owner, repo)
     master_sha = master["data"]["object"]["sha"]
 
     # 5. Create review branch
@@ -407,11 +481,7 @@ async def submit(request: Request):
         if create_branch["ok"]:
             break
         if not str(create_branch.get("error", "")).endswith("_422"):
-            return JSONResponse(
-                {"ok": False, "error": "Failed to create branch",
-                 "detail": create_branch.get("error", "")},
-                status_code=502,
-            )
+            return _github_failure("Could not create the review branch on GitHub.", create_branch, "branch", owner, repo)
         branch_name = f"{base_name}-{attempt}"
     else:
         return JSONResponse(
@@ -432,11 +502,7 @@ async def submit(request: Request):
         },
     )
     if not commit_result["ok"]:
-        return JSONResponse(
-            {"ok": False, "error": "Failed to commit changes",
-             "detail": commit_result.get("error", "")},
-            status_code=502,
-        )
+        return _github_failure("Could not commit vocabulary changes to GitHub.", commit_result, "commit", owner, repo)
 
     # 7. Create PR
     reviewer = who["name"]
@@ -455,11 +521,7 @@ async def submit(request: Request):
         },
     )
     if not pr_result["ok"]:
-        return JSONResponse(
-            {"ok": False, "error": "Failed to create PR",
-             "detail": pr_result.get("error", "")},
-            status_code=502,
-        )
+        return _github_failure("Could not create the pull request on GitHub.", pr_result, "pull", owner, repo)
 
     # 8. Mark all accepted items as submitted — one statement, so it can't half-apply
     storage.admin_mark_submitted(accepted)
@@ -486,4 +548,6 @@ def github_status(request: Request):
     return JSONResponse({
         "configured": token and repo_info is not None,
         "repo": f"{repo_info[0]}/{repo_info[1]}" if repo_info else None,
+        "error": None if repo_info else "GitHub repo is not configured correctly.",
+        "hint": None if repo_info else "Set GITHUB_REPO to owner/repo, for example SrunLyheang/sing-khmer-engine-2.",
     })

@@ -96,6 +96,33 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
 
 .khmer { font-family: var(--font-khmer); }
 
+.boot-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  background:
+    radial-gradient(115% 45% at 50% -5%, var(--bg-wash) 0%, transparent 70%),
+    var(--bg);
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.boot-loader .mark { margin-bottom: 0.15rem; }
+
+.boot-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .wrap {
   max-width: 640px;
   margin: 0 auto;

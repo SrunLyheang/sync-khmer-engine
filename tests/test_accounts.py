@@ -8,6 +8,7 @@ fastapi = pytest.importorskip("fastapi", reason="web app deps not installed")
 from fastapi.testclient import TestClient  # noqa: E402
 
 from api import accounts, index, security, storage  # noqa: E402
+from api.admin_routes import _get_repo  # noqa: E402
 
 ADMIN = "test-admin-token"
 
@@ -189,6 +190,30 @@ def test_only_the_owner_can_push_to_github(client, monkeypatch):
     helper, _ = invited(client)
     assert helper.post("/admin/api/submit", json={}).status_code == 403
     assert TestClient(index.app).post("/admin/api/submit", json={}).status_code == 404
+
+
+@pytest.mark.parametrize("value", [
+    "SrunLyheang/sing-khmer-engine-2",
+    "https://github.com/SrunLyheang/sing-khmer-engine-2",
+    "https://github.com/SrunLyheang/sing-khmer-engine-2.git",
+    "git@github.com:SrunLyheang/sing-khmer-engine-2.git",
+])
+def test_github_repo_accepts_common_formats(monkeypatch, value):
+    monkeypatch.setenv("GITHUB_REPO", value)
+    assert _get_repo() == ("SrunLyheang", "sing-khmer-engine-2")
+
+
+def test_bad_github_repo_format_is_a_client_error(client, monkeypatch):
+    monkeypatch.setenv("GITHUB_TOKEN", "not-a-real-token")
+    monkeypatch.setenv("GITHUB_REPO", "github.com/SrunLyheang/sing-khmer-engine-2/tree/main")
+    owner(client)
+
+    res = client.post("/admin/api/submit", json={})
+
+    assert res.status_code == 400
+    body = res.json()
+    assert body["error"] == "GitHub repo is not configured correctly."
+    assert "GITHUB_REPO" in body["hint"]
 
 
 def test_the_queue_is_hidden_from_strangers(client):

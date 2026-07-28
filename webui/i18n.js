@@ -53,6 +53,7 @@ const SK_DICTS = {
 
     'common.send': 'Send',
     'common.sending': 'Sending…',
+    'common.loading': 'Loading…',
     'common.thanks': 'Thank you!',
     'common.copied': 'Copied',
     'common.nothingToCopy': 'Nothing to copy',
@@ -102,6 +103,7 @@ const SK_DICTS = {
 
     'common.send': 'ផ្ញើ',
     'common.sending': 'កំពុងផ្ញើ…',
+    'common.loading': 'កំពុងផ្ទុក…',
     'common.thanks': 'អរគុណ!',
     'common.copied': 'បានចម្លង',
     'common.nothingToCopy': 'គ្មានអ្វីត្រូវចម្លងទេ',

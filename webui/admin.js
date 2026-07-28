@@ -45,17 +45,53 @@
   }
 
   // ---- API helpers ------------------------------------------------------------
+  async function readApiResponse(res) {
+    var body = {};
+    var text = await res.text();
+    if (text) {
+      try {
+        body = JSON.parse(text);
+      } catch (e) {
+        body = { detail: text.slice(0, 300) };
+      }
+    }
+    if (body == null || typeof body !== 'object') body = {};
+    body.http_status = res.status;
+    if (!res.ok) {
+      body.ok = false;
+      if (!body.error) body.error = 'Request failed (' + res.status + ')';
+    }
+    return body;
+  }
+
+  function apiError(result, fallback) {
+    if (!result) return fallback;
+    var msg = result.error || fallback;
+    if (result.detail && result.detail !== msg) msg += ': ' + result.detail;
+    if (result.hint) msg += ' Fix: ' + result.hint;
+    if (result.github_status) msg += ' (GitHub ' + result.github_status + ')';
+    return msg;
+  }
+
   async function apiGet(path) {
-    const res = await fetch('/admin/api/' + path, { headers: HEADERS, credentials: 'same-origin' });
-    return res.json();
+    try {
+      const res = await fetch('/admin/api/' + path, { headers: HEADERS, credentials: 'same-origin' });
+      return readApiResponse(res);
+    } catch (e) {
+      return { ok: false, error: 'Could not reach the server.', detail: String(e).slice(0, 160), http_status: 0 };
+    }
   }
 
   async function apiPost(path, body) {
-    const res = await fetch('/admin/api/' + path, {
-      method: 'POST', headers: HEADERS, credentials: 'same-origin',
-      body: JSON.stringify(body),
-    });
-    return res.json();
+    try {
+      const res = await fetch('/admin/api/' + path, {
+        method: 'POST', headers: HEADERS, credentials: 'same-origin',
+        body: JSON.stringify(body),
+      });
+      return readApiResponse(res);
+    } catch (e) {
+      return { ok: false, error: 'Could not reach the server.', detail: String(e).slice(0, 160), http_status: 0 };
+    }
   }
 
   // ---- render -----------------------------------------------------------------
@@ -240,14 +276,14 @@
         toast((action === 'accept' ? 'Accepted: ' : 'Rejected: ') + spelling + ' → ' + khmer, 'ok');
         await refresh();
       } else {
-        toast(result.error || 'Action failed', 'err');
+        toast(apiError(result, 'Action failed'), 'err');
         if (btnEl) {
           btnEl.disabled = false;
           btnEl.textContent = action === 'accept' ? 'Accept' : 'Reject';
         }
       }
     } catch (e) {
-      toast('Network error', 'err');
+      toast('Action failed: ' + String(e).slice(0, 160), 'err');
       if (btnEl) {
         btnEl.disabled = false;
         btnEl.textContent = action === 'accept' ? 'Accept' : 'Reject';
@@ -266,14 +302,14 @@
         toast('Undone: ' + result.spelling + ' → ' + result.khmer, 'info');
         await refresh();
       } else {
-        toast(result.error || 'Undo failed', 'err');
+        toast(apiError(result, 'Undo failed'), 'err');
         if (btnEl) {
           btnEl.disabled = false;
           btnEl.textContent = 'Undo';
         }
       }
     } catch (e) {
-      toast('Network error', 'err');
+      toast('Undo failed: ' + String(e).slice(0, 160), 'err');
       if (btnEl) {
         btnEl.disabled = false;
         btnEl.textContent = 'Undo';
@@ -341,7 +377,7 @@
         }
         await refresh();
       } else {
-        toast(result.error || 'Submission failed', 'err');
+        toast(apiError(result, 'Submission failed'), 'err');
       }
     });
 
@@ -379,6 +415,8 @@
         apiGet('queue'),
         apiGet('history'),
       ]);
+      if (qData.ok === false) throw new Error(apiError(qData, 'Failed to load queue'));
+      if (hData.ok === false) throw new Error(apiError(hData, 'Failed to load history'));
       queue = qData.items || [];
       historyItems = hData.actions || [];
       updateStats(qData.counts || { total: 0, pending: 0, accepted: 0, rejected: 0 });
@@ -387,13 +425,18 @@
 
       // Check GitHub status
       var ghStatus = await apiGet('github-status');
-      if (!ghStatus.configured) {
+      if (ghStatus.ok === false) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'GitHub status unavailable';
+        btnSubmit.title = apiError(ghStatus, 'Could not check GitHub status');
+      } else if (!ghStatus.configured) {
         btnSubmit.disabled = true;
         btnSubmit.textContent = 'GitHub not configured';
-        btnSubmit.title = 'Set GITHUB_TOKEN and GITHUB_REPO env vars to enable submission.';
+        btnSubmit.title = ghStatus.error || 'Set GITHUB_TOKEN and GITHUB_REPO env vars to enable submission.';
       }
     } catch (e) {
-      content.innerHTML = '<div class="empty"><div class="empty-icon">⚠</div><p>Failed to load. Check your connection and admin token.</p></div>';
+      content.innerHTML = '<div class="empty"><div class="empty-icon">⚠</div><p>' +
+        escapeHtml(String(e.message || e).slice(0, 300)) + '</p></div>';
       console.error(e);
     }
   }
@@ -490,7 +533,7 @@
           start();
           return;
         }
-        err.textContent = GATE_ERRORS[out && out.error] || 'Could not sign in.';
+        err.textContent = GATE_ERRORS[out && out.error] || apiError(out, 'Could not sign in.');
       } catch (e) {
         err.textContent = 'Could not reach the server.';
       } finally {
@@ -541,7 +584,7 @@
   if (inviteBtn) {
     inviteBtn.onclick = async function () {
       const out = await apiPost('invite', {});
-      if (!out || !out.ok) { toast('Could not create an invite', 'error'); return; }
+      if (!out || !out.ok) { toast(apiError(out, 'Could not create an invite'), 'err'); return; }
       // Shown once — the server keeps only a hash, so this link cannot be recovered later.
       const box = el('div', 'invite-out');
       box.appendChild(el('p', null,
@@ -555,7 +598,7 @@
       content.replaceChildren(box);
       input.focus();
       input.select();
-      try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'success'); }
+      try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'ok'); }
       catch (e) { toast('Copy the link below', 'info'); }
     };
   }
@@ -568,6 +611,10 @@
       state = await apiGet('me');
     } catch (e) {
       content.replaceChildren(el('div', 'empty', 'Could not reach the server.'));
+      return;
+    }
+    if (state.ok === false) {
+      content.replaceChildren(el('div', 'empty', apiError(state, 'Could not load admin state.')));
       return;
     }
     if (state.signed_in) {
