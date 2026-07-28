@@ -1,78 +1,73 @@
-/* Sing Khmer — "one script, two surfaces it has always been written on."
+/* Sing Khmer — calm.
  *
- * Design idea: every version of Khmer writing has been inscribed onto something —
- * incised into palm leaf (sleuk rith) and rubbed with dark resin, or inlaid in gold
- * over black lacquerware (juk). This app does the same job their scribes did: take
- * a rough draft and fix it into proper script. So the light theme reads as ink on a
- * dried palm leaf; the dark theme reads as gold leaf on black lacquer. Same accent
- * hue family in both — sienna ink lightens straight into gold leaf — just a different
- * surface catching it.
+ * Two earlier passes missed in opposite directions: the first was ornate (a tiled pattern
+ * behind everything, gold glow, numbered chips, four card variants), the second stripped so
+ * much that the page read flat. Both shared the real problem — the page was a long stack of
+ * separate boxes, one per idea, each with its own border, shadow and shouting label.
  *
- * The one recurring device is the manuscript cord: sleuk rith leaves are bound in a
- * stack by a string threaded through a punched hole. That becomes the "knot" motif —
- * a small dot beside every section label, and a literal knotted thread tying your
- * typed leaf to the Khmer leaf it becomes. Spent in exactly those two places; nowhere
- * else does the page reach for ornament.
+ * This version reduces the number of *objects* instead of the number of decorations:
+ *
+ *   - typing and the Khmer it produces are ONE panel, not two labelled cards
+ *   - the word breakdown is ONE card with hairline rows, not a card per word
+ *   - labels are quiet sentence case, not uppercase with rules through them
+ *   - borders do the work; shadows are nearly gone
+ *
+ * The jade mark in the header is the only ornament left, and it's the identity.
  */
 
 :root {
-  --bg: #ece1c3;
-  --bg-wash: rgba(122, 51, 36, 0.06);
-  --surface: #f6efdc;
-  --surface-raised: #fbf7ec;
-  --ink: #2a2013;
-  --ink-soft: #55442c;
-  --muted: #8d7a58;
-  --line: #d9c89b;
-  --line-strong: #c4ad7b;
-  --accent: #7a3324;
-  --accent-hover: #5e2519;
-  --accent-ink: #f6efdc;
-  --accent-soft: rgba(122, 51, 36, 0.09);
-  --thread: #93701f;
-  --thread-line: rgba(147, 112, 31, 0.45);
-  --danger: #a23b28;
+  --bg: #f7f4ed;
+  --surface: #fffefb;
+  --ink: #1a2320;
+  --ink-soft: #414e49;
+  --muted: #7d8a83;
+  --line: #e7e1d5;
+  --line-soft: #efeae0;
+  --accent: #12544c;
+  --accent-hover: #0d3f39;
+  --accent-ink: #ffffff;
+  --accent-soft: #eaf2f0;
+  --gold-line: rgba(166, 124, 20, 0.4);
+  --danger: #b03d2c;
 
-  --radius: 10px;
-  --radius-lg: 16px;
-  --shadow: 0 1px 2px rgba(42, 32, 19, 0.05), 0 1px 3px rgba(42, 32, 19, 0.04);
-  --shadow-raised: 0 2px 4px rgba(42, 32, 19, 0.05), 0 14px 32px rgba(42, 32, 19, 0.09);
-  --shadow-lift: 0 10px 34px rgba(42, 32, 19, 0.22);
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(26, 35, 32, 0.03);
+  --shadow-lift: 0 10px 30px rgba(26, 35, 32, 0.15);
   --touch: 48px;
 
   --font-display: "Fraunces", "Noto Serif Khmer", serif;
   --font-ui: "Work Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --font-khmer: "Noto Sans Khmer", "Khmer OS", "Battambang", system-ui, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-khmer:
+    "Noto Sans Khmer", "Khmer OS", "Battambang", system-ui, sans-serif;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #14110c;
-    --bg-wash: rgba(214, 154, 73, 0.08);
-    --surface: #1c1710;
-    --surface-raised: #251e15;
-    --ink: #f2e6c9;
-    --ink-soft: #cdb98d;
-    --muted: #8d7c5c;
-    --line: #33291b;
-    --line-strong: #473820;
-    --accent: #d69a49;
-    --accent-hover: #e6b167;
-    --accent-ink: #1b1509;
-    --accent-soft: rgba(214, 154, 73, 0.14);
-    --thread: #c2703a;
-    --thread-line: rgba(194, 112, 58, 0.45);
-    --danger: #dd7a53;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-raised: 0 2px 4px rgba(0, 0, 0, 0.3), 0 14px 32px rgba(0, 0, 0, 0.4);
-    --shadow-lift: 0 10px 34px rgba(0, 0, 0, 0.5);
+    --bg: #101614;
+    --surface: #19211f;
+    --ink: #ecf1ef;
+    --ink-soft: #c0cbc6;
+    --muted: #8b9791;
+    --line: #29332f;
+    --line-soft: #222b28;
+    --accent: #5cc2b4;
+    --accent-hover: #78d4c8;
+    --accent-ink: #08130f;
+    --accent-soft: #17241f;
+    --gold-line: rgba(212, 172, 82, 0.35);
+    --danger: #e07a6a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    --shadow-lift: 0 10px 30px rgba(0, 0, 0, 0.45);
     color-scheme: dark;
   }
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
@@ -80,49 +75,50 @@
 body {
   margin: 0;
   min-height: 100dvh;
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  background:
-    radial-gradient(115% 45% at 50% -5%, var(--bg-wash) 0%, transparent 70%),
-    var(--bg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
-html[data-lang="km"] body { font-family: var(--font-khmer); }
-
-.khmer { font-family: var(--font-khmer); }
+html[data-lang="km"] body {
+  font-family: var(--font-khmer);
+}
+.khmer {
+  font-family: var(--font-khmer);
+}
 
 .wrap {
-  max-width: 640px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: max(1.25rem, env(safe-area-inset-top)) 1.15rem calc(4rem + env(safe-area-inset-bottom));
+  padding: max(1.5rem, env(safe-area-inset-top)) 1.15rem
+    calc(4rem + env(safe-area-inset-bottom));
 }
 
 /* ---- header ---------------------------------------------------------------------- */
 .top {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 0.6rem;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
-/* A small inlaid tile: gold-on-black in dark mode (lacquer), ink-on-leaf in light. */
+/* The only ornament on the page. */
 .mark {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: var(--ink);
-  color: var(--bg);
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--gold-line);
+  color: var(--accent-ink);
   font-family: var(--font-khmer);
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1;
   user-select: none;
   box-shadow: inset 0 0 0 1px var(--thread-line);
@@ -131,174 +127,131 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
 .top h1 {
   flex: 1;
   margin: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 1.55rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 .tagline {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.75rem;
   color: var(--muted);
   font-size: 0.9rem;
-  max-width: 32rem;
 }
 
 .lang {
   flex-shrink: 0;
-  min-height: 34px;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
+  min-height: 32px;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
   background: var(--surface);
-  color: var(--ink-soft);
+  color: var(--muted);
   font-family: var(--font-khmer);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
-.lang:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-.lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lang:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.lang:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
-/* The manuscript cord, threaded once under the header — not repeated as a page border. */
-.thread {
-  display: block;
-  height: 1px;
-  margin: 0 0 1.5rem;
-  background-image: repeating-linear-gradient(
-    90deg, var(--thread-line) 0, var(--thread-line) 5px, transparent 5px, transparent 10px
-  );
+/* ---- the panel: typing and its Khmer, as one object ------------------------------- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel-part {
+  padding: 1rem 1.1rem;
+}
+
+/* A hairline instead of a gap: still clearly two halves, still one object. */
+.panel-out {
+  border-top: 1px solid var(--line-soft);
+}
+
+.note {
+  margin: 0.6rem 0.2rem 1.75rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 /* ---- sections -------------------------------------------------------------------- */
-.section { margin-bottom: 1.4rem; }
+.section {
+  margin-bottom: 1.5rem;
+}
 
-/* The knot: a small dot standing in for the hole punched through a palm leaf, with the
-   cord trailing off after it — this is what makes the sections read as a bound stack. */
+/* Quiet. These name a thing; they aren't headings that need to compete with content. */
 .section-label {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.6rem 0.2rem;
   font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--muted);
-}
-
-.section-label::before {
-  content: "";
-  flex-shrink: 0;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--thread);
-}
-
-.section-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background-image: repeating-linear-gradient(
-    90deg, var(--thread-line) 0, var(--thread-line) 3px, transparent 3px, transparent 7px
-  );
 }
 
 html[data-lang="km"] .section-label {
   font-family: var(--font-khmer);
-  font-size: 0.92rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
+  font-size: 0.9rem;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 0.95rem 1.05rem;
+  padding: 0.9rem 1.1rem;
   box-shadow: var(--shadow);
 }
 
-/* The answer. The only card that lifts off the page. */
-.card-output {
-  position: relative;
-  background: var(--surface-raised);
-  border-radius: var(--radius-lg);
-  border-color: var(--line-strong);
-  padding: 1.15rem 1.15rem 1rem;
-  box-shadow: var(--shadow-raised);
-  overflow: hidden;
-}
-
-.card-output::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  background: linear-gradient(90deg, var(--thread-line), transparent 70%);
-}
-
-/* The tie: your typed leaf, knotted to the Khmer leaf it becomes. The one place the
-   cord is vertical and literal rather than a section-label flourish. */
-.tie {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  height: 22px;
-  margin: -0.5rem 0 0.3rem;
-}
-
-.tie-line {
-  width: 1px;
-  flex: 1;
-  background: var(--thread-line);
-}
-
-.tie-knot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--thread);
-  flex-shrink: 0;
-}
-
 .hint {
-  margin: 0.7rem 0 0;
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--line);
+  margin: 0.5rem 0 0;
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.5;
 }
 
-.hint.ok { color: var(--accent); font-weight: 600; border-top: 0; padding-top: 0; }
+.hint.ok {
+  color: var(--accent);
+  font-weight: 600;
+}
 
 /* ---- input ----------------------------------------------------------------------- */
 textarea {
   display: block;
   width: 100%;
-  min-height: 5rem;
+  min-height: 3.4rem; /* ~2 lines: room to type without a hole above the divider */
   border: 0;
   padding: 0;
   background: transparent;
   color: var(--ink);
   font-family: var(--font-ui);
-  font-size: 1.12rem;
-  line-height: 1.65;
+  font-size: 1.1rem;
+  line-height: 1.6;
   resize: none;
   outline: none;
 }
 
-textarea::placeholder, input::placeholder { color: var(--muted); opacity: 0.75; }
+textarea::placeholder,
+input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
 
-input[type=text] {
+input[type="text"] {
   width: 100%;
   min-height: var(--touch);
   padding: 0.6rem 0.8rem;
@@ -309,27 +262,26 @@ input[type=text] {
   font-family: inherit;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
 }
 
-input[type=text]:focus {
+input[type="text"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 /* ---- output ---------------------------------------------------------------------- */
 #out {
   font-family: var(--font-khmer);
-  font-size: clamp(1.55rem, 5.5vw, 1.95rem);
+  font-size: clamp(1.45rem, 5vw, 1.8rem);
   line-height: 1.8;
-  min-height: 2.9rem;
+  min-height: 2.6rem;
   word-break: break-word;
 }
 
 #out .ph {
   color: var(--muted);
-  font-size: 1.05rem;
-  opacity: 0.85;
+  font-size: 1rem;
+  opacity: 0.8;
 }
 
 /* Only shown when a conversion is genuinely slow — see SLOW_MS in app.js. */
@@ -337,18 +289,20 @@ input[type=text]:focus {
   display: none;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   color: var(--muted);
   font-size: 0.8rem;
 }
 
-.converting.show { display: flex; }
+.converting.show {
+  display: flex;
+}
 
 /* ---- buttons --------------------------------------------------------------------- */
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.5rem;
   margin-top: 0.9rem;
 }
 
@@ -365,30 +319,46 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    opacity 0.15s;
 }
 
 button.primary {
   flex: 1;
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: var(--shadow);
 }
-
-button.primary:hover { background: var(--accent-hover); }
+button.primary:hover {
+  background: var(--accent-hover);
+}
 
 button.secondary {
-  background: var(--surface);
-  color: var(--ink-soft);
-  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+}
+button.secondary:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
-button.secondary:hover { border-color: var(--accent); color: var(--accent); }
-button:active { transform: translateY(1px); }
-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:active {
+  transform: translateY(1px);
+}
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* One rule covers every pending button, so no caller has to remember the look. */
-button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
+button[disabled] {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
 
 .spinner {
   width: 14px;
@@ -400,38 +370,55 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
   flex-shrink: 0;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .spinner { animation-duration: 2.5s; }
-  * { transition-duration: 0.01ms !important; }
+  .spinner {
+    animation-duration: 2.5s;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* ---- word tiles ------------------------------------------------------------------ */
-#bd { display: flex; flex-direction: column; gap: 0.55rem; }
+/* ---- word breakdown: one card, hairline rows ------------------------------------- */
+/* Each word used to be its own bordered, shadowed card, so four words read as four
+   competing objects. They're rows of one list now. */
+#bd {
+  padding: 0;
+}
 
 .tile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0.7rem 0.85rem;
-  box-shadow: var(--shadow);
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--line-soft);
 }
 
-/* The raw spelling you typed, set in mono — a keystroke, not yet a word. */
+.tile:last-child {
+  border-bottom: 0;
+}
+
 .latin {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
-.alt-row, #readings {
+.alt-row,
+#readings {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.55rem;
+}
+
+.alt-row {
+  margin-top: 0.5rem;
 }
 
 .alt {
@@ -440,22 +427,27 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
   align-items: center;
   gap: 0.4rem;
   min-height: 40px;
-  padding: 0.25rem 0.8rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
-  background: var(--bg);
+  padding: 0.2rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
   font-family: var(--font-khmer);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
 }
 
-.alt:hover { border-color: var(--accent); }
+.alt:hover {
+  border-color: var(--accent);
+}
 
 .alt.chosen {
-  background: var(--accent-soft);
+  background: var(--accent);
   border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--accent-ink);
 }
 
 /* A quiet provenance mark: solid = a spelling someone actually typed, ring = derived
@@ -469,70 +461,103 @@ button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
   flex-shrink: 0;
 }
 
-.alt[data-source="collected"]::before { background: var(--thread); }
-.alt[data-source="generated"]::before { background: transparent; box-shadow: inset 0 0 0 1px var(--thread); }
-.alt[data-source="fuzzy"]::before { background: transparent; border: 1px dashed var(--muted); }
-.alt.en::before { display: none; }
+.alt[data-source="collected"]::before {
+  background: var(--thread);
+}
+.alt[data-source="generated"]::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--thread);
+}
+.alt[data-source="fuzzy"]::before {
+  background: transparent;
+  border: 1px dashed var(--muted);
+}
+.alt.en::before {
+  display: none;
+}
 
 .alt.en {
   border-style: dashed;
   font-family: var(--font-ui);
-  font-size: 0.92rem;
-  font-weight: 500;
+  font-size: 0.9rem;
 }
 
-.alt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.alt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 .unknown {
   margin-left: 0.5rem;
   color: var(--danger);
   font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
-.ask { margin-top: 0.65rem; }
-.ask .row { margin-top: 0.5rem; }
-.ask .hint { border-top: 0; padding-top: 0; margin-top: 0; }
+.ask {
+  margin-top: 0.6rem;
+}
+.ask .row {
+  margin-top: 0.5rem;
+}
+.ask .hint {
+  margin-top: 0;
+}
 
 /* ---- privacy notice -------------------------------------------------------------- */
 .notice {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.5rem;
   overflow: hidden;
 }
 
 .notice-toggle {
   width: 100%;
   min-height: var(--touch);
-  padding: 0.5rem 0.95rem;
+  padding: 0.5rem 1.1rem;
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 500;
   text-align: left;
   justify-content: space-between;
 }
 
-.notice-toggle:hover { color: var(--ink-soft); }
-.notice-chevron { font-size: 0.65rem; transition: transform 0.2s; }
-.notice.open .notice-chevron { transform: rotate(180deg); }
+.notice-toggle:hover {
+  color: var(--ink-soft);
+}
+.notice-chevron {
+  font-size: 0.6rem;
+  transition: transform 0.2s;
+}
+.notice.open .notice-chevron {
+  transform: rotate(180deg);
+}
 
 .notice-body {
   display: none;
-  padding: 0 0.95rem 0.85rem;
-  border-top: 1px solid var(--line);
+  padding: 0 1.1rem 0.8rem;
+  border-top: 1px solid var(--line-soft);
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-.notice.open .notice-body { display: block; }
-.notice-body p { margin: 0.7rem 0; }
-.notice-body .warn { color: var(--danger); }
+.notice.open .notice-body {
+  display: block;
+}
+.notice-body p {
+  margin: 0.7rem 0;
+}
+.notice-body .warn {
+  color: var(--danger);
+}
 
 label.sw {
   display: flex;
@@ -543,7 +568,11 @@ label.sw {
   cursor: pointer;
 }
 
-label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
+label.sw input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
 
 /* ---- toast ----------------------------------------------------------------------- */
 .toast {
@@ -562,15 +591,20 @@ label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
   opacity: 0;
   pointer-events: none;
   box-shadow: var(--shadow-lift);
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
   z-index: 10;
 }
 
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
-/* ---- wider screens --------------------------------------------------------------- */
 @media (min-width: 560px) {
-  .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .top h1 { font-size: 1.75rem; }
-  .mark { width: 44px; height: 44px; font-size: 1.4rem; }
+  .wrap {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }

@@ -79,6 +79,47 @@ If you attached Postgres in Vercel but `/api/health` still shows `degraded` or y
    - `tables`: Shows current row counts for `sessions`, `conversions`, and `corrections`.
 3. **Tables appear on first visit:** Schema migrations run automatically when `/api/health` or write endpoints are called. Simply visiting `/api/health` creates the database tables so they appear in your Neon console table browser.
 
+## Getting friends to help you verify words
+
+People review at **`/review`**. Each helper gets their own account, so the dashboard can say
+who accepted what and mean it.
+
+1. **Create your owner account.** Visit `/review` on the deployed site. Because no account
+   exists yet it asks for `ADMIN_TOKEN` — paste it, pick a name and a password. That first
+   account becomes the **owner**, and the `ADMIN_TOKEN` route closes behind it, so it can't be
+   used to make a second account later.
+2. **Invite a helper.** Press **Invite a helper**. You get a single-use link that expires in 7
+   days. Send it to them — the link is shown once and is not stored anywhere, so if you lose it,
+   generate another.
+3. **They open the link**, choose a name and password, and are straight into the queue. Nothing
+   else to install or configure.
+4. **Remove someone** by disabling their account. They're locked out on their very next click;
+   their past decisions stay in the history.
+
+Roles are deliberately simple:
+
+| | reviewer | owner |
+|---|---|---|
+| Accept / reject / undo words | ✅ | ✅ |
+| See the history of who did what | ✅ | ✅ |
+| Invite and disable helpers | — | ✅ |
+| Open the dictionary pull request | — | ✅ |
+
+**Only the owner can submit to GitHub**, because that button uses a token with write access to
+the repository. Reviewers judge words; you decide what reaches the dictionary. Set `GITHUB_TOKEN`
+(a fine-grained token with *Contents: read & write* and *Pull requests: read & write* on this repo
+only) and `GITHUB_REPO` to enable the button — without them the dashboard still works and the
+button just stays disabled.
+
+Two things to know about how submissions are treated:
+
+- **Nothing a user sends is ever deleted.** Suspicious entries are *flagged* and sorted last, with
+  the reason shown. An earlier version discarded them at write time, which cost real words —
+  romanized Khmer is phonetic, so `porn` is ពាន់ (*thousand*) and `die` is ដៃ (*hand*). A person
+  spots a troll instantly; a wordlist cannot.
+- **The reviewer's name comes from their account**, never from the browser, so the history is
+  evidence rather than a claim.
+
 ## Where submitted words actually go
 
 **Into the database, not into a file.** Nothing in the repo updates itself when someone submits

@@ -177,6 +177,39 @@ a:hover { text-decoration: underline; }
   .card-item .actions { width: 100%; justify-content: flex-end; }
   .header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ---- sign-in gate ---- */
+.whoami { color: var(--text-dim); font-size: .85rem; margin-right: .5rem; }
+body.signed-out .stats,
+body.signed-out .tabs,
+body.signed-out .toolbar { display: none !important; }
+body.signed-out .reviewer-box { visibility: hidden; }
+.gate {
+  max-width: 22rem; margin: 3rem auto; padding: 1.75rem;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+}
+.gate h2 { margin: 0 0 .35rem; font-size: 1.15rem; }
+.gate-note { color: var(--text-dim); font-size: .85rem; margin: 0 0 1rem; line-height: 1.5; }
+.gate-note a { color: var(--accent); }
+.gate-field { display: block; margin-bottom: .9rem; }
+.gate-field span {
+  display: block; margin-bottom: .3rem; font-size: .8rem; color: var(--text-dim);
+}
+.gate-field input {
+  width: 100%; padding: .6rem .7rem; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  font: inherit; font-size: .95rem;
+}
+.gate-field input:focus { outline: none; border-color: var(--accent); }
+.gate .btn { width: 100%; justify-content: center; margin-top: .35rem; }
+.gate-error { color: #f87171; font-size: .85rem; margin: .75rem 0 0; min-height: 1rem; }
+.invite-out { max-width: 34rem; margin: 2rem auto; }
+.invite-out p { color: var(--text-dim); font-size: .9rem; line-height: 1.55; }
+.invite-url {
+  width: 100%; padding: .65rem .75rem; border-radius: 8px; border: 1px solid var(--accent);
+  background: var(--bg); color: var(--text); font-family: ui-monospace, monospace;
+  font-size: .82rem;
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -193,9 +226,12 @@ a:hover { text-decoration: underline; }
         <div class="header-sub">Dictionary Review Dashboard</div>
       </div>
     </div>
+    <!-- Who you are comes from the signed-in account, not a name you type: an audit trail
+         the reviewer can edit isn't an audit trail. -->
     <div class="reviewer-box">
-      <label for="reviewerName">Reviewer</label>
-      <input type="text" id="reviewerName" placeholder="Your name" maxlength="64" autocomplete="off">
+      <span id="whoami" class="whoami"></span>
+      <button type="button" id="btnInvite" class="btn btn-ghost" style="display:none">Invite a helper</button>
+      <button type="button" id="btnLogout" class="btn btn-ghost">Sign out</button>
     </div>
   </header>
 

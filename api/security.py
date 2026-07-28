@@ -69,6 +69,7 @@ _LIMITS = {                      # endpoint -> (max requests, window seconds)
     "convert": (120, 60),
     "log": (60, 60),
     "feedback": (20, 300),
+    "login": (10, 300),          # a scrypt verify costs ~50ms; this caps guessing regardless
 }
 
 
