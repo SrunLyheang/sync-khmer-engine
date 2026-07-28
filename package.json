@@ -1,0 +1,12 @@
+{
+  "name": "sing-khmer-engine-2",
+  "version": "1.0.0",
+  "description": "Sing Khmer web app with Vercel Speed Insights",
+  "private": true,
+  "scripts": {
+    "build": "echo 'No build step required for vanilla JS'"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.1.0"
+  }
+}
