@@ -22,6 +22,7 @@ import os
 import re
 import secrets
 import time
+import unicodedata
 import uuid
 from collections import defaultdict, deque
 
@@ -92,34 +93,38 @@ def reset_limits() -> None:
 
 # ---- validation ---------------------------------------------------------------------
 _KHMER = re.compile(r"[ក-៿]")
-_SPELLING_OK = re.compile(r"^[a-z0-9'+ -]{1,40}$")
+_SPELLING_OK = re.compile(r"^[a-z0-9'+ -]{1,60}$")
 
 
 def clean_spelling(text: str) -> str | None:
     """A romanized spelling: latin letters and the few marks people actually type."""
     t = " ".join((text or "").strip().lower().split())
+    t = re.sub(r"^[^\w+]+|[^\w+]+$", "", t)
     return t if t and _SPELLING_OK.fullmatch(t) else None
 
 
 def clean_khmer(text: str) -> str | None:
     """Must genuinely contain Khmer script — blocks junk and accidental latin answers."""
-    t = " ".join((text or "").strip().split())
-    if not t or len(t) > 60 or not _KHMER.search(t):
+    # Normalize unicode (NFC) & strip zero-width and invisible control characters commonly inserted by Khmer IMEs
+    t = unicodedata.normalize("NFC", text or "")
+    t = re.sub(r"[\u200b\u200c\u200d\ufeff\u200e\u200f]", "", t)
+    t = " ".join(t.strip().split())
+    if not t or len(t) > 80 or not _KHMER.search(t):
         return None
-    # Only Khmer letters, spaces and Khmer punctuation are allowed through.
-    return t if all(ch.isspace() or "ក" <= ch <= "៿" for ch in t) else None
+    if "<" in t or ">" in t:
+        return None
+    return t
 
 
 # ---- response headers ---------------------------------------------------------------
-# The page is entirely self-contained, so the policy can be strict. 'unsafe-inline' is
-# needed only for the small inline <style> block.
+# Allow Google Fonts (css from fonts.googleapis.com, font files from fonts.gstatic.com)
 CSP = (
     "default-src 'none'; "
     "script-src 'self'; "
-    "style-src 'self' 'unsafe-inline'; "
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
     "connect-src 'self'; "
     "img-src 'self' data:; "
-    "font-src 'self'; "
+    "font-src 'self' https://fonts.gstatic.com; "
     "base-uri 'none'; "
     "form-action 'none'; "
     "frame-ancestors 'none'"

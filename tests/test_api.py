@@ -150,6 +150,15 @@ def test_feedback_requires_real_khmer(client):
         ("nekna", "អ្នកណា", "form")
 
 
+def test_feedback_accepts_khmer_with_zero_width_space_and_punctuated_spelling(client):
+    res = client.post("/api/feedback", json={"spelling": "nekna!", "expected_khmer": "អ្នកណា\u200b"})
+    assert res.status_code == 200
+    assert res.json()["ok"]
+    saved = rows("corrections")[-1]
+    assert saved["spelling"] == "nekna"
+    assert saved["expected_khmer"] == "អ្នកណា"
+
+
 def test_feedback_rejects_a_junk_spelling(client):
     res = client.post("/api/feedback",
                       json={"spelling": "<script>x</script>", "expected_khmer": "អ្នកណា"})
