@@ -207,20 +207,28 @@ def home() -> HTMLResponse:
     return HTMLResponse((ROOT / "webui" / "index.html").read_text(encoding="utf-8"))
 
 
-@app.get("/app.js")
-def app_js() -> Response:
-    return Response(
-        (ROOT / "webui" / "app.js").read_text(encoding="utf-8"),
-        media_type="application/javascript",
-    )
+# A fixed table, not a path parameter: the browser never gets to name a file, so there is
+# no traversal surface. Adding an asset means adding a line here.
+STATIC = {
+    "/app.js": ("app.js", "application/javascript"),
+    "/i18n.js": ("i18n.js", "application/javascript"),
+    "/speed-insights.js": ("speed-insights.js", "application/javascript"),
+    "/styles.css": ("styles.css", "text/css"),
+}
 
 
-@app.get("/speed-insights.js")
-def speed_insights_js() -> Response:
-    return Response(
-        (ROOT / "webui" / "speed-insights.js").read_text(encoding="utf-8"),
-        media_type="application/javascript",
-    )
+def _serve_static(filename: str, media_type: str):
+    def handler() -> Response:
+        return Response(
+            (ROOT / "webui" / filename).read_text(encoding="utf-8"),
+            media_type=media_type,
+        )
+
+    return handler
+
+
+for _route, (_filename, _media_type) in STATIC.items():
+    app.get(_route)(_serve_static(_filename, _media_type))
 
 
 @app.get("/robots.txt", response_class=PlainTextResponse)

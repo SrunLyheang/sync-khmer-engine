@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import pytest
 
 fastapi = pytest.importorskip("fastapi", reason="web app deps not installed")
@@ -101,6 +103,43 @@ def test_security_headers_and_session_cookie(client):
     assert security.COOKIE_NAME in res.cookies or res.cookies or True  # cookie is set once
 
 
+# ---- the frontend the browser actually loads -----------------------------------------
+def test_every_static_asset_the_page_asks_for_is_served(client):
+    """The page can't run if a <link> or <script> 404s, and nothing else would catch it."""
+    page = client.get("/").text
+    referenced = set(re.findall(r'(?:src|href)="(/[^"]+)"', page))
+    referenced -= {"/_vercel/insights/script.js"}   # injected by Vercel, absent locally
+
+    assert referenced, "expected the page to reference local assets"
+    for path in referenced:
+        res = client.get(path)
+        assert res.status_code == 200, f"{path} is referenced by index.html but 404s"
+        assert index.STATIC[path][1] in res.headers["content-type"]
+
+
+def test_the_two_dictionaries_define_the_same_keys():
+    """A key missing from one language silently falls back to the other — catch it here."""
+    src = (index.ROOT / "webui" / "i18n.js").read_text(encoding="utf-8")
+    dicts = {
+        lang: set(re.findall(r"^\s*'([a-z]+\.[A-Za-z]+)':", block, re.MULTILINE))
+        for lang, block in re.findall(r"^  (en|km): \{(.*?)^  \},", src, re.MULTILINE | re.DOTALL)
+    }
+    assert set(dicts) == {"en", "km"}, "expected an en and a km dictionary"
+    assert dicts["en"], "parsed no keys — the dictionary format changed"
+    assert dicts["en"] == dicts["km"], (
+        f"only in en: {sorted(dicts['en'] - dicts['km'])}; "
+        f"only in km: {sorted(dicts['km'] - dicts['en'])}"
+    )
+
+
+def test_ui_strings_live_in_the_dictionaries_not_the_markup(client):
+    """Anything hardcoded in index.html would show in one language only."""
+    page = client.get("/").text
+    body = page.split("<body>", 1)[1]
+    for hardcoded in ("Copy", "Send", "Clear", "Type here", "Missing a word"):
+        assert hardcoded not in body, f"{hardcoded!r} is hardcoded in the markup"
+
+
 # ---- the signals that answer "is this data right?" -----------------------------------
 def test_copy_records_confirmations(client):
     client.post("/api/record", json={"text": "nh sl", "copied": True, "overrides": {}})
@@ -157,6 +196,34 @@ def test_feedback_accepts_khmer_with_zero_width_space_and_punctuated_spelling(cl
     saved = rows("corrections")[-1]
     assert saved["spelling"] == "nekna"
     assert saved["expected_khmer"] == "អ្នកណា"
+
+
+def test_a_submitted_word_shows_up_on_the_admin_page(client, monkeypatch):
+    """The point of collecting corrections is being able to read them back."""
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    page = client.get("/admin", params={"token": "secret-token"}).text
+    assert "Words people sent us" in page
+    assert "nekna" in page and "អ្នកណា" in page
+
+
+def test_admin_names_where_the_data_is_without_leaking_credentials(client, monkeypatch):
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    page = client.get("/admin", params={"token": "secret-token"}).text
+    assert storage.SQLITE_PATH in page
+
+    monkeypatch.setattr(storage, "DATABASE_URL", "postgresql://user:hunter2@host:5432/db")
+    assert "hunter2" not in storage.location()
+    assert "DATABASE_URL" in storage.location()
+
+
+def test_feedback_says_so_when_it_could_not_store(client, monkeypatch):
+    """It used to answer {"ok": true} with a 200 — thanking people for discarded words."""
+    monkeypatch.setattr(storage, "IS_SERVERLESS", True)
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    res = client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+    assert res.status_code == 503
+    assert res.json()["ok"] is False and res.json()["error"] == "not_stored"
 
 
 def test_feedback_rejects_a_junk_spelling(client):
