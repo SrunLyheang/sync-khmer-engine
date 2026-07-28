@@ -242,8 +242,17 @@ def migrate() -> None:
             # Signal 4 — what people explicitly told us.
             f"CREATE TABLE IF NOT EXISTS corrections (id {pk}, session_id TEXT, ts TIMESTAMP,"
             " spelling TEXT, expected_khmer TEXT, source TEXT, status TEXT DEFAULT 'new')",
+            # Admin review actions — tracks accept/reject decisions per reviewer.
+            f"CREATE TABLE IF NOT EXISTS review_actions (id {pk},"
+            " reviewer_name TEXT NOT NULL, session_id TEXT NOT NULL,"
+            " spelling TEXT NOT NULL, khmer TEXT NOT NULL,"
+            " action TEXT NOT NULL, ts TIMESTAMP NOT NULL,"
+            " status TEXT DEFAULT 'pending',"
+            " reverted_at TIMESTAMP, reverted_by TEXT)",
             "CREATE INDEX IF NOT EXISTS conversions_expiry ON conversions (expires_at)",
             "CREATE INDEX IF NOT EXISTS corrections_pair ON corrections (spelling, expected_khmer)",
+            "CREATE INDEX IF NOT EXISTS review_actions_status ON review_actions (spelling, khmer, status)",
+            "CREATE INDEX IF NOT EXISTS review_actions_ts ON review_actions (ts DESC)",
         ):
             cur.execute(ddl)
     _MIGRATED = True
@@ -344,18 +353,36 @@ def record_conversion(
                 _bump_confirmation(cur, ph, session_id, c["spelling"], c["khmer"])
 
 
-def record_correction(session_id: str, spelling: str, expected_khmer: str, source: str) -> None:
+def record_correction(session_id: str, spelling: str, expected_khmer: str, source: str) -> bool:
+    """Store a user correction, unless the quality filter rejects it.
+
+    Returns True if stored, False if rejected by the quality filter.
+    Score-3 submissions are silently dropped. Score-2 submissions are stored
+    with status='flagged' so the admin reviews them with a warning.
+    """
     if not available():
-        return
+        return False
+    from api.filters import filter_submission
+
+    score, reason = filter_submission(spelling, expected_khmer)
+    if score >= 3:
+        log.info("filter_rejected: %r → %r  (%s)", spelling, expected_khmer, reason)
+        return False
+
+    status = "flagged" if score >= 2 else "new"
+    if status == "flagged":
+        log.info("filter_flagged: %r → %r  (%s)", spelling, expected_khmer, reason)
+
     migrate()
     with connect() as (conn, ph):
         cur = conn.cursor()
         touch_session(cur, ph, session_id)
         cur.execute(
-            f"INSERT INTO corrections (session_id, ts, spelling, expected_khmer, source)"
-            f" VALUES ({ph}, {ph}, {ph}, {ph}, {ph})",
-            (session_id, datetime.now(timezone.utc), spelling, expected_khmer, source),
+            f"INSERT INTO corrections (session_id, ts, spelling, expected_khmer, source, status)"
+            f" VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph})",
+            (session_id, datetime.now(timezone.utc), spelling, expected_khmer, source, status),
         )
+    return True
 
 
 # The three views worth reviewing, strongest evidence first. Lives here rather than in the
@@ -476,3 +503,161 @@ def purge_expired(now: datetime | None = None) -> int:
         cur = conn.cursor()
         cur.execute(f"DELETE FROM conversions WHERE expires_at < {ph}", (now,))
         return cur.rowcount or 0
+
+
+# ---- admin review ------------------------------------------------------------------
+def _latest_action(cur, ph: str, spelling: str, khmer: str) -> dict | None:
+    """Most recent non-reverted action for a (spelling, khmer) pair, or None."""
+    cur.execute(
+        f"SELECT id, action, reviewer_name, status, ts FROM review_actions"
+        f" WHERE spelling = {ph} AND khmer = {ph} AND status != 'reverted'"
+        f" ORDER BY ts DESC, id DESC LIMIT 1",
+        (spelling, khmer),
+    )
+    row = cur.fetchone()
+    return (
+        {"id": row[0], "action": row[1], "reviewer": row[2], "status": row[3], "ts": str(row[4])[:19]}
+        if row else None
+    )
+
+
+def admin_queue() -> list[dict]:
+    """All correction pairs with their review status, newest first.
+
+    Returns a list where each item has spelling, khmer, people (distinct submitters),
+    times (total submissions), source, last_seen, and review (action dict or None).
+    """
+    if not available():
+        return []
+    migrate()
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT c.spelling, c.expected_khmer, COUNT(DISTINCT c.session_id) AS people,"
+            " COUNT(*) AS times, MIN(c.source) AS source, MAX(c.ts) AS last_seen,"
+            " MIN(c.status) AS item_status"
+            " FROM corrections c WHERE c.status IN ('new', 'flagged')"
+            " GROUP BY c.spelling, c.expected_khmer"
+            " ORDER BY CASE WHEN MIN(c.status) = 'flagged' THEN 1 ELSE 0 END, last_seen DESC"
+        )
+        rows = cur.fetchall()
+        out: list[dict] = []
+        for r in rows:
+            spelling, khmer = r[0], r[1]
+            item = {
+                "spelling": spelling, "khmer": khmer,
+                "people": r[2], "times": r[3],
+                "source": r[4], "last_seen": str(r[5])[:19],
+                "review": _latest_action(cur, ph, spelling, khmer),
+                "flagged": r[6] == "flagged",
+            }
+            out.append(item)
+        return out
+
+
+def admin_act(reviewer_name: str, session_id: str, spelling: str, khmer: str,
+              action: str) -> dict:
+    """Accept or reject a correction pair. Returns the created action record."""
+    if action not in ("accept", "reject"):
+        raise ValueError(f"action must be 'accept' or 'reject', got {action!r}")
+    if not available():
+        return {"ok": False, "error": "storage_unavailable"}
+    migrate()
+    now = datetime.now(timezone.utc)
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        # Only allow if there's no existing non-reverted action for this pair
+        existing = _latest_action(cur, ph, spelling, khmer)
+        if existing and existing["status"] != "reverted":
+            return {"ok": False, "error": "already_reviewed", "existing": existing}
+        cur.execute(
+            f"INSERT INTO review_actions (reviewer_name, session_id, spelling, khmer,"
+            f" action, ts, status) VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, 'pending')"
+            f" RETURNING id",
+            (reviewer_name, session_id, spelling, khmer, action, now),
+        )
+        row_id = (cur.fetchone() or [None])[0]
+        return {"ok": True, "id": row_id, "action": action, "spelling": spelling,
+                "khmer": khmer, "reviewer": reviewer_name, "ts": str(now)[:19]}
+
+
+def admin_undo(action_id: int, reviewer_name: str) -> dict:
+    """Revert a review action — marks it as reverted."""
+    if not available():
+        return {"ok": False, "error": "storage_unavailable"}
+    migrate()
+    now = datetime.now(timezone.utc)
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute(
+            f"SELECT id, action, spelling, khmer, status FROM review_actions WHERE id = {ph}",
+            (action_id,),
+        )
+        row = cur.fetchone()
+        if not row:
+            return {"ok": False, "error": "not_found"}
+        if row[4] == "submitted":
+            return {"ok": False, "error": "already_submitted"}
+        if row[4] == "reverted":
+            return {"ok": False, "error": "already_reverted"}
+        cur.execute(
+            f"UPDATE review_actions SET status = 'reverted', reverted_at = {ph},"
+            f" reverted_by = {ph} WHERE id = {ph}",
+            (now, reviewer_name, action_id),
+        )
+        return {"ok": True, "id": action_id, "spelling": row[2], "khmer": row[3],
+                "action": row[1], "reverted_by": reviewer_name}
+
+
+def admin_history(limit: int = 100) -> list[dict]:
+    """Recent review actions, newest first."""
+    if not available():
+        return []
+    migrate()
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute(
+            f"SELECT id, reviewer_name, spelling, khmer, action, ts, status,"
+            f" reverted_at, reverted_by FROM review_actions"
+            f" ORDER BY ts DESC, id DESC LIMIT {int(limit)}"
+        )
+        return [
+            {"id": r[0], "reviewer": r[1], "spelling": r[2], "khmer": r[3],
+             "action": r[4], "ts": str(r[5])[:19], "status": r[6],
+             "reverted_at": str(r[7])[:19] if r[7] else None,
+             "reverted_by": r[8]}
+            for r in cur.fetchall()
+        ]
+
+
+def admin_accepted_for_submit() -> list[dict]:
+    """Accepted items that haven't been submitted yet."""
+    if not available():
+        return []
+    migrate()
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute(
+            f"SELECT spelling, khmer, COUNT(DISTINCT reviewer_name) AS reviewers"
+            f" FROM review_actions WHERE action = 'accept' AND status = 'pending'"
+            f" GROUP BY spelling, khmer ORDER BY reviewers DESC"
+        )
+        return [
+            {"spelling": r[0], "khmer": r[1], "reviewers": r[2]}
+            for r in cur.fetchall()
+        ]
+
+
+def admin_mark_submitted(spelling: str, khmer: str) -> None:
+    """Mark all pending accept actions for a pair as submitted."""
+    if not available():
+        return
+    migrate()
+    with connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute(
+            f"UPDATE review_actions SET status = 'submitted'"
+            f" WHERE spelling = {ph} AND khmer = {ph} AND action = 'accept'"
+            f" AND status = 'pending'",
+            (spelling, khmer),
+        )

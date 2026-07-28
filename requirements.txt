@@ -3,3 +3,4 @@
 # needed for the web app in api/ (see DEPLOY.md).
 fastapi>=0.115
 psycopg[binary]>=3.2
+httpx>=0.27
