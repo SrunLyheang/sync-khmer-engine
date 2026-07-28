@@ -1,0 +1,9 @@
+# Keep the deployed function small — none of this is needed at runtime.
+.venv/
+tests/
+web/
+scripts/build_web_demo.py
+scripts/serve.py
+*.xlsx
+*.md
+!DEPLOY.md

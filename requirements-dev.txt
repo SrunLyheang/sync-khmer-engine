@@ -1,5 +1,7 @@
-# Development dependencies (testing, tooling).
+# Development dependencies (testing, local server, spreadsheet export).
 # Install with: pip install -r requirements-dev.txt
 -r requirements.txt
 
 pytest>=8.0
+uvicorn[standard]>=0.30
+openpyxl>=3.1

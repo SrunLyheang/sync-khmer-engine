@@ -1,3 +1,5 @@
-# Runtime dependencies for the Sing Khmer mapping engine.
-# None yet — the Phase 1 prototype targets the Python standard library.
-# Add runtime packages here as the engine grows (e.g. a fuzzy-matching lib for step 1.8).
+# Runtime dependencies.
+# The engine itself (src/sing_khmer_engine) is pure standard library — these are only
+# needed for the web app in api/ (see DEPLOY.md).
+fastapi>=0.115
+psycopg[binary]>=3.2
