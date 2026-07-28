@@ -358,6 +358,44 @@ def record_correction(session_id: str, spelling: str, expected_khmer: str, sourc
         )
 
 
+# The three views worth reviewing, strongest evidence first. Lives here rather than in the
+# export script because both the /admin download and scripts/export_feedback.py serve it —
+# two copies of this SQL would drift, and then the spreadsheet and the download would
+# disagree about what the data says.
+EXPORTS = {
+    "overrides": (
+        ["they typed", "engine put first", "they chose", "people", "times", "used"],
+        "SELECT spelling, engine_top, chosen,"
+        " COUNT(DISTINCT session_id) AS people, COUNT(*) AS times,"
+        " SUM(CASE WHEN copied THEN 1 ELSE 0 END) AS used"
+        " FROM word_choices GROUP BY spelling, engine_top, chosen"
+        " ORDER BY people DESC, used DESC, times DESC LIMIT {limit}",
+    ),
+    "corrections": (
+        ["they typed", "they say it means", "people", "times", "how"],
+        "SELECT spelling, expected_khmer, COUNT(DISTINCT session_id) AS people,"
+        " COUNT(*) AS times, MIN(source) AS source FROM corrections"
+        " WHERE status = 'new' GROUP BY spelling, expected_khmer"
+        " ORDER BY people DESC, times DESC LIMIT {limit}",
+    ),
+    "missing": (
+        ["they typed", "people", "times"],
+        "SELECT spelling, session_count, total_count FROM unknown_words"
+        " WHERE status = 'new' ORDER BY session_count DESC, total_count DESC LIMIT {limit}",
+    ),
+}
+
+
+def export_data(name: str, limit: int = 300) -> tuple[list[str], list[tuple]]:
+    """(headers, rows) for one of the EXPORTS views."""
+    headers, sql = EXPORTS[name]
+    migrate()
+    with connect() as (conn, _):
+        cur = conn.cursor()
+        cur.execute(sql.format(limit=int(limit)))
+        return headers, cur.fetchall()
+
+
 def stats() -> dict:
     """Aggregates only — never raw messages. Powers /admin."""
     if not available():

@@ -79,13 +79,33 @@ If you attached Postgres in Vercel but `/api/health` still shows `degraded` or y
    - `tables`: Shows current row counts for `sessions`, `conversions`, and `corrections`.
 3. **Tables appear on first visit:** Schema migrations run automatically when `/api/health` or write endpoints are called. Simply visiting `/api/health` creates the database tables so they appear in your Neon console table browser.
 
+## Where submitted words actually go
+
+**Into the database, not into a file.** Nothing in the repo updates itself when someone submits
+a word, so there is no file to open and no `git pull` that brings the data down. Three ways to
+read it, easiest first:
+
+1. **`/admin?token=…` on the deployed site.** Lists the words people sent, the words the engine
+   couldn't convert, and the words people corrected by hand. Each table has a **download CSV**
+   link — that file opens directly in VS Code, Excel or Sheets. This is the one to reach for
+   when the data is on Vercel, because it needs no connection string on your machine.
+2. **`python scripts/show_feedback.py`** — the same three views printed in the terminal. No
+   `ADMIN_TOKEN`, no spreadsheet. It prints the database it read first, so an empty result tells
+   you *which* empty database you're looking at (usually: you ran it locally while the data is
+   in Neon — prefix the command with `DATABASE_URL="<from Vercel>"`).
+3. **`scripts/export_feedback.py`** for a formatted `.xlsx`, when you're sending a verification
+   batch to friends rather than reading it yourself.
+
+The bottom of `/admin` names the database it read, so "0 rows" is never ambiguous.
+
 ## Getting the data back into the dictionary
 
 ```bash
 DATABASE_URL="<from Vercel>" PYTHONPATH=src python scripts/export_feedback.py
 ```
 
-Three sheets, each ranked by how many different people back it up:
+`user_feedback.xlsx` is a **snapshot taken when you run that command** — it is gitignored and
+never updates on its own. Three sheets, each ranked by how many different people back it up:
 
 1. **Engine ranked wrong** — someone chose a different word *and used it*
 2. **Corrections** — what people told you a spelling means

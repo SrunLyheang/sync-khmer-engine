@@ -30,30 +30,10 @@ sys.path.insert(0, str(ROOT / "src"))
 from api import storage  # noqa: E402
 
 
-def query(sql: str) -> list[tuple]:
-    with storage.connect() as (conn, _):
-        return conn.cursor().execute(sql).fetchall()
-
-
 def collect(limit: int) -> dict[str, list[tuple]]:
-    overrides = query(
-        "SELECT spelling, engine_top, chosen,"
-        " COUNT(DISTINCT session_id) AS people, COUNT(*) AS times,"
-        " SUM(CASE WHEN copied THEN 1 ELSE 0 END) AS used"
-        " FROM word_choices GROUP BY spelling, engine_top, chosen"
-        f" ORDER BY people DESC, used DESC, times DESC LIMIT {limit}"
-    )
-    corrections = query(
-        "SELECT spelling, expected_khmer, COUNT(DISTINCT session_id) AS people,"
-        " COUNT(*) AS times, MIN(source) AS source FROM corrections"
-        " WHERE status = 'new' GROUP BY spelling, expected_khmer"
-        f" ORDER BY people DESC, times DESC LIMIT {limit}"
-    )
-    missing = query(
-        "SELECT spelling, session_count, total_count FROM unknown_words"
-        f" WHERE status = 'new' ORDER BY session_count DESC, total_count DESC LIMIT {limit}"
-    )
-    return {"overrides": overrides, "corrections": corrections, "missing": missing}
+    """The same three views /admin downloads — the queries live in storage.EXPORTS so this
+    spreadsheet and that download can't drift into disagreeing about the data."""
+    return {name: storage.export_data(name, limit)[1] for name in storage.EXPORTS}
 
 
 def write_xlsx(path: Path, data: dict[str, list[tuple]]) -> None:
