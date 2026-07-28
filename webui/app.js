@@ -214,4 +214,30 @@ $('send').onclick = async () => {
 };
 
 window.addEventListener('pagehide', () => recordNow(false));
+
+// Vercel analytics helper
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
+// Collapsible privacy notice
+(function () {
+  const notice = $('notice');
+  const toggle = $('noticeToggle');
+  if (!notice || !toggle) return;
+  try {
+    const stored = localStorage.getItem('sk_notice_open');
+    if (stored === '1') {
+      notice.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  } catch (e) {}
+  toggle.addEventListener('click', () => {
+    const open = notice.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    try {
+      localStorage.setItem('sk_notice_open', open ? '1' : '0');
+    } catch (e) {}
+  });
+})();
+
 render();
+

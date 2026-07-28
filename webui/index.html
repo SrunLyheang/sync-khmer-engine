@@ -790,25 +790,6 @@
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/app.js"></script>
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-
-  // Collapsible privacy notice
-  (function () {
-    var notice = document.getElementById('notice');
-    var toggle = document.getElementById('noticeToggle');
-    var stored = localStorage.getItem('sk_notice_open');
-    if (stored === '1') {
-      notice.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-    }
-    toggle.addEventListener('click', function () {
-      var open = notice.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      localStorage.setItem('sk_notice_open', open ? '1' : '0');
-    });
-  })();
-</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
