@@ -217,6 +217,57 @@ def test_admin_names_where_the_data_is_without_leaking_credentials(client, monke
     assert "DATABASE_URL" in storage.location()
 
 
+def test_a_submitted_word_can_be_downloaded_as_csv(client, monkeypatch):
+    """The whole point: get the collected words into a spreadsheet or an editor."""
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+
+    res = client.get("/admin/export.csv", params={"token": "secret-token", "what": "corrections"})
+    assert res.status_code == 200
+    assert "text/csv" in res.headers["content-type"]
+    assert "attachment" in res.headers["content-disposition"]
+    assert ".csv" in res.headers["content-disposition"]
+
+    text = res.content.decode("utf-8-sig")
+    assert res.content.startswith("﻿".encode()), "Excel needs the BOM to read Khmer"
+    lines = text.strip().splitlines()
+    assert lines[0].startswith("they typed")
+    assert "nekna" in lines[1] and "អ្នកណា" in lines[1]
+
+    # and the page offers it
+    page = client.get("/admin", params={"token": "secret-token"}).text
+    assert "/admin/export.csv?what=corrections" in page
+    assert "1 row" in page
+
+
+def test_export_is_hidden_and_bounded_like_the_admin_page(client, monkeypatch):
+    assert client.get("/admin/export.csv").status_code == 404
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    assert client.get("/admin/export.csv", params={"token": "wrong"}).status_code == 404
+    assert client.get(
+        "/admin/export.csv", params={"token": "secret-token", "what": "conversions"}
+    ).status_code == 400, "must not let a caller name an arbitrary table"
+
+
+def test_export_neutralises_spreadsheet_formulas(client, monkeypatch):
+    """A spelling may legally start with '+', and Excel would run it as a formula."""
+    client.post("/api/feedback", json={"spelling": "+nekna", "expected_khmer": "អ្នកណា"})
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    text = client.get(
+        "/admin/export.csv", params={"token": "secret-token", "what": "corrections"}
+    ).content.decode("utf-8-sig")
+    assert "+nekna" in text
+    assert "'+nekna" in text, "leading + must be quoted so Excel treats it as text"
+
+
+def test_export_of_an_empty_table_is_still_a_valid_file(client, monkeypatch):
+    """'Nobody has sent anything' and 'the export is broken' must not look the same."""
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    res = client.get("/admin/export.csv", params={"token": "secret-token", "what": "missing"})
+    assert res.status_code == 200
+    assert res.content.decode("utf-8-sig").strip() == "they typed,people,times"
+
+
 def test_feedback_says_so_when_it_could_not_store(client, monkeypatch):
     """It used to answer {"ok": true} with a 200 — thanking people for discarded words."""
     monkeypatch.setattr(storage, "IS_SERVERLESS", True)

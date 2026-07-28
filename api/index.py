@@ -17,10 +17,14 @@ Run locally:  PYTHONPATH=src uvicorn api.index:app --reload
 
 from __future__ import annotations
 
+import csv
 import html
+import io
 import logging
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
@@ -273,6 +277,47 @@ def health() -> JSONResponse:
     return JSONResponse(res, status_code=200 if is_ok else 503)
 
 
+def _csv_safe(value) -> str:
+    """Neutralise spreadsheet formulas before a cell reaches Excel.
+
+    Cells come from whatever visitors typed, and `security.clean_spelling` allows `+` and `-`,
+    so a spelling like `=cmd|'/c calc'!A1` would otherwise *execute* when this download is
+    opened. A leading apostrophe makes Excel treat it as text.
+    """
+    text = "" if value is None else str(value)
+    return "'" + text if text[:1] in ("=", "+", "-", "@", "\t", "\r") else text
+
+
+@app.get("/admin/export.csv")
+def admin_export(request: Request, token: str = "", what: str = "corrections") -> Response:
+    """Download one view as CSV — the way to get this data into a spreadsheet or an editor.
+
+    Same 404-on-bad-token as /admin, so the route doesn't announce that it exists.
+    """
+    if not security.admin_ok(token or request.headers.get("x-admin-token")):
+        return PlainTextResponse("404", status_code=404)
+    if what not in storage.EXPORTS:
+        return PlainTextResponse("unknown export", status_code=400)
+    if not storage.available():
+        return PlainTextResponse("storage unavailable", status_code=503)
+
+    headers, rows = storage.export_data(what)
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(headers)
+    writer.writerows([_csv_safe(c) for c in row] for row in rows)
+
+    # A BOM, because without one Excel and Sheets read the file as latin-1 and turn the Khmer
+    # column — the only column that matters — into mojibake.
+    body = "﻿" + buf.getvalue()
+    day = datetime.now(timezone.utc).date().isoformat()
+    return Response(
+        body,
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="sing-khmer-{what}-{day}.csv"'},
+    )
+
+
 @app.get("/admin", response_class=HTMLResponse)
 def admin(request: Request, token: str = "") -> HTMLResponse:
     """Aggregates only — never anyone's messages."""
@@ -289,6 +334,12 @@ def admin(request: Request, token: str = "") -> HTMLResponse:
             for it in items
         )
 
+    def download(what, items):
+        """Count plus a download link — so "0 rows" reads as an answer, not a malfunction."""
+        n = len(items)
+        return (f'<span class="n">{n} row{"" if n == 1 else "s"}</span> · '
+                f'<a href="/admin/export.csv?what={what}&token={quote(token)}">download CSV</a>')
+
     return HTMLResponse(f"""<!doctype html><meta charset="utf-8">
 <meta name="robots" content="noindex"><title>Sing Khmer — stats</title>
 <style>body{{font-family:system-ui;margin:2rem auto;max-width:56rem;padding:0 1rem}}
@@ -296,7 +347,7 @@ table{{border-collapse:collapse;width:100%;margin:.5rem 0 2rem}}
 td,th{{border:1px solid #ddd;padding:.4rem .6rem;text-align:left;font-size:.9rem}}
 th{{background:#0f766e;color:#fff}} .big{{font-size:2rem;font-weight:700}}
 .card{{display:inline-block;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.2rem;
-margin:0 .8rem .8rem 0}}</style>
+margin:0 .8rem .8rem 0}} .n{{color:#666}} a{{color:#0f766e}}</style>
 <h1>Sing Khmer — usage</h1>
 <div>
   <div class="card"><div class="big">{s.get('unknown_rate', 0)}%</div>words we couldn't convert</div>
@@ -307,18 +358,21 @@ margin:0 .8rem .8rem 0}}</style>
 </div>
 <p><b>Words people sent us</b> through "Missing a word?" — newest first. The same answer from
 several people is one row with a higher <i>people</i> count, which is the whole signal: one
-person can be wrong or joking, five agreeing rarely are.</p>
+person can be wrong or joking, five agreeing rarely are.<br>
+{download('corrections', s.get('recent_corrections', []))}</p>
 <table><tr><th>they typed</th><th>should be</th><th>people</th><th>times</th><th>where</th>
 <th>last sent</th></tr>
 {rows(s.get('recent_corrections', []),
       ['spelling', 'khmer', 'people', 'times', 'source', 'last_seen'])}</table>
 
 <p><b>Words we couldn't convert</b> is the number to watch — it's the share of everything typed
-that the dictionary is still missing. Sorted by how many <i>different</i> people hit each one.</p>
+that the dictionary is still missing. Sorted by how many <i>different</i> people hit each one.<br>
+{download('missing', s.get('top_missing', []))}</p>
 <table><tr><th>missing spelling</th><th>times</th><th>people</th></tr>
 {rows(s.get('top_missing', []), ['spelling', 'times', 'people'])}</table>
 <p><b>Words people corrected by hand</b> — the engine ranked the wrong option first. Strongest
-evidence you have, because they chose it and then used it.</p>
+evidence you have, because they chose it and then used it.<br>
+{download('overrides', s.get('top_overrides', []))}</p>
 <table><tr><th>spelling</th><th>engine said</th><th>they chose</th><th>people</th><th>times</th></tr>
 {rows(s.get('top_overrides', []), ['spelling', 'engine_top', 'chosen', 'people', 'times'])}</table>
 <p style="color:#666;font-size:.85rem">storage: {e(str(s.get('location')))} · aggregates only,
