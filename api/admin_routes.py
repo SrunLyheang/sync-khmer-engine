@@ -270,7 +270,9 @@ async def undo(request: Request):
     action_id = body.get("id")
     if not isinstance(action_id, int) or action_id < 1:
         return JSONResponse({"ok": False, "error": "bad_id"}, status_code=400)
-    result = storage.admin_undo(action_id, who["name"])
+    result = storage.admin_undo(
+        action_id, who["id"], who["name"], is_owner=who["role"] == "owner"
+    )
     status = 200 if result.get("ok") else 409
     return JSONResponse(result, status_code=status)
 

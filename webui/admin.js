@@ -77,6 +77,33 @@
     return r.body;
   }
 
+  /* Run an async action with the button visibly busy, and always give it back.
+     Mirrors withPending() in webui/app.js so both halves of the app behave the same.
+
+     Restoring in `finally` is the point: a request that fails — or a handler that throws —
+     must not leave a dead button. Three of these handlers used to throw a ReferenceError
+     before doing anything, and with no pending state that was indistinguishable from a
+     click that worked. */
+  async function withPending(btn, busyLabel, fn) {
+    if (btn.disabled) return;                 // already in flight
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.replaceChildren(el('span', 'spinner spinner-sm'),
+                        document.createTextNode(busyLabel || 'Working…'));
+    try {
+      return await fn();
+    } finally {
+      // The row may have been re-rendered underneath us by a refresh; only restore a button
+      // still attached to the page.
+      if (btn.isConnected) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        btn.replaceChildren(document.createTextNode(label));
+      }
+    }
+  }
+
   // ---- render -----------------------------------------------------------------
   function escapeHtml(s) {
     const d = document.createElement('div');
@@ -108,12 +135,23 @@
     const acted = r && r.status !== 'reverted';
     const isMine = r && me && r.reviewer === me.name;
 
+    /* Undo is available on your own decisions, and to the owner on anyone's — overturning a
+       helper's accept or reject is exactly what being the owner is for. Once an item has
+       been submitted to GitHub it's out of our hands, so nobody can undo it here. The server
+       enforces the same rule; this only decides what to draw. */
+    const canUndo = r && r.status !== 'submitted' && (isMine || (me && me.role === 'owner'));
+
     let actionsHtml = '';
     if (!acted) {
       actionsHtml = '<button class="btn btn-accept btn-sm accept-btn">Accept</button>' +
                     '<button class="btn btn-reject btn-sm reject-btn">Reject</button>';
-    } else if (isMine && r.status !== 'submitted') {
-      actionsHtml = '<button class="btn btn-undo btn-sm undo-btn" data-id="' + r.id + '">Undo</button>';
+    } else if (canUndo) {
+      const undoLabel = isMine ? 'Undo' : 'Undo ' + r.action;
+      const undoTitle = isMine ? 'Take back your decision'
+                               : 'Overturn ' + r.reviewer + "'s " + r.action;
+      actionsHtml = '<button class="btn btn-undo btn-sm undo-btn" data-id="' + r.id + '"' +
+                    ' title="' + escapeHtml(undoTitle) + '">' + escapeHtml(undoLabel) +
+                    '</button>';
     }
 
     let actedBy = '';
@@ -251,36 +289,43 @@
 
   // ---- event binding ----------------------------------------------------------
   function bindButtons() {
-    // Accept buttons
+    // Every action goes through withPending, so the row's own button is what shows the wait
+    // and a second click during the request is impossible.
     $$('.accept-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.card-item');
-        act(card.dataset.spelling, card.dataset.khmer, 'accept');
+        withPending(btn, 'Accepting…', function () {
+          return act(card.dataset.spelling, card.dataset.khmer, 'accept');
+        });
       });
     });
 
-    // Reject buttons
     $$('.reject-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.card-item');
-        act(card.dataset.spelling, card.dataset.khmer, 'reject');
+        withPending(btn, 'Rejecting…', function () {
+          return act(card.dataset.spelling, card.dataset.khmer, 'reject');
+        });
       });
     });
 
-    // Undo buttons
     $$('.undo-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        undo(parseInt(btn.dataset.id));
+        withPending(btn, 'Undoing…', function () {
+          return undo(parseInt(btn.dataset.id));
+        });
       });
     });
   }
 
+  function signedIn() {
+    if (me) return true;
+    toast('Your session ended — reload and sign in again.', 'err');
+    return false;
+  }
+
   async function act(spelling, khmer, action) {
-    if (!(me && me.name)) {
-      toast('Please enter your name first.', 'err');
-      return;
-    }
-    updateReviewerHeader();
+    if (!signedIn()) return;
     var result = await apiPost('act', { spelling: spelling, khmer: khmer, action: action });
     if (result.ok) {
       toast((action === 'accept' ? 'Accepted: ' : 'Rejected: ') + spelling + ' → ' + khmer, 'ok');
@@ -291,7 +336,7 @@
   }
 
   async function undo(id) {
-    updateReviewerHeader();
+    if (!signedIn()) return;
     var result = await apiPost('undo', { id: id });
     if (result.ok) {
       toast('Undone: ' + result.spelling + ' → ' + result.khmer, 'info');
@@ -303,11 +348,7 @@
 
   // ---- submit to GitHub -------------------------------------------------------
   btnSubmit.addEventListener('click', async function () {
-    if (!(me && me.name)) {
-      toast('Please enter your name first.', 'err');
-      return;
-    }
-    updateReviewerHeader();
+    if (!signedIn()) return;
 
     // Get the accepted items details
     var accepted = queue.filter(function (i) {
@@ -342,9 +383,11 @@
       overlay.remove();
     });
 
-    overlay.querySelector('#modalConfirm').addEventListener('click', async function () {
-      overlay.querySelector('#modalConfirm').disabled = true;
-      overlay.querySelector('#modalConfirm').textContent = 'Submitting…';
+    overlay.querySelector('#modalConfirm').addEventListener('click', function () {
+      var confirmBtn = overlay.querySelector('#modalConfirm');
+      // Several GitHub round trips — fetch the file, branch, commit, open the PR — so this
+      // is the one place a spinner is doing real work rather than reassurance.
+      withPending(confirmBtn, 'Creating pull request…', async function () {
       overlay.querySelector('#modalCancel').disabled = true;
 
       var result = await apiPost('submit', {});
@@ -364,6 +407,7 @@
       } else {
         toast(result.error || 'Submission failed', 'err');
       }
+      });
     });
 
     overlay.addEventListener('click', function (e) {
@@ -381,9 +425,29 @@
     render();
   });
 
+  /* Placeholders shaped like real rows. A centred spinner collapsed the list to nothing and
+     then snapped it back; this keeps the page still while the data arrives. */
+  function skeleton(rows) {
+    const box = el('div', 'list');
+    for (let i = 0; i < (rows || 3); i++) {
+      const row = el('div', 'card-item skeleton');
+      const info = el('div', 'info');
+      info.appendChild(el('div', 'skel skel-title'));
+      info.appendChild(el('div', 'skel skel-meta'));
+      row.appendChild(info);
+      box.appendChild(row);
+    }
+    return box;
+  }
+
   // ---- data loading -----------------------------------------------------------
   async function refresh() {
-    content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading…</div>';
+    /* Only show placeholders on a cold load. A refresh after accepting a word keeps the rows
+       on screen and just marks them busy — blanking a list you just acted on feels broken. */
+    if (!queue.length) {
+      content.replaceChildren(skeleton());
+    }
+    content.setAttribute('aria-busy', 'true');
 
     try {
       var [qData, hData, uData] = await Promise.all([
@@ -413,6 +477,8 @@
         : 'Could not reach the server.';
       content.replaceChildren(emptyState('\u26a0', 'Could not load the queue', detail));
       console.error(e);
+    } finally {
+      content.removeAttribute('aria-busy');
     }
   }
 
@@ -468,6 +534,12 @@
     storage_unavailable: 'The database is unreachable right now.',
   };
 
+  function busyLabel(mode) {
+    // scrypt deliberately takes ~50ms per verify, and a cold serverless start adds more, so
+    // this button really can sit for a second.
+    return mode === 'login' ? 'Signing in…' : 'Creating account…';
+  }
+
   function gate(mode, invite) {
     const box = el('div', 'gate');
     box.appendChild(el('h2', null, {
@@ -490,9 +562,10 @@
     const err = el('p', 'gate-error');
     const btn = el('button', 'btn btn-primary', mode === 'login' ? 'Sign in' : 'Create account');
 
-    const go = async function () {
+    const go = function () { return withPending(btn, busyLabel(mode), doSubmit); };
+
+    const doSubmit = async function () {
       err.textContent = '';
-      btn.disabled = true;
       try {
         const body = {
           name: (document.getElementById('gName').value || '').trim(),
@@ -511,8 +584,6 @@
         err.textContent = GATE_ERRORS[out && out.error] || 'Could not sign in.';
       } catch (e) {
         err.textContent = 'Could not reach the server.';
-      } finally {
-        btn.disabled = false;
       }
     };
 
@@ -548,18 +619,26 @@
 
   const logoutBtn = document.getElementById('btnLogout');
   if (logoutBtn) {
-    logoutBtn.onclick = async function () {
-      await apiPost('logout', {});
-      me = null;
-      location.href = '/review';
+    logoutBtn.onclick = function () {
+      withPending(logoutBtn, 'Signing out…', async function () {
+        await apiPost('logout', {});
+        me = null;
+        location.href = '/review';
+      });
     };
   }
 
   const inviteBtn = document.getElementById('btnInvite');
   if (inviteBtn) {
-    inviteBtn.onclick = async function () {
+    inviteBtn.onclick = function () {
+      withPending(inviteBtn, 'Creating link…', async function () {
       const out = await apiPost('invite', {});
-      if (!out || !out.ok) { toast('Could not create an invite', 'error'); return; }
+      if (!out || !out.ok) {
+        toast(out && out.error === 'no_secret_key'
+          ? 'Set SECRET_KEY first — invites would not work'
+          : 'Could not create an invite', 'err');
+        return;
+      }
       // Shown once — the server keeps only a hash, so this link cannot be recovered later.
       const box = el('div', 'invite-out');
       box.appendChild(el('p', null,
@@ -573,13 +652,15 @@
       content.replaceChildren(box);
       input.focus();
       input.select();
-      try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'success'); }
+      try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'ok'); }
       catch (e) { toast('Copy the link below', 'info'); }
+      });
     };
   }
 
   // ---- init -------------------------------------------------------------------
   (async function init() {
+    content.replaceChildren(skeleton(2));
     const invite = new URLSearchParams(location.search).get('invite');
     let state = {};
     try {

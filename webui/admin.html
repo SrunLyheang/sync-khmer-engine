@@ -178,6 +178,33 @@ a:hover { text-decoration: underline; }
   .header { flex-direction: column; align-items: flex-start; }
 }
 
+/* ---- loading ---- */
+/* A small spinner that sits inside a button, next to its label. */
+.spinner-sm {
+  width: 12px; height: 12px; border-width: 2px; margin: 0 2px 0 0;
+  display: inline-block; vertical-align: -1px;
+}
+.btn[aria-busy="true"] { opacity: .75; cursor: default; }
+
+/* Placeholder rows, shaped like the real ones so the layout doesn't move. */
+.skeleton { pointer-events: none; }
+.skel {
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+.skel-title { height: 17px; width: 42%; margin-bottom: 8px; }
+.skel-meta { height: 12px; width: 26%; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+#content[aria-busy="true"] .list { opacity: .55; transition: opacity .15s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .spinner-sm { animation-duration: 2.5s; }
+  .skel { animation: none; background: var(--surface2); }
+}
+
 .downloads { color: var(--text-dim); font-size: .85rem; margin: -.5rem 0 1.25rem; }
 .downloads a { color: var(--accent); }
 .empty-detail { color: var(--text-dim); font-size: .85rem; margin-top: .35rem; }
