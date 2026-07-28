@@ -667,8 +667,18 @@ def admin_act(reviewer_id: int, reviewer_name: str, session_id: str, spelling: s
                 "khmer": khmer, "reviewer": reviewer_name, "ts": str(now)[:19]}
 
 
-def admin_undo(action_id: int, reviewer_name: str) -> dict:
-    """Revert a review action — marks it as reverted."""
+def admin_undo(action_id: int, reviewer_id: int, reviewer_name: str,
+               is_owner: bool = False) -> dict:
+    """Revert a review action.
+
+    A reviewer can take back their own decision; **the owner can overturn anyone's** — having
+    the last word on what reaches the dictionary is the point of being the owner.
+
+    This used to check nothing at all, and the dashboard merely hid the Undo button on other
+    people's rows. So the permission ran backwards from what anyone wanted: a reviewer could
+    revert the owner's decisions by calling the endpoint directly, while the owner couldn't
+    fix a helper's mistake from the page. Permission belongs here, not in the markup.
+    """
     if not available():
         return {"ok": False, "error": "storage_unavailable"}
     migrate()
@@ -676,12 +686,15 @@ def admin_undo(action_id: int, reviewer_name: str) -> dict:
     with connect() as (conn, ph):
         cur = conn.cursor()
         cur.execute(
-            f"SELECT id, action, spelling, khmer, status FROM review_actions WHERE id = {ph}",
+            f"SELECT id, action, spelling, khmer, status, reviewer_id, reviewer_name"
+            f" FROM review_actions WHERE id = {ph}",
             (action_id,),
         )
         row = cur.fetchone()
         if not row:
             return {"ok": False, "error": "not_found"}
+        if not is_owner and row[5] != reviewer_id:
+            return {"ok": False, "error": "not_yours", "reviewer": row[6]}
         if row[4] == "submitted":
             return {"ok": False, "error": "already_submitted"}
         if row[4] == "reverted":

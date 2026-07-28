@@ -234,6 +234,49 @@ def test_actions_are_attributed_to_the_account_not_a_header(client):
     assert action["reviewer_id"] == who["id"]
 
 
+def test_a_reviewer_can_undo_their_own_decision(client):
+    owner(client)
+    helper, _ = invited(client)
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+
+    acted = helper.post("/admin/api/act",
+                        json={"spelling": "nekna", "khmer": "អ្នកណា", "action": "accept"}).json()
+    assert helper.post("/admin/api/undo", json={"id": acted["id"]}).json()["ok"]
+
+
+def test_the_owner_can_overturn_a_reviewers_decision(client):
+    """Having the last word on what reaches the dictionary is the point of being the owner."""
+    owner(client)
+    helper, _ = invited(client, name="Dara")
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+
+    accepted = helper.post("/admin/api/act",
+                           json={"spelling": "nekna", "khmer": "អ្នកណា",
+                                 "action": "accept"}).json()
+    undone = client.post("/admin/api/undo", json={"id": accepted["id"]}).json()
+    assert undone["ok"] and undone["reverted_by"] == "Lyheang"
+
+    # And the other direction: a reject the owner disagrees with.
+    rejected = helper.post("/admin/api/act",
+                           json={"spelling": "nekna", "khmer": "អ្នកណា",
+                                 "action": "reject"}).json()
+    assert client.post("/admin/api/undo", json={"id": rejected["id"]}).json()["ok"]
+
+
+def test_a_reviewer_cannot_undo_someone_elses_decision(client):
+    """The dashboard only *hid* the button, so this ran backwards: any reviewer could revert
+    the owner's decisions through the endpoint, while the owner couldn't fix a helper's."""
+    owner(client)
+    helper, _ = invited(client, name="Dara")
+    other, _ = invited(client, name="Bora")
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+
+    acted = helper.post("/admin/api/act",
+                        json={"spelling": "nekna", "khmer": "អ្នកណា", "action": "accept"}).json()
+    res = other.post("/admin/api/undo", json={"id": acted["id"]})
+    assert res.status_code == 409 and res.json()["error"] == "not_yours"
+
+
 def test_only_the_owner_can_push_to_github(client, monkeypatch):
     monkeypatch.setenv("GITHUB_TOKEN", "not-a-real-token")
     owner(client)

@@ -128,17 +128,46 @@
     return '';
   }
 
+  /* Same busy treatment act(), undo() and the submit modal already use, factored out for the
+     buttons that had none. Restores in `finally`, so a failed request can't strand a button. */
+  async function busy(btn, label, fn) {
+    if (!btn || btn.disabled) return;
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.innerHTML = '<span class="spinner-sm"></span> ' + escapeHtml(label);
+    try {
+      return await fn();
+    } finally {
+      if (btn.isConnected) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        btn.textContent = original;
+      }
+    }
+  }
+
   function renderCard(item) {
     const r = item.review;
     const acted = r && r.status !== 'reverted';
     const isMine = r && me && r.reviewer === me.name;
 
+    /* Undo shows on your own decisions, and to the owner on anyone's — overturning a helper's
+       accept or reject is exactly what being the owner is for. Once an item has gone to
+       GitHub it is out of our hands, so nobody can undo it here. The server enforces the same
+       rule; this only decides what to draw. */
+    const canUndo = r && r.status !== 'submitted' && (isMine || (me && me.role === 'owner'));
+
     let actionsHtml = '';
     if (!acted) {
       actionsHtml = '<button class="btn btn-accept btn-sm accept-btn">Accept</button>' +
                     '<button class="btn btn-reject btn-sm reject-btn">Reject</button>';
-    } else if (isMine && r.status !== 'submitted') {
-      actionsHtml = '<button class="btn btn-undo btn-sm undo-btn" data-id="' + r.id + '">Undo</button>';
+    } else if (canUndo) {
+      const label = isMine ? 'Undo' : 'Undo ' + r.action;
+      const why = isMine ? 'Take back your decision'
+                         : 'Overturn ' + r.reviewer + "'s " + r.action;
+      actionsHtml = '<button class="btn btn-undo btn-sm undo-btn" data-id="' + r.id + '"' +
+                    ' title="' + escapeHtml(why) + '">' + escapeHtml(label) + '</button>';
     }
 
     let actedBy = '';
@@ -334,6 +363,15 @@
   }
 
   async function undo(id, btnEl) {
+    // Remember the label rather than assuming it: on someone else's row the owner's button
+    // reads "Undo accept" / "Undo reject", and restoring a hardcoded "Undo" would lose that.
+    var label = btnEl ? btnEl.textContent : 'Undo';
+    var restore = function () {
+      if (btnEl && btnEl.isConnected) {
+        btnEl.disabled = false;
+        btnEl.textContent = label;
+      }
+    };
     if (btnEl) {
       btnEl.disabled = true;
       btnEl.innerHTML = '<span class="spinner-sm"></span> Undoing…';
@@ -345,17 +383,11 @@
         await refresh();
       } else {
         toast(apiError(result, 'Undo failed'), 'err');
-        if (btnEl) {
-          btnEl.disabled = false;
-          btnEl.textContent = 'Undo';
-        }
+        restore();
       }
     } catch (e) {
       toast('Undo failed: ' + String(e).slice(0, 160), 'err');
-      if (btnEl) {
-        btnEl.disabled = false;
-        btnEl.textContent = 'Undo';
-      }
+      restore();
     }
   }
 
@@ -563,9 +595,12 @@
     const err = el('p', 'gate-error');
     const btn = el('button', 'btn btn-primary', mode === 'login' ? 'Sign in' : 'Create account');
 
-    const go = async function () {
+    const go = function () {
+      return busy(btn, mode === 'login' ? 'Signing in…' : 'Creating account…', run);
+    };
+
+    const run = async function () {
       err.textContent = '';
-      btn.disabled = true;
       try {
         const body = {
           name: (document.getElementById('gName').value || '').trim(),
@@ -584,8 +619,6 @@
         err.textContent = GATE_ERRORS[out && out.error] || apiError(out, 'Could not sign in.');
       } catch (e) {
         err.textContent = 'Could not reach the server.';
-      } finally {
-        btn.disabled = false;
       }
     };
 
@@ -621,16 +654,19 @@
 
   const logoutBtn = document.getElementById('btnLogout');
   if (logoutBtn) {
-    logoutBtn.onclick = async function () {
-      await apiPost('logout', {});
-      me = null;
-      location.href = '/review';
+    logoutBtn.onclick = function () {
+      busy(logoutBtn, 'Signing out…', async function () {
+        await apiPost('logout', {});
+        me = null;
+        location.href = '/review';
+      });
     };
   }
 
   const inviteBtn = document.getElementById('btnInvite');
   if (inviteBtn) {
-    inviteBtn.onclick = async function () {
+    inviteBtn.onclick = function () {
+      busy(inviteBtn, 'Creating link…', async function () {
       const out = await apiPost('invite', {});
       if (!out || !out.ok) { toast(apiError(out, 'Could not create an invite'), 'err'); return; }
       // Shown once — the server keeps only a hash, so this link cannot be recovered later.
@@ -648,6 +684,7 @@
       input.select();
       try { await navigator.clipboard.writeText(out.url); toast('Invite link copied', 'ok'); }
       catch (e) { toast('Copy the link below', 'info'); }
+      });
     };
   }
 
