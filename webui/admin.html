@@ -207,6 +207,11 @@ a:hover { text-decoration: underline; }
   .header { flex-direction: column; align-items: flex-start; }
 }
 
+.downloads { color: var(--text-dim); font-size: .85rem; margin: -.5rem 0 1.25rem; }
+.downloads a { color: var(--accent); }
+.empty-detail { color: var(--text-dim); font-size: .85rem; margin-top: .35rem; }
+body.signed-out #usage, body.signed-out #downloads { display: none !important; }
+
 /* ---- sign-in gate ---- */
 .whoami { color: var(--text-dim); font-size: .85rem; margin-right: .5rem; }
 body.signed-out .stats,
@@ -271,6 +276,17 @@ body.signed-out .reviewer-box { visibility: hidden; }
     <div class="stat-card rejected"><div class="stat-num" id="statRejected">—</div><div class="stat-label">Rejected</div></div>
     <div class="stat-card flagged" id="statFlaggedCard" style="display:none"><div class="stat-num" id="statFlagged" style="color:#f59e0b">—</div><div class="stat-label">⚠ Flagged</div></div>
   </div>
+
+  <!-- Usage, merged in from the old /admin page. The unknown-word rate is the number that
+       says whether the dictionary is good enough yet, so reviewers see it too — it's how
+       they can tell their work is moving something. Downloads stay owner-only. -->
+  <div class="stats" id="usage">
+    <div class="stat-card"><div class="stat-num" id="uUnknown">—</div><div class="stat-label">Words we couldn't convert</div></div>
+    <div class="stat-card"><div class="stat-num" id="uCopy">—</div><div class="stat-label">Conversions copied</div></div>
+    <div class="stat-card"><div class="stat-num" id="uPeople">—</div><div class="stat-label">People</div></div>
+    <div class="stat-card"><div class="stat-num" id="uConversions">—</div><div class="stat-label">Conversions</div></div>
+  </div>
+  <p class="downloads" id="downloads" style="display:none"></p>
 
   <div class="tabs" id="tabs">
     <button class="tab active" data-tab="pending">Pending</button>

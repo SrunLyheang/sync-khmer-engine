@@ -44,6 +44,56 @@ def invited(client, name="Dara", password="another-password"):
     return helper, res.json()
 
 
+# ---- upgrading a database that already holds data ---------------------------------------
+def test_an_older_database_gains_the_new_columns(tmp_path, monkeypatch):
+    """The exact failure from the deployed site: /review loaded but showed nothing.
+
+    `CREATE TABLE IF NOT EXISTS` does nothing when the table already exists, so `flag_reason`
+    was never added to a `corrections` table created by an earlier version — and the review
+    queue answered 500 ("column does not exist") while working fine against a fresh database.
+    """
+    import sqlite3
+
+    db = tmp_path / "old.db"
+    old = sqlite3.connect(db)
+    old.execute(                                    # the schema as it was before this branch
+        "CREATE TABLE corrections (id INTEGER PRIMARY KEY, session_id TEXT, ts TIMESTAMP,"
+        " spelling TEXT, expected_khmer TEXT, source TEXT, status TEXT DEFAULT 'new')"
+    )
+    old.execute(
+        "INSERT INTO corrections (session_id, ts, spelling, expected_khmer, source, status)"
+        " VALUES ('s1', '2026-07-28', 'nekna', 'អ្នកណា', 'form', 'new')"
+    )
+    old.commit()
+    old.close()
+
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    monkeypatch.setattr(storage, "IS_SERVERLESS", False)
+    monkeypatch.setattr(storage, "SQLITE_PATH", str(db))
+    monkeypatch.setattr(storage, "_MIGRATED", False)
+    monkeypatch.setenv("ADMIN_TOKEN", ADMIN)
+    storage.migrate()
+
+    with storage.connect() as (conn, _):
+        cols = {r[1] for r in conn.cursor().execute("PRAGMA table_info(corrections)")}
+    assert "flag_reason" in cols, "migrate() must add columns to tables that already exist"
+
+    # And the endpoint that was returning 500 now works, with the pre-existing row intact.
+    security.reset_limits()
+    with TestClient(index.app) as c:
+        owner(c)
+        res = c.get("/admin/api/queue")
+        assert res.status_code == 200, res.text
+        assert [i["spelling"] for i in res.json()["items"]] == ["nekna"]
+
+
+def test_adding_columns_is_idempotent(client):
+    """migrate() runs on every cold start; the second run must be a no-op, not an error."""
+    with storage.connect() as (conn, _):
+        cur = conn.cursor()
+        assert storage._add_missing_columns(cur) == []
+
+
 # ---- passwords ------------------------------------------------------------------------
 def test_passwords_are_salted_and_never_stored_in_the_clear():
     h1, s1 = accounts.hash_password("hunter2000")
@@ -221,6 +271,50 @@ def test_the_queue_is_hidden_from_strangers(client):
     stranger = TestClient(index.app)
     for path in ("/admin/api/queue", "/admin/api/history", "/admin/api/reviewers"):
         assert stranger.get(path).status_code == 404, path
+
+
+# ---- the merged page --------------------------------------------------------------------
+def test_reviewers_see_the_numbers_but_not_the_downloads(client):
+    """Stats motivate a helper; the CSVs export what users typed, so they stay with the owner."""
+    owner(client)
+    helper, _ = invited(client)
+
+    mine = client.get("/admin/api/stats").json()
+    theirs = helper.get("/admin/api/stats").json()
+    assert mine["can_download"] is True
+    assert theirs["can_download"] is False
+    assert "unknown_rate" in theirs and "copy_rate" in theirs
+
+    assert client.get("/admin/export.csv", params={"what": "corrections"}).status_code == 200
+    assert helper.get("/admin/export.csv", params={"what": "corrections"}).status_code == 404
+
+
+def test_the_owner_downloads_with_a_session_not_a_url_secret(client):
+    """The dashboard link carries no token — the cookie is the proof."""
+    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+    owner(client)
+    res = client.get("/admin/export.csv", params={"what": "corrections"})
+    assert res.status_code == 200 and "nekna" in res.content.decode("utf-8-sig")
+
+
+# ---- recovering the owner account --------------------------------------------------------
+def test_admin_token_can_reset_a_lost_owner_password_but_not_create_accounts(client):
+    owner(client, name="Lyheang", password="a-good-password")
+
+    locked = TestClient(index.app)
+    assert locked.post("/admin/api/login",
+                       json={"name": "Lyheang", "password": "forgotten"}).status_code == 401
+
+    res = locked.post("/admin/api/reset-owner",
+                      json={"admin_token": ADMIN, "password": "a-new-password"})
+    assert res.status_code == 200 and res.json()["role"] == "owner"
+    assert locked.get("/admin/api/me").json()["name"] == "Lyheang"
+
+    # It resets; it does not mint. Still exactly one account.
+    assert accounts.count() == 1
+    assert TestClient(index.app).post(
+        "/admin/api/reset-owner", json={"admin_token": "wrong", "password": "x" * 10}
+    ).status_code == 404
 
 
 # ---- the filter must never destroy a word ----------------------------------------------

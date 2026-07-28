@@ -118,6 +118,22 @@ async def login(request: Request):
     return _sign_in({"ok": True, **who}, who["id"], request.url.scheme == "https")
 
 
+@router.post("/reset-owner")
+async def reset_owner(request: Request):
+    """Set a new password on the owner account, proven by ADMIN_TOKEN.
+
+    The way back in if the owner password is lost. Deliberately only *resets* — it can't
+    create an account, so it never becomes a second door.
+    """
+    body = await _json(request)
+    if not security.admin_ok(body.get("admin_token", "")):
+        return _NOT_FOUND
+    result = accounts.reset_owner_password(body.get("password", ""))
+    if not result.get("ok"):
+        return JSONResponse(result, status_code=400)
+    return _sign_in(result, result["id"], request.url.scheme == "https")
+
+
 @router.post("/logout")
 def logout():
     res = JSONResponse({"ok": True})
@@ -140,6 +156,12 @@ def invite(request: Request):
     denied = _needs_owner(request)
     if denied:
         return denied
+    if not accounts.invites_usable():
+        return JSONResponse({
+            "ok": False, "error": "no_secret_key",
+            "detail": "Set SECRET_KEY in the deployment — without it an invite created on "
+                      "one serverless instance can't be redeemed on another.",
+        }, status_code=503)
     who = _owner(request)
     raw = accounts.create_invite(who["id"])
     base = str(request.base_url).rstrip("/")
@@ -171,6 +193,29 @@ async def reviewer_status(request: Request):
     if target == _owner(request)["id"]:
         return JSONResponse({"ok": False, "error": "cannot_disable_self"}, status_code=400)
     return JSONResponse({"ok": accounts.set_status(target, status)})
+
+
+@router.get("/stats")
+def stats(request: Request):
+    """Usage aggregates for the merged dashboard — counts and spellings, never messages.
+
+    Any signed-in reviewer sees these: the unknown-word rate is how a helper can tell their
+    work is moving the number. The CSV downloads beside them stay owner-only, because those
+    export what users actually typed.
+    """
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
+    s = storage.stats()
+    return JSONResponse({
+        "unknown_rate": s.get("unknown_rate", 0),
+        "copy_rate": s.get("copy_rate", 0),
+        "sessions": s.get("sessions", 0),
+        "conversions": s.get("conversions", 0),
+        "corrections": s.get("corrections", 0),
+        "location": s.get("location"),
+        "can_download": who["role"] == "owner",
+    })
 
 
 # ---- queue -------------------------------------------------------------------------

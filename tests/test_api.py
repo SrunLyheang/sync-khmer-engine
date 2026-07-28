@@ -198,20 +198,14 @@ def test_feedback_accepts_khmer_with_zero_width_space_and_punctuated_spelling(cl
     assert saved["expected_khmer"] == "អ្នកណា"
 
 
-def test_a_submitted_word_shows_up_on_the_admin_page(client, monkeypatch):
-    """The point of collecting corrections is being able to read them back."""
-    client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
-    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
-    page = client.get("/admin", params={"token": "secret-token"}).text
-    assert "Words people sent us" in page
-    assert "nekna" in page and "អ្នកណា" in page
+def test_admin_redirects_to_the_single_dashboard(client):
+    """Stats and the review queue are one page now, and it needs no secret in the URL."""
+    res = client.get("/admin", follow_redirects=False)
+    assert res.status_code == 302
+    assert res.headers["location"] == "/review"
 
 
-def test_admin_names_where_the_data_is_without_leaking_credentials(client, monkeypatch):
-    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
-    page = client.get("/admin", params={"token": "secret-token"}).text
-    assert storage.SQLITE_PATH in page
-
+def test_storage_location_never_leaks_credentials(client, monkeypatch):
     monkeypatch.setattr(storage, "DATABASE_URL", "postgresql://user:hunter2@host:5432/db")
     assert "hunter2" not in storage.location()
     assert "DATABASE_URL" in storage.location()
@@ -234,13 +228,9 @@ def test_a_submitted_word_can_be_downloaded_as_csv(client, monkeypatch):
     assert lines[0].startswith("they typed")
     assert "nekna" in lines[1] and "អ្នកណា" in lines[1]
 
-    # and the page offers it
-    page = client.get("/admin", params={"token": "secret-token"}).text
-    assert "/admin/export.csv?what=corrections" in page
-    assert "1 row" in page
 
 
-def test_export_is_hidden_and_bounded_like_the_admin_page(client, monkeypatch):
+def test_export_is_hidden_and_bounded(client, monkeypatch):
     assert client.get("/admin/export.csv").status_code == 404
     monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
     assert client.get("/admin/export.csv", params={"token": "wrong"}).status_code == 404
@@ -322,11 +312,12 @@ def test_serverless_without_a_database_refuses_to_lose_data(client, monkeypatch)
     assert not storage.available()
 
 
-def test_admin_is_hidden_without_the_token(client, monkeypatch):
-    assert client.get("/admin").status_code == 404
-    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
-    assert client.get("/admin", params={"token": "wrong"}).status_code == 404
-    assert client.get("/admin", params={"token": "secret-token"}).status_code == 200
+def test_the_dashboard_shows_nothing_to_someone_who_is_not_signed_in(client):
+    """The page itself is a public shell; every endpoint that fills it needs an account."""
+    assert client.get("/review").status_code == 200          # just the sign-in gate
+    for path in ("/admin/api/stats", "/admin/api/queue", "/admin/api/history"):
+        assert client.get(path).status_code == 404, path
+    assert client.get("/admin/export.csv").status_code == 404
 
 
 # ---- retention -------------------------------------------------------------------------

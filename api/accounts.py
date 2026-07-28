@@ -189,6 +189,28 @@ def bootstrap_owner(name: str, password: str) -> dict:
     return {"ok": True, "id": rid, "name": name.strip(), "role": "owner"}
 
 
+def reset_owner_password(password: str) -> dict:
+    """Give the owner account a new password. Requires an owner to already exist."""
+    if not storage.available():
+        return {"ok": False, "error": "storage_unavailable"}
+    if len(password or "") < MIN_PASSWORD:
+        return {"ok": False, "error": "weak_password"}
+    storage.migrate()
+    pw_hash, salt = hash_password(password)
+    with storage.connect() as (conn, ph):
+        cur = conn.cursor()
+        cur.execute("SELECT id, name FROM reviewers WHERE role = 'owner' ORDER BY id LIMIT 1")
+        row = cur.fetchone()
+        if not row:
+            return {"ok": False, "error": "no_owner"}
+        cur.execute(
+            f"UPDATE reviewers SET password_hash = {ph}, salt = {ph}, status = 'active'"
+            f" WHERE id = {ph}",
+            (pw_hash, salt, row[0]),
+        )
+    return {"ok": True, "id": row[0], "name": row[1], "role": "owner"}
+
+
 def authenticate(name: str, password: str) -> dict | None:
     """Return the account on a correct name+password, else None."""
     if not storage.available():
@@ -218,8 +240,19 @@ def _invite_hash(raw: str) -> str:
     return hashlib.sha256(f"{security.SECRET_KEY}:{raw}".encode()).hexdigest()
 
 
+def invites_usable() -> bool:
+    """Invites are hashed with SECRET_KEY, so a per-instance random key breaks them.
+
+    Without SECRET_KEY on serverless, an invite created by one instance hashes differently
+    on the next and can never be redeemed. Better to refuse than to hand out dead links.
+    """
+    return not (security.SECRET_KEY_IS_EPHEMERAL and storage.IS_SERVERLESS)
+
+
 def create_invite(created_by: int, days: int = INVITE_DAYS) -> str:
     """Generate a single-use invite and return the raw token — shown once, never stored."""
+    if not invites_usable():
+        raise RuntimeError("SECRET_KEY is not set; invites would not be redeemable")
     raw = secrets.token_urlsafe(24)
     now = datetime.now(timezone.utc)
     storage.migrate()
