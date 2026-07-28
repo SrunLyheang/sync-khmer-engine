@@ -42,18 +42,14 @@
     </div>
   </div>
 
-  <section class="section" aria-labelledby="inputLabel">
-    <h2 class="section-label" id="inputLabel" data-i18n="input.label"></h2>
-    <div class="card">
+  <!-- Typing and the Khmer it produces are one object, so they're one panel rather than two
+       labelled cards stacked on each other. The labels survive as aria-labels. -->
+  <section class="panel">
+    <div class="panel-part" data-i18n-aria="input.label">
       <textarea id="in" rows="3" autofocus autocomplete="off" autocapitalize="off"
         spellcheck="false" data-i18n-placeholder="input.placeholder"></textarea>
-      <p class="hint" data-i18n="input.hint"></p>
     </div>
-  </section>
-
-  <section class="section" aria-labelledby="outputLabel">
-    <h2 class="section-label" id="outputLabel" data-i18n="output.label"></h2>
-    <div class="card card-output">
+    <div class="panel-part panel-out" data-i18n-aria="output.label">
       <div id="out" class="khmer"></div>
       <div class="converting" id="converting" role="status">
         <span class="spinner" aria-hidden="true"></span>
@@ -65,15 +61,16 @@
       </div>
     </div>
   </section>
+  <p class="note" data-i18n="input.hint"></p>
 
   <section class="section" id="readingsWrap" style="display:none" aria-labelledby="readingsLabel">
     <h2 class="section-label" id="readingsLabel" data-i18n="readings.title"></h2>
-    <div id="readings"></div>
+    <div id="readings" class="card"></div>
   </section>
 
   <section class="section" id="bdWrap" style="display:none" aria-labelledby="bdLabel">
     <h2 class="section-label" id="bdLabel" data-i18n="words.title"></h2>
-    <div id="bd"></div>
+    <div id="bd" class="card"></div>
   </section>
 
   <section class="section" aria-labelledby="feedbackLabel">

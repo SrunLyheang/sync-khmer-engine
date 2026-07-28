@@ -241,14 +241,28 @@ def migrate() -> None:
             " PRIMARY KEY (spelling, khmer, session_id))",
             # Signal 4 — what people explicitly told us.
             f"CREATE TABLE IF NOT EXISTS corrections (id {pk}, session_id TEXT, ts TIMESTAMP,"
-            " spelling TEXT, expected_khmer TEXT, source TEXT, status TEXT DEFAULT 'new')",
+            " spelling TEXT, expected_khmer TEXT, source TEXT, status TEXT DEFAULT 'new',"
+            " flag_reason TEXT)",
             # Admin review actions — tracks accept/reject decisions per reviewer.
             f"CREATE TABLE IF NOT EXISTS review_actions (id {pk},"
-            " reviewer_name TEXT NOT NULL, session_id TEXT NOT NULL,"
+            # reviewer_id is the authenticated account; reviewer_name is a snapshot of what
+            # they were called at the time, so history stays readable if an account changes.
+            " reviewer_id INTEGER, reviewer_name TEXT NOT NULL, session_id TEXT NOT NULL,"
             " spelling TEXT NOT NULL, khmer TEXT NOT NULL,"
             " action TEXT NOT NULL, ts TIMESTAMP NOT NULL,"
             " status TEXT DEFAULT 'pending',"
             " reverted_at TIMESTAMP, reverted_by TEXT)",
+            # Reviewer accounts. Identity has to be a fact the reviewer can't choose, so
+            # review_actions references one of these rather than a name from a header.
+            f"CREATE TABLE IF NOT EXISTS reviewers (id {pk},"
+            " name TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, salt TEXT NOT NULL,"
+            " role TEXT NOT NULL DEFAULT 'reviewer',"
+            " status TEXT NOT NULL DEFAULT 'active',"
+            " created_at TIMESTAMP NOT NULL, last_seen TIMESTAMP)",
+            # Only the HASH of an invite is kept, so a database dump yields no usable invite.
+            "CREATE TABLE IF NOT EXISTS invites (token_hash TEXT PRIMARY KEY,"
+            " created_by INTEGER NOT NULL, created_at TIMESTAMP NOT NULL,"
+            " expires_at TIMESTAMP NOT NULL, used_at TIMESTAMP, used_by INTEGER)",
             "CREATE INDEX IF NOT EXISTS conversions_expiry ON conversions (expires_at)",
             "CREATE INDEX IF NOT EXISTS corrections_pair ON corrections (spelling, expected_khmer)",
             "CREATE INDEX IF NOT EXISTS review_actions_status ON review_actions (spelling, khmer, status)",
@@ -354,21 +368,22 @@ def record_conversion(
 
 
 def record_correction(session_id: str, spelling: str, expected_khmer: str, source: str) -> bool:
-    """Store a user correction, unless the quality filter rejects it.
+    """Store a user correction. Suspicious ones are flagged for review — never dropped.
 
-    Returns True if stored, False if rejected by the quality filter.
-    Score-3 submissions are silently dropped. Score-2 submissions are stored
-    with status='flagged' so the admin reviews them with a warning.
+    This used to discard anything the quality filter scored 3, before it was written. That
+    cost real words: measured against the existing dictionary, the filter's profanity list
+    rejected `porn`→ពាន់ (*thousand*), `sex`→សុិច and would reject `die`→ដៃ (*hand*).
+    Romanized Khmer is phonetic, so ordinary words land on English profanity by coincidence
+    and no wordlist can tell the difference.
+
+    So nothing is deleted. Suspicious pairs get `status='flagged'` and a reason, and the
+    dashboard sorts them last. A human decides; the filter only points.
     """
     if not available():
         return False
     from api.filters import filter_submission
 
     score, reason = filter_submission(spelling, expected_khmer)
-    if score >= 3:
-        log.info("filter_rejected: %r → %r  (%s)", spelling, expected_khmer, reason)
-        return False
-
     status = "flagged" if score >= 2 else "new"
     if status == "flagged":
         log.info("filter_flagged: %r → %r  (%s)", spelling, expected_khmer, reason)
@@ -378,9 +393,10 @@ def record_correction(session_id: str, spelling: str, expected_khmer: str, sourc
         cur = conn.cursor()
         touch_session(cur, ph, session_id)
         cur.execute(
-            f"INSERT INTO corrections (session_id, ts, spelling, expected_khmer, source, status)"
-            f" VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph})",
-            (session_id, datetime.now(timezone.utc), spelling, expected_khmer, source, status),
+            f"INSERT INTO corrections (session_id, ts, spelling, expected_khmer, source,"
+            f" status, flag_reason) VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})",
+            (session_id, datetime.now(timezone.utc), spelling, expected_khmer, source,
+             status, reason if status == "flagged" else None),
         )
     return True
 
@@ -521,43 +537,62 @@ def _latest_action(cur, ph: str, spelling: str, khmer: str) -> dict | None:
     )
 
 
-def admin_queue() -> list[dict]:
+def admin_queue(limit: int = 500) -> list[dict]:
     """All correction pairs with their review status, newest first.
 
-    Returns a list where each item has spelling, khmer, people (distinct submitters),
-    times (total submissions), source, last_seen, and review (action dict or None).
+    One query, not one per row. This used to call `_latest_action()` inside the loop, so a
+    few hundred pairs meant a few hundred round trips to Neon on the dashboard's main
+    endpoint — the join below is the same answer in a single trip.
     """
     if not available():
         return []
     migrate()
-    with connect() as (conn, ph):
+    with connect() as (conn, _) :
         cur = conn.cursor()
         cur.execute(
             "SELECT c.spelling, c.expected_khmer, COUNT(DISTINCT c.session_id) AS people,"
             " COUNT(*) AS times, MIN(c.source) AS source, MAX(c.ts) AS last_seen,"
-            " MIN(c.status) AS item_status"
-            " FROM corrections c WHERE c.status IN ('new', 'flagged')"
+            " MIN(c.status) AS item_status, MIN(c.flag_reason) AS flag_reason,"
+            " MAX(a.id) AS action_id"
+            " FROM corrections c"
+            " LEFT JOIN review_actions a"
+            "   ON a.spelling = c.spelling AND a.khmer = c.expected_khmer"
+            "   AND a.status != 'reverted'"
+            " WHERE c.status IN ('new', 'flagged')"
             " GROUP BY c.spelling, c.expected_khmer"
             " ORDER BY CASE WHEN MIN(c.status) = 'flagged' THEN 1 ELSE 0 END, last_seen DESC"
+            f" LIMIT {int(limit)}"
         )
         rows = cur.fetchall()
-        out: list[dict] = []
-        for r in rows:
-            spelling, khmer = r[0], r[1]
-            item = {
-                "spelling": spelling, "khmer": khmer,
-                "people": r[2], "times": r[3],
-                "source": r[4], "last_seen": str(r[5])[:19],
-                "review": _latest_action(cur, ph, spelling, khmer),
-                "flagged": r[6] == "flagged",
+        # Resolve the referenced actions in one more query rather than one per row.
+        ids = [r[8] for r in rows if r[8] is not None]
+        actions: dict[int, dict] = {}
+        if ids:
+            marks = ",".join(str(int(i)) for i in ids)
+            cur.execute(
+                "SELECT id, action, reviewer_name, reviewer_id, status, ts"
+                f" FROM review_actions WHERE id IN ({marks})"
+            )
+            actions = {
+                r[0]: {"id": r[0], "action": r[1], "reviewer": r[2], "reviewer_id": r[3],
+                       "status": r[4], "ts": str(r[5])[:19]}
+                for r in cur.fetchall()
             }
-            out.append(item)
-        return out
+        return [
+            {
+                "spelling": r[0], "khmer": r[1], "people": r[2], "times": r[3],
+                "source": r[4], "last_seen": str(r[5])[:19],
+                "review": actions.get(r[8]),
+                "flagged": r[6] == "flagged",
+                "flag_reason": r[7],
+            }
+            for r in rows
+        ]
 
 
-def admin_act(reviewer_name: str, session_id: str, spelling: str, khmer: str,
-              action: str) -> dict:
-    """Accept or reject a correction pair. Returns the created action record."""
+def admin_act(reviewer_id: int, reviewer_name: str, session_id: str, spelling: str,
+              khmer: str, action: str) -> dict:
+    """Accept or reject a correction pair, attributed to an authenticated account."""
     if action not in ("accept", "reject"):
         raise ValueError(f"action must be 'accept' or 'reject', got {action!r}")
     if not available():
@@ -570,13 +605,19 @@ def admin_act(reviewer_name: str, session_id: str, spelling: str, khmer: str,
         existing = _latest_action(cur, ph, spelling, khmer)
         if existing and existing["status"] != "reverted":
             return {"ok": False, "error": "already_reviewed", "existing": existing}
-        cur.execute(
-            f"INSERT INTO review_actions (reviewer_name, session_id, spelling, khmer,"
-            f" action, ts, status) VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, 'pending')"
-            f" RETURNING id",
-            (reviewer_name, session_id, spelling, khmer, action, now),
+        sql = (
+            f"INSERT INTO review_actions (reviewer_id, reviewer_name, session_id, spelling,"
+            f" khmer, action, ts, status)"
+            f" VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, 'pending')"
         )
-        row_id = (cur.fetchone() or [None])[0]
+        params = (reviewer_id, reviewer_name, session_id, spelling, khmer, action, now)
+        # RETURNING needs SQLite 3.35+; lastrowid works everywhere.
+        if ph == "%s":
+            cur.execute(sql + " RETURNING id", params)
+            row_id = (cur.fetchone() or [None])[0]
+        else:
+            cur.execute(sql, params)
+            row_id = cur.lastrowid
         return {"ok": True, "id": row_id, "action": action, "spelling": spelling,
                 "khmer": khmer, "reviewer": reviewer_name, "ts": str(now)[:19]}
 
@@ -618,14 +659,14 @@ def admin_history(limit: int = 100) -> list[dict]:
         cur = conn.cursor()
         cur.execute(
             f"SELECT id, reviewer_name, spelling, khmer, action, ts, status,"
-            f" reverted_at, reverted_by FROM review_actions"
+            f" reverted_at, reverted_by, reviewer_id FROM review_actions"
             f" ORDER BY ts DESC, id DESC LIMIT {int(limit)}"
         )
         return [
             {"id": r[0], "reviewer": r[1], "spelling": r[2], "khmer": r[3],
              "action": r[4], "ts": str(r[5])[:19], "status": r[6],
              "reverted_at": str(r[7])[:19] if r[7] else None,
-             "reverted_by": r[8]}
+             "reverted_by": r[8], "reviewer_id": r[9]}
             for r in cur.fetchall()
         ]
 
@@ -648,16 +689,26 @@ def admin_accepted_for_submit() -> list[dict]:
         ]
 
 
-def admin_mark_submitted(spelling: str, khmer: str) -> None:
-    """Mark all pending accept actions for a pair as submitted."""
-    if not available():
-        return
+def admin_mark_submitted(pairs: list[dict]) -> int:
+    """Mark every pending accept in `pairs` as submitted, in one transaction.
+
+    This used to be called in a Python loop after the pull request was created, one round
+    trip per item — so a failure partway through left the rest still 'pending' and eligible
+    to be submitted a second time. One statement can't half-succeed.
+    """
+    if not available() or not pairs:
+        return 0
     migrate()
     with connect() as (conn, ph):
         cur = conn.cursor()
+        clause = " OR ".join(f"(spelling = {ph} AND khmer = {ph})" for _ in pairs)
+        params: list[str] = []
+        for p in pairs:
+            params.extend((p["spelling"], p["khmer"]))
         cur.execute(
-            f"UPDATE review_actions SET status = 'submitted'"
-            f" WHERE spelling = {ph} AND khmer = {ph} AND action = 'accept'"
-            f" AND status = 'pending'",
-            (spelling, khmer),
+            "UPDATE review_actions SET status = 'submitted'"
+            " WHERE action = 'accept' AND status = 'pending'"
+            f" AND ({clause})",
+            tuple(params),
         )
+        return cur.rowcount or 0

@@ -1,8 +1,15 @@
-"""Admin review dashboard API — correction queue, accept/reject, GitHub PR submission.
+"""Review dashboard API — correction queue, accept/reject, GitHub PR submission.
 
-All routes require ADMIN_TOKEN via cookie or header.  The reviewer identifies
-themselves with a name stored in a client-side cookie so multiple people can
-review from the same deployed instance.
+Every route requires a signed-in account (see `api/accounts.py`). Two things changed from the
+first version of this file, both because it is about to be used by real people:
+
+* **No shared token, and no self-declared name.** Authentication was a single `ADMIN_TOKEN`
+  read from the *query string* — so it leaked into browser history, server logs and `Referer`
+  headers — and the reviewer's identity came from an `X-Reviewer-Name` header the browser sets
+  itself, which made "who accepted this word" unverifiable. Both are now the signed session
+  cookie, which the browser cannot forge and the reviewer cannot choose.
+* **Only the owner can push to GitHub.** `/submit` wields a repo-write token; that shouldn't be
+  reachable by everyone who can review a word.
 """
 
 from __future__ import annotations
@@ -13,41 +20,165 @@ import logging
 import os
 import re
 from datetime import datetime, timezone
-from urllib.parse import quote
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-from api import security, storage
+from api import accounts, security, storage
 
 log = logging.getLogger("sing_khmer.admin")
 
 router = APIRouter(prefix="/admin/api")
 
-
-# ---- auth guard (applied to every route) -------------------------------------------
-def _guard(request: Request) -> str | None:
-    """Return the admin token if valid; otherwise None (caller returns 404)."""
-    token = request.query_params.get("token") or request.headers.get("x-admin-token", "")
-    if security.admin_ok(token):
-        return token
-    return None
+# Unauthenticated callers get a 404, not a 401: the dashboard shouldn't confirm it exists.
+_NOT_FOUND = JSONResponse({"error": "not_found"}, status_code=404)
 
 
-def _reviewer(request: Request) -> str:
-    """Return the reviewer name from the X-Reviewer-Name header, or 'unknown'."""
-    return (request.headers.get("x-reviewer-name") or "unknown").strip()[:64]
+def _guard(request: Request) -> dict | None:
+    """The signed-in account, or None. Disabled accounts count as signed out."""
+    return accounts.current(request)
+
+
+def _owner(request: Request) -> dict | None:
+    who = accounts.current(request)
+    return who if who and who["role"] == "owner" else None
 
 
 def _sid(request: Request) -> str:
     return getattr(request.state, "session_id", "anon")
 
 
+# ---- accounts ------------------------------------------------------------------------
+def _sign_in(payload: dict, reviewer_id: int, secure: bool) -> JSONResponse:
+    res = JSONResponse(payload)
+    res.set_cookie(
+        accounts.COOKIE_NAME, accounts.issue_cookie(reviewer_id),
+        max_age=accounts.COOKIE_MAX_AGE, httponly=True, samesite="lax",
+        secure=secure, path="/",
+    )
+    return res
+
+
+async def _json(request: Request) -> dict:
+    try:
+        return await request.json()
+    except Exception:
+        return {}
+
+
+def _needs_owner(request: Request):
+    """403 for a signed-in non-owner, 404 for a stranger. None when the caller is the owner."""
+    if _owner(request):
+        return None
+    if _guard(request):
+        return JSONResponse({"ok": False, "error": "owner_only"}, status_code=403)
+    return _NOT_FOUND
+
+
+@router.post("/bootstrap")
+async def bootstrap(request: Request):
+    """Create the first account, as owner, using ADMIN_TOKEN.
+
+    Only works while no account exists, so it can't be used to add a back door later.
+    """
+    body = await _json(request)
+    if not security.admin_ok(body.get("admin_token", "")):
+        return _NOT_FOUND
+    result = accounts.bootstrap_owner(body.get("name", ""), body.get("password", ""))
+    if not result.get("ok"):
+        return JSONResponse(result, status_code=400)
+    return _sign_in(result, result["id"], request.url.scheme == "https")
+
+
+@router.post("/join")
+async def join(request: Request):
+    """Redeem an invite link into a reviewer account."""
+    if not security.allow("login", _sid(request)):
+        return JSONResponse({"ok": False, "error": "slow_down"}, status_code=429)
+    body = await _json(request)
+    result = accounts.redeem_invite(
+        body.get("invite", ""), body.get("name", ""), body.get("password", "")
+    )
+    if not result.get("ok"):
+        return JSONResponse(result, status_code=400)
+    return _sign_in(result, result["id"], request.url.scheme == "https")
+
+
+@router.post("/login")
+async def login(request: Request):
+    if not security.allow("login", _sid(request)):
+        return JSONResponse({"ok": False, "error": "slow_down"}, status_code=429)
+    body = await _json(request)
+    who = accounts.authenticate(body.get("name", ""), body.get("password", ""))
+    if not who:
+        # One message for a wrong name and a wrong password: saying which was wrong tells an
+        # attacker which names are real.
+        return JSONResponse({"ok": False, "error": "bad_login"}, status_code=401)
+    accounts.touch(who["id"])
+    return _sign_in({"ok": True, **who}, who["id"], request.url.scheme == "https")
+
+
+@router.post("/logout")
+def logout():
+    res = JSONResponse({"ok": True})
+    res.delete_cookie(accounts.COOKIE_NAME, path="/")
+    return res
+
+
+@router.get("/me")
+def me(request: Request):
+    """Who am I, and does an owner exist yet? Decides what the dashboard shows first."""
+    who = _guard(request)
+    if not who:
+        return JSONResponse({"signed_in": False, "needs_bootstrap": accounts.count() == 0})
+    return JSONResponse({"signed_in": True, **who})
+
+
+@router.post("/invite")
+def invite(request: Request):
+    """Owner generates a single-use link. The token is shown once and never stored raw."""
+    denied = _needs_owner(request)
+    if denied:
+        return denied
+    who = _owner(request)
+    raw = accounts.create_invite(who["id"])
+    base = str(request.base_url).rstrip("/")
+    return JSONResponse({
+        "ok": True,
+        "url": f"{base}/review/join?invite={raw}",
+        "expires_days": accounts.INVITE_DAYS,
+    })
+
+
+@router.get("/reviewers")
+def reviewers(request: Request):
+    denied = _needs_owner(request)
+    if denied:
+        return denied
+    return JSONResponse({"reviewers": accounts.list_all(), "invites": accounts.list_invites()})
+
+
+@router.post("/reviewer-status")
+async def reviewer_status(request: Request):
+    """Disable or re-enable a helper. Takes effect on their next request."""
+    denied = _needs_owner(request)
+    if denied:
+        return denied
+    body = await _json(request)
+    target, status = body.get("id"), body.get("status", "")
+    if not isinstance(target, int) or status not in ("active", "disabled"):
+        return JSONResponse({"ok": False, "error": "bad_input"}, status_code=400)
+    if target == _owner(request)["id"]:
+        return JSONResponse({"ok": False, "error": "cannot_disable_self"}, status_code=400)
+    return JSONResponse({"ok": accounts.set_status(target, status)})
+
+
 # ---- queue -------------------------------------------------------------------------
 @router.get("/queue")
 def queue(request: Request):
-    if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
     items = storage.admin_queue()
     counts = {
         "total": len(items),
@@ -62,8 +193,9 @@ def queue(request: Request):
 # ---- accept / reject ---------------------------------------------------------------
 @router.post("/act")
 async def act(request: Request):
-    if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
     try:
         body = await request.json()
     except Exception:
@@ -75,7 +207,7 @@ async def act(request: Request):
         return JSONResponse({"ok": False, "error": "bad_input"}, status_code=400)
     if action not in ("accept", "reject"):
         return JSONResponse({"ok": False, "error": "bad_action"}, status_code=400)
-    result = storage.admin_act(_reviewer(request), _sid(request), spelling, khmer, action)
+    result = storage.admin_act(who["id"], who["name"], _sid(request), spelling, khmer, action)
     status = 200 if result.get("ok") else 409
     return JSONResponse(result, status_code=status)
 
@@ -83,8 +215,9 @@ async def act(request: Request):
 # ---- undo --------------------------------------------------------------------------
 @router.post("/undo")
 async def undo(request: Request):
-    if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
     try:
         body = await request.json()
     except Exception:
@@ -92,7 +225,7 @@ async def undo(request: Request):
     action_id = body.get("id")
     if not isinstance(action_id, int) or action_id < 1:
         return JSONResponse({"ok": False, "error": "bad_id"}, status_code=400)
-    result = storage.admin_undo(action_id, _reviewer(request))
+    result = storage.admin_undo(action_id, who["name"])
     status = 200 if result.get("ok") else 409
     return JSONResponse(result, status_code=status)
 
@@ -100,8 +233,9 @@ async def undo(request: Request):
 # ---- history -----------------------------------------------------------------------
 @router.get("/history")
 def history(request: Request):
-    if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
     return JSONResponse({"actions": storage.admin_history()})
 
 
@@ -204,9 +338,15 @@ def _update_vocab_csv(original_content: str, accepted: list[dict]) -> tuple[str,
 
 @router.post("/submit")
 async def submit(request: Request):
-    """Push accepted corrections to a GitHub review branch and open a PR."""
+    """Push accepted corrections to a GitHub review branch and open a PR.
+
+    Owner only. Reviewers judge words; the owner decides what reaches the dictionary.
+    """
     if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+        return _NOT_FOUND
+    who = _owner(request)
+    if not who:
+        return JSONResponse({"ok": False, "error": "owner_only"}, status_code=403)
 
     token = os.environ.get("GITHUB_TOKEN", "")
     if not token:
@@ -252,26 +392,30 @@ async def submit(request: Request):
     master_sha = master["data"]["object"]["sha"]
 
     # 5. Create review branch
+    # Try to create the branch and let a collision tell us it was taken, rather than asking
+    # first: checking-then-creating leaves a window where two submits both see "free" and
+    # one of them dies. GitHub answers 422 when the ref already exists.
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    branch_name = f"review/dictionary-update-{day}"
-    # Check if branch exists; if so, append a counter
-    existing_branch = _github_api(f"/repos/{owner}/{repo}/git/ref/heads/{branch_name}")
-    counter = 1
-    while existing_branch["ok"]:
-        branch_name = f"review/dictionary-update-{day}-{counter}"
-        existing_branch = _github_api(f"/repos/{owner}/{repo}/git/ref/heads/{branch_name}")
-        counter += 1
-
-    create_branch = _github_api(
-        f"/repos/{owner}/{repo}/git/refs",
-        method="POST",
-        data={"ref": f"refs/heads/{branch_name}", "sha": master_sha},
-    )
-    if not create_branch["ok"]:
+    base_name = f"review/dictionary-update-{day}"
+    branch_name = base_name
+    for attempt in range(1, 12):
+        create_branch = _github_api(
+            f"/repos/{owner}/{repo}/git/refs",
+            method="POST",
+            data={"ref": f"refs/heads/{branch_name}", "sha": master_sha},
+        )
+        if create_branch["ok"]:
+            break
+        if not str(create_branch.get("error", "")).endswith("_422"):
+            return JSONResponse(
+                {"ok": False, "error": "Failed to create branch",
+                 "detail": create_branch.get("error", "")},
+                status_code=502,
+            )
+        branch_name = f"{base_name}-{attempt}"
+    else:
         return JSONResponse(
-            {"ok": False, "error": "Failed to create branch",
-             "detail": create_branch.get("error", "")},
-            status_code=502,
+            {"ok": False, "error": "Could not find a free branch name"}, status_code=409
         )
 
     # 6. Commit updated file
@@ -295,7 +439,7 @@ async def submit(request: Request):
         )
 
     # 7. Create PR
-    reviewer = _reviewer(request)
+    reviewer = who["name"]
     pr_result = _github_api(
         f"/repos/{owner}/{repo}/pulls",
         method="POST",
@@ -317,9 +461,8 @@ async def submit(request: Request):
             status_code=502,
         )
 
-    # 8. Mark all accepted items as submitted
-    for item in accepted:
-        storage.admin_mark_submitted(item["spelling"], item["khmer"])
+    # 8. Mark all accepted items as submitted — one statement, so it can't half-apply
+    storage.admin_mark_submitted(accepted)
 
     pr_url = pr_result["data"]["html_url"]
     return JSONResponse({
@@ -335,8 +478,9 @@ async def submit(request: Request):
 @router.get("/github-status")
 def github_status(request: Request):
     """Tell the dashboard whether GitHub submission is available."""
-    if not _guard(request):
-        return JSONResponse({"error": "not_found"}, status_code=404)
+    who = _guard(request)
+    if not who:
+        return _NOT_FOUND
     token = bool(os.environ.get("GITHUB_TOKEN", ""))
     repo_info = _get_repo()
     return JSONResponse({
