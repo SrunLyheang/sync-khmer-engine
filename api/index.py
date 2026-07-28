@@ -212,6 +212,14 @@ def app_js() -> Response:
     )
 
 
+@app.get("/speed-insights.js")
+def speed_insights_js() -> Response:
+    return Response(
+        (ROOT / "webui" / "speed-insights.js").read_text(encoding="utf-8"),
+        media_type="application/javascript",
+    )
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 def robots() -> str:
     return "User-agent: *\nDisallow: /admin\n"

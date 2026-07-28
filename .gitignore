@@ -43,6 +43,9 @@ htmlcov/
 *.swp
 .DS_Store
 
+# Node.js dependencies
+node_modules/
+
 # Generated / local-only — not part of the app
 *.xlsx
 user_feedback.xlsx
