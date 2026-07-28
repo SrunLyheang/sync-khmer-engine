@@ -221,6 +221,7 @@ STATIC = {
     "/speed-insights.js": ("speed-insights.js", "application/javascript"),
     "/styles.css": ("styles.css", "text/css"),
     "/admin.js": ("admin.js", "application/javascript"),
+    "/favicon.svg": ("favicon.svg", "image/svg+xml"),
 }
 
 
