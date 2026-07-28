@@ -141,6 +141,27 @@ class Engine:
         # (e.g. បង្រៀន) beats splitting it into two (បង + រៀន).
         return self.index[key][0].score + _LEN_WEIGHT * len(key) - _WORD_COST
 
+    def _merge_multi_word(self, tokens: list[str]) -> list[str]:
+        """Merge adjacent tokens that together form a multi-word index key.
+
+        Scans tokens left-to-right, greedily joining consecutive tokens whose
+        space-joined form is a known spelling.  E.g. ``['msel', 'minh']`` becomes
+        ``['msel minh']`` when ``msel minh`` is in the reverse index.
+        """
+        if not tokens:
+            return []
+        merged: list[str] = []
+        i = 0
+        while i < len(tokens):
+            best_len = 1
+            for j in range(i + 1, min(i + 4, len(tokens) + 1)):
+                candidate = " ".join(tokens[i:j])
+                if candidate.lower() in self.index:
+                    best_len = j - i
+            merged.append(" ".join(tokens[i:i + best_len]))
+            i += best_len
+        return merged
+
     def _segment_kbest(self, lower: str, k: int) -> list[list[tuple[int, int, str | None]]]:
         """Top-`k` ways to cover `lower` with known spellings (Viterbi k-best).
 
@@ -234,6 +255,14 @@ class Engine:
                 if not core:
                     segments.append(Segment(tok, ()))    # pure punctuation
                     continue
+                # Single-character fragments should pass through — they are
+                # leftovers the Viterbi decoder couldn't match, not intentional
+                # words.  (Standalone single-char tokens like `b` typed alone
+                # DO match via _segment_kbest — this path only fires for
+                # unmatched fragments left inside a longer token.)
+                if len(core) == 1:
+                    segments.append(Segment(tok, ()))
+                    continue
                 cands = tuple(self.convert(core, limit=limit))
                 segments.append(Segment(core, cands, lead, trail))
 
@@ -300,16 +329,31 @@ class Engine:
         """Decode a whole message into matched/unknown segments (best reading).
 
         A run of 2+ spaces commits a real space (single space stays a word boundary);
-        a repeated word folds to the ៗ repetition sign."""
+        a repeated word folds to the ៗ repetition sign.
+
+        Tokens separated by single spaces are segmented independently so spellings
+        never fragment across word boundaries.  Adjacent tokens that form a multi-word
+        spelling (e.g. ``msel minh``) are re-merged first so those still match."""
         segments: list[Segment] = []
         for idx, part in enumerate(_DOUBLE_SPACE_RE.split(text)):
             if idx > 0:                                    # gap between parts = real space
                 segments.append(Segment(" ", (), space=True))
             if not part:
                 continue
-            paths = self._segment_kbest(part.lower(), 1)
-            spans = paths[0] if paths else []
-            segments.extend(self._spans_to_segments(part, spans, limit=limit))
+            tokens = self._merge_multi_word(part.split())
+            for token in tokens:
+                lower = token.lower()
+                paths = self._segment_kbest(lower, 1)
+                spans = paths[0] if paths else []
+                # If the token isn't a direct index key AND the best Viterbi
+                # path left unmatched fragments, the engine can only force a
+                # partial match.  Pass the whole token through instead of
+                # producing a mix like sa+ខ្ញុំ+b (e.g. "sab" → "sa" matched +
+                # "b" fragment → just keep "sab" as-is).
+                if lower not in self.index and any(key is None for _, _, key in spans):
+                    segments.append(Segment(token, ()))
+                else:
+                    segments.extend(self._spans_to_segments(token, spans, limit=limit))
         return self._apply_repetition(segments)
 
     @staticmethod
