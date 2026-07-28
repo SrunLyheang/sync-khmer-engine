@@ -47,6 +47,8 @@ htmlcov/
 node_modules/
 
 # Generated / local-only — not part of the app
+local.db
+local.db-journal
 *.xlsx
 user_feedback.xlsx
 backups/
