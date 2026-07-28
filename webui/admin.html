@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sing Khmer — Admin Review</title>
+<style>
+:root {
+  --bg: #0a0f0f;
+  --surface: #111b1a;
+  --surface2: #172220;
+  --border: #1e302c;
+  --text: #d1d8d6;
+  --text-dim: #6b827c;
+  --accent: #0f766e;
+  --accent-bright: #14b8a6;
+  --green: #10b981;
+  --green-dim: #065f46;
+  --red: #ef4444;
+  --red-dim: #7f1d1d;
+  --amber: #f59e0b;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --font: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --khmer: 'Noto Sans Khmer', 'Leelawadee UI', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--accent-bright); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* layout */
+.wrap { max-width: 960px; margin: 0 auto; padding: 24px 20px 60px; }
+
+/* header */
+.header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+.header-left { display: flex; align-items: center; gap: 14px; }
+.logo { width: 40px; height: 40px; background: var(--accent); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 22px; font-family: var(--khmer); color: #fff; }
+.header h1 { font-size: 1.3rem; font-weight: 700; color: #fff; }
+.header-sub { font-size: .82rem; color: var(--text-dim); }
+
+.reviewer-box { display: flex; align-items: center; gap: 8px; }
+.reviewer-box label { font-size: .82rem; color: var(--text-dim); white-space: nowrap; }
+.reviewer-box input {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 7px 12px; border-radius: var(--radius-sm);
+  font-family: var(--font); font-size: .88rem; width: 140px;
+}
+.reviewer-box input:focus { outline: none; border-color: var(--accent); }
+
+/* stats bar */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; text-align: center;
+}
+.stat-num { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+.stat-label { font-size: .78rem; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.stat-card.pending .stat-num { color: var(--amber); }
+.stat-card.accepted .stat-num { color: var(--green); }
+.stat-card.rejected .stat-num { color: var(--red); }
+.stat-card.total .stat-num { color: var(--text); }
+
+/* tabs */
+.tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.tab {
+  padding: 10px 20px; background: none; border: none;
+  color: var(--text-dim); font-family: var(--font); font-size: .9rem;
+  cursor: pointer; border-bottom: 2px solid transparent; transition: .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent-bright); border-bottom-color: var(--accent-bright); }
+
+/* action bar */
+.action-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.action-bar .count { font-size: .85rem; color: var(--text-dim); }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: var(--radius-sm); font-family: var(--font);
+  font-size: .85rem; font-weight: 600; border: 1px solid transparent;
+  cursor: pointer; transition: .15s; white-space: nowrap;
+}
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn-accept { background: var(--green-dim); color: var(--green); border-color: var(--green-dim); }
+.btn-accept:hover:not(:disabled) { background: var(--green); color: #fff; }
+.btn-reject { background: var(--red-dim); color: var(--red); border-color: var(--red-dim); }
+.btn-reject:hover:not(:disabled) { background: var(--red); color: #fff; }
+.btn-undo { background: transparent; color: var(--amber); border-color: var(--border); }
+.btn-undo:hover:not(:disabled) { border-color: var(--amber); background: rgba(245,158,11,.1); }
+.btn-submit {
+  background: var(--accent); color: #fff; font-size: .9rem;
+  padding: 10px 24px; border-radius: var(--radius);
+}
+.btn-submit:hover:not(:disabled) { background: var(--accent-bright); }
+.btn-ghost { background: transparent; color: var(--text-dim); border-color: var(--border); }
+.btn-ghost:hover:not(:disabled) { color: var(--text); border-color: var(--text-dim); }
+.btn-sm { padding: 4px 10px; font-size: .78rem; }
+
+/* list */
+.list { display: flex; flex-direction: column; gap: 8px; }
+.card-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  transition: border-color .15s;
+}
+.card-item:hover { border-color: #2a403a; }
+.card-item .info { flex: 1; min-width: 200px; }
+.card-item .spelling { font-family: 'DM Sans Mono', 'Cascadia Code', monospace; font-size: 1rem; font-weight: 600; color: #fff; }
+.card-item .arrow { color: var(--text-dim); margin: 0 6px; }
+.card-item .khmer { font-family: var(--khmer); font-size: 1.2rem; color: var(--accent-bright); }
+.card-item .meta { font-size: .78rem; color: var(--text-dim); margin-top: 3px; }
+.card-item .meta strong { color: var(--text); }
+.card-item .actions { display: flex; gap: 6px; flex-shrink: 0; }
+.card-item .badge {
+  font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.badge-accept { background: var(--green-dim); color: var(--green); }
+.badge-reject { background: var(--red-dim); color: var(--red); }
+.badge-submitted { background: #1e3a5f; color: #60a5fa; }
+.badge-reverted { background: #292524; color: #a8a29e; }
+
+/* history table */
+.history-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.history-table th { text-align: left; padding: 10px 12px; color: var(--text-dim); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); }
+.history-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: .85rem; }
+.history-table tr:hover td { background: var(--surface2); }
+.history-table .mono { font-family: 'DM Sans Mono', monospace; }
+.history-table .khmer-cell { font-family: var(--khmer); font-size: 1rem; }
+
+/* empty state */
+.empty { text-align: center; padding: 48px 20px; color: var(--text-dim); }
+.empty-icon { font-size: 3rem; margin-bottom: 12px; }
+
+/* toast */
+.toast-wrap { position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
+.toast {
+  padding: 12px 16px; border-radius: var(--radius-sm); font-size: .85rem;
+  font-weight: 500; animation: slideIn .25s ease; box-shadow: 0 4px 20px rgba(0,0,0,.4);
+}
+.toast-ok { background: #065f46; color: #d1fae5; border: 1px solid #059669; }
+.toast-err { background: #7f1d1d; color: #fecaca; border: 1px solid #dc2626; }
+.toast-info { background: #1e3a5f; color: #dbeafe; border: 1px solid #3b82f6; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+/* submit modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 900; display: flex; align-items: center; justify-content: center; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px; max-width: 500px; width: 90%;
+  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+}
+.modal h2 { color: #fff; margin-bottom: 8px; }
+.modal p { color: var(--text-dim); font-size: .9rem; margin-bottom: 16px; }
+.modal .changes { background: var(--surface2); border-radius: var(--radius-sm); padding: 14px; font-family: 'DM Sans Mono', monospace; font-size: .82rem; line-height: 1.7; color: var(--text); max-height: 200px; overflow-y: auto; margin-bottom: 16px; }
+.modal .actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* loading states */
+.loading { display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-dim); }
+.spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent-bright); border-radius: 50%; animation: spin .7s linear infinite; margin-right: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* responsive */
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .card-item { flex-direction: column; align-items: flex-start; }
+  .card-item .actions { width: 100%; justify-content: flex-end; }
+  .header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Noto+Sans+Khmer:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="header">
+    <div class="header-left">
+      <div class="logo" aria-hidden="true">ខ</div>
+      <div>
+        <h1>Sing Khmer</h1>
+        <div class="header-sub">Dictionary Review Dashboard</div>
+      </div>
+    </div>
+    <div class="reviewer-box">
+      <label for="reviewerName">Reviewer</label>
+      <input type="text" id="reviewerName" placeholder="Your name" maxlength="64" autocomplete="off">
+    </div>
+  </header>
+
+  <div class="stats" id="stats">
+    <div class="stat-card total"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total</div></div>
+    <div class="stat-card pending"><div class="stat-num" id="statPending">—</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card accepted"><div class="stat-num" id="statAccepted">—</div><div class="stat-label">Accepted</div></div>
+    <div class="stat-card rejected"><div class="stat-num" id="statRejected">—</div><div class="stat-label">Rejected</div></div>
+    <div class="stat-card flagged" id="statFlaggedCard" style="display:none"><div class="stat-num" id="statFlagged" style="color:#f59e0b">—</div><div class="stat-label">⚠ Flagged</div></div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="pending">Pending</button>
+    <button class="tab" data-tab="accepted">Accepted</button>
+    <button class="tab" data-tab="rejected">Rejected</button>
+    <button class="tab" data-tab="history">History</button>
+  </div>
+
+  <div class="action-bar" id="actionBar">
+    <span class="count" id="listCount"></span>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-submit" id="btnSubmit" disabled>Submit to GitHub</button>
+    </div>
+  </div>
+
+  <div id="content"><div class="loading"><div class="spinner"></div>Loading…</div></div>
+
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script src="/admin.js"></script>
+</body>
+</html>
