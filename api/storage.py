@@ -31,6 +31,14 @@ from datetime import datetime, timedelta, timezone
 
 log = logging.getLogger("sing_khmer.storage")
 
+DB_ENV_VARS = (
+    "DATABASE_URL",
+    "POSTGRES_URL",
+    "DATABASE_URL_UNPOOLED",
+    "POSTGRES_URL_NON_POOLING",
+    "NEON_DATABASE_URL",
+)
+
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
 SQLITE_PATH = os.environ.get("SQLITE_PATH", "/tmp/sing_khmer.db")
 # Vercel sets VERCEL=1. Its disk is wiped on every deploy, so falling back to SQLite there
@@ -41,9 +49,21 @@ RAW_TEXT_TTL_DAYS = int(os.environ.get("RAW_TEXT_TTL_DAYS", "90"))
 CONSENT_VERSION = "2026-07-1"
 
 
+def get_db_env() -> tuple[str, str | None]:
+    """Return (db_url, var_name) for the first non-empty database env var found."""
+    for var_name in DB_ENV_VARS:
+        val = os.environ.get(var_name, "").strip()
+        if val:
+            return val, var_name
+    if DATABASE_URL:
+        return DATABASE_URL, "DATABASE_URL"
+    return "", None
+
+
 def mode() -> str:
     """'postgres' | 'sqlite' | 'disabled'."""
-    if DATABASE_URL:
+    url, _ = get_db_env()
+    if url:
         return "postgres"
     if IS_SERVERLESS:
         return "disabled"          # never silently write to a disk that gets wiped
@@ -66,7 +86,8 @@ def connect():
     if m == "postgres":
         import psycopg
 
-        conn = psycopg.connect(DATABASE_URL)
+        url, _ = get_db_env()
+        conn = psycopg.connect(url)
         try:
             yield conn, "%s"
             conn.commit()
@@ -79,6 +100,71 @@ def connect():
             conn.commit()
         finally:
             conn.close()
+
+
+def redact_error(msg: str) -> str:
+    """Sanitize error messages so connection strings, passwords, and hosts are never leaked."""
+    if not msg:
+        return ""
+    msg = re.sub(r"postgres(?:ql)?://[^\s'\"]+", "[redacted-db-url]", msg, flags=re.IGNORECASE)
+    msg = re.sub(r'at "[^"]+"', 'at "[redacted-host]"', msg)
+    msg = re.sub(r"host=\S+", "host=[redacted]", msg, flags=re.IGNORECASE)
+    msg = re.sub(r"password=\S+", "password=[redacted]", msg, flags=re.IGNORECASE)
+    msg = re.sub(r"user=\S+", "user=[redacted]", msg, flags=re.IGNORECASE)
+    return msg
+
+
+def diagnose() -> dict:
+    """Diagnose storage connectivity, table existence, and row counts."""
+    url, env_var = get_db_env()
+    m = mode()
+
+    result = {
+        "storage": m,
+        "env_var": env_var,
+        "checked_env_vars": list(DB_ENV_VARS) if env_var is None else None,
+        "connected": False,
+        "error_type": None,
+        "error": None,
+        "tables_exist": False,
+        "tables": {},
+    }
+
+    if m == "disabled":
+        result["error_type"] = "RuntimeError"
+        result["error"] = (
+            "No database environment variable set in a serverless deployment — "
+            "refusing to write to temporary disk."
+        )
+        return result
+
+    try:
+        with connect() as (conn, ph):
+            cur = conn.cursor()
+            cur.execute("SELECT 1")
+
+        migrate()
+
+        counts = {}
+        with connect() as (conn, ph):
+            cur = conn.cursor()
+            for tbl in ("sessions", "conversions", "corrections"):
+                try:
+                    cur.execute(f"SELECT COUNT(*) FROM {tbl}")
+                    row = cur.fetchone()
+                    counts[tbl] = row[0] if row and row[0] is not None else 0
+                except Exception:
+                    counts[tbl] = 0
+
+        result["connected"] = True
+        result["tables_exist"] = True
+        result["tables"] = counts
+    except Exception as e:
+        result["connected"] = False
+        result["error_type"] = type(e).__name__
+        result["error"] = redact_error(str(e))
+
+    return result
 
 
 # ---- privacy: strip the things people most regret typing ---------------------------
@@ -103,7 +189,7 @@ def migrate() -> None:
     global _MIGRATED
     if _MIGRATED or not available():
         return
-    pk = "BIGSERIAL PRIMARY KEY" if DATABASE_URL else "INTEGER PRIMARY KEY AUTOINCREMENT"
+    pk = "BIGSERIAL PRIMARY KEY" if mode() == "postgres" else "INTEGER PRIMARY KEY AUTOINCREMENT"
     with connect() as (conn, _):
         cur = conn.cursor()
         for ddl in (

@@ -33,9 +33,58 @@ def rows(table: str) -> list[dict]:
 
 # ---- basics --------------------------------------------------------------------------
 def test_health_reports_engine_and_storage(client):
-    body = client.get("/api/health").json()
-    assert body["ok"] and body["storage"] == "sqlite"
+    res = client.get("/api/health")
+    assert res.status_code == 200
+    body = res.json()
+    assert body["ok"] and body["connected"] and body["storage"] == "sqlite"
     assert body["words"] > 0 and body["spellings"] > 0
+    assert body["tables_exist"] is True
+    assert "sessions" in body["tables"]
+    assert "conversions" in body["tables"]
+    assert "corrections" in body["tables"]
+    assert body["env_var"] is None
+    assert body["checked_env_vars"] == list(storage.DB_ENV_VARS)
+
+
+def test_health_row_counts_increase_after_record(client):
+    before = client.get("/api/health").json()["tables"]["conversions"]
+    client.post("/api/record", json={"text": "nh sl", "copied": True, "overrides": {}})
+    after = client.get("/api/health").json()["tables"]["conversions"]
+    assert after == before + 1
+
+
+def test_health_reports_matched_env_var_name(client, monkeypatch):
+    monkeypatch.setenv("POSTGRES_URL", "postgresql://user:pass@localhost:5432/dbname")
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    # Mock psycopg connect to avoid actual network call
+    class DummyConn:
+        def cursor(self):
+            class DummyCur:
+                def execute(self, sql): pass
+                def fetchone(self): return (1,)
+            return DummyCur()
+        def commit(self): pass
+        def close(self): pass
+
+    monkeypatch.setattr("psycopg.connect", lambda url: DummyConn())
+    body = client.get("/api/health").json()
+    assert body["env_var"] == "POSTGRES_URL"
+    assert body["connected"] is True
+    assert "checked_env_vars" not in body
+
+
+def test_health_reports_broken_connection_failure(client, monkeypatch):
+    monkeypatch.setenv("DATABASE_URL", "postgresql://baduser:secretpass@127.0.0.1:59999/bad_db")
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    res = client.get("/api/health")
+    assert res.status_code == 503
+    body = res.json()
+    assert body["ok"] is False
+    assert body["connected"] is False
+    assert body["env_var"] == "DATABASE_URL"
+    assert body["error_type"] is not None
+    assert body["error"] is not None
+    assert "secretpass" not in body["error"]
 
 
 def test_convert_returns_khmer(client):

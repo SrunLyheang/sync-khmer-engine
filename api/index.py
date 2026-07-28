@@ -227,18 +227,38 @@ def robots() -> str:
 
 @app.get("/api/health")
 def health() -> JSONResponse:
-    m = storage.mode()
-    return JSONResponse({
-        "ok": m != "disabled",
-        "status": "degraded" if m == "disabled" else "ok",
-        "detail": (
-            "No DATABASE_URL — data would be lost on redeploy, so writes are refused."
-            if m == "disabled" else ""
-        ),
+    diag = storage.diagnose()
+    m = diag["storage"]
+    is_ok = diag["connected"]
+
+    detail = ""
+    if m == "disabled":
+        detail = (
+            "No database environment variable set — data would be lost on redeploy, "
+            "so writes are refused."
+        )
+    elif not is_ok:
+        detail = diag.get("error") or "Database connection failed."
+
+    res = {
+        "ok": is_ok,
+        "status": "ok" if is_ok else "degraded",
+        "detail": detail,
         "words": len(ENGINE.vocab),
         "spellings": len(ENGINE.index),
         "storage": m,
-    }, status_code=200 if m != "disabled" else 503)
+        "connected": is_ok,
+        "env_var": diag["env_var"],
+        "tables": diag["tables"],
+        "tables_exist": diag["tables_exist"],
+    }
+    if diag["env_var"] is None:
+        res["checked_env_vars"] = diag["checked_env_vars"]
+    if not is_ok:
+        res["error_type"] = diag["error_type"]
+        res["error"] = diag["error"]
+
+    return JSONResponse(res, status_code=200 if is_ok else 503)
 
 
 @app.get("/admin", response_class=HTMLResponse)

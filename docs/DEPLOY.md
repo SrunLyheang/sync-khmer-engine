@@ -68,6 +68,17 @@ That was a real risk in the first version and it's now fixed properly:
 - **Backups you control:** `PYTHONPATH=src python scripts/backup_db.py backups/` dumps every
   table to a timestamped JSON file. Neon also has point-in-time restore.
 
+### Troubleshooting: "Database shows nothing" or Degraded Status
+
+If you attached Postgres in Vercel but `/api/health` still shows `degraded` or your Neon table browser shows nothing:
+
+1. **Redeploy after adding the integration (Most common cause):** Vercel environment variables only apply to deployments created *after* the environment variables are set. Attaching the Neon integration does not retroactively update an already-running deployment. Go to Vercel → Deployments → **Redeploy** (or push a new commit).
+2. **Check `/api/health`:** Visit `/api/health` on your deployed app. It performs a live database test and reports:
+   - `env_var`: Which environment variable was matched (`DATABASE_URL`, `POSTGRES_URL`, `DATABASE_URL_UNPOOLED`, `POSTGRES_URL_NON_POOLING`, or `NEON_DATABASE_URL`). If none are set, `checked_env_vars` lists all names searched.
+   - `connected`: `true` when database connection succeeds. Returns `503` with `error_type` and `error` text if connection fails.
+   - `tables`: Shows current row counts for `sessions`, `conversions`, and `corrections`.
+3. **Tables appear on first visit:** Schema migrations run automatically when `/api/health` or write endpoints are called. Simply visiting `/api/health` creates the database tables so they appear in your Neon console table browser.
+
 ## Getting the data back into the dictionary
 
 ```bash
