@@ -297,13 +297,12 @@ khmer,frequency,is_slang,romanizations,notes
 កណ្ដាល,4,false,kandal kdal kondal,
 កាក,4,true, kak,
 សង្ហារ,4,false,songha,
-
 ជុំវិញ,4,false,jom+vinh,
 ល្អ,3,false,loar,
 អាក្រក់,3,false,"akk, akkrok, akrok",
 ធំ,4,false,thom,
 តូច,4,false,"toch, tuch",
-ស្អាត,4,false,sart,
+ស្អាត,4,false,"sart, clean",
 ឆ្ងាញ់,3,false,chganh,
 ក្តៅ,4,false,kdav,
 ត្រជាក់,3,false,"trojek, tjeak",
@@ -335,7 +334,7 @@ khmer,frequency,is_slang,romanizations,notes
 តែ,4,false,tae,but
 ដែរ,4,true,dae,too
 មែន,5,false,men,Really?
-មួយ,3,false,"muy, mouy",number: one
+មួយ,3,false,"muy, mouy, mou",number: one
 ពីរ,2,false,pi,number: two
 បី,2,false,bei,number: three
 បួន,2,false,boun,number: four
@@ -422,7 +421,7 @@ khmer,frequency,is_slang,romanizations,notes
 សាលា,5,false,"sala, sla",place: school
 ផ្សារ,4,false,"psar, phsar",place: market
 ហាង,5,false,hang,place: shop / store
-កាហ្វេ,1,false,cafe,drink: coffee
+កាហ្វេ,1,false,"cafe, coffee",drink: coffee
 នំបុ័ង,3,false,nompang,food: bread
 សាច់,4,false,sach,food: meat
 ត្រី,4,false,"trei, trey",food: fish
@@ -1016,8 +1015,7 @@ khmer,frequency,is_slang,romanizations,notes
 ផ្ទាល់,4,false,ptorl,
 បញ្ជី,4,false,bonhji,
 ក្លាយ,4,false,klay,
-កាប់,4,false,kap,
-
+កាប់,4,false,"kap, kab",
 ពាក់,4,false,peak pek,
 ឈ្មួញ,4,false,chmuonh,
 សុទ្ធ,4,false,soth,
@@ -1236,4 +1234,12 @@ khmer,frequency,is_slang,romanizations,notes
 ចិត្រ,3,false,jit,
 ទំនង,3,false,tomnong tnong,
 ខំ,5,false,khom,
-
+អាសយដ្ឋាន,1,true,ahsaithan,(user-submitted — verify)
+ឆុង,1,true,chong,(user-submitted — verify)
+ហី,1,true,hei,(user-submitted — verify)
+អ្ហែង,1,true,hg,(user-submitted — verify)
+ចយ,1,true,joi,(user-submitted — verify)
+សាប់,1,true,sab,(user-submitted — verify)
+សុីង,1,true,sing,(user-submitted — verify)
+សម្ងាត់,1,true,somngat,(user-submitted — verify)
+វប្បធម៍,1,true,vorbthor,(user-submitted — verify)
