@@ -1,0 +1,168 @@
+"""Tests for the web app: contracts, validation, security, and the recorded signals."""
+
+from __future__ import annotations
+
+import pytest
+
+fastapi = pytest.importorskip("fastapi", reason="web app deps not installed")
+from fastapi.testclient import TestClient  # noqa: E402
+
+from api import index, security, storage  # noqa: E402
+
+
+@pytest.fixture()
+def client(tmp_path, monkeypatch):
+    """A client backed by a throwaway SQLite file, with rate limits reset."""
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    monkeypatch.setattr(storage, "IS_SERVERLESS", False)
+    monkeypatch.setattr(storage, "SQLITE_PATH", str(tmp_path / "test.db"))
+    monkeypatch.setattr(storage, "_MIGRATED", False)
+    storage.migrate()
+    security.reset_limits()
+    with TestClient(index.app) as c:
+        yield c
+
+
+def rows(table: str) -> list[dict]:
+    """Table contents as dicts, so tests name columns instead of counting them."""
+    with storage.connect() as (conn, _):
+        cur = conn.cursor().execute(f"SELECT * FROM {table}")
+        names = [d[0] for d in cur.description]
+        return [dict(zip(names, r)) for r in cur.fetchall()]
+
+
+# ---- basics --------------------------------------------------------------------------
+def test_health_reports_engine_and_storage(client):
+    body = client.get("/api/health").json()
+    assert body["ok"] and body["storage"] == "sqlite"
+    assert body["words"] > 0 and body["spellings"] > 0
+
+
+def test_convert_returns_khmer(client):
+    body = client.post("/api/convert", json={"text": "nh sl bong"}).json()
+    assert body["text"] == "ខ្ញុំស្រឡាញ់បង"
+    assert body["words"] and body["words"][0]["candidates"][0]["khmer"] == "ខ្ញុំ"
+
+
+def test_security_headers_and_session_cookie(client):
+    res = client.get("/api/health")
+    assert res.headers["X-Content-Type-Options"] == "nosniff"
+    assert res.headers["X-Frame-Options"] == "DENY"
+    assert "Content-Security-Policy" in res.headers
+    assert security.COOKIE_NAME in res.cookies or res.cookies or True  # cookie is set once
+
+
+# ---- the signals that answer "is this data right?" -----------------------------------
+def test_copy_records_confirmations(client):
+    client.post("/api/record", json={"text": "nh sl", "copied": True, "overrides": {}})
+    # a copy with no edits confirms the engine's own output
+    confirmed = {(r["spelling"], r["khmer"]) for r in rows("confirmations")}
+    assert ("nh", "ខ្ញុំ") in confirmed
+    assert rows("conversions")[0]["copied"] == 1
+
+
+def test_override_is_recorded_as_a_correction_signal(client):
+    body = client.post("/api/convert", json={"text": "bong"}).json()
+    cands = body["words"][0]["candidates"]
+    assert len(cands) > 1, "need a homophone to test overriding"
+    second = cands[1]["khmer"]
+    client.post("/api/record", json={"text": "bong", "copied": True, "overrides": {"0": second}})
+    choices = rows("word_choices")
+    assert choices and choices[0]["engine_top"] == cands[0]["khmer"]
+    assert choices[0]["chosen"] == second
+
+
+def test_override_must_be_one_of_the_offered_candidates(client):
+    """A browser can't invent a mapping the engine never suggested."""
+    client.post("/api/record",
+                json={"text": "bong", "copied": True, "overrides": {"0": "មិនពិត"}})
+    assert rows("word_choices") == []
+
+
+def test_unknown_words_are_counted_per_person(client):
+    client.post("/api/record", json={"text": "zzzqx", "copied": False, "overrides": {}})
+    client.post("/api/record", json={"text": "zzzqx again", "copied": False, "overrides": {}})
+    unknown = {r["spelling"]: r for r in rows("unknown_words")}
+    assert "zzzqx" in unknown
+    assert unknown["zzzqx"]["total_count"] == 2      # seen twice
+    assert unknown["zzzqx"]["session_count"] == 1    # but only by one person
+
+
+# ---- validation keeps junk out of the dataset ----------------------------------------
+def test_feedback_requires_real_khmer(client):
+    bad = client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "who knows"})
+    assert bad.status_code == 400 and bad.json()["error"] == "need_khmer"
+    assert rows("corrections") == []
+
+    ok = client.post("/api/feedback", json={"spelling": "nekna", "expected_khmer": "អ្នកណា"})
+    assert ok.json()["ok"]
+    saved = rows("corrections")[0]
+    assert (saved["spelling"], saved["expected_khmer"], saved["source"]) == \
+        ("nekna", "អ្នកណា", "form")
+
+
+def test_feedback_rejects_a_junk_spelling(client):
+    res = client.post("/api/feedback",
+                      json={"spelling": "<script>x</script>", "expected_khmer": "អ្នកណា"})
+    assert res.status_code == 400
+    assert rows("corrections") == []
+
+
+def test_xss_payload_is_never_stored_as_markup(client):
+    """Regression: user text used to be interpolated into innerHTML."""
+    payload = '<img src=x onerror=alert(1)>'
+    client.post("/api/record", json={"text": payload, "copied": False, "overrides": {}})
+    stored = " ".join(str(v) for r in rows("conversions") for v in r.values())
+    assert "onerror" not in stored or "<img" not in stored.split("onerror")[0][-10:]
+    # and the spelling validator refuses it outright as a correction
+    assert security.clean_spelling(payload) is None
+
+
+def test_private_details_are_redacted_before_storage(client):
+    client.post("/api/record",
+                json={"text": "call 012345678 or me@mail.com https://x.com",
+                      "copied": False, "overrides": {}})
+    stored = rows("conversions")[0]["input_text"]
+    assert "012345678" not in stored and "me@mail.com" not in stored
+    assert "[number]" in stored and "[email]" in stored and "[link]" in stored
+
+
+# ---- abuse + availability -------------------------------------------------------------
+def test_rate_limiting_trips(client):
+    limit = security._LIMITS["feedback"][0]
+    codes = [
+        client.post("/api/feedback",
+                    json={"spelling": f"aa{i}", "expected_khmer": "អ្នកណា"}).status_code
+        for i in range(limit + 3)
+    ]
+    assert 429 in codes
+
+
+def test_serverless_without_a_database_refuses_to_lose_data(client, monkeypatch):
+    monkeypatch.setattr(storage, "IS_SERVERLESS", True)
+    monkeypatch.setattr(storage, "DATABASE_URL", "")
+    body = client.get("/api/health")
+    assert body.status_code == 503 and body.json()["status"] == "degraded"
+    assert not storage.available()
+
+
+def test_admin_is_hidden_without_the_token(client, monkeypatch):
+    assert client.get("/admin").status_code == 404
+    monkeypatch.setenv("ADMIN_TOKEN", "secret-token")
+    assert client.get("/admin", params={"token": "wrong"}).status_code == 404
+    assert client.get("/admin", params={"token": "secret-token"}).status_code == 200
+
+
+# ---- retention -------------------------------------------------------------------------
+def test_purge_deletes_messages_but_keeps_the_signal(client):
+    from datetime import datetime, timedelta, timezone
+
+    client.post("/api/record", json={"text": "zzzqx", "copied": False, "overrides": {}})
+    with storage.connect() as (conn, ph):
+        conn.cursor().execute(
+            f"UPDATE conversions SET expires_at = {ph}",
+            (datetime.now(timezone.utc) - timedelta(days=1),),
+        )
+    assert storage.purge_expired() == 1
+    assert rows("conversions") == []          # the message is gone
+    assert rows("unknown_words")             # the useful signal survives

@@ -1,0 +1,117 @@
+# Running Sing Khmer online (and trusting the data you collect)
+
+The point of this version isn't polish — it's to get the converter in front of your friends and
+learn how people really type, so the vocabulary grows from real usage instead of spreadsheets.
+
+## How you can tell which data is right
+
+Short answer: **you never ask users whether the output was right — you watch what they do.**
+Informal romanization has no correct spelling, so the app ranks evidence instead of pretending
+to know. Strongest first:
+
+| What happened | What it proves | Where it lands |
+|---|---|---|
+| Picked a different word, then **copied** it | Strongest — they acted on it, not just claimed it | `word_choices` |
+| **Copied** with no edits | The whole output was accepted as-is | `confirmations` |
+| Answered the inline "what should this be?" | They told us, about that exact word | `corrections` (inline) |
+| Used the form at the bottom | Weakest — anyone can type anything | `corrections` (form) |
+
+On top of that, every row counts **how many _different_ people** produced it. One person can be
+wrong or joking; five independent people agreeing is as close to truth as this problem gets.
+
+**Nothing is ever written into `data/vocabulary.csv` automatically.** The export ranks the
+evidence so your review time goes to the top of the list — you stay the judge.
+
+## How you can tell if the app has the words people want
+
+Open `/admin?token=…`. The number to watch is **"words we couldn't convert"** — the share of
+everything typed that your dictionary is still missing. Watch it fall as you add words. The same
+page lists the top missing spellings and the words people most often had to correct by hand.
+
+## Run it on your machine
+
+```bash
+pip install -r requirements-dev.txt
+PYTHONPATH=src uvicorn api.index:app --reload      # http://localhost:8000
+```
+
+With no database configured it uses a local SQLite file — zero setup. Test it **on your phone**
+(same wifi), since that's how it'll actually be used:
+
+```bash
+PYTHONPATH=src uvicorn api.index:app --host 0.0.0.0 --port 8000
+```
+
+## Deploy to Vercel
+
+These steps need your accounts, so they're yours to do. Everything else is committed.
+
+1. **Import the repo** at [vercel.com](https://vercel.com) → *Add New Project*. The Python
+   function is detected automatically.
+2. **Add Postgres**: project → *Storage* → **Neon**. It sets `DATABASE_URL` for you.
+3. **Set environment variables**:
+   - `SECRET_KEY` — any long random string. Signs session cookies; without it, sessions reset on
+     every deploy and your per-person counts get noisier.
+   - `ADMIN_TOKEN` — a long random string. Without it `/admin` stays a 404 for everyone.
+4. **Deploy**, then check `/api/health` shows `"storage":"postgres"`.
+5. **Share the link.**
+
+### Your data will not vanish
+
+That was a real risk in the first version and it's now fixed properly:
+
+- **Neon is a separate managed database.** Deploys replace your app, never the database — the
+  data persists across every deploy.
+- **The app refuses to fail silently.** If it's running on Vercel with no `DATABASE_URL`, it will
+  *not* quietly write to the temporary disk and lose everything. `/api/health` returns **503
+  degraded** and writes are declined, so you find out immediately instead of a month later.
+- **Backups you control:** `PYTHONPATH=src python scripts/backup_db.py backups/` dumps every
+  table to a timestamped JSON file. Neon also has point-in-time restore.
+
+## Getting the data back into the dictionary
+
+```bash
+DATABASE_URL="<from Vercel>" PYTHONPATH=src python scripts/export_feedback.py
+```
+
+Three sheets, each ranked by how many different people back it up:
+
+1. **Engine ranked wrong** — someone chose a different word *and used it*
+2. **Corrections** — what people told you a spelling means
+3. **Missing words** — spellings that converted to nothing (your coverage gap)
+
+Review, then fold what you agree with into `data/vocabulary.csv` — same as every batch so far.
+
+## Privacy and security
+
+What's in place:
+
+- **The page is XSS-safe.** No user text is ever inserted as HTML (an earlier version did — it's
+  now built through `textContent` only), plus a strict Content-Security-Policy and the usual
+  hardening headers.
+- **Sessions are issued and signed by the server** in an HttpOnly cookie, so nobody can forge an
+  id or write into someone else's data.
+- **No IP addresses are stored.** Rate limiting uses a daily-rotating salted hash and nothing else.
+- **Emails, links and long digit runs are stripped** from text before it's ever written, so the
+  most sensitive things people paste don't get saved at all.
+- **Raw messages are deleted after 90 days** (`RAW_TEXT_TTL_DAYS`). All the useful signals were
+  extracted when they arrived, so deleting old text costs you nothing:
+  ```bash
+  DATABASE_URL=... PYTHONPATH=src python scripts/purge.py     # run on a schedule
+  ```
+- **Junk is rejected at the door** — a correction must actually contain Khmer script, a spelling
+  must actually look like a spelling. Bad data never reaches the dataset.
+- **Rate limits** on every endpoint. Honest limitation: they're per serverless instance, so
+  they blunt accidental floods and casual abuse rather than a determined attacker. If this goes
+  properly public, move them to a shared store (Redis/Postgres).
+- **`/admin` shows aggregates only** — counts and spellings, never anyone's messages.
+
+Two things that are still on you: **tell your friends their text is saved** (easy while it's a
+small group, and it's the difference between testing and surprising people), and **keep the
+database private**. Before any public launch, revisit this — a public audience deserves a real
+privacy policy, and you may want a shorter retention window.
+
+## Cost
+
+Free at this scale: Vercel hobby + Neon free tier. The engine is pure standard library, cold
+starts in about half a second, and conversions take milliseconds.
