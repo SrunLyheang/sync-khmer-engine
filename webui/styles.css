@@ -1,27 +1,41 @@
-/* Sing Khmer — one accent, one surface, one border, two shadows.
+/* Sing Khmer — warm, with character, but only where character helps.
  *
- * The page had a diamond-tiled background, an ornamented hero badge, a gold accent layered
- * over the jade one, numbered step chips and three coloured card variants. All of it competed
- * with the only thing that matters here: a big input and big Khmer output. It's gone.
+ * The first version was ornate: a diamond tile behind every pixel, gold glow on the hero,
+ * numbered step chips, three card variants with coloured left stripes. The rewrite stripped
+ * all of it and read flat. This keeps the palette and the Khmer detailing that gave the page
+ * its identity, and spends it in three places instead of everywhere:
  *
- * Kept because they earn it: light/dark from the system, 48px touch targets, safe-area
- * padding for notched phones.
+ *   1. the header mark      — one jade tile with a gold hairline
+ *   2. the section rules    — a thin gold line trailing each label, so sections read as steps
+ *   3. the output card      — the answer, and the only card that gets lifted
+ *
+ * Everything else is quiet on purpose: gold is a 1px line here, never a fill or a glow, and
+ * there is one card style rather than four.
  */
 
 :root {
-  --bg: #fbf9f5;
-  --surface: #ffffff;
-  --ink: #1a2320;
-  --muted: #6d7a75;
-  --line: #e5e0d7;
+  --bg: #faf7f0;
+  --bg-wash: rgba(15, 76, 69, 0.05);
+  --surface: #fffdf9;
+  --surface-raised: #ffffff;
+  --ink: #17211e;
+  --ink-soft: #3c4a45;
+  --muted: #77857e;
+  --line: #e8e0d2;
+  --line-strong: #d8ccb8;
   --accent: #0f4c45;
+  --accent-hover: #0a3833;
   --accent-ink: #ffffff;
-  --accent-soft: #e8f1ef;
-  --danger: #b84332;
+  --accent-soft: #e7f0ee;
+  --gold: #a67c14;
+  --gold-line: rgba(166, 124, 20, 0.35);
+  --danger: #b03d2c;
 
-  --radius: 14px;
-  --shadow: 0 1px 2px rgba(26, 35, 32, 0.05);
-  --shadow-lift: 0 8px 28px rgba(26, 35, 32, 0.12);
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 1px 2px rgba(23, 33, 30, 0.04), 0 1px 3px rgba(23, 33, 30, 0.03);
+  --shadow-raised: 0 2px 4px rgba(23, 33, 30, 0.04), 0 12px 32px rgba(23, 33, 30, 0.08);
+  --shadow-lift: 0 10px 34px rgba(23, 33, 30, 0.16);
   --touch: 48px;
 
   --font-ui: "DM Sans", system-ui, -apple-system, sans-serif;
@@ -31,17 +45,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121917;
-    --surface: #1a2320;
-    --ink: #eef3f1;
-    --muted: #93a19b;
-    --line: #2b3a35;
-    --accent: #5cc4b6;
-    --accent-ink: #0d1a17;
-    --accent-soft: #17251f;
+    --bg: #0f1614;
+    --bg-wash: rgba(87, 191, 177, 0.06);
+    --surface: #18211e;
+    --surface-raised: #1d2825;
+    --ink: #edf3f1;
+    --ink-soft: #c2cec9;
+    --muted: #8a9993;
+    --line: #293632;
+    --line-strong: #35453f;
+    --accent: #57bfb1;
+    --accent-hover: #74d3c6;
+    --accent-ink: #08130f;
+    --accent-soft: #16241f;
+    --gold: #d4ac52;
+    --gold-line: rgba(212, 172, 82, 0.32);
     --danger: #e07a6a;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-lift: 0 8px 28px rgba(0, 0, 0, 0.4);
+    --shadow-raised: 0 2px 4px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+    --shadow-lift: 0 10px 34px rgba(0, 0, 0, 0.45);
     color-scheme: dark;
   }
 }
@@ -54,12 +76,17 @@
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  /* One soft wash behind the header instead of a pattern across the whole page. */
+  background:
+    radial-gradient(115% 45% at 50% -5%, var(--bg-wash) 0%, transparent 70%),
+    var(--bg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* In Khmer, Khmer becomes the base font rather than the exception. */
@@ -70,88 +97,141 @@ html[data-lang="km"] body { font-family: var(--font-khmer); }
 .wrap {
   max-width: 640px;
   margin: 0 auto;
-  padding: max(1rem, env(safe-area-inset-top)) 1.15rem calc(4rem + env(safe-area-inset-bottom));
+  padding: max(1.25rem, env(safe-area-inset-top)) 1.15rem calc(4rem + env(safe-area-inset-bottom));
 }
 
-/* ---- header ---- */
+/* ---- header ---------------------------------------------------------------------- */
 .top {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0 0.25rem;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+/* The one piece of ornament: a jade tile with the Khmer letter, ringed in gold. */
+.mark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--gold-line);
+  color: var(--accent-ink);
+  font-family: var(--font-khmer);
+  font-size: 1.35rem;
+  line-height: 1;
+  user-select: none;
 }
 
 .top h1 {
+  flex: 1;
   margin: 0;
   font-family: var(--font-ui);
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .tagline {
-  margin: 0.15rem 0 1.5rem;
+  margin: 0 0 1.6rem;
   color: var(--muted);
   font-size: 0.9rem;
+  max-width: 32rem;
 }
 
-/* ---- language switch ---- */
 .lang {
   flex-shrink: 0;
-  min-height: 32px;
-  padding: 0.25rem 0.7rem;
-  border: 1px solid var(--line);
+  min-height: 34px;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: transparent;
-  color: var(--muted);
+  background: var(--surface);
+  color: var(--ink-soft);
   font-family: var(--font-khmer);
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 
-.lang:hover { color: var(--accent); border-color: var(--accent); }
+.lang:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---- section ---- */
-.section { margin-bottom: 1.25rem; }
+/* ---- sections -------------------------------------------------------------------- */
+.section { margin-bottom: 1.4rem; }
 
+/* The trailing gold rule is what makes these read as ordered steps — it replaces the
+   numbered chips without adding an element to the markup. */
 .section-label {
-  margin: 0 0 0.5rem 0.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 0.6rem;
   font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-line), transparent);
+}
+
 html[data-lang="km"] .section-label {
   font-family: var(--font-khmer);
-  text-transform: none;
+  font-size: 0.92rem;
+  font-weight: 600;
   letter-spacing: 0;
-  font-size: 0.9rem;
+  text-transform: none;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 0.9rem 1rem;
+  padding: 0.95rem 1.05rem;
   box-shadow: var(--shadow);
 }
 
-.hint {
-  margin-top: 0.6rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.45;
+/* The answer. The only card that lifts off the page. */
+.card-output {
+  position: relative;
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  border-color: var(--line-strong);
+  padding: 1.15rem 1.15rem 1rem;
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
 }
 
-.hint.ok { color: var(--accent); font-weight: 600; }
+.card-output::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-line), transparent 70%);
+}
 
-/* ---- input ---- */
+.hint {
+  margin: 0.7rem 0 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.hint.ok { color: var(--accent); font-weight: 600; border-top: 0; padding-top: 0; }
+
+/* ---- input ----------------------------------------------------------------------- */
 textarea {
   display: block;
   width: 100%;
@@ -161,18 +241,18 @@ textarea {
   background: transparent;
   color: var(--ink);
   font-family: var(--font-ui);
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.12rem;
+  line-height: 1.65;
   resize: none;
   outline: none;
 }
 
-textarea::placeholder, input::placeholder { color: var(--muted); opacity: 0.8; }
+textarea::placeholder, input::placeholder { color: var(--muted); opacity: 0.75; }
 
 input[type=text] {
   width: 100%;
   min-height: var(--touch);
-  padding: 0.6rem 0.75rem;
+  padding: 0.6rem 0.8rem;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--bg);
@@ -180,45 +260,52 @@ input[type=text] {
   font-family: inherit;
   font-size: 1rem;
   outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-input[type=text]:focus, textarea:focus-visible { outline: none; }
-input[type=text]:focus { border-color: var(--accent); }
+input[type=text]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
 
-/* ---- output ---- */
+/* ---- output ---------------------------------------------------------------------- */
 #out {
   font-family: var(--font-khmer);
-  font-size: clamp(1.5rem, 5vw, 1.9rem);
-  line-height: 1.75;
-  min-height: 2.75rem;
+  font-size: clamp(1.55rem, 5.5vw, 1.95rem);
+  line-height: 1.8;
+  min-height: 2.9rem;
   word-break: break-word;
 }
 
-#out .ph { color: var(--muted); font-size: 1.05rem; }
+#out .ph {
+  color: var(--muted);
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
 
 /* Only shown when a conversion is genuinely slow — see SLOW_MS in app.js. */
 .converting {
   display: none;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
   color: var(--muted);
   font-size: 0.8rem;
 }
 
 .converting.show { display: flex; }
 
-/* ---- buttons ---- */
+/* ---- buttons --------------------------------------------------------------------- */
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.85rem;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
 }
 
 button {
   min-height: var(--touch);
-  padding: 0 1.1rem;
+  padding: 0 1.15rem;
   border-radius: 10px;
   border: 1px solid transparent;
   font-family: inherit;
@@ -229,15 +316,30 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: background 0.15s, opacity 0.15s;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
 }
 
-button.primary { background: var(--accent); color: var(--accent-ink); flex: 1; }
-button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+button.primary {
+  flex: 1;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow);
+}
+
+button.primary:hover { background: var(--accent-hover); }
+
+button.secondary {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border-color: var(--line-strong);
+}
+
+button.secondary:hover { border-color: var(--accent); color: var(--accent); }
 button:active { transform: translateY(1px); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* One rule covers every pending button, so no caller has to remember the look. */
-button[disabled] { opacity: 0.65; cursor: default; pointer-events: none; }
+button[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
 
 .spinner {
   width: 14px;
@@ -253,23 +355,26 @@ button[disabled] { opacity: 0.65; cursor: default; pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .spinner { animation-duration: 2.5s; }
+  * { transition-duration: 0.01ms !important; }
 }
 
-/* ---- word tiles ---- */
-#bd { display: flex; flex-direction: column; gap: 0.6rem; }
+/* ---- word tiles ------------------------------------------------------------------ */
+#bd { display: flex; flex-direction: column; gap: 0.55rem; }
 
 .tile {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 0.7rem 0.85rem;
+  box-shadow: var(--shadow);
 }
 
 .latin {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
@@ -277,69 +382,89 @@ button[disabled] { opacity: 0.65; cursor: default; pointer-events: none; }
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.5rem;
+  margin-top: 0.55rem;
 }
 
 .alt {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--line);
+  padding: 0.25rem 0.8rem;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
+  background: var(--bg);
   font-family: var(--font-khmer);
   font-size: 1.1rem;
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
 }
 
-.alt.chosen { background: var(--accent-soft); border-color: var(--accent); }
-.alt.en { border-style: dashed; font-family: var(--font-ui); font-size: 0.95rem; }
+.alt:hover { border-color: var(--accent); }
+
+.alt.chosen {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.alt.en {
+  border-style: dashed;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
 .alt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .unknown {
   margin-left: 0.5rem;
   color: var(--danger);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
-.ask { margin-top: 0.6rem; }
+.ask { margin-top: 0.65rem; }
 .ask .row { margin-top: 0.5rem; }
+.ask .hint { border-top: 0; padding-top: 0; margin-top: 0; }
 
-/* ---- privacy notice ---- */
+/* ---- privacy notice -------------------------------------------------------------- */
 .notice {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  margin-bottom: 1.5rem;
+  background: var(--surface);
+  margin-bottom: 1.6rem;
   overflow: hidden;
 }
 
 .notice-toggle {
   width: 100%;
   min-height: var(--touch);
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem 0.95rem;
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 500;
   text-align: left;
   justify-content: space-between;
 }
 
-.notice-chevron { transition: transform 0.2s; font-size: 0.7rem; }
+.notice-toggle:hover { color: var(--ink-soft); }
+.notice-chevron { font-size: 0.65rem; transition: transform 0.2s; }
 .notice.open .notice-chevron { transform: rotate(180deg); }
 
 .notice-body {
   display: none;
-  padding: 0 0.9rem 0.9rem;
+  padding: 0 0.95rem 0.85rem;
+  border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.85rem;
 }
 
 .notice.open .notice-body { display: block; }
-.notice-body p { margin: 0 0 0.6rem; }
+.notice-body p { margin: 0.7rem 0; }
 .notice-body .warn { color: var(--danger); }
 
 label.sw {
@@ -347,20 +472,20 @@ label.sw {
   align-items: center;
   gap: 0.6rem;
   min-height: var(--touch);
-  color: var(--ink);
+  color: var(--ink-soft);
   cursor: pointer;
 }
 
 label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
 
-/* ---- toast ---- */
+/* ---- toast ----------------------------------------------------------------------- */
 .toast {
   position: fixed;
   left: 50%;
   bottom: calc(1.25rem + env(safe-area-inset-bottom));
   transform: translateX(-50%) translateY(10px);
   max-width: calc(100vw - 2rem);
-  padding: 0.7rem 1.25rem;
+  padding: 0.7rem 1.3rem;
   border-radius: 999px;
   background: var(--accent);
   color: var(--accent-ink);
@@ -375,3 +500,10 @@ label.sw input { width: 18px; height: 18px; accent-color: var(--accent); }
 }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---- wider screens --------------------------------------------------------------- */
+@media (min-width: 560px) {
+  .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .top h1 { font-size: 1.5rem; }
+  .mark { width: 46px; height: 46px; font-size: 1.5rem; }
+}
