@@ -24,6 +24,10 @@ works.
 
 Next up is Phase 2 (an Android keyboard shell) — see `CLAUDE.md` for the detailed plan.
 
+There is also a **macOS input method** (`macos/SingKhmer/`) that puts the engine in the menu-bar
+keyboard switcher so it works in any Mac app — see [`docs/MAC_KEYBOARD.md`](docs/MAC_KEYBOARD.md)
+for how to build and install it.
+
 ## Project layout
 
 ```
@@ -36,6 +40,7 @@ sing-khmer-engine/
 ├── scripts/                 # CLIs: convert, diagnose, romanize, vocabulary tooling,
 │                            # backups, feedback export/review
 ├── tests/                   # pytest suite (engine + API)
+├── macos/SingKhmer/         # macOS input method (Swift): engine port + keyboard shell
 ├── data/                    # vocabulary.csv (the live dictionary), English wordlist
 ├── docs/                    # design docs, deployment guide, review workflow
 ├── requirements.txt         # runtime dependencies (web app only — the engine itself

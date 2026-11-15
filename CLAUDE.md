@@ -162,6 +162,43 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**macOS input method — WRITTEN, NOT YET BUILT ON A MAC (`macos/SingKhmer/`, setup in
+`docs/MAC_KEYBOARD.md`).** The developer asked for an installable keyboard on their own Mac
+instead of the web UI (decision: Mac only for now, own native keyboard, personal use; their phone
+is an iPhone). This jumped ahead of the Android plan and reverses the earlier "desktop IME out of
+scope" decision. How it works, same pattern as the Phase 2 plan:
+- `scripts/export_mac_data.py` dumps `Engine().index` + Khmer word list + English list to
+  `macos/SingKhmer/Resources/engine_data.json`, plus a golden file of ~6,700 inputs with the
+  Python engine's answers. Both are generated and git-ignored; `build.sh` re-exports every build.
+- `Sources/SingKhmerCore/` (pure Foundation, builds on Linux too): `Engine.swift` is a
+  line-for-line port of the RUNTIME half of `lookup.py` (`decode`, `readings`, `convert`, fuzzy);
+  `Composer.swift` holds the typing rules (what each key does), with no AppKit so an iOS keyboard
+  can reuse it. `GoldenTests` replays the golden file and fails if Swift and Python disagree —
+  **any change to `lookup.py`/`fuzzy.py` must be mirrored in `Engine.swift`/`Fuzzy.swift`.**
+  Vocabulary/romanizer/reverse-index changes need no Swift change, only a rebuild.
+- `Sources/SingKhmerIME/` is the thin InputMethodKit shell (own candidate window, not
+  IMKCandidates). It is a SwiftPM package assembled into an `.app` by `build.sh install` (no Xcode
+  project, no paid Apple account, ad-hoc signed, installs to `~/Library/Input Methods`).
+- Verified on Linux: the Core builds and all Swift tests pass. **Not verified:** the three
+  `SingKhmerIME` files were only syntax-checked (no Apple SDK on Linux), so the first Mac build may
+  need fixes. Next step is the developer running `./build.sh install` and reporting back.
+- Typing UX is **pinyin-style** (the developer asked for "the same logic as the Chinese
+  keyboard"): letters stay underlined with a numbered candidate row; space / 1-9 take a candidate
+  (space is swallowed after Khmer, a second space is real); Return keeps the Latin; Esc cancels.
+  Run-together input offers the whole phrase first, then candidates for just the first word
+  (taking one leaves the rest composing). Backspace as the very next key after a conversion
+  undoes it (restores the Latin), only when the app confirms the text before the cursor.
+- **"Learn while I type" is how the developer chose to grow the dictionary** (over bulk import
+  from a frequency list: filling the CSV by hand was too slow). The Mac keyboard keeps, in
+  `~/Library/Application Support/SingKhmer`: `history.json` (which candidate is picked per
+  spelling; reorders candidates), `my_words.txt` (user-taught `spelling Khmer` lines, ranked
+  first, hot-reloaded), `missed_words.txt` (unknown non-English spellings, most typed first = what
+  to add next). `scripts/import_mac_words.py` merges `my_words.txt` back into `vocabulary.csv`.
+- Engine change made alongside: `build_index` now also indexes each multi-word spelling run
+  together (`msel minh` -> `mselminh`), closing that known gap for the web app too.
+- Only multi-word spellings that convert differently as a unit (`bong rean`) hold the space open
+  in the keyboard; the rest convert word by word.
+
 **Vocabulary last merged:** user's V2 Excel (`singkhmervocabcollectionV2.xlsx`, 383 words with
 retuned frequencies) merged in — Excel is authoritative for anything it covers; the 43
 AI-researched extras not in the Excel were preserved, and romanizations were UNIONed for overlaps

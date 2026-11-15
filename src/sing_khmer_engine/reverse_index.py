@@ -72,6 +72,10 @@ def build_index(
     for e in vocab:
         for r in e.romanizations:
             add(r, e.khmer, float(e.frequency), "collected")
+            # A multi-word spelling is just as often typed run together
+            # (`msel minh` -> `mselminh`), so index that form too.
+            if " " in r.strip():
+                add("".join(r.split()), e.khmer, float(e.frequency), "collected")
 
     # generated (coverage layer) — plausible variants, always below collected
     if generate is not None:
