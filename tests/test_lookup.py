@@ -171,3 +171,11 @@ def test_sing_khmer_spellings_get_no_english_option():
         seg = eng.decode(spelling)[0]
         assert seg.matched
         assert all(c.source != "english" for c in seg.candidates)
+
+
+def test_a_near_miss_inside_a_sentence_becomes_the_closest_real_word():
+    eng = Engine()
+    # one letter short of the collected spelling `srolanh`
+    assert eng.convert_sentence_text("nh srolan bong") == "ខ្ញុំស្រឡាញ់បង"
+    # ...but text that is nowhere near a real spelling is left exactly as typed
+    assert eng.convert_sentence_text("javascript") == "javascript"

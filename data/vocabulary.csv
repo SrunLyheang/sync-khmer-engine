@@ -88,7 +88,7 @@ khmer,frequency,is_slang,romanizations,notes
 ពិន,2,false,pin,
 ខ្មោច,2,false,kmouch,
 ប្រែត,3,false,preth,
-ក្រពើ,2,false,"kror, per",
+ក្រពើ,2,false,kror+per,
 ពស់,2,false,pus,
 ្ន្លកន្លាត,2,false,konlat,
 ពោះ,2,false,purs,
@@ -107,7 +107,7 @@ khmer,frequency,is_slang,romanizations,notes
 ផួយ,2,false,phuy,
 ឪប,2,false,"orb, oub",
 គ្រែ,2,false,krae,
-កៅអី,2,false,"kav, ey, ei",
+កៅអី,2,false,"kav+ey, kav+ei",
 ប៊ិច,2,false,bech,
 ពណ៌,2,false,por,
 ត្នោត,2,false,tnoat,
@@ -120,21 +120,21 @@ khmer,frequency,is_slang,romanizations,notes
 ហុយ,2,false,huy,
 កែប,1,false,keb,
 កំពត,2,false,kompot,
-កំពង់សោម,2,false,"kompong, soam",
-ព្រះសីហនុ,2,false,"preah, sihaknouk",
-កោះកុង,2,false,"koh, kong",
+កំពង់សោម,2,false,kompong+soam,
+ព្រះសីហនុ,2,false,preah+sihaknouk,
+កោះកុង,2,false,koh+kong,
 មណ្ឌលគីរី,2,false,mondolkiri,
 រតនគីរី,2,false,ratanakiri,
 ក្រចេះ,1,false,krorjes,
-កំពង់ស្ពឺ,1,false,"kompong, speu",
-កំពង់ធំ,1,false,"kompong, thom",
+កំពង់ស្ពឺ,1,false,kompong+speu,
+កំពង់ធំ,1,false,kompong+thom,
 ឆ្នាំង,1,false,chnang,
 បន្ទាយ,1,false,bonteay,
 ជ័យ,1,false,"chei, chey, jei, jey",
 ឧត្តរ,1,false,oudor,
 ស្វាយ,2,false,svay,
 តួ,2,false,tur,
-ជំនាន់,2,false,"jom, norn",
+ជំនាន់,2,false,jom+norn,
 សៀម,2,false,siem,
 ព្រលាន,2,false,prolean,
 ខ្លាញ់,2,false,klanh,
@@ -149,11 +149,11 @@ khmer,frequency,is_slang,romanizations,notes
 និទ្ទេស,2,false,nites,
 បាក់ឌុប,2,false,bacll,
 ឌីផ្លូម,2,false,diplome,
-កាំភ្លើង,2,false,"kam, plerng, k'plerng",
+កាំភ្លើង,2,false,"kam+plerng, k'plerng",
 យក្ស,2,false,yeak,
 ខណ្ឌ,2,false,khan,
 សង្កាត់,2,false,sangkat,
-ប៉ៃលិន,2,false,"pai, lin",
+ប៉ៃលិន,2,false,pai+lin,
 ចាម,2,false,jam,
 ប្រមូល,2,false,"p'mol, prohmol, bromol",
 អ៊ីនធឺណិត,2,false,internet,
@@ -173,7 +173,7 @@ khmer,frequency,is_slang,romanizations,notes
 រាំ,1,false,rorm,
 គក់,2,false,"kork, kouk",
 ងូត,2,false,"ngut, nguch",
-ចម្អិន,2,false,"jom, en",
+ចម្អិន,2,false,jom+en,
 អឹម,2,false,em,
 អីយ៉ា,2,false,eya,
 ញញឹម,2,false,"nhor, nhem",
@@ -202,7 +202,7 @@ khmer,frequency,is_slang,romanizations,notes
 អនាម័យ,2,false,ahnamai,
 បណ្តើរ,4,false,bonder,
 ក្បត់,3,false,kbot,
-ពិការ,3,false,"pik, ka",
+ពិការ,3,false,pik+ka,
 សន្លប់,3,false,"sonlob, sonlop",
 វ៉ៃ,3,false,vai,
 រហូត,3,false,"rohot, rhot",
@@ -212,7 +212,7 @@ khmer,frequency,is_slang,romanizations,notes
 ប្រយោគ,3,false,proyok,
 ប្រយ៉ុង,3,false,pyong,
 ប្រយ័ត្ន,3,false,pyat,
-ហតផត,3,false,"hot, pot",
+ហតផត,3,false,hot+pot,
 ងាយ,3,false,ngeay,
 ឡេ,2,false,"lay, le",
 ប៉ះ,4,false,pas,
@@ -285,7 +285,7 @@ khmer,frequency,is_slang,romanizations,notes
 អ៊ិនបុក,1,true,inbox,
 បន្ទាប់ពី,4,false,bantorb+pi,
 មុនពេល,4,false,mun+pel,
-ពេលដែល,5,false,"pel+del, bel, dae",
+ពេលដែល,5,false,"pel+del, bel+dae",
 ដូច្នេះ,1,false,"dojneh, doj, jnes",
 ទោះបីជា,4,false,turs+bei+jea,
 ពិតប្រាកដ,4,false,pit+prakot,
@@ -774,10 +774,10 @@ khmer,frequency,is_slang,romanizations,notes
 ជាង,3,false,jeang,
 ឬ,4,false,or,
 ស្ទឹង,2,false,sterng,
-សិស្សានុសិស្ស,1,false,"sersa, nuk, sers",
+សិស្សានុសិស្ស,1,false,sersa+nuk+sers,
 សិក្សា,3,false,serksa,
 រៀប,4,false,"reab, reap",
-រៀបចំ,2,false,"reab, jom, reap",
+រៀបចំ,2,false,"reab+jom, reap+jom",
 សម្ភារៈ,2,false,somphearek,
 ថ្នាក់,3,false,tnak,
 ទី,2,false,ti,
@@ -835,7 +835,7 @@ khmer,frequency,is_slang,romanizations,notes
 ខ្វះ,4,false,"kvas, kvah",verb: lack / be short of (AI-suggested — verify)
 បោក,4,true,"boak, bork",verb: cheat / trick / con (AI-suggested — verify)
 អផ្សុក,4,true,"opsok, orphsok, ophsok",feeling: bored / lonely (AI-suggested — verify)
-ភ្ញាក់ផ្អើល,3,false,"phneak, p'ael, p'erl",feeling: surprised / startled (AI-suggested — verify)
+ភ្ញាក់ផ្អើល,3,false,"phneak+p'ael, phneak+p'erl",feeling: surprised / startled (AI-suggested — verify)
 ស្ងាត់,3,false,"sngat, sgnat",adjective: quiet / silent (AI-suggested — verify)
 ស្ងោរ,2,false,"sgnoa, sgoa",
 ស្ងោ,2,false,"sgnoa, sgoa",
@@ -849,8 +849,8 @@ khmer,frequency,is_slang,romanizations,notes
 មុន,5,false,mun,time: before / earlier (AI-suggested — verify)
 ឆាប់,4,false,chab,time: soon / quickly (AI-suggested — verify)
 យូរ,4,false,"yu, you",time: long (duration) (AI-suggested — verify)
-ម្ដងទៀត,4,false,"mdong, teat",adverb: again / once more (AI-suggested — verify)
-ពេលក្រោយ,4,false,"pel, kroy",time: later / next time (AI-suggested — verify)
+ម្ដងទៀត,4,false,mdong+teat,adverb: again / once more (AI-suggested — verify)
+ពេលក្រោយ,4,false,pel+kroy,time: later / next time (AI-suggested — verify)
 បន្ទប់,4,false,"bantub, bontub",place: room (AI-suggested — verify)
 ក្រុង,4,false,krong,place: city / town (AI-suggested — verify)
 ស្រុក,4,false,srok,place: district / homeland / countryside (AI-suggested — verify)
@@ -858,8 +858,8 @@ khmer,frequency,is_slang,romanizations,notes
 ធនាគារ,3,false,"thoneakea, theanakea",place: bank (AI-suggested — verify)
 កន្លែង,4,false,"kanleng, konleng",noun: place / spot (AI-suggested — verify)
 ខ្យល់,4,false,"kjorl, kjol",nature: wind / air (AI-suggested — verify)
-ព្រះអាទិត្យ,3,false,"preah, atit",nature: sun (AI-suggested — verify)
-ព្រះច័ន្ទ,3,false,"preah, chan",nature: moon (AI-suggested — verify)
+ព្រះអាទិត្យ,3,false,preah+atit,nature: sun (AI-suggested — verify)
+ព្រះច័ន្ទ,3,false,preah+chan,nature: moon (AI-suggested — verify)
 សេដ,3,false,sad,
 ចិន,3,false,jen,
 ផ្កាយ,3,false,"phkay, pkay",nature: star (AI-suggested — verify)

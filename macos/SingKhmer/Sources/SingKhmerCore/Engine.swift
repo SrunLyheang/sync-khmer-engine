@@ -150,21 +150,25 @@ public final class Engine {
     // MARK: - Single-spelling lookup (exact, then fuzzy)
 
     /// Ranked Khmer candidates for one Latin spelling. Empty = no match.
-    public func convert(_ text: String, limit: Int = 5, fuzzy: Bool = true) -> [Candidate] {
+    /// `strict` narrows the fuzzy fallback to one edit from a real (non-generated)
+    /// spelling; whole-message decoding uses it (mirrors lookup.py).
+    public func convert(_ text: String, limit: Int = 5, fuzzy: Bool = true,
+                        strict: Bool = false) -> [Candidate] {
         let key = Engine.string(Engine.lower(Engine.strip(Array(text.unicodeScalars))))
         if key.isEmpty { return [] }
         if let exact = index[key], !exact.isEmpty { return Array(exact.prefix(limit)) }
         if !fuzzy { return [] }
-        return fuzzyMatch(key, limit: limit)
+        return fuzzyMatch(key, limit: limit, strict: strict)
     }
 
-    private func fuzzyMatch(_ key: String, limit: Int) -> [Candidate] {
+    private func fuzzyMatch(_ key: String, limit: Int, strict: Bool = false) -> [Candidate] {
         let query = key.unicodeScalars.map { $0.value }
-        let threshold = query.count <= 3 ? 1 : 2
+        let threshold = strict || query.count <= 3 ? 1 : 2
         var best: [String: (d: Int, score: Double)] = [:]
         for entry in fuzzyKeys {
             guard let d = Fuzzy.within(query, entry.key, threshold) else { continue }
             for c in entry.candidates {
+                if strict && c.source == "generated" { continue }
                 if let cur = best[c.khmer] {
                     if d < cur.d || (d == cur.d && c.score > cur.score) {
                         best[c.khmer] = (d, c.score)
@@ -229,7 +233,9 @@ public final class Engine {
                     if dp[j].isEmpty { continue }
                     let sub = Engine.string(lower[j..<i])
                     if index[sub] == nil { continue }
-                    if i - j == 1 {
+                    // Single characters and guessed (generated) spellings only match
+                    // as a whole token, never as a piece of a longer run.
+                    if i - j == 1 || index[sub]![0].source == "generated" {
                         let startsToken = j == 0 || lower[j - 1] == Engine.space
                         let endsToken = i == n || lower[i] == Engine.space
                         if !(startsToken && endsToken) { continue }
@@ -316,7 +322,7 @@ public final class Engine {
                 }
                 let coreText = Engine.string(core)
                 segments.append(Segment(surface: coreText,
-                                        candidates: convert(coreText, limit: limit),
+                                        candidates: convert(coreText, limit: limit, strict: true),
                                         lead: Engine.string(lead),
                                         trail: Engine.string(trail)))
             }
@@ -402,14 +408,14 @@ public final class Engine {
             let tokens = mergeMultiWord(Engine.nonSpaceRuns(part[...]).map { Array(part[$0.0..<$0.1]) })
             for token in tokens {
                 let lower = Engine.lower(token)
-                let spans = segmentKBest(lower, 1).first ?? []
-                // Not a known spelling and only partly coverable: keep the token as typed
-                // rather than emitting a half-Khmer, half-Latin mix.
+                var spans = segmentKBest(lower, 1).first ?? []
+                // Not a known spelling and only partly coverable: never emit a half-Khmer,
+                // half-Latin mix. Treat the token as one word: the closest known spelling
+                // if there is one (srolan), else unchanged.
                 if index[Engine.string(lower)] == nil && spans.contains(where: { $0.key == nil }) {
-                    segments.append(Segment(surface: Engine.string(token), candidates: []))
-                } else {
-                    segments.append(contentsOf: spansToSegments(token, spans, limit: limit))
+                    spans = (0..<token.count).map { (start: $0, end: $0 + 1, key: nil) }
                 }
+                segments.append(contentsOf: spansToSegments(token, spans, limit: limit))
             }
         }
         return applyRepetition(segments)

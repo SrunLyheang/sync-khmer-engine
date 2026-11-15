@@ -21,6 +21,7 @@ from collections import defaultdict
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 
+from .romanizer import respell
 from .vocabulary import VocabEntry
 
 
@@ -41,6 +42,9 @@ def _norm(text: str) -> str:
 # generated variant (5 x 0.1 = 0.5) stays below the lowest collected score (1.0) — a real
 # spelling always wins over a guessed one within the same key.
 _GENERATED_DISCOUNT = 0.1
+# A one-step respelling of a real spelling (jap -> jab) is a safer guess than a spelling
+# built from scratch, so it ranks above those but still below every collected spelling.
+_RESPELLED_DISCOUNT = 0.15
 
 
 def build_index(
@@ -79,6 +83,11 @@ def build_index(
 
     # generated (coverage layer) — plausible variants, always below collected
     if generate is not None:
+        for e in vocab:
+            for r in e.romanizations:
+                if " " not in r:
+                    for key in respell(r):
+                        add(key, e.khmer, float(e.frequency) * _RESPELLED_DISCOUNT, "generated")
         for e in vocab:
             score = float(e.frequency) * _GENERATED_DISCOUNT
             for key in list(generate(e.khmer))[:max_generated_per_word]:

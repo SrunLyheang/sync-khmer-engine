@@ -32,3 +32,19 @@ def test_multi_word_spelling_is_also_indexed_run_together():
     index = build_index(vocab)
     assert index["msel minh"][0].khmer == "ម្សិលមិញ"
     assert index["mselminh"] == index["msel minh"]
+
+
+def test_respellings_of_a_real_spelling_are_found_but_rank_below_real_ones():
+    from sing_khmer_engine.lookup import Engine
+    from sing_khmer_engine.vocabulary import VocabEntry
+
+    def entry(khmer, freq, *roms):
+        return VocabEntry(khmer=khmer, frequency=freq, is_slang=False, romanizations=list(roms))
+
+    eng = Engine([entry("ចាប់", 3, "jap"), entry("ខ្លាំង", 3, "klang"),
+                  entry("ប្រជុំ", 3, "projum"), entry("ចាប", 1, "jab")], use_english=False)
+    assert eng.convert("klg")[0].khmer == "ខ្លាំង"          # klang -> klg
+    assert eng.convert("pjum")[0].khmer == "ប្រជុំ"          # projum -> pjum
+    assert [c.khmer for c in eng.convert("jab")] == ["ចាប", "ចាប់"]   # real spelling first
+    # a short guessed spelling is never used as a piece of a longer run
+    assert eng.convert_sentence_text("klgxyz") == "klgxyz"

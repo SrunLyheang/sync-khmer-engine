@@ -106,8 +106,14 @@ class Engine:
         self._english = load_english() if use_english else frozenset()
 
     # ---- single-spelling lookup (exact, then fuzzy) --------------------------------
-    def convert(self, text: str, *, limit: int = 5, fuzzy: bool = True) -> list[Candidate]:
-        """Ranked Khmer candidates for one Latin spelling. Empty = no match."""
+    def convert(
+        self, text: str, *, limit: int = 5, fuzzy: bool = True, strict: bool = False
+    ) -> list[Candidate]:
+        """Ranked Khmer candidates for one Latin spelling. Empty = no match.
+
+        `strict` narrows the fuzzy fallback to one edit from a real (collected)
+        spelling. Whole-message decoding uses it: there a wrong guess silently
+        replaces what was typed, and loose matching turns English into Khmer."""
         key = text.strip().lower()
         if not key:
             return []
@@ -116,16 +122,18 @@ class Engine:
             return exact[:limit]
         if not fuzzy:
             return []
-        return self._fuzzy(key, limit=limit)
+        return self._fuzzy(key, limit=limit, strict=strict)
 
-    def _fuzzy(self, key: str, *, limit: int) -> list[Candidate]:
-        threshold = 1 if len(key) <= 3 else 2
+    def _fuzzy(self, key: str, *, limit: int, strict: bool = False) -> list[Candidate]:
+        threshold = 1 if strict or len(key) <= 3 else 2
         best: dict[str, tuple[int, float]] = {}
         for ikey, cands in self.index.items():
             d = within(key, ikey, threshold)
             if d is None:
                 continue
             for c in cands:
+                if strict and c.source == "generated":
+                    continue
                 cur = best.get(c.khmer)
                 if cur is None or (d, -c.score) < (cur[0], -cur[1]):
                     best[c.khmer] = (d, c.score)
@@ -184,7 +192,11 @@ class Engine:
                 sub = lower[j:i]
                 if sub not in self.index:
                     continue
-                if len(sub) == 1 and not (
+                # Single characters and guessed (generated) spellings only match as a
+                # whole space-delimited token. Guesses used as pieces are what chop an
+                # English word or a typo into Khmer bits (sixty -> six + ty).
+                whole_only = len(sub) == 1 or self.index[sub][0].source == "generated"
+                if whole_only and not (
                     (j == 0 or lower[j - 1] == " ") and (i == n or lower[i] == " ")
                 ):
                     continue
@@ -263,7 +275,7 @@ class Engine:
                 if len(core) == 1:
                     segments.append(Segment(tok, ()))
                     continue
-                cands = tuple(self.convert(core, limit=limit))
+                cands = tuple(self.convert(core, limit=limit, strict=True))
                 segments.append(Segment(core, cands, lead, trail))
 
         idx = 0
@@ -346,14 +358,12 @@ class Engine:
                 paths = self._segment_kbest(lower, 1)
                 spans = paths[0] if paths else []
                 # If the token isn't a direct index key AND the best Viterbi
-                # path left unmatched fragments, the engine can only force a
-                # partial match.  Pass the whole token through instead of
-                # producing a mix like sa+ខ្ញុំ+b (e.g. "sab" → "sa" matched +
-                # "b" fragment → just keep "sab" as-is).
+                # path left unmatched fragments, never emit a half-Khmer mix like
+                # sa+ខ្ញុំ+b. Treat the token as ONE word instead: the closest known
+                # spelling if there is one (srolan -> ស្រឡាញ់), else unchanged.
                 if lower not in self.index and any(key is None for _, _, key in spans):
-                    segments.append(Segment(token, ()))
-                else:
-                    segments.extend(self._spans_to_segments(token, spans, limit=limit))
+                    spans = [(c, c + 1, None) for c in range(len(token))]
+                segments.extend(self._spans_to_segments(token, spans, limit=limit))
         return self._apply_repetition(segments)
 
     @staticmethod

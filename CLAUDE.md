@@ -199,6 +199,22 @@ scope" decision. How it works, same pattern as the Phase 2 plan:
 - Only multi-word spellings that convert differently as a unit (`bong rean`) hold the space open
   in the keyboard; the rest convert word by word.
 
+**Guessing unseen spellings — improved 2026-11-15** (hide one collected spelling, type it, is
+the word in the top 3 through `decode`? 31% -> 70%; random English left alone 94% -> 96%):
+- `romanizer.respell()` + `_RESPELL_RULES`: every collected spelling also indexes its one-step
+  respellings (`jap`->`jab`, `jouy`->`juy`, `klang`->`klg`, `projum`->`pjum`, `mex`->`mx`), as
+  `generated`, scored below collected. To cover a new pattern, add a rule there (no Swift change).
+- Generated spellings match only as a WHOLE token in the decoder, never as a piece of a
+  run-together token (they chopped English/typos into Khmer bits). Run-together typing therefore
+  needs collected spellings.
+- `decode` had lost its fuzzy fallback (commit 18fe31c); restored, but strict: one edit from a
+  collected spelling (`convert(strict=True)`). Looser settings convert too much English. Preferring
+  a near-miss whole word over an all-collected split was tried and REJECTED: it broke `jgnh`/`tvna`.
+- 21 vocabulary rows had a multi-word spelling split into alternatives (`preah, chan` instead of
+  `preah+chan`), so `preah`/`kompong`/`jom` suggested whole compounds. Fixed; watch for this
+  pattern in future merges.
+- All three decoder changes are mirrored in `Engine.swift`; golden tests pass on the Mac.
+
 **Vocabulary last merged:** user's V2 Excel (`singkhmervocabcollectionV2.xlsx`, 383 words with
 retuned frequencies) merged in — Excel is authoritative for anything it covers; the 43
 AI-researched extras not in the Excel were preserved, and romanizations were UNIONed for overlaps

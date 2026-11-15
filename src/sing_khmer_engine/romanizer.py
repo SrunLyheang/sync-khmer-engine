@@ -22,6 +22,7 @@ How a syllable (KCC) is spelled, in priority order:
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 
 from .kcc import segment
@@ -75,6 +76,39 @@ _MAX_VARIANTS = 8     # cap on generated variants per word
 # (phnaek/pnaek, phdol/pdol), ិ wavers e<->i (kech/kich), a coda "o" is often "or"
 # (bonto/bontor). Each is tried once per candidate; results are scored low and capped.
 _SUBSTITUTIONS = (("ph", "p"), ("th", "t"), ("kh", "k"))
+
+
+# The same sound gets typed several ways. Each rule is (regex, replacement), tried on one
+# occurrence at a time, so a real spelling also covers its one-step respellings
+# (jap -> jab, jouy -> juy, sursdey -> sursdei, klang -> klg). Mined from pairs of
+# spellings the team entered for the same word; `scripts/recall.py` measures the effect.
+_RESPELL_RULES = tuple((re.compile(a), b) for a, b in (
+    (r"ou", "u"), (r"ou", "o"), (r"uo", "u"), (r"ou", "uo"), (r"uo", "ou"),
+    (r"o", "u"), (r"u", "o"), (r"u", "ou"), (r"o", "ou"),
+    (r"e", "i"), (r"i", "e"), (r"ae", "e"), (r"ea", "e"), (r"e", "ae"), (r"e", "ea"),
+    (r"ey", "ei"), (r"ei", "ey"), (r"y$", "i"), (r"i$", "y"),
+    (r"ph", "p"), (r"th", "t"), (r"kh", "k"), (r"p(?!h)", "ph"), (r"k(?!h)", "kh"),
+    (r"^ch", "j"), (r"^j", "ch"), (r"ch$", "j"), (r"j$", "ch"),
+    (r"^b", "p"), (r"^p(?!h)", "b"), (r"b$", "p"), (r"p$", "b"),
+    (r"d$", "t"), (r"t$", "d"), (r"s$", "h"), (r"h$", "s"),
+    (r"(?<=[aeo])r(?=[^aeiou])", ""), (r"(?<=[aeo])(?=[^aeiourh]$)", "r"),
+    (r"(?<=[aeiou])h$", ""), (r"(?<=[aeiou])$", "h"),
+    (r"^([^aeiou]+)[aeiour]+ng$", r"\1g"),          # klang -> klg, yerng -> yg
+    (r"^([^aeiou]+)[aeiou]+([^aeiou])$", r"\1\2"),   # mex -> mx, tov -> tv
+    # a weak first syllable is often skipped: projum -> pjum, kondal -> kdal, tomne -> tne
+    (r"^([^aeiou]h?)r?[oa](ng|n|m|h)?(?=[^aeiou]+[aeiou])", r"\1"),
+))
+
+
+def respell(spelling: str) -> list[str]:
+    """One-step respellings of a real spelling (see ``_RESPELL_RULES``)."""
+    out: dict[str, None] = {}
+    for pattern, repl in _RESPELL_RULES:
+        for m in pattern.finditer(spelling):
+            new = spelling[: m.start()] + m.expand(repl) + spelling[m.end():]
+            if len(new) >= 2 and new != spelling:
+                out[new] = None
+    return list(out)
 
 
 def _is_cons(ch: str) -> bool:
