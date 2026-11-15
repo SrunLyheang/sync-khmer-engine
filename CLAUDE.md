@@ -162,6 +162,31 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**macOS input method — WRITTEN, NOT YET BUILT ON A MAC (`macos/SingKhmer/`, setup in
+`docs/MAC_KEYBOARD.md`).** The developer asked for an installable keyboard on their own Mac
+instead of the web UI (decision: Mac only for now, own native keyboard, personal use; their phone
+is an iPhone). This jumped ahead of the Android plan and reverses the earlier "desktop IME out of
+scope" decision. How it works, same pattern as the Phase 2 plan:
+- `scripts/export_mac_data.py` dumps `Engine().index` + Khmer word list + English list to
+  `macos/SingKhmer/Resources/engine_data.json`, plus a golden file of ~6,700 inputs with the
+  Python engine's answers. Both are generated and git-ignored; `build.sh` re-exports every build.
+- `Sources/SingKhmerCore/` (pure Foundation, builds on Linux too): `Engine.swift` is a
+  line-for-line port of the RUNTIME half of `lookup.py` (`decode`, `readings`, `convert`, fuzzy);
+  `Composer.swift` holds the typing rules (what each key does), with no AppKit so an iOS keyboard
+  can reuse it. `GoldenTests` replays the golden file and fails if Swift and Python disagree —
+  **any change to `lookup.py`/`fuzzy.py` must be mirrored in `Engine.swift`/`Fuzzy.swift`.**
+  Vocabulary/romanizer/reverse-index changes need no Swift change, only a rebuild.
+- `Sources/SingKhmerIME/` is the thin InputMethodKit shell (own candidate window, not
+  IMKCandidates). It is a SwiftPM package assembled into an `.app` by `build.sh install` (no Xcode
+  project, no paid Apple account, ad-hoc signed, installs to `~/Library/Input Methods`).
+- Verified on Linux: the Core builds and all Swift tests pass. **Not verified:** the three
+  `SingKhmerIME` files were only syntax-checked (no Apple SDK on Linux), so the first Mac build may
+  need fixes. Next step is the developer running `./build.sh install` and reporting back.
+- Typing UX: space converts (swallowed after Khmer, second space is a real one), 1–9 / arrows pick
+  a candidate, Return converts without sending, Esc keeps the Latin. A word that could start a
+  multi-word spelling (`msel` of `msel minh`) shows converted but stays underlined until the next
+  key settles it.
+
 **Vocabulary last merged:** user's V2 Excel (`singkhmervocabcollectionV2.xlsx`, 383 words with
 retuned frequencies) merged in — Excel is authoritative for anything it covers; the 43
 AI-researched extras not in the Excel were preserved, and romanizations were UNIONed for overlaps

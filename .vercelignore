@@ -15,3 +15,6 @@ requirements-dev.txt
 # Docs and generated spreadsheets never need to be uploaded.
 *.md
 *.xlsx
+
+# The macOS input method is built locally and never runs on the server.
+macos/
