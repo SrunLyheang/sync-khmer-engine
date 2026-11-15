@@ -25,3 +25,10 @@ def test_spelling_is_normalized_and_deduped():
     idx = build_index([_entry("ល្អ", ["Loar", "loar", " loar "])])
     assert list(idx) == ["loar"]           # lowercased, stripped, one key
     assert len(idx["loar"]) == 1           # single candidate, not duplicated
+
+
+def test_multi_word_spelling_is_also_indexed_run_together():
+    vocab = [VocabEntry("ម្សិលមិញ", 4, False, ("msel minh",))]
+    index = build_index(vocab)
+    assert index["msel minh"][0].khmer == "ម្សិលមិញ"
+    assert index["mselminh"] == index["msel minh"]

@@ -182,10 +182,22 @@ scope" decision. How it works, same pattern as the Phase 2 plan:
 - Verified on Linux: the Core builds and all Swift tests pass. **Not verified:** the three
   `SingKhmerIME` files were only syntax-checked (no Apple SDK on Linux), so the first Mac build may
   need fixes. Next step is the developer running `./build.sh install` and reporting back.
-- Typing UX: space converts (swallowed after Khmer, second space is a real one), 1–9 / arrows pick
-  a candidate, Return converts without sending, Esc keeps the Latin. A word that could start a
-  multi-word spelling (`msel` of `msel minh`) shows converted but stays underlined until the next
-  key settles it.
+- Typing UX is **pinyin-style** (the developer asked for "the same logic as the Chinese
+  keyboard"): letters stay underlined with a numbered candidate row; space / 1-9 take a candidate
+  (space is swallowed after Khmer, a second space is real); Return keeps the Latin; Esc cancels.
+  Run-together input offers the whole phrase first, then candidates for just the first word
+  (taking one leaves the rest composing). Backspace as the very next key after a conversion
+  undoes it (restores the Latin), only when the app confirms the text before the cursor.
+- **"Learn while I type" is how the developer chose to grow the dictionary** (over bulk import
+  from a frequency list: filling the CSV by hand was too slow). The Mac keyboard keeps, in
+  `~/Library/Application Support/SingKhmer`: `history.json` (which candidate is picked per
+  spelling; reorders candidates), `my_words.txt` (user-taught `spelling Khmer` lines, ranked
+  first, hot-reloaded), `missed_words.txt` (unknown non-English spellings, most typed first = what
+  to add next). `scripts/import_mac_words.py` merges `my_words.txt` back into `vocabulary.csv`.
+- Engine change made alongside: `build_index` now also indexes each multi-word spelling run
+  together (`msel minh` -> `mselminh`), closing that known gap for the web app too.
+- Only multi-word spellings that convert differently as a unit (`bong rean`) hold the space open
+  in the keyboard; the rest convert word by word.
 
 **Vocabulary last merged:** user's V2 Excel (`singkhmervocabcollectionV2.xlsx`, 383 words with
 retuned frequencies) merged in — Excel is authoritative for anything it covers; the 43

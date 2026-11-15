@@ -17,7 +17,7 @@ guard let server = IMKServer(name: connectionName, bundleIdentifier: Bundle.main
     exit(1)
 }
 
-if Shared.engine == nil {
+if Shared.store.engine == nil {
     NSLog("SingKhmer: running without a dictionary; keys will pass through unchanged")
 }
 

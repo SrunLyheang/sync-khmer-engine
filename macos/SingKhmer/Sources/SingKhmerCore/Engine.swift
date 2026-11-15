@@ -64,7 +64,11 @@ public final class Engine {
     let khmerWords: Set<String>
     let english: Set<String>
     private let fuzzyKeys: [(key: [UInt32], candidates: [Candidate])]
-    private let multiWordPrefixes: Set<String>
+    private var multiWordPrefixes: Set<String> = []
+
+    /// Score given to the user's own words: above every dictionary score (max 5), so
+    /// a word you added yourself always comes first for its spelling.
+    public static let userScore = 6.0
 
     private struct Payload: Decodable {
         let version: Int
@@ -74,24 +78,37 @@ public final class Engine {
     }
 
     /// Load the file written by scripts/export_mac_data.py.
-    public init(data: Data) throws {
+    public convenience init(data: Data) throws {
         let payload = try JSONDecoder().decode(Payload.self, from: data)
         guard payload.version == Engine.supportedVersion else {
             throw EngineError.unsupportedVersion(payload.version)
         }
-        index = payload.index
-        maxKeyLen = max(payload.index.keys.map { $0.unicodeScalars.count }.max() ?? 1, 1)
-        khmerWords = Set(payload.khmer_words)
-        english = Set(payload.english)
-        fuzzyKeys = payload.index.map { (key: $0.key.unicodeScalars.map { $0.value }, candidates: $0.value) }
+        self.init(index: payload.index, khmerWords: Set(payload.khmer_words),
+                  english: Set(payload.english))
+    }
 
-        // Every "word word" beginning of a multi-word spelling (msel minh -> "msel ",
-        // "msel m", ...). The typing logic uses it to know when a space might still be
-        // part of the spelling being typed.
+    public convenience init(contentsOf url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    private init(index: [String: [Candidate]], khmerWords: Set<String>, english: Set<String>) {
+        self.index = index
+        self.khmerWords = khmerWords
+        self.english = english
+        maxKeyLen = max(index.keys.map { $0.unicodeScalars.count }.max() ?? 1, 1)
+        fuzzyKeys = index.map { (key: $0.key.unicodeScalars.map { $0.value }, candidates: $0.value) }
+
+        // Multi-word spellings that only come out right if the words are looked up
+        // TOGETHER (bong rean -> one word, not two). The typing logic keeps the space
+        // "open" for these. Most multi-word spellings do not need it: typing their
+        // words one at a time already produces the same Khmer.
         var prefixes = Set<String>()
-        for key in payload.index.keys {
+        for (key, candidates) in index {
             let scalars = Array(key.unicodeScalars)
-            guard let firstSpace = scalars.firstIndex(of: Engine.space) else { continue }
+            guard let firstSpace = scalars.firstIndex(of: Engine.space),
+                  let target = candidates.first?.khmer else { continue }
+            let oneAtATime = key.split(separator: " ").map { convertSentenceText(String($0)) }.joined()
+            if oneAtATime == target { continue }
             for end in (firstSpace + 1)...scalars.count {
                 prefixes.insert(Engine.string(scalars[0..<end]))
             }
@@ -99,13 +116,35 @@ public final class Engine {
         multiWordPrefixes = prefixes
     }
 
-    public convenience init(contentsOf url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
+    /// A copy of this engine that also knows the user's own words. Each one is ranked
+    /// first for its spelling.
+    public func addingUserWords(_ words: [UserWord]) -> Engine {
+        guard !words.isEmpty else { return self }
+        var merged = index
+        var known = khmerWords
+        for word in words {
+            let candidate = Candidate(khmer: word.khmer, score: Engine.userScore, source: "user")
+            var keys = [word.latin]
+            if word.latin.contains(" ") { keys.append(word.latin.replacingOccurrences(of: " ", with: "")) }
+            for key in keys {
+                var list = (merged[key] ?? []).filter { $0.khmer != word.khmer }
+                list.insert(candidate, at: 0)
+                merged[key] = list
+            }
+            known.insert(word.khmer)
+        }
+        return Engine(index: merged, khmerWords: known, english: english)
     }
 
-    /// True if `text` (containing a space) could still grow into a multi-word spelling.
+    /// True if `text` (containing a space) could still grow into a multi-word spelling
+    /// that has to be looked up as a whole.
     public func isMultiWordPrefix(_ text: String) -> Bool {
         multiWordPrefixes.contains(text.lowercased())
+    }
+
+    /// True if `word` is in the common-English list (so it is left as typed).
+    public func isEnglishWord(_ word: String) -> Bool {
+        isEnglish(Array(word.unicodeScalars))
     }
 
     // MARK: - Single-spelling lookup (exact, then fuzzy)

@@ -1,6 +1,7 @@
 import Cocoa
 
-/// The small floating list of candidates shown under the word being typed.
+/// The small floating row of numbered candidates shown under the word being typed,
+/// like the candidate bar of a Chinese pinyin keyboard.
 ///
 /// It is drawn by this app rather than with InputMethodKit's IMKCandidates so that the
 /// highlight and the number keys are driven by one piece of state (the Composer).
@@ -37,14 +38,14 @@ final class CandidatePanel {
         background.autoresizingMask = [.width, .height]
 
         label = NSTextField(labelWithString: "")
-        label.maximumNumberOfLines = 0
+        label.maximumNumberOfLines = 1
         label.lineBreakMode = .byClipping
         background.addSubview(label)
         panel.contentView = background
     }
 
-    /// Show `candidates` (one per line, numbered) with `selected` highlighted, just
-    /// below `rect`, which is where the composed text sits on screen.
+    /// Show `candidates` in one numbered row with `selected` highlighted, just below
+    /// `rect`, which is where the composed text sits on screen.
     func show(_ candidates: [String], selected: Int, near rect: NSRect) {
         guard !candidates.isEmpty else {
             hide()
@@ -82,32 +83,27 @@ final class CandidatePanel {
 
     private func attributedList(_ candidates: [String], selected: Int) -> NSAttributedString {
         let font = NSFont.systemFont(ofSize: 16)
-        let numberFont = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineSpacing = 3
+        let numberFont = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
         let out = NSMutableAttributedString()
         for (i, candidate) in candidates.enumerated() {
-            let isSelected = i == selected
             var numberAttrs: [NSAttributedString.Key: Any] = [
                 .font: numberFont,
                 .foregroundColor: NSColor.secondaryLabelColor,
-                .paragraphStyle: paragraph,
             ]
             var textAttrs: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: NSColor.labelColor,
-                .paragraphStyle: paragraph,
             ]
-            if isSelected {
+            if i == selected {
                 numberAttrs[.foregroundColor] = NSColor.white
                 numberAttrs[.backgroundColor] = NSColor.controlAccentColor
                 textAttrs[.foregroundColor] = NSColor.white
                 textAttrs[.backgroundColor] = NSColor.controlAccentColor
             }
-            out.append(NSAttributedString(string: " \(i + 1)  ", attributes: numberAttrs))
+            out.append(NSAttributedString(string: " \(i + 1) ", attributes: numberAttrs))
             out.append(NSAttributedString(string: candidate + " ", attributes: textAttrs))
             if i < candidates.count - 1 {
-                out.append(NSAttributedString(string: "\n", attributes: textAttrs))
+                out.append(NSAttributedString(string: "  ", attributes: [.font: font]))
             }
         }
         return out

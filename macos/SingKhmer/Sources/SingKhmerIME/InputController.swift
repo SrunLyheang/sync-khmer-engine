@@ -9,7 +9,14 @@ import SingKhmerCore
 /// the Composer's state -> underlined text in the document plus the candidate window.
 @objc(SingKhmerInputController)
 final class SingKhmerInputController: IMKInputController {
-    private let composer: Composer? = Shared.engine.map { Composer(engine: $0) }
+    private let composer: Composer? = {
+        guard let engine = Shared.store.engine else { return nil }
+        let composer = Composer(engine: engine, history: Shared.store.history)
+        composer.onMiss = { Shared.store.recordMiss($0) }
+        return composer
+    }()
+    /// Which version of the store's engine the composer is using.
+    private var engineGeneration = Shared.store.generation
     /// True while this controller has underlined (marked) text in the document.
     private var hasMarkedText = false
 
@@ -21,9 +28,15 @@ final class SingKhmerInputController: IMKInputController {
         guard let composer = composer,
               let event = event, event.type == .keyDown,
               let client = sender as? IMKTextInput else { return false }
+        let key = Self.key(for: event)
+
+        if !composer.isComposing {
+            pickUpNewWords(composer)
+            if key == .backspace, undoLastConversion(composer, client) { return true }
+        }
 
         let preceding = composer.isComposing ? precedingIsKhmer(client) : nil
-        let outcome = composer.handle(Self.key(for: event), precedingIsKhmer: preceding)
+        let outcome = composer.handle(key, precedingIsKhmer: preceding)
 
         if let text = outcome.commit {
             client.insertText(text, replacementRange: Self.noRange)   // replaces the marked text
@@ -33,10 +46,39 @@ final class SingKhmerInputController: IMKInputController {
         return outcome.handled
     }
 
+    /// Use the latest version of the user's word list (my_words.txt may have been saved).
+    private func pickUpNewWords(_ composer: Composer) {
+        Shared.store.reloadWordsIfChanged()
+        if engineGeneration != Shared.store.generation, let engine = Shared.store.engine {
+            composer.replaceEngine(engine)
+            engineGeneration = Shared.store.generation
+        }
+    }
+
+    /// Backspace pressed right after a conversion: take the converted text back out of
+    /// the document and put the Latin back under the cursor, ready to be fixed.
+    ///
+    /// Only done when the app confirms that the text just before the cursor is exactly
+    /// what was inserted. Apps that cannot answer get an ordinary backspace instead.
+    private func undoLastConversion(_ composer: Composer, _ client: IMKTextInput) -> Bool {
+        guard let last = composer.undoable else { return false }
+        let length = (last.text as NSString).length
+        let selection = client.selectedRange()
+        guard selection.location != NSNotFound, selection.length == 0,
+              selection.location >= length, selection.location < Int.max / 2 else { return false }
+        let range = NSRange(location: selection.location - length, length: length)
+        guard let before = client.attributedSubstring(from: range), before.string == last.text,
+              composer.undoLastCommit() else { return false }
+
+        setMarkedText(composer.markedText, client, replacing: range)
+        showCandidates(composer, client)
+        return true
+    }
+
     /// Make the document and the candidate window show the Composer's current state.
     private func refresh(_ composer: Composer, _ client: IMKTextInput) {
         guard composer.isComposing else {
-            if hasMarkedText {                     // backspaced the word away entirely
+            if hasMarkedText {                     // the word was deleted or cancelled
                 client.setMarkedText("", selectionRange: NSRange(location: 0, length: 0),
                                      replacementRange: Self.noRange)
                 hasMarkedText = false
@@ -44,18 +86,24 @@ final class SingKhmerInputController: IMKInputController {
             Shared.panel.hide()
             return
         }
-        let marked = composer.markedText
+        setMarkedText(composer.markedText, client, replacing: Self.noRange)
+        showCandidates(composer, client)
+    }
+
+    private func setMarkedText(_ marked: String, _ client: IMKTextInput, replacing range: NSRange) {
         let attributes: [NSAttributedString.Key: Any] = [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
         ]
         client.setMarkedText(NSAttributedString(string: marked, attributes: attributes),
                              selectionRange: NSRange(location: (marked as NSString).length, length: 0),
-                             replacementRange: Self.noRange)
+                             replacementRange: range)
         hasMarkedText = true
+    }
 
+    private func showCandidates(_ composer: Composer, _ client: IMKTextInput) {
         var rect = NSRect.zero
         _ = client.attributes(forCharacterIndex: 0, lineHeightRectangle: &rect)
-        Shared.panel.show(composer.candidates, selected: composer.selected, near: rect)
+        Shared.panel.show(composer.candidates.map { $0.text }, selected: composer.selected, near: rect)
     }
 
     private static func key(for event: NSEvent) -> Composer.Key {
@@ -113,5 +161,38 @@ final class SingKhmerInputController: IMKInputController {
     override func deactivateServer(_ sender: Any!) {
         commitComposition(sender)
         super.deactivateServer(sender)
+    }
+
+    // MARK: - Menu (shown under the Sing Khmer icon in the menu bar)
+
+    override func menu() -> NSMenu! {
+        let menu = NSMenu(title: "Sing Khmer")
+        let items: [(String, Selector)] = [
+            ("Edit My Words…", #selector(editMyWords(_:))),
+            ("Show Missed Words", #selector(showMissedWords(_:))),
+            ("Open Sing Khmer Folder", #selector(openFolder(_:))),
+        ]
+        for (title, action) in items {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+            item.target = self
+            menu.addItem(item)
+        }
+        return menu
+    }
+
+    @objc private func editMyWords(_ sender: Any?) {
+        NSWorkspace.shared.open(Shared.store.wordsURL)
+    }
+
+    @objc private func showMissedWords(_ sender: Any?) {
+        let url = Shared.store.missesURL
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try? MissLog().formatted().write(to: url, atomically: true, encoding: .utf8)
+        }
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func openFolder(_ sender: Any?) {
+        NSWorkspace.shared.open(Shared.store.directory)
     }
 }
