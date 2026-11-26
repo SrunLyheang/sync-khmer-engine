@@ -10,7 +10,7 @@ Writes two files (both generated, both git-ignored):
 
   macos/SingKhmer/Resources/engine_data.json
       index        spelling -> ranked candidates (khmer, score, source)
-      khmer_words  every vocabulary word (used to fold repeats into the sign)
+      khmer_words  every vocabulary + general word (used to fold repeats into the sign)
       english      the common-English wordlist (code-switching passthrough)
 
   macos/SingKhmer/Tests/SingKhmerCoreTests/Fixtures/golden.json
@@ -66,7 +66,7 @@ def build_data(engine: Engine) -> dict:
             key: [{"khmer": c.khmer, "score": c.score, "source": c.source} for c in cands]
             for key, cands in engine.index.items()
         },
-        "khmer_words": sorted({entry.khmer for entry in engine.vocab}),
+        "khmer_words": sorted({entry.khmer for entry in engine.vocab + engine.general}),
         "english": sorted(engine._english),
     }
 
