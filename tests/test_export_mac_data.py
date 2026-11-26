@@ -23,7 +23,7 @@ def test_data_carries_everything_the_swift_engine_reads():
     assert data["index"]["nh"][0] == {"khmer": "ខ្ញុំ", "score": 5.0, "source": "collected"}
     for key, cands in engine.index.items():           # ranking order must survive the export
         assert [c["khmer"] for c in data["index"][key]] == [c.khmer for c in cands]
-    assert set(data["khmer_words"]) == {entry.khmer for entry in engine.vocab}
+    assert set(data["khmer_words"]) == {e.khmer for e in engine.vocab + engine.general}
     assert "hello" in data["english"]
 
 

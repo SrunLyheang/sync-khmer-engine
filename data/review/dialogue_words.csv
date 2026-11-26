@@ -1,0 +1,183 @@
+keep,khmer,spellings,engine_guess,english,chinese,category,register,status
+y,ហើយ,hoy,hery,already / and,了,particle,neutral,in dictionary; adds hoy
+y,ទៀត,tiet,teat,more / again,再 / 还,particle,neutral,in dictionary; adds tiet
+y,ផង,phong,phong,too / please,也 / 一下,particle,neutral,in dictionary; adds phong
+y,ម៉េច,mech,mech,how / why,怎么,particle,casual,in dictionary; adds mech
+y,ប៉ុន្មាន,ponman,bonmean,how much / how many,多少,particle,neutral,in dictionary; adds ponman
+y,នៅឯណា,nov+ae+na,nvaena,where,在哪里,particle,neutral,new
+y,ចាស,jas,jas,yes (female),是,particle,polite,in dictionary; adds jas
+y,អូ,o,o,oh,哦,reaction,casual,new
+y,អូយ,oy,oy,ouch / oh no,哎呀,reaction,casual,new
+y,ហ៊ឺ,heu,heu,huh?,嗯?,reaction,casual,new
+y,អាហ្នឹង,a+neng,ahng,that thing,那个,particle,casual,new
+y,នោះ,nuh,nus,that,那,particle,neutral,in dictionary; adds nuh
+y,ទីនោះ,ti+nuh,tinus,there,那里,particle,neutral,in dictionary; adds ti nuh
+y,ខ្លួនឯង,khluon+eng,kluoneg,oneself,自己,pronoun,neutral,new
+y,គ្នាឯង,knea+eng,kneaeg,you guys (close),你们,pronoun,casual,new
+y,ម្នាក់ណា,mnak+na,mnekna,someone / which one,哪个人,pronoun,neutral,new
+y,គ្មាននរណា,kmean+norona,kmeannrna,nobody,没有人,pronoun,neutral,new
+y,ភ្នែក,pnaek,phneak,eye,眼睛,body,neutral,in dictionary; adds pnaek
+y,មាត់,moat,meat,mouth,嘴,body,neutral,in dictionary; adds moat
+y,ធ្មេញ,thmenh,thmenh,tooth,牙齿,body,neutral,in dictionary; adds thmenh
+y,សក់,sok,sork,hair,头发,body,neutral,in dictionary; adds sok
+y,ពោះ,puoh,purs,belly,肚子,body,neutral,in dictionary; adds puoh
+y,ក,ko,kor,neck,脖子,body,neutral,in dictionary; adds ko
+y,ស្មា,sma,sma,shoulder,肩膀,body,neutral,new
+y,ត្រចៀក,trojeak,trojeak,ear,耳朵,body,neutral,new
+y,ញ៉ាំបាយ,nham+bay,nhambay,eat (a meal),吃饭,daily,casual,new
+y,ផឹក,phek,pherk,drink,喝,daily,neutral,in dictionary; adds phek
+y,ទឹក,tek,terk,water,水,daily,neutral,in dictionary; adds tek
+y,ម្ហូប,mhob,mhup,food / dish,菜,daily,neutral,in dictionary; adds mhob
+y,កាហ្វេ,kafe,kahve,coffee,咖啡,daily,neutral,in dictionary; adds kafe
+y,ស្រវឹង,srovoeng,sroverng,drunk,喝醉,daily,neutral,new
+y,ឃ្លាន,khlean,khlean,hungry,饿,daily,neutral,in dictionary; adds khlean
+y,ឆ្អែត,chaet,chaet,full (after eating),饱,daily,neutral,new
+y,ស្រេកទឹក,srek+tek,srekterk,thirsty,渴,daily,neutral,new
+y,ងងុយ,ngong'uy,ngonguy,sleepy,困,daily,neutral,in dictionary; adds ngong'uy
+y,ភ្ញាក់,phnhak,phnheak,wake up,醒,daily,neutral,in dictionary; adds phnhak
+y,ងូតទឹក,ngut+tek,ngutterk,shower / bathe,洗澡,daily,neutral,new
+y,ស្លៀកពាក់,sliek+peak,sleakpeak,get dressed,穿衣服,daily,neutral,new
+y,សម្លៀកបំពាក់,somliek+bompeak,sormleakbompeak,clothes,衣服,daily,neutral,new
+y,ខោអាវ,khao+av,khoaav,clothes,衣服,daily,casual,new
+y,ស្បែកជើង,sbaek+jerng,sbaekjerng,shoes,鞋子,daily,neutral,new
+y,កាបូប,kabob,kabop,bag / wallet,包 / 钱包,daily,neutral,new
+y,សោ,sao,sao,key,钥匙,daily,neutral,new
+y,បង្អួច,bong'uoch,bonguoch,window,窗户,daily,neutral,new
+y,ផ្ទះបាយ,ptes+bay,pteasbay,kitchen,厨房,daily,neutral,new
+y,បន្ទប់ទឹក,bontub+tek,bantubterk,bathroom,浴室,daily,neutral,new
+y,កង់,kong,korng,bicycle,自行车,daily,neutral,in dictionary; adds kong
+y,ឡានក្រុង,lan+krong,lankrong,bus,公交车,daily,neutral,new
+y,រទេះសេះ,roteh+seh,rotehses,carriage,马车,daily,neutral,new
+y,បង់លុយ,bong+luy,bongluy,pay,付钱,verb,neutral,new
+y,សង,song,sorng,pay back / return,还,verb,neutral,in dictionary; adds song
+y,បោះ,boh,bors,throw,扔,verb,neutral,in dictionary; adds boh
+y,ចាប់ផ្ដើម,jab+phdaem,japphderm,start,开始,verb,neutral,in dictionary; adds jab phdaem
+y,បន្ត,bonto,bon,continue,继续,verb,neutral,in dictionary; adds bonto
+y,បញ្ឈប់,bonhchob,bonhchop,stop (something),停止,verb,neutral,new
+y,ជួសជុល,juos+jul,juosjul,fix / repair,修理,verb,neutral,new
+y,សម្អាត,som'at,sormeat,clean,打扫,verb,neutral,new
+y,បិទ,bet,bit,close,关,verb,neutral,in dictionary; adds bet
+y,ចុច,joch,joch,press / click,按,verb,neutral,new
+y,ឆ្លៀត,chliet,chleat,take the chance,趁机,verb,neutral,in dictionary; adds chliet
+y,សម្រាក,somrak,sormreak,rest,休息,verb,neutral,new
+y,រាំ,roam,rorm,dance,跳舞,verb,neutral,in dictionary; adds roam
+y,ច្រៀង,jrieng,jreang,sing,唱,verb,neutral,in dictionary; adds jrieng
+y,ស្ដាប់,sdab,sdap,listen,听,verb,neutral,in dictionary; adds sdab
+y,ឮ,leu,ler,hear,听到,verb,neutral,in dictionary; adds leu
+y,និយាយ,niyeay,niyeay,speak,说,verb,neutral,in dictionary; adds niyeay
+y,ប្រាប់,prab,brap,tell,告诉,verb,neutral,in dictionary; adds prab
+y,រៀន,rien,rean,study / learn,学,verb,neutral,in dictionary; adds rien
+y,បង្រៀន,bong+rien,bongrean,teach,教,verb,neutral,in dictionary; adds bong rien
+y,ដឹង,deng,derng,know,知道,verb,neutral,in dictionary; adds deng
+y,ស្គាល់,skoal,skal,know (someone),认识,verb,neutral,in dictionary; adds skoal
+y,ភ្លេចភ្លាំង,plech+pleang,phlechphloamng,forgetful / absent-minded,迷糊,verb,casual,new
+y,សុបិន,sobin,sobin,dream,梦,verb,neutral,new
+y,ចង់,jong,jong,want,想要,verb,neutral,in dictionary; adds jong
+y,ត្រូវការ,trov+ka,trovka,need,需要,verb,neutral,new
+y,ចូលចិត្តណាស់,jol+jet+nas,joljitnas,really like,很喜欢,reaction,neutral,new
+y,មិនចូលចិត្ត,min+jol+jet,menjoljit,don't like,不喜欢,reaction,neutral,new
+y,ស្អប់ណាស់,sa'ob+nas,s'oabnas,hate so much,很讨厌,reaction,neutral,new
+y,ត្រឡប់ទៅផ្ទះ,trolob+tov+ptes,trolobtvpteas,go home,回家,dialogue,neutral,new
+y,មកពីណា,mok+pi+na,mkpina,where from,从哪来,dialogue,neutral,new
+y,ធ្វើអ្វី,tver+avey,tveravey,do what,做什么,dialogue,neutral,new
+y,នឹង,neng,nerng,will,会 / 将,particle,neutral,in dictionary; adds neng
+y,គួរតែ,kuor+tae,kurtae,should,应该,particle,neutral,new
+y,ត្រូវតែ,trov+tae,trovtae,must,必须,particle,neutral,new
+y,ប្រហែល,prohael,brohael,maybe / about,可能 / 大概,particle,neutral,in dictionary; adds prohael
+y,ប្រាកដជា,prakot+jea,pkotjea,definitely,一定,particle,neutral,new
+y,ជាមួយ,jea+muoy,jeamuoy,with,和 / 跟,particle,neutral,in dictionary; adds jea muoy
+y,ដោយសារ,doy+sa,daoysa,because of,因为,particle,neutral,in dictionary; adds doy sa
+y,ទោះជា,tous+jea,touhjea,even if,即使,particle,neutral,new
+y,ទើបតែ,terb+tae,terptae,just (now),刚刚,particle,neutral,new
+y,មិនដែល,min+del,mendel,never,从来没有,particle,neutral,new
+y,ធ្លាប់,thloab,thleap,used to / ever,曾经,particle,neutral,in dictionary; adds thloab
+y,ជានិច្ច,jea+nich,jeanich,always,总是,particle,neutral,new
+y,ម្ដងម្កាល,mdong+mkal,mdongmkeal,sometimes,有时候,particle,neutral,new
+y,ញឹកញាប់,nhek+nhoab,nherknheap,often,经常,particle,neutral,new
+y,ល្អ,laor,l,good,好,describe,neutral,in dictionary; adds laor
+y,ល្អណាស់,laor+nas,loarnas,very good,很好,describe,neutral,new
+y,អន់,on,on,weak / poor quality,差,describe,casual,in dictionary; adds on
+y,ខ្ពស់,khpos,khpos,tall / high,高,describe,neutral,in dictionary; adds khpos
+y,ខ្លី,khley,klei,short,短,describe,neutral,in dictionary; adds khley
+y,ធាត់,thoat,theat,fat,胖,describe,casual,new
+y,ស្គម,skom,skom,thin,瘦,describe,neutral,new
+y,ថ្មី,thmey,tmey,new,新,describe,neutral,in dictionary; adds thmey
+y,ស្អាតបាត,saat+bat,sartbad,clean and tidy,干净,describe,neutral,new
+y,កខ្វក់,kokhvok,korkhvok,dirty,脏,describe,neutral,new
+y,ត្រជាក់,trojeak,trojeak,cold,冷,describe,neutral,in dictionary; adds trojeak
+y,ថ្លៃ,thlai,tlai,expensive,贵,describe,neutral,in dictionary; adds thlai
+y,គួរឱ្យស្រឡាញ់,kuor+oy+srolanh,kuoraosrolanh,lovely / cute,可爱,describe,neutral,new
+y,គួរឱ្យខ្លាច,kuor+oy+klach,kuoraokhlach,scary,可怕,describe,neutral,new
+y,គួរឱ្យអាណិត,kuor+oy+anet,kuoraoahnit,pitiful,可怜,describe,neutral,new
+y,គួរឱ្យសើច,kuor+oy+serch,kuoraoserch,funny,好笑,describe,neutral,new
+y,ឆ្លាត,chlat,chlat,smart,聪明,describe,neutral,new
+y,ពូកែ,puke,pukae,skilled / good at,厉害,describe,neutral,in dictionary; adds puke
+y,ខ្ជិលច្រអូស,kjel+jro'os,khjiljroos,very lazy,懒惰,describe,casual,new
+y,ស្មោះ,smoh,smaoh,sincere,真诚,describe,neutral,new
+y,ចិត្តអាក្រក់,jet+akrok,jitakk,mean / wicked,心坏,describe,neutral,new
+y,ចិត្តត្រជាក់,jet+trojeak,jittrojek,cold-hearted,冷漠,describe,neutral,new
+y,ក្លាហាន,klahan,klahan,brave,勇敢,describe,neutral,new
+y,ខ្មាសគេ,khmas+ke,khmaske,shy,害羞,describe,casual,new
+y,ស្ងប់,sngob,sngop,calm,平静,describe,neutral,new
+y,ច្របូកច្របល់,jrobok+jrobol,jrobokjropl,confused / messy,混乱,describe,neutral,new
+y,ពិសេស,piseh,pises,special,特别,describe,neutral,new
+y,សំខាន់,somkhan,somkhan,important,重要,describe,neutral,new
+y,ធម្មតា,thoammoda,thommota,normal,普通,describe,neutral,in dictionary; adds thoammoda
+y,ចម្លែក,jomlaek,jomleak,strange,奇怪,describe,neutral,new
+y,ក្លែងក្លាយ,klaeng+klay,klaengklay,fake,假,describe,neutral,new
+y,ឥតប្រយោជន៍,et+prayoch,etbroyouchn,useless,没用,describe,neutral,new
+y,គ្រោះថ្នាក់ណាស់,kroh+thnak+nas,krouhthnaknas,very dangerous,很危险,describe,neutral,new
+y,សុវត្ថិភាព,sovathephiep,sovtthipheap,safe / safety,安全,describe,neutral,new
+y,រំភើបចិត្ត,rumpherb+jet,rumpherpjit,touched / moved,感动,reaction,neutral,new
+y,អស់កម្លាំង,os+kamlang,orskomlang,exhausted,累,reaction,neutral,new
+y,ឈឺក្បាល,chheu+kbal,chuekbal,headache / annoying,头疼,reaction,casual,new
+y,ធុញទ្រាន់,thunh+troan,thunhtrean,fed up,厌烦,reaction,neutral,new
+y,ខ្លាចណាស់,klach+nas,klachnas,so scared,好怕,reaction,neutral,new
+y,អៀន,ien,ean,embarrassed,不好意思,reaction,casual,new
+y,ស្ទាក់ស្ទើរ,stak+ster,stakster,hesitant,犹豫,reaction,neutral,new
+y,ជ្រួលច្រាល់,jruol+jral,jruoljral,panicked / flustered,慌张,reaction,neutral,new
+y,ស្រងេះស្រងោច,srongeh+srongaoch,srongehsrongouch,lonely / gloomy,凄凉,reaction,neutral,new
+y,ខកបំណង,khok+bomnong,khorkbomnng,let down,失望,reaction,neutral,new
+y,រីករាយ,rik+reay,reykreay,happy / pleased,快乐,reaction,neutral,in dictionary; adds rik reay
+y,ក្ដីស្រឡាញ់,kdey+srolanh,kdeisl,love (noun),爱,romance,neutral,new
+y,ចិត្តស្រឡាញ់,jet+srolanh,jitsl,feelings for someone,喜欢的心,romance,neutral,new
+y,សារភាព,sarapheap,sapheap,confess,告白 / 坦白,romance,neutral,new
+y,សារភាពស្នេហ៍,sarapheap+sne,sapheapsne,confess love,表白,romance,neutral,new
+y,ដណ្ដឹង,dondeng,donderng,propose (marriage),求婚,romance,neutral,new
+y,ស្រលាញ់ខ្លាំង,srolanh+khlang,sroleanhkhlamng,love deeply,深爱,romance,neutral,new
+y,ចិញ្ចៀន,jenhjien,jinhjean,ring,戒指,romance,neutral,new
+y,ផ្កាកុលាប,pka+kolab,pkakolab,rose,玫瑰,romance,neutral,new
+y,កាដូ,kado,kado,gift,礼物,romance,neutral,new
+y,ខួបកំណើត,khuob+komnert,khuopkomnert,birthday,生日,romance,neutral,new
+y,ថ្ងៃខួប,thngai+khuob,tgnaikhuop,anniversary,纪念日,romance,neutral,new
+y,ក្មេងខូច,kmeng+khoch,kmengkhoch,bad boy / brat,坏孩子,insult,casual,new
+y,ស្រីឆ្កួត,srey+chkuot,sreychkut,crazy woman,疯女人,insult,rude,new
+y,ប្រុសឆ្កួត,pros+chkuot,broschkut,crazy man,疯男人,insult,rude,new
+y,មនុស្សអាក្រក់,monus+akrok,mnusakk,bad person,坏人,insult,neutral,new
+y,មនុស្សល្អ,monus+laor,mnusloar,good person,好人,describe,neutral,new
+y,ក្មេងៗ,kmeng+kmeng,kmeng,kids,孩子们,family,neutral,new
+y,ទារក,tearok,tearok,baby,婴儿,family,neutral,new
+y,កូនតូច,kon+toch,kontoch,little child,小孩,family,neutral,new
+y,ប្ដីប្រពន្ធ,pdey+propon,pdeippun,husband and wife,夫妻,family,neutral,new
+y,បងប្អូន,bong+paoun,bongp'o,siblings,兄弟姐妹,family,neutral,new
+y,សាច់ញាតិ,sach+nheat,sachnheat,relatives,亲戚,family,neutral,new
+y,អ្នកជិតខាង,nek+jit+khang,nekjitkhang,neighbor,邻居,family,neutral,new
+y,មិត្តភក្ដិ,mit+pheak,mittopkdi,friend,朋友,family,neutral,new
+y,មិត្តល្អ,mit+laor,mitloar,good friend,好朋友,family,neutral,new
+y,សត្រូវចាស់,satrov+jas,sortrovjas,old enemy,宿敌,action,neutral,new
+y,ទូរស័ព្ទដៃ,turosap+dai,tusabdai,mobile phone,手机,modern,neutral,new
+y,រូបថត,rub+thot,ruptt,photo,照片,modern,neutral,new
+y,ហ្វេសប៊ុក,facebook,hvesbok,Facebook,脸书,modern,casual,new
+y,តេឡេក្រាម,telegram,telekram,Telegram,电报,modern,casual,new
+y,លេខទូរស័ព្ទ,lek+turosap,lektusab,phone number,电话号码,modern,neutral,new
+y,ម៉ោង,maong,moung,hour / o'clock,点 / 小时,time,neutral,in dictionary; adds maong
+y,វិនាទី,vineati,vineati,second,秒,time,neutral,new
+y,ព្រឹក,pruk,prerk,morning,早上,time,neutral,in dictionary; adds pruk
+y,ថ្ងៃត្រង់,thngai+trong,tgnaitrong,noon,中午,time,neutral,new
+y,ល្ងាច,lngeach,lngeach,evening,晚上,time,neutral,in dictionary; adds lngeach
+y,ថ្ងៃស្អែក,thngai+saek,tgnaisaek,tomorrow,明天,time,neutral,in dictionary; adds thngai saek
+y,ឆ្នាំ,chhnam,chnam,year,年,time,neutral,in dictionary; adds chhnam
+y,រហូតដល់,rohot+dol,rohotdol,until,直到,time,neutral,new
+y,មុននេះ,mun+nis,munnis,before this / earlier,之前,time,neutral,new
+y,ក្រោយមក,kroy+mok,kroymk,later / afterwards,后来,time,neutral,new
+y,ភ្លាម,plam,phleam,at once,立刻,time,neutral,in dictionary; adds plam
