@@ -43,7 +43,7 @@ def test_merge_keeps_only_approved_rows_and_notes_the_meaning(tmp_path, monkeypa
     review_words.merge_reviewed(sheet, dry_run=False)
     rows = {r["khmer"]: r for r in csv.DictReader(vocab.open(encoding="utf-8"))}
     assert rows["កុំទៅ"]["romanizations"] == "kom+tov, komtov"
-    assert rows["កុំទៅ"]["notes"] == "don't go / 别走 (dialogue, neutral; movie words, reviewed)"
+    assert rows["កុំទៅ"]["notes"] == "don't go / 别走 (dialogue, neutral; reviewed)"
     assert "ខុស" not in rows                                   # keep = n
     assert rows["បង"]["romanizations"] == "bong, b, bg"         # existing word gains a spelling
     assert rows["បង"]["notes"] == "keep me"                    # and is otherwise untouched

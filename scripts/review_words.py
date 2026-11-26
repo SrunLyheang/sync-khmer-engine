@@ -151,7 +151,7 @@ def merge_reviewed(path: Path, dry_run: bool) -> None:
             continue
         meaning = " / ".join(x for x in (r.get("english"), r.get("chinese")) if x)
         tag = ", ".join(x for x in (r.get("category"), r.get("register")) if x)
-        notes[r["khmer"]] = f"{meaning} ({tag}; movie words, reviewed)".strip()
+        notes[r["khmer"]] = f"{meaning} ({tag}; reviewed)".strip()
         for spelling in parse_romanizations(r.get("spellings", "")):
             pairs.append((spelling, r["khmer"]))
     original = DEFAULT_VOCAB_PATH.read_text(encoding="utf-8")
