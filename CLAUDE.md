@@ -162,6 +162,33 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**Khmer-only words + pick-to-teach — 2026-11-26 (second half).** The developer wants to add
+Khmer words WITHOUT spellings and have the keyboard guess them and learn over time.
+- `data/wordlist_general.csv` (3,831 words, Khmer only): top 5,000 of SEALang frequency list
+  (sbbic/khmerlbdict seafreq.txt) kept if a Chuon Nath headword (SPICE repo, LGPL 2.1) or in the
+  SPICE repo's SBBIC list (modern words: កម្ពុជា), minus bare-consonant fragments (សម, រប), plus
+  review-sheet words. `Engine(general=...)` loads it; those words get GENERATED spellings only,
+  so they always rank below curated words. Romanizer learns only from curated words.
+  License: fine for personal use; check SEALang terms before any public/commercial release.
+- **Learned edits** (`Romanizer._learn_edits`): aligns the romanizer's guess with each real
+  spelling (difflib), counts context-1 edits (`ot$->ud$`, `^br->^pr`), applies those seen >=2x
+  to guesses. Generated spellings per word 6 -> 12. Context 0 and min-count 1 were tried: worse.
+- **English rule (decoder, mirrored in Engine.swift):** a token on the English list converts
+  only if a REAL (non-generated) spelling covers it. Found because `ok` started converting
+  to អគ្គ once general words added guessed `ok` keys.
+- **Pick-to-teach (Mac, `Composer.guessOptions`, `PickToTeachTests`):** nothing matches ->
+  candidates are [Latin, loose guesses marked "?"]; space keeps Latin, number takes a guess;
+  taking a guess or a generated-only word calls `onTeach` -> `UserStore.addWords`.
+- **Measurement:** `scripts/measure_guessing.py --english en_50k.txt` (FrequencyWords, not in
+  repo). Hide 1/5 of curated spellings x5 folds. Baseline -> now: guess top3 44.3% -> 54.2%
+  (decode); with pick-to-teach ~65% (1-fold); English not-protected words left alone 90.0% ->
+  89.8%; known spellings first 92.7% -> 92.5%. Use this script before keeping any guessing change.
+- `scripts/check_khmer_spelling.py` -> `data/review/spelling_check.csv`: 59 curated words not in
+  Chuon Nath/SBBIC; several real typos (ប្រេី/ភ្លេី typed េ+ី instead of ើ, subscript ត vs ដ,
+  corrupted ្ន្លកន្លាត). NOT fixed — waiting on the developer.
+- `data/review/movie_words_top100.*` (`review_words.py top`): the 100 most-used review words;
+  developer reviews these spellings, the rest stay Khmer-only guesses.
+
 **Adding words + movie-translation vocabulary — 2026-11-26.** The developer uses the keyboard to
 type Khmer for **movie/drama translation (from English and Chinese)**: genres modern romance/CEO,
 action/crime/thriller, fantasy/xianxia (NOT historical/palace); dialogue register is mixed
@@ -183,7 +210,8 @@ action/crime/thriller, fantasy/xianxia (NOT historical/palace); dialogue registe
   flow for future word batches (never merge unreviewed AI spellings).
 - Seen while testing (still wrong until the list is merged): `tuk jet` -> ទុក្ខចិត្ត (want
   ទុកចិត្ត), `knhom srolanh nek` -> garbled.
-- Dictionary is **1,244 words** (the "474 words" line further down is history).
+- Dictionary is **1,244 curated words** + 3,831 Khmer-only (the "474 words" line further down
+  is history).
 
 **macOS input method — WRITTEN, NOT YET BUILT ON A MAC (`macos/SingKhmer/`, setup in
 `docs/MAC_KEYBOARD.md`).** The developer asked for an installable keyboard on their own Mac

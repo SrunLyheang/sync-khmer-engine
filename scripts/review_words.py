@@ -13,6 +13,12 @@ Step 1 — build the sheet you review:
   Columns for reference only: engine_guess (what the romanizer predicts), english, chinese,
   category, register, status (new / adds spellings / already covered).
 
+Optional — a short sheet of the words that matter most:
+    PYTHONPATH=src python scripts/review_words.py top data/review/movie_words.csv SEAFREQ
+  writes movie_words_top100.csv/.xlsx: the 100 rows used most in general Khmer (frequency
+  list rank), then dialogue and pronouns first. Review these spellings carefully; the rest
+  can stay Khmer-only guesses (data/wordlist_general.csv) and be taught while typing.
+
 Step 2 — merge your reviewed sheet into data/vocabulary.csv:
     PYTHONPATH=src python scripts/review_words.py merge data/review/movie_words.xlsx
   (or the .csv). Add --dry-run to preview. Existing words only gain spellings; nothing is
@@ -159,6 +165,38 @@ def merge_reviewed(path: Path, dry_run: bool) -> None:
     print(f"\n{len(summary)} change(s) written. Review with: git diff data/vocabulary.csv")
 
 
+# Kinds of words a translator types most in dialogue, for ranking words the frequency
+# list does not rank (it is built from written text, not speech).
+_CATEGORY_ORDER = ["pronoun", "dialogue", "emotion", "romance", "family", "verb", "insult",
+                   "time", "crime", "action", "office", "hospital", "fantasy", "modern",
+                   "place", "school", "meta"]
+
+
+def top(sheet: Path, seafreq: Path, count: int) -> None:
+    rank: dict[str, int] = {}
+    for i, line in enumerate(seafreq.read_text(encoding="utf-8").splitlines()):
+        word = line.split("\t")[0].strip()
+        rank.setdefault(word, i)
+    rows = read_reviewed(sheet)
+
+    def key(r: dict) -> tuple:
+        cat = r.get("category", "")
+        order = _CATEGORY_ORDER.index(cat) if cat in _CATEGORY_ORDER else len(_CATEGORY_ORDER)
+        return (rank.get(r["khmer"], 10**9), order)
+
+    chosen = sorted(rows, key=key)[:count]
+    stem = sheet.with_suffix("")
+    out_csv = stem.with_name(f"{stem.name}_top{count}.csv")
+    with out_csv.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=COLUMNS, lineterminator="\n")
+        w.writeheader()
+        w.writerows({c: r.get(c, "") for c in COLUMNS} for r in chosen)
+    _write_xlsx(out_csv.with_suffix(".xlsx"), [{c: r.get(c, "") for c in COLUMNS} for r in chosen])
+    ranked = sum(r["khmer"] in rank for r in chosen)
+    print(f"{len(chosen)} rows ({ranked} ranked by the frequency list, the rest by category) "
+          f"-> {out_csv} and .xlsx")
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -167,9 +205,15 @@ def main() -> None:
     m = sub.add_parser("merge", help="merge a reviewed .xlsx/.csv into vocabulary.csv")
     m.add_argument("sheet", type=Path)
     m.add_argument("--dry-run", action="store_true")
+    t = sub.add_parser("top", help="the most-used rows of a sheet, to review first")
+    t.add_argument("sheet", type=Path)
+    t.add_argument("seafreq", type=Path)
+    t.add_argument("--count", type=int, default=100)
     a = p.parse_args()
     if a.cmd == "build":
         build(a.source)
+    elif a.cmd == "top":
+        top(a.sheet, a.seafreq, a.count)
     else:
         merge_reviewed(a.sheet, a.dry_run)
 

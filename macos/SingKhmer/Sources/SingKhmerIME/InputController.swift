@@ -13,6 +13,9 @@ final class SingKhmerInputController: IMKInputController {
         guard let engine = Shared.store.engine else { return nil }
         let composer = Composer(engine: engine, history: Shared.store.history)
         composer.onMiss = { Shared.store.recordMiss($0) }
+        composer.onTeach = { latin, khmer in
+            _ = try? Shared.store.addWords([UserWord(latin: latin, khmer: khmer)])
+        }
         return composer
     }()
     /// Which version of the store's engine the composer is using.
@@ -105,7 +108,9 @@ final class SingKhmerInputController: IMKInputController {
     private func showCandidates(_ composer: Composer, _ client: IMKTextInput) {
         var rect = NSRect.zero
         _ = client.attributes(forCharacterIndex: 0, lineHeightRectangle: &rect)
-        Shared.panel.show(composer.candidates.map { $0.text }, selected: composer.selected, near: rect)
+        // A trailing "?" marks a pick-to-teach guess: taking it saves the spelling.
+        let labels = composer.candidates.map { $0.isGuess ? $0.text + "?" : $0.text }
+        Shared.panel.show(labels, selected: composer.selected, near: rect)
     }
 
     private static func key(for event: NSEvent) -> Composer.Key {

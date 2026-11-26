@@ -153,6 +153,18 @@ Return. The word works on the very next thing you type. The window:
 
 It writes ordinary lines to `my_words.txt`, so everything below still applies.
 
+**Pick-to-teach (learns while you type).** The keyboard also knows ~3,800 Khmer words
+that have no spelling yet (`data/wordlist_general.csv`, from a frequency list, spellings
+checked against the Chuon Nath dictionary). It guesses their spellings, so:
+- if your spelling matches a guess, the word just appears; taking it (space or its number)
+  saves your spelling, so from then on it comes first like a word you added yourself;
+- if nothing matches at all, the row still starts with your Latin, followed by the closest
+  guesses marked with **?** (`kreykror  ក្រីក្រ?  ...`). **Space keeps the Latin** (so an
+  English word is never changed behind your back); press a guess's **number** to take it,
+  and it is saved to `my_words.txt` the same way.
+English words never get guesses, and a guessed spelling never turns an English word into
+Khmer. A typo matched to a word you already have is not saved.
+
 **Your own words.** Menu: **Edit My Words...** opens `my_words.txt`. Add one word per
 line, the spelling and then the Khmer:
 

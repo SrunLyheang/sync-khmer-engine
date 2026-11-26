@@ -283,8 +283,11 @@ public final class Engine {
                 continue                              // a spelling crosses this token's edge
             }
             let inside = spans.filter { ts <= $0.start && $0.end <= te }
+            // Only a real (collected or user) spelling counts against English: a guessed
+            // spelling never turns English into Khmer. Mirrors lookup.py.
             let strong = inside.count == 1 && inside[0].key != nil
                 && inside[0].start == ts && inside[0].end == te
+                && (index[inside[0].key!] ?? []).contains { $0.source != "generated" }
             if isEnglish(Array(lower[ts..<te])) && !strong {
                 forced.append((ts, te))
                 continue

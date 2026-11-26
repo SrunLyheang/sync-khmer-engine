@@ -17,6 +17,9 @@ from pathlib import Path
 
 # Default location of the curated vocabulary file, relative to the repo root.
 DEFAULT_VOCAB_PATH = Path(__file__).resolve().parents[2] / "data" / "vocabulary.csv"
+# Khmer words with no spelling yet (scripts/build_general_wordlist.py). The engine guesses
+# their spellings and always ranks them below the curated vocabulary.
+DEFAULT_GENERAL_PATH = Path(__file__).resolve().parents[2] / "data" / "wordlist_general.csv"
 
 REQUIRED_COLUMNS = ("khmer", "frequency", "is_slang")
 _TRUE_VALUES = {"true", "1", "yes", "y"}
@@ -138,4 +141,31 @@ def load(path: str | Path = DEFAULT_VOCAB_PATH) -> list[VocabEntry]:
                     notes=(row.get("notes") or "").strip(),
                 )
             )
+    return entries
+
+
+def load_general(
+    path: str | Path = DEFAULT_GENERAL_PATH, *, exclude: set[str] | frozenset[str] = frozenset()
+) -> list[VocabEntry]:
+    """Khmer-only words (columns ``khmer, frequency``), as entries with no spellings.
+
+    A missing file means "no general words" (the curated vocabulary still works alone).
+    Words in ``exclude`` (normally the curated vocabulary) and duplicates are skipped.
+    """
+    path = Path(path)
+    if not path.exists():
+        return []
+    entries: list[VocabEntry] = []
+    seen = set(exclude)
+    with path.open(encoding="utf-8", newline="") as handle:
+        for row_num, row in enumerate(csv.DictReader(handle), start=2):
+            khmer = (row.get("khmer") or "").strip()
+            if not khmer or khmer in seen:
+                continue
+            seen.add(khmer)
+            entries.append(VocabEntry(
+                khmer=khmer,
+                frequency=_parse_frequency(row.get("frequency") or "1", row_num=row_num),
+                is_slang=False,
+            ))
     return entries

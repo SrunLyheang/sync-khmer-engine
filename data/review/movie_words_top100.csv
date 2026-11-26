@@ -1,0 +1,101 @@
+keep,khmer,spellings,engine_guess,english,chinese,category,register,status
+y,គាត់,"kort, kat",keat,he / she (respectful),他 / 她,pronoun,polite,in dictionary; adds kat
+y,ព្រោះ,prous,prus,because,因为,dialogue,neutral,in dictionary; adds prous
+y,ប៉ុន្តែ,"pontae, ponte",bontea,but,但是,dialogue,neutral,"in dictionary; adds pontae, ponte"
+y,ចិត្ត,jet,jit,heart / mind,心,emotion,neutral,in dictionary; adds jet
+y,ប្រធាន,"protean, prothean",brothean,president / boss,总裁 / 总,office,neutral,new
+y,ប្រាប់,prab,brap,tell,告诉,verb,neutral,in dictionary; adds prab
+y,ប្រាក់,prak,brak,money (formal),钱,modern,neutral,in dictionary; adds prak
+y,ដូច្នេះ,doch+neh,dojneh,therefore / so,所以,dialogue,neutral,in dictionary; adds doch neh
+y,ឯកសារ,ekasa,aeksa,document / file,文件,office,neutral,new
+y,គ្រួសារ,"krousa, kruosa",kruosa,family,家庭 / 家人,family,neutral,"in dictionary; adds krousa, kruosa"
+y,តុលាការ,tolaka,tolaka,court,法院,crime,neutral,new
+y,ពិភពលោក,piphop+lok,pipplouk,world,世界,fantasy,neutral,in dictionary; adds piphop lok
+y,ប៉ូលិស,"polis, police",bolis,police,警察,crime,neutral,in dictionary; adds polis
+y,សួរ,suo,suo,ask,问,verb,neutral,in dictionary; adds suo
+y,ក្រុមហ៊ុន,"krom+hun, kromhun",kromhon,company,公司,office,neutral,in dictionary; adds krom hun
+y,វាយ,veay,veay,hit / beat,打,action,neutral,new
+y,រស់,ros,ros,alive / live,活,crime,neutral,in dictionary; adds ros
+y,ការពារ,kapea,karpea,protect,保护,action,neutral,in dictionary; adds kapea
+y,ពុករលួយ,puk+roluoy,pukrluoy,corrupt,腐败,crime,neutral,new
+y,ភាគ,pheak,pheak,episode,集,meta,neutral,new
+y,ទាហាន,teahean,teahan,soldier,士兵,action,neutral,in dictionary; adds teahean
+y,កម្លាំង,kamlang,kormloamng,strength,力量,fantasy,neutral,in dictionary; adds kamlang
+y,គ្រប់គ្រង,krob+krong,krobkrong,manage / control,管理 / 控制,verb,neutral,new
+y,ឆ្លើយ,"chlery, chlaoy",chlery,answer,回答,verb,neutral,in dictionary; adds chlaoy
+y,ចៅ,jao,jov,grandchild,孙子,family,neutral,new
+y,រថយន្ត,rotha+yon,rotyn,car (formal),汽车,modern,neutral,new
+y,បរទេស,bortes,bortes,abroad / foreign,国外,place,neutral,new
+y,គម្រោង,kumroung,komroung,project / plan,项目 / 计划,office,neutral,new
+y,ឪពុក,"ovpuk, ov+puk",ovpuk,father,父亲 / 爸爸,family,neutral,in dictionary; adds ov puk
+y,ទូរស័ព្ទ,turosap,tursp,phone,电话 / 手机,modern,neutral,in dictionary; adds turosap
+y,ឈប់,"chhob, chob",chop,stop,住手 / 停,dialogue,neutral,in dictionary; adds chhob
+y,ជំងឺ,jomngeu,jumngeu,disease / illness,病,hospital,neutral,in dictionary; adds jomngeu
+y,លួច,luoch,luoch,steal,偷,crime,neutral,new
+y,របួស,robuos,robuos,wound / injured,受伤,hospital,neutral,new
+y,សង្ឃឹម,sangkhem,sorngkherm,hope,希望,emotion,neutral,in dictionary; adds sangkhem
+y,បញ្ចប់,bonhjob,bonhjop,ending / finish,结局 / 结束,meta,neutral,in dictionary; adds bonhjob
+y,ប្រឡង,prolong,brolng,exam,考试,school,neutral,new
+y,ក្រីក្រ,krey+kro,kreyk,poor,贫穷,office,neutral,in dictionary; adds krey kro
+y,អញ្ចឹង,"anhjeng, anhjg",onhjerng,so / then,那么 / 这样,dialogue,casual,new
+y,ជឿ,jeu,jer,believe,相信,emotion,neutral,in dictionary; adds jeu
+y,នឹក,nek,nerk,miss (someone),想念,emotion,neutral,new
+y,ជ្រើសរើស,jrers+rers,jrersrers,choose,选择,verb,neutral,new
+y,ឈ្នះ,"chhneah, chneah",ch,win,赢,verb,neutral,new
+y,នគរបាល,nokorbal,nokrbal,police (formal),警察,crime,polite,new
+y,លោកស្រី,lok+srey,loksrey,madam / Mrs,夫人 / 太太,pronoun,polite,new
+y,ចោរ,jor,jao,thief,小偷 / 贼,crime,neutral,new
+y,បំផ្លាញ,bomphlanh,bomphlanh,destroy,毁掉,verb,neutral,new
+y,សង្ស័យ,sangsay,sorngsy,suspect / suspicious,怀疑,crime,neutral,new
+y,ស្រែក,srek,sraek,shout / scream,喊 / 尖叫,emotion,neutral,in dictionary; adds srek
+y,គ្រោះថ្នាក់,kroh+thnak,krouhthnak,accident / danger,事故 / 危险,action,neutral,new
+y,ឈាម,chheam,cheam,blood,血,hospital,neutral,new
+y,បុគ្គលិក,bokkolik,bokkolik,employee / staff,员工,office,neutral,new
+y,សន្យា,sonya,sornyea,promise,答应 / 承诺,dialogue,neutral,in dictionary; adds sonya
+y,ថ្នាំ,thnam,tnam,medicine,药,hospital,neutral,in dictionary; adds thnam
+y,បារម្ភ,baram,barm,worry,担心,emotion,neutral,in dictionary; adds baram
+y,ហត្ថលេខា,hatha+lekha,hottholekha,signature,签名,office,neutral,new
+y,គំរាម,kumream,kumream,threaten,威胁,crime,neutral,new
+y,អនាគត,anakut,oneakt,future,未来,time,neutral,in dictionary; adds anakut
+y,ប្រយុទ្ធ,proyut,broyut,fight / battle,战斗,action,neutral,new
+y,យាយ,yeay,yeay,grandma,奶奶,family,casual,in dictionary; adds yeay
+y,ផែនការ,phaenka,phaenka,plan,计划,action,neutral,new
+y,ស្វែងរក,sveng+rok,svengrok,search / look for,寻找,verb,neutral,new
+y,ការពិត,ka+pit,kapit,the truth,真相,crime,neutral,new
+y,បដិសេធ,bodeseth,bodiset,refuse / reject,拒绝,dialogue,neutral,new
+y,ផ្ទុះ,ptuh,phtoh,explode,爆炸,action,neutral,new
+y,ទំនាក់ទំនង,tumneak+tumnong,tumneaktumnng,relationship / contact,关系,romance,neutral,new
+y,អាជីវកម្ម,ajivakam,ahjeyvkm,business,生意 / 商业,office,neutral,in dictionary; adds ajivakam
+y,សណ្ឋាគារ,sonthakea,sornthakea,hotel,酒店,place,neutral,new
+y,យន្តហោះ,yon+hos,yunhors,airplane,飞机,modern,neutral,new
+y,ចៅក្រម,jao+krom,jovkrorm,judge,法官,crime,neutral,new
+y,ខ្មោច,khmoch,khmaoch,ghost,鬼,fantasy,neutral,in dictionary; adds khmoch
+y,គុក,kuk,kuk,prison / jail,监狱,crime,neutral,new
+y,ឈឺចាប់,"chheu+jab, chu+jab",chuejap,pain / hurt,痛 / 心痛,emotion,neutral,new
+y,ភស្តុតាង,phosotang,phostotang,evidence,证据,crime,neutral,new
+y,អាណិត,anet,ahnit,pity / feel sorry for,可怜 / 心疼,emotion,neutral,new
+y,ជនរងគ្រោះ,jun+rong+kroh,jonrngkrouh,victim,受害者,crime,neutral,new
+y,លោកគ្រូ,lok+kru,lokkru,master / teacher (address),师父 / 老师,pronoun,polite,new
+y,ទ្រាំ,troam,troam,endure / hold back,忍,emotion,neutral,new
+y,ភរិយា,"phoriya, pheakriya",phoriyea,wife (formal),妻子,romance,polite,new
+y,មេធាវី,methavi,metheavey,lawyer,律师,crime,neutral,new
+y,តាមដាន,tam+dan,tamdan,follow / track,跟踪,action,neutral,new
+y,ញញឹម,nhonhem,nhonherm,smile,微笑,emotion,neutral,in dictionary; adds nhonhem
+y,ស្វាគមន៍,svakom,svakmn,welcome,欢迎,dialogue,polite,new
+y,ប្រញាប់,pronhab,bronheap,hurry,赶快,dialogue,neutral,new
+y,ទេវតា,tevoda,tevta,deity / angel,神仙 / 天使,fantasy,neutral,in dictionary; adds tevoda
+y,ប្រយ័ត្ន,proyat,broyt,be careful / watch out,小心,dialogue,neutral,in dictionary; adds proyat
+y,សេដ្ឋី,setthey,sedthey,tycoon / millionaire,富豪,office,neutral,in dictionary; adds setthey
+y,សង្គ្រោះ,sangkroh,sorngkrouh,save / rescue,救,action,neutral,in dictionary; adds sangkroh
+y,សត្រូវ,satrov,sortrov,enemy,敌人,action,neutral,new
+y,សាលារៀន,sala+rien,salarean,school,学校,school,neutral,new
+y,បោះបង់,boh+bong,borsbong,give up,放弃,verb,neutral,new
+y,អ្នកមាន,nek+mean,nekmean,rich person,有钱人,office,neutral,new
+y,ស្វាមី,svamey,svamii,husband (formal),丈夫,romance,polite,in dictionary; adds svamey
+y,ចៅហ្វាយ,"jaohvay, jav+hvay",jovhvay,boss,老板,office,neutral,new
+y,ផ្លាស់ប្ដូរ,plas+pdo,plaspdo,change,改变,verb,neutral,new
+y,ភាពយន្ត,pheap+yon,pheapyun,movie,电影,meta,neutral,new
+y,បកប្រែ,bok+prae,bokbrae,translate,翻译,meta,neutral,new
+y,មន្ទីរពេទ្យ,"montipet, monti+pet",monteyrpet,hospital,医院,hospital,neutral,in dictionary; adds montipet
+y,បេះដូង,"beh+dong, behdong",behdong,heart (organ / love),心脏 / 心,emotion,neutral,"in dictionary; adds beh dong, behdong"
+y,យល់ព្រម,yol+prom,yolprom,agree,同意,dialogue,neutral,new

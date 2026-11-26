@@ -19,7 +19,7 @@ from .english import is_english, load_english
 from .fuzzy import levenshtein, within
 from .reverse_index import Candidate, build_index
 from .romanizer import Romanizer
-from .vocabulary import VocabEntry, load
+from .vocabulary import load_general, VocabEntry, load
 
 # Splits a whitespace token into (leading punctuation, core spelling, trailing punctuation).
 _TOKEN_RE = re.compile(r"^(\W*)(.*?)(\W*)$")
@@ -90,18 +90,27 @@ class Engine:
         *,
         use_generated: bool = True,
         use_english: bool = True,
+        general: list[VocabEntry] | None = None,
     ) -> None:
         self.vocab = vocab if vocab is not None else load()
+        # Khmer-only words (data/wordlist_general.csv): reachable only through guessed
+        # spellings, and always below the curated words. Pass [] to leave them out.
+        self.general = (
+            general if general is not None
+            else load_general(exclude={e.khmer for e in self.vocab})
+        )
         # The romanizer generates plausible spelling variants so a reasonable spelling
         # nobody has typed yet still matches (coverage for the "everyone spells it
-        # differently" reality). Variants are scored below collected spellings.
+        # differently" reality). Variants are scored below collected spellings. It learns
+        # only from the curated vocabulary: the general words have no spellings to teach.
         self.romanizer = Romanizer(self.vocab)
         self.index = build_index(
-            self.vocab, self.romanizer.variants if use_generated else None
+            self.vocab + self.general if use_generated else self.vocab,
+            self.romanizer.variants if use_generated else None,
         )
         self._max_key_len = max((len(k) for k in self.index), default=1)
         # Known Khmer words, used to spot a reduplication (W+W -> W ៗ).
-        self._khmer_words = {entry.khmer for entry in self.vocab}
+        self._khmer_words = {entry.khmer for entry in self.vocab + self.general}
         # Common English words, for code-switching (pass English through, not Khmer).
         self._english = load_english() if use_english else frozenset()
 
@@ -237,7 +246,12 @@ class Engine:
             if any(j < te and i > ts and (j < ts or i > te) for j, i, key in spans):
                 continue                                  # a spelling crosses this token's edge
             inside = [(j, i, key) for j, i, key in spans if ts <= j and i <= te]
-            strong = self._is_strong_match(inside, ts, te)
+            # A strong match only counts against English when a real (collected or
+            # user) spelling covers the word: a GUESSED spelling never turns English
+            # into Khmer (`ok` is a guess for អុក, not a reason to convert "ok").
+            strong = self._is_strong_match(inside, ts, te) and any(
+                c.source != "generated" for c in self.index[inside[0][2]]
+            )
             # English that isn't a strong Khmer match -> keep it as English.
             if is_english(lower[ts:te], self._english) and not strong:
                 forced.append((ts, te))
