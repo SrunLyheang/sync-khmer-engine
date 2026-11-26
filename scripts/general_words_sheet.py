@@ -26,6 +26,9 @@ from sing_khmer_engine.romanizer import Romanizer  # noqa: E402
 from sing_khmer_engine.vocabulary import DEFAULT_GENERAL_PATH, load  # noqa: E402
 
 HAND = ROOT / "data" / "review" / "general_spellings.tsv"
+# Researched words whose spellings were already written in a review sheet.
+REVIEW_SHEETS = [ROOT / "data" / "review" / "movie_words.csv",
+                 ROOT / "data" / "review" / "dialogue_words.csv"]
 OUT = ROOT / "data" / "review" / "general_words.csv"
 COLUMNS = ["keep", "khmer", "spellings", "english", "checked_by", "engine_guess", "rank",
            "category", "register", "source"]
@@ -43,9 +46,19 @@ def read_hand(path: Path) -> dict[str, tuple[str, str, str]]:
     return out
 
 
+def read_review_sheets() -> dict[str, tuple[str, str, str]]:
+    out: dict[str, tuple[str, str, str]] = {}
+    for path in REVIEW_SHEETS:
+        if path.exists():
+            with path.open(encoding="utf-8") as f:
+                for r in csv.DictReader(f):
+                    out.setdefault(r["khmer"], (r.get("spellings", ""), r.get("english", ""), ""))
+    return out
+
+
 def main() -> None:
     rom = Romanizer(load())
-    hand = read_hand(HAND)
+    hand = {**read_review_sheets(), **read_hand(HAND)}
     rows = []
     with DEFAULT_GENERAL_PATH.open(encoding="utf-8") as f:
         for rank, r in enumerate(csv.DictReader(f), start=1):

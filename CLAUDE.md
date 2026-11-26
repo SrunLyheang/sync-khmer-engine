@@ -162,6 +162,15 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**Spellings for all Khmer-only words — 2026-11-26 (latest).** The developer asked for Sing Khmer
+spellings on every word of `wordlist_general.csv`, in Excel, to verify. Done for all 3,901:
+`data/review/general_spellings.tsv` (hand-written by Claude: khmer, spellings, English, `drop`
+flag) -> `scripts/general_words_sheet.py` -> `data/review/general_words.xlsx` (+ .csv; xlsx is
+git-ignored, rebuild it). Words from the movie/dialogue review sheets reuse those spellings.
+278 rows pre-set keep=n (fragments like ប្រ, សំ, ន៏ — not standalone words). **Waiting on the
+developer's verification**; then `review_words.py merge data/review/general_words.xlsx` makes
+kept rows curated words. Also added `data/review/dialogue_words*` (260 spoken words batch).
+
 **Khmer-only words + pick-to-teach — 2026-11-26 (second half).** The developer wants to add
 Khmer words WITHOUT spellings and have the keyboard guess them and learn over time.
 - `data/wordlist_general.csv` (3,831 words, Khmer only): top 5,000 of SEALang frequency list

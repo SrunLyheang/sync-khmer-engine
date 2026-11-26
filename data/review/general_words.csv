@@ -599,7 +599,7 @@ y,គុណភាព,kunapheap,quality,claude,"konpheap, konpheab, kornpheap",59
 y,តភ្ជាប់,"to+phjab, tophjab",connect,claude,"tophjeap, tophjeab, torphjeap",598,general,,seafreq+sbbic
 y,ឈឺចាប់,"chheu+jab, chujab",pain / hurt,claude,"chuejap, chuejab, cheujap",599,general,,seafreq+sbbic
 y,ដកស្រង់,dok+srong,quote / extract,claude,"dorksrong, dorksrorng, dorksrung",600,general,,seafreq+sbbic
-y,រហើយ,rohaoy,sloppy / neglectful,claude,"rohery, rohx, rohz",601,general,,seafreq+chuonnath
+y,រហើយ,rohaoy,sloppy / neglectful,claude,"rohery, rohz, rohy",601,general,,seafreq+chuonnath
 y,មរកត,morokot,emerald,claude,"morkt, morkth, morkot",602,general,,seafreq+chuonnath
 n,ដា,,(fragment),claude,"da, dar, dah",603,general,,seafreq+chuonnath
 n,ទ្រ,,(fragment),claude,"t, th, ter",604,general,,seafreq+chuonnath
@@ -2628,7 +2628,7 @@ y,តប់,tob,(name),claude,"top, tob, torp",2626,general,,seafreq+chuonnath
 y,ម៉ុង,mong,(name),claude,"mung, moung, mungkor",2627,general,,seafreq+chuonnath
 y,ខេមរភូមិន្ទ,khemarak+phumin,Khemarak Phoumin (Koh Kong),claude,"khemrphumin, khemrphumen, khaemrphumin",2628,general,,seafreq+sbbic
 n,អត្ថ,,(fragment),claude,"ot, oth, ort",2629,general,,seafreq+chuonnath
-y,ណ្ហើយ,nhaoy,well then (casual),claude,"nhery, nhx, nhz",2630,general,,seafreq+chuonnath
+y,ណ្ហើយ,nhaoy,well then (casual),claude,"nhery, nhz, nhy",2630,general,,seafreq+chuonnath
 y,គ្រឿងទេស,kroeng+tes,spices,claude,"krerngtesor, krerngtehsor, krirngtesor",2631,general,,seafreq+sbbic
 y,ជ្រលក់,jrolok,dip,claude,"jrolk, jrorlk, jrolkror",2632,general,,seafreq+chuonnath
 y,នង្គ័ល,nongkol,plough,claude,"nongkl, norngkl, noungkl",2633,general,,seafreq+chuonnath
@@ -3365,7 +3365,7 @@ n,អភិ,,(fragment),claude,"ophi, orphi, opi",3363,general,,seafreq+chuonnat
 y,ពីព្រលឹម,pi+prolem,at dawn,claude,"piprolerm, piprolerom, piprolem",3364,general,,seafreq+sbbic
 n,ចាល,jal,,claude,"jal, jeal, jial",3365,general,,seafreq+chuonnath
 y,កោស,kos,scrape / shave,claude,"kaos, kaors, kaoh",3366,general,,seafreq+chuonnath
-y,រំភើយ,rumphaoy,gently / breezy,claude,"rumphery, roumphery, rumphx",3367,general,,seafreq+chuonnath
+y,រំភើយ,rumphaoy,gently / breezy,claude,"rumphery, roumphery, rumphz",3367,general,,seafreq+chuonnath
 y,ផ្ទាត់,ptoat,flick,claude,"phtat, phtath, ptat",3368,general,,seafreq+chuonnath
 n,ស្មុគ,smok,,claude,"smok, smork, smor",3369,general,,seafreq+chuonnath
 y,ជិតស្និទ្ធ,jit+snit,close / intimate,claude,"jitsnit, jitsnith, jitsgnit",3370,general,,seafreq+sbbic
@@ -3599,304 +3599,304 @@ y,ចាត់វិធានការ,jat+vitheanka,take measures,claude,"jatvi
 y,ឪឡឹក,ovlek,watermelon,claude,"ovlerk, ovlaerk, ovlerkror",3598,general,,seafreq+chuonnath
 y,សមរភូមិ,samaraphum,battlefield,claude,"sormrphumi, somrphumi, soromrphumi",3599,general,,seafreq+sbbic
 n,សំពោង,sompong,,claude,"sompoung, sormpoung, sumpoung",3600,general,,seafreq+chuonnath
-y,ទៅរួច,"tvrouch, tovrouch",,engine,"tvrouch, tovrouch",3601,general,,seafreq+sbbic
-y,ភ្លន់,"phlon, plon",,engine,"phlon, plon, phlorn",3602,general,,seafreq+sbbic
-y,សង្ខារ,"sorngkhea, songkhea",,engine,"sorngkhea, songkhea, sorngkhear",3603,general,,seafreq+chuonnath
-y,ខន្តី,"khorntey, khontey",,engine,"khorntey, khontey, khorntei",3604,general,,seafreq+chuonnath
-y,ជាតិសាសន៍,"jeatisasn, jeartisasn",,engine,"jeatisasn, jeartisasn, jeatisoasn",3605,general,,seafreq+sbbic
-y,អត់ធ្មត់,"otthmot, otthmoth",,engine,"otthmot, otthmoth, ortthmot",3606,general,,seafreq+sbbic
-y,អយុធ្យា,"oyuthyea, oyuthya",,engine,"oyuthyea, oyuthya, oyuthyear",3607,general,,seafreq+chuonnath
-y,លម្អៀង,"lomeang, lomeng",,engine,"lomeang, lomeng, lormeang",3608,general,,seafreq+chuonnath
-y,និន្ទា,"nintea, nintear",,engine,"nintea, nintear, ninteah",3609,general,,seafreq+chuonnath
-y,ម៉ត់ចត់,"motcht, motchth",,engine,"motcht, motchth, mortcht",3610,general,,seafreq+chuonnath
-y,រាសី,"reasey, reasei",,engine,"reasey, reasei, rasey",3611,general,,seafreq+chuonnath
-y,ដេញដោល,"denhdaol, dernhdaol",,engine,"denhdaol, dernhdaol, denhdol",3612,general,,seafreq+sbbic
-y,មានកម្ម,"meankarm, menkarm",,engine,"meankarm, menkarm, meankarom",3613,general,,seafreq+sbbic
-y,អត់ទេ,"otte, otter",,engine,"otte, otter, ortte",3614,general,,seafreq+sbbic
-y,គណៈរដ្ឋ,"konrt, konrth",,engine,"konrt, konrth, kornrt",3615,general,,seafreq+sbbic
-y,ដុនដាប,"dondap, dondab",,engine,"dondap, dondab, dorndap",3616,general,,seafreq+sbbic
-y,តទល់,"totl, tortl",,engine,"totl, tortl",3617,general,,seafreq+sbbic
-y,រាជានុញ្ញាត,"reajeanunhnheat, reajeanunhnheath",,engine,"reajeanunhnheat, reajeanunhnheath, reajenunhnheat",3618,general,,seafreq+sbbic
-y,ប្រមើល,"bromerl, promerl",,engine,"bromerl, promerl, brormerl",3619,general,,seafreq+chuonnath
-y,ខ្លោងទ្វារ,"khlaongtvea, khlaorngtvea",,engine,"khlaongtvea, khlaorngtvea, klaongtvea",3620,general,,seafreq+chuonnath
-y,គំនាប,"kumneap, kumneab",,engine,"kumneap, kumneab, kumnap",3621,general,,seafreq+chuonnath
-y,ទំនាប,"tumneap, tumneab",,engine,"tumneap, tumneab, tomneap",3622,general,,seafreq+chuonnath
-y,វល្លិ,"volli, vorlli",,engine,"volli, vorlli, volle",3623,general,,seafreq+chuonnath
-y,កោដិ,"kaodi, koudi",,engine,"kaodi, koudi, kaode",3624,general,,seafreq+chuonnath
-y,កាលណោះ,"kalnaoh, kalnouh",,engine,"kalnaoh, kalnouh, kealnaoh",3625,general,,seafreq+sbbic
-y,ចែវ,"jaev, jeav",,engine,"jaev, jeav, jaiv",3626,general,,seafreq+chuonnath
-y,ប្រមឹក,"bromerk, promerk",,engine,"bromerk, promerk, brormerk",3627,general,,seafreq+chuonnath
-y,រលោង,"roloung, rorloung",,engine,"roloung, rorloung, roloungkor",3628,general,,seafreq+chuonnath
-y,មាយា,"meayea, meaya",,engine,"meayea, meaya, meayear",3629,general,,seafreq+chuonnath
-y,វុន,"vun, vunak",,engine,"vun, vunak, von",3630,general,,seafreq+chuonnath
-y,សិរីសោភ័ណ,"sireysaophn, sireysaopn",,engine,"sireysaophn, sireysaopn, sireysaorphn",3631,general,,seafreq+sbbic
-y,ធារា,"thearea, thearear",,engine,"thearea, thearear, theareah",3632,general,,seafreq+sbbic
-y,ពេលថ្ងៃ,"peltgnai, beltgnai",,engine,"peltgnai, beltgnai, peyltgnai",3633,general,,seafreq+sbbic
-y,ថ្ងៃសុក្រ,"tgnaisok, tgnaisork",,engine,"tgnaisok, tgnaisork, tgnaisor",3634,general,,seafreq+sbbic
-y,អ្នកនយោបាយ,"neknoyobay, neknouyobay",,engine,"neknoyobay, neknouyobay, niknoyobay",3635,general,,seafreq+sbbic
-y,ច្រវាក់,"jroveak, jrovek",,engine,"jroveak, jrovek, jrovak",3636,general,,seafreq+chuonnath
-y,បែន,"baen, baern",,engine,"baen, baern, paen",3637,general,,seafreq+chuonnath
-y,លោហិត,"louhit, louhith",,engine,"louhit, louhith, louhiter",3638,general,,seafreq+chuonnath
-y,ក្បួនខ្នាត,"kbuonkhnat, kbuonkhnath",,engine,"kbuonkhnat, kbuonkhnath, kbuornkhnat",3639,general,,seafreq+sbbic
-y,ខាងចុង,"khangjong, khangjorng",,engine,"khangjong, khangjorng, kheangjong",3640,general,,seafreq+sbbic
-y,កន្លែងណា,"kanlengna, kanlengnar",,engine,"kanlengna, kanlengnar, kanlerngna",3641,general,,seafreq+sbbic
-y,មិនជា,"menjea, menjear",,engine,"menjea, menjear, mernjea",3642,general,,seafreq+sbbic
-y,ស្រុកបារាំង,"srokbarormng, srokbaromng",,engine,"srokbarormng, srokbaromng, srokbaroromng",3643,general,,seafreq+sbbic
-y,ក្រេប,"krep, krip",,engine,"krep, krip",3644,general,,seafreq+chuonnath
-y,ស្លូតត្រង់,"slottrong, slottrorng",,engine,"slottrong, slottrorng, slottrung",3645,general,,seafreq+sbbic
-y,ខ័ន,"khn, kn",,engine,"khn, kn, khgn",3646,general,,seafreq+chuonnath
-y,អាយ៉ង,"ahyong, ahyorng",,engine,"ahyong, ahyorng, ahyoung",3647,general,,seafreq+sbbic
-y,បាភ្នំ,"bap, bab",,engine,"bap, bab, pap",3648,general,,seafreq+chuonnath
-y,កើតមានឡើង,"kertmeanlerng, kertmenlerng",,engine,"kertmeanlerng, kertmenlerng, kertmanlerng",3649,general,,seafreq+sbbic
-y,ធ្លក,"thlok, thlork",,engine,"thlok, thlork, thlor",3650,general,,seafreq+chuonnath
-y,បដា,"boda, bodar",,engine,"boda, bodar, bodah",3651,general,,seafreq+chuonnath
-y,ការផ្សាយ,"kaphsay, kapsay",,engine,"kaphsay, kapsay, kaphsoay",3652,general,,seafreq+sbbic
-y,កសិដ្ឋាន,"korsidthan, korsidthean",,engine,"korsidthan, korsidthean, korsidthanak",3653,general,,seafreq+sbbic
-y,ពេលព្រឹក,"pelprerk, belprerk",,engine,"pelprerk, belprerk, peylprerk",3654,general,,seafreq+sbbic
-y,ចង្វាក់,"jongveak, jongvek",,engine,"jongveak, jongvek, jorngveak",3655,general,,seafreq+chuonnath
-y,ឆ្នាំនេះ,"chnamnis, chnanis",,engine,"chnamnis, chnanis, chgnamnis",3656,general,,seafreq+sbbic
-y,ហ្អែង,"haeng, haerng",,engine,"haeng, haerng, heaeng",3657,general,,review:movie_words.csv
-y,លោកម្ចាស់,"lokmjas, lorkmjas",,engine,"lokmjas, lorkmjas, loukmjas",3658,general,,review:movie_words.csv
-y,ពួកឯង,"puokaeng, puokaerng",,engine,"puokaeng, puokaerng, puorkaeng",3659,general,,review:movie_words.csv
-y,ពួកយើង,"puokyerng, puorkyerng",,engine,"puokyerng, puorkyerng, puoukyerng",3660,general,,review:movie_words.csv
-y,អ្នកទាំងអស់គ្នា,"nektormngsknea, nektomngsknea",,engine,"nektormngsknea, nektomngsknea, nektormngsknear",3661,general,,review:movie_words.csv
-y,ប្អូនប្រុស,"p'obros, p'obrors",,engine,"p'obros, p'obrors",3662,general,,review:movie_words.csv
-y,ឪពុកម្ដាយ,ovpukmday,,engine,ovpukmday,3663,general,,review:movie_words.csv
-y,ម្ដាយក្មេក,"mdeaykmek, mdeaykmekror",,engine,"mdeaykmek, mdeaykmekror, mdaykmek",3664,general,,review:movie_words.csv
-y,ម្ដាយចុង,"mdeayjong, mdeayjorng",,engine,"mdeayjong, mdeayjorng, mdeayjoung",3665,general,,review:movie_words.csv
-y,កូនចិញ្ចឹម,"konjenhjem, kornjenhjem",,engine,"konjenhjem, kornjenhjem, konjernhjem",3666,general,,review:movie_words.csv
-y,កូនកំព្រា,"konkomprea, kornkomprea",,engine,"konkomprea, kornkomprea, konkomprear",3667,general,,review:movie_words.csv
-y,គូដណ្ដឹង,"kutnderng, kutanderng",,engine,"kutnderng, kutanderng, kutnderngkor",3668,general,,review:movie_words.csv
-y,ប្រពន្ធចុង,"bropnthojong, propnthojong",,engine,"bropnthojong, propnthojong, bropnthojorng",3669,general,,review:movie_words.csv
-y,មនុស្សទីបី,"mnustibei, mnustibey",,engine,"mnustibei, mnustibey, monustibei",3670,general,,review:movie_words.csv
-y,អតីតសង្សារ,"oteytsngsea, oteytsngsear",,engine,"oteytsngsea, oteytsngsear, oteytsngsa",3671,general,,review:movie_words.csv
-y,អតីតប្ដី,"oteytpdei, oteytpdey",,engine,"oteytpdei, oteytpdey, orteytpdei",3672,general,,review:movie_words.csv
-y,អតីតប្រពន្ធ,"oteytbropn, oteytbropon",,engine,"oteytbropn, oteytbropon, oteytbrorpn",3673,general,,review:movie_words.csv
-y,គូស្នេហ៍,"kusneh, kusgneh",,engine,"kusneh, kusgneh, kusnes",3674,general,,review:movie_words.csv
-y,ស្នេហាដំបូង,"snehadombong, snehadomborng",,engine,"snehadombong, snehadomborng, snehadormbong",3675,general,,review:movie_words.csv
-y,ស្នេហាតែម្ខាង,"snehataemkheang, snehataemkheng",,engine,"snehataemkheang, snehataemkheng, snehateaemkheang",3676,general,,review:movie_words.csv
-y,លួចស្រឡាញ់,"luochsrolanh, luochsrorlanh",,engine,"luochsrolanh, luochsrorlanh, luochsroleanh",3677,general,,review:movie_words.csv
-y,ស្រឡាញ់គ្នា,"slknea, slknear",,engine,"slknea, slknear, slkna",3678,general,,review:movie_words.csv
-y,ខ្ញុំស្រឡាញ់អ្នក,"nhslnek, nhslnekror",,engine,"nhslnek, nhslnekror, nhsrolanhnek",3679,general,,review:movie_words.csv
-y,ខ្ញុំនឹកអ្នក,"nhnerknok, nhnerknek",,engine,"nhnerknok, nhnerknek, nhnerknork",3680,general,,review:movie_words.csv
-y,បែកគ្នា,"bekknea, bekknear",,engine,"bekknea, bekknear, bekkna",3681,general,,review:movie_words.csv
-y,ភ្ជាប់ពាក្យ,"pjorbpeak, pjorbpek",,engine,"pjorbpeak, pjorbpek, pjorbpeakror",3682,general,,review:movie_words.csv
-y,ពិធីមង្គលការ,"pitheymngkolka, pitheymngkolkar",,engine,"pitheymngkolka, pitheymngkolkar, pitheymngkolkah",3683,general,,review:movie_words.csv
-y,ណាត់ជួប,"natjuop, natjuob",,engine,"natjuop, natjuob, natjouop",3684,general,,review:movie_words.csv
-y,កាន់ដៃ,"kandai, kandae",,engine,"kandai, kandae",3685,general,,review:movie_words.csv
-y,ក្បត់ចិត្ត,"kbotjit, kbotjith",,engine,"kbotjit, kbotjith, kbortjit",3686,general,,review:movie_words.csv
-y,ឈ្លោះគ្នា,"chlousknea, chlousknear",,engine,"chlousknea, chlousknear, chlouskna",3687,general,,review:movie_words.csv
-y,ផ្សះផ្សា,"phsohphsa, phsohphsar",,engine,"phsohphsa, phsohphsar, phsohphsah",3688,general,,review:movie_words.csv
-y,ចាកចោល,"jakjaol, jakjaorl",,engine,"jakjaol, jakjaorl, jakjoul",3689,general,,review:movie_words.csv
-y,ស្រីស្អាត,"sreysart, sreysarth",,engine,"sreysart, sreysarth, sreysoart",3690,general,,review:movie_words.csv
-y,ប្រុសសង្ហារ,"brossongha, prossongha",,engine,"brossongha, prossongha, brossorngha",3691,general,,review:movie_words.csv
-y,កូនក្រមុំ,"konkrormum, konkromum",,engine,"konkrormum, konkromum, kornkrormum",3692,general,,review:movie_words.csv
-y,កូនកំលោះ,"konkomlouh, kornkomlouh",,engine,"konkomlouh, kornkomlouh, konkormlouh",3693,general,,review:movie_words.csv
-y,ប្រច័ណ្ឌ,"brojn, projn",,engine,"brojn, projn, brojnak",3694,general,,review:movie_words.csv
-y,ខកចិត្ត,"khorkorjit, khorkorjith",,engine,"khorkorjit, khorkorjith, khorkorjiter",3695,general,,review:movie_words.csv
-y,អស់សង្ឃឹម,"orssongkhrim, orssorngkhrim",,engine,"orssongkhrim, orssorngkhrim, orssoungkhrim",3696,general,,review:movie_words.csv
-y,តក់ស្លុត,"tokslot, toksloth",,engine,"tokslot, toksloth, torkslot",3697,general,,review:movie_words.csv
-y,សោកសៅ,"saoksov, saorksov",,engine,"saoksov, saorksov, saouksov",3698,general,,review:movie_words.csv
-y,ពិបាកចិត្ត,"pibakjit, pibakjith",,engine,"pibakjit, pibakjith, pibakjiter",3699,general,,review:movie_words.csv
-y,ស្ដាយក្រោយ,"sdaykroy, sdaykrouy",,engine,"sdaykroy, sdaykrouy",3700,general,,review:movie_words.csv
-y,ទ្រាំមិនបាន,"troamminban, troammenban",,engine,"troamminban, troammenban, trormminban",3701,general,,review:movie_words.csv
-y,ខឹងសម្បា,"kherngsmbea, kherngsmbear",,engine,"kherngsmbea, kherngsmbear, kherngsmbeah",3702,general,,review:movie_words.csv
-y,ឯកោ,"aekao, aekaor",,engine,"aekao, aekaor, aekou",3703,general,,review:movie_words.csv
-y,កក់ក្ដៅ,korkkdav,,engine,korkkdav,3704,general,,review:movie_words.csv
-y,រងទុក្ខ,"rongtuk, rorngtuk",,engine,"rongtuk, rorngtuk, rungtuk",3705,general,,review:movie_words.csv
-y,ចិត្តល្អ,"jitloar, jetloar",,engine,"jitloar, jetloar",3706,general,,review:movie_words.csv
-y,ជួយផង,"juyphg, jouyphg",,engine,"juyphg, jouyphg, juyphgkor",3707,general,,review:movie_words.csv
-y,កុំទៅ,"komtv, kormtv",,engine,"komtv, kormtv, koumtv",3708,general,,review:movie_words.csv
-y,ចាំខ្ញុំ,"jamnh, janh",,engine,"jamnh, janh, jamkhnhom",3709,general,,review:movie_words.csv
-y,ស្ដាប់ខ្ញុំ,"sdapnh, sdaponh",,engine,"sdapnh, sdaponh, sdapornh",3710,general,,review:movie_words.csv
-y,ហេតុអី,"hetey, hetei",,engine,"hetey, hetei, haetey",3711,general,,review:movie_words.csv
-y,ម៉េចក៏,"mxkor, mexkor",,engine,"mxkor, mexkor, mxko",3712,general,,review:movie_words.csv
-y,មិនអាច,"menach, mernach",,engine,"menach, mernach, minach",3713,general,,review:movie_words.csv
-y,មិនគួរ,"menkur, mernkur",,engine,"menkur, mernkur, minkur",3714,general,,review:movie_words.csv
-y,ចូលមក,"jolmk, jorlmk",,engine,"jolmk, jorlmk, jolmkror",3715,general,,review:movie_words.csv
-y,ធ្វើអី,"tverey, tverei",,engine,"tverey, tverei, tveri",3716,general,,review:movie_words.csv
-y,អត់អីទេ,"oteyte, oteyter",,engine,"oteyte, oteyter, orteyte",3717,general,,review:movie_words.csv
-y,គ្មានអ្វីទេ,"kmeanaveyte, kmenaveyte",,engine,"kmeanaveyte, kmenaveyte, kmeanaveyter",3718,general,,review:movie_words.csv
-y,ខ្ញុំសន្យា,"nhsorniya, nhsoniya",,engine,"nhsorniya, nhsoniya, nhsorniyar",3719,general,,review:movie_words.csv
-y,ទុកឱ្យខ្ញុំ,"tukaonh, tukaornh",,engine,"tukaonh, tukaornh, tukaounh",3720,general,,review:movie_words.csv
-y,ទុកខ្ញុំម្នាក់ឯង,"tuknhmneakaeng, tuknhmnekaeng",,engine,"tuknhmneakaeng, tuknhmnekaeng, tuknhmneakaerng",3721,general,,review:movie_words.csv
-y,ដឹងហើយ,"dghz, dghx",,engine,"dghz, dghx, dernghz",3722,general,,review:movie_words.csv
-y,យល់ហើយ,"yolhz, yorlhz",,engine,"yolhz, yorlhz, yolhx",3723,general,,review:movie_words.csv
-y,គ្មានផ្លូវ,"kmeanplov, kmenplov",,engine,"kmeanplov, kmenplov, kmanplov",3724,general,,review:movie_words.csv
-y,ចាំមើល,"jammerl, jammer",,engine,"jammerl, jammer, jammirl",3725,general,,review:movie_words.csv
-y,គ្រប់ហើយ,"krobhz, krobhx",,engine,"krobhz, krobhx",3726,general,,review:movie_words.csv
-y,បិទមាត់,"bitmort, bitmorth",,engine,"bitmort, bitmorth, bitmorter",3727,general,,review:movie_words.csv
-y,ត្រឡប់មកវិញ,"trolobmkvinh, trorlobmkvinh",,engine,"trolobmkvinh, trorlobmkvinh, trolobmkvenh",3728,general,,review:movie_words.csv
-y,ចឹងហើយ,"jghz, jghx",,engine,"jghz, jghx, jhghz",3729,general,,review:movie_words.csv
-y,ភ្លាមៗ,"phleam, pleam",,engine,"phleam, pleam, phlam",3730,general,,review:movie_words.csv
-y,បន្ដិចទៀត,"bondichteat, bondichteath",,engine,"bondichteat, bondichteath, borndichteat",3731,general,,review:movie_words.csv
-y,ខ្ញុំខុសហើយ,"nhkhoshz, nhkhorshz",,engine,"nhkhoshz, nhkhorshz, nhkhoshx",3732,general,,review:movie_words.csv
-y,កុំយំ,"komyum, kormyum",,engine,"komyum, kormyum, koumyum",3733,general,,review:movie_words.csv
-y,កុំភ័យ,"komphei, komphey",,engine,"komphei, komphey, kormphei",3734,general,,review:movie_words.csv
-y,កុំបារម្ភ,"kombarom, kormbarom",,engine,"kombarom, kormbarom, kombarorm",3735,general,,review:movie_words.csv
-y,កុំប៉ះ,"kompas, kormpas",,engine,"kompas, kormpas, koumpas",3736,general,,review:movie_words.csv
-y,ទុកចិត្តខ្ញុំ,"tukjittonh, tukjittornh",,engine,"tukjittonh, tukjittornh, tukjittounh",3737,general,,review:movie_words.csv
-y,តាមខ្ញុំមក,"tamnhmk, tanhmk",,engine,"tamnhmk, tanhmk, teamnhmk",3738,general,,review:movie_words.csv
-y,លឿនឡើង,"lernlerng, laernlerng",,engine,"lernlerng, laernlerng, lernlaerng",3739,general,,review:movie_words.csv
-y,ចាំបន្ដិច,"jampndich, jampondich",,engine,"jampndich, jampondich, jamporndich",3740,general,,review:movie_words.csv
-y,ម៉េចហើយ,"mxhz, mxhx",,engine,"mxhz, mxhx, mexhz",3741,general,,review:movie_words.csv
-y,មានរឿងអី,"meanrgey, meanrgei",,engine,"meanrgey, meanrgei, menrgey",3742,general,,review:movie_words.csv
-y,កើតអី,"kertey, kertei",,engine,"kertey, kertei, kirtey",3743,general,,review:movie_words.csv
-y,បើមិនចឹង,"bermenjg, bermernjg",,engine,"bermenjg, bermernjg, beromenjg",3744,general,,review:movie_words.csv
-y,គ្មានជម្រើស,"kmeanchmrers, kmenchmrers",,engine,"kmeanchmrers, kmenchmrers, kmanchmrers",3745,general,,review:movie_words.csv
-y,គ្មានពេល,"kmeanpel, kmenpel",,engine,"kmeanpel, kmenpel, kmanpel",3746,general,,review:movie_words.csv
-y,យឺតពេល,"yeutpel, yeutpeyl",,engine,"yeutpel, yeutpeyl, yertpel",3747,general,,review:movie_words.csv
-y,ទាន់ពេល,"tornpel, tonpel",,engine,"tornpel, tonpel, tornpeyl",3748,general,,review:movie_words.csv
-y,ចប់ហើយ,"jophery, jorphery",,engine,"jophery, jorphery, jophx",3749,general,,review:movie_words.csv
-y,អភិនន្ទន៍,"ophinnton, ophinntorn",,engine,"ophinnton, ophinntorn, orphinnton",3750,general,,review:movie_words.csv
-y,ជួបគ្នាពេលក្រោយ,"joubkneapelkraoy, joubkneapelkroy",,engine,"joubkneapelkraoy, joubkneapelkroy, joubknapelkraoy",3751,general,,review:movie_words.csv
-y,រាត្រីសួស្ដី,"reatreisuosdey, reatreisuosdei",,engine,"reatreisuosdey, reatreisuosdei, reatreisuorsdey",3752,general,,review:movie_words.csv
-y,ល្ងីល្ងើ,"lngeylnger, lngiylnger",,engine,"lngeylnger, lngiylnger",3753,general,,review:movie_words.csv
-y,អាឆ្កែ,"ahchkae, ahchkaer",,engine,"ahchkae, ahchkaer, achkae",3754,general,,review:movie_words.csv
-y,គ្មានយាងអាយ,"kmeanyeangahy, kmenyeangahy",,engine,"kmeanyeangahy, kmenyeangahy, kmeanyengahy",3755,general,,review:movie_words.csv
-y,លោកប្រធាន,"loukbrothean, loukbrothen",,engine,"loukbrothean, loukbrothen, lokbrothean",3756,general,,review:movie_words.csv
-y,នាយកប្រតិបត្តិ,"neaykbrotiptti, naykbrotiptti",,engine,"neaykbrotiptti, naykbrotiptti, neaykbrotiptt",3757,general,,review:movie_words.csv
-y,អ្នកគ្រប់គ្រង,"nekkrobkrong, nekkrobkrorng",,engine,"nekkrobkrong, nekkrobkrorng, nekkrobkrung",3758,general,,review:movie_words.csv
-y,ជំនួយការ,"jumnuoyka, jumnuyka",,engine,"jumnuoyka, jumnuyka, jomnuoyka",3759,general,,review:movie_words.csv
-y,ភាគហ៊ុន,"pheakhon, phekhon",,engine,"pheakhon, phekhon, pheakhorn",3760,general,,review:movie_words.csv
-y,ម្ចាស់ភាគហ៊ុន,"mjeaspheakhon, mjeasphekhon",,engine,"mjeaspheakhon, mjeasphekhon, mjeaspheakhorn",3761,general,,review:movie_words.csv
-y,ដេញចេញ,"denhjenh, dernhjenh",,engine,"denhjenh, dernhjenh, denhjernh",3762,general,,review:movie_words.csv
-y,ក្ស័យធន,"ksytn, ksytan",,engine,"ksytn, ksytan, ksytnak",3763,general,,review:movie_words.csv
-y,អ្នកស្នងមរតក,"noksnongmrtk, noksnorngmrtk",,engine,"noksnongmrtk, noksnorngmrtk, neksnongmrtk",3764,general,,review:movie_words.csv
-y,គ្រួសារអ្នកមាន,"krursanekmean, krursanekmen",,engine,"krursanekmean, krursanekmen, kroursanekmean",3765,general,,review:movie_words.csv
-y,អ្នកបើកបរ,"nokberkp, nekberkp",,engine,"nokberkp, nekberkp, norkberkp",3766,general,,review:movie_words.csv
-y,អ្នកបម្រើ,"nekbomrer, nekbormrer",,engine,"nekbomrer, nekbormrer, nekboumrer",3767,general,,review:movie_words.csv
-y,ពិធីជប់លៀង,"pitheychpleang, pitheychpleng",,engine,"pitheychpleang, pitheychpleng, pitheychplang",3768,general,,review:movie_words.csv
-y,ផ្ញើសារ,"phnersa, pnersa",,engine,"phnersa, pnersa, phnersar",3769,general,,review:movie_words.csv
-y,អាកាសយានដ្ឋាន,"ahkasyeandthan, ahkasyendthan",,engine,"ahkasyeandthan, ahkasyendthan, ahkasyandthan",3770,general,,review:movie_words.csv
-y,បន្ទប់គេង,"bantubkeng, bantubkerng",,engine,"bantubkeng, bantubkerng, pantubkeng",3771,general,,review:movie_words.csv
-y,អាផាតមិន,"ahphatmin, ahphatmen",,engine,"ahphatmin, ahphatmen, ahpheatmin",3772,general,,review:movie_words.csv
-y,មិត្តរួមថ្នាក់,"mitroumtnak, mitroumtanak",,engine,"mitroumtnak, mitroumtanak, mitroumtnakror",3773,general,,review:movie_words.csv
-y,គិលានុបដ្ឋាយិកា,"kileanupdthayika, kilenupdthayika",,engine,"kileanupdthayika, kilenupdthayika, kilanupdthayika",3774,general,,review:movie_words.csv
-y,វះកាត់,"vohkat, vohkath",,engine,"vohkat, vohkath, vohkart",3775,general,,review:movie_words.csv
-y,មានផ្ទៃពោះ,"meanpteipurs, menpteipurs",,engine,"meanpteipurs, menpteipurs, manpteipurs",3776,general,,review:movie_words.csv
-y,រលូតកូន,"rolutkon, rolutkorn",,engine,"rolutkon, rolutkorn, rolutko",3777,general,,review:movie_words.csv
-y,សម្រាលកូន,"sormrealkon, somrealkon",,engine,"sormrealkon, somrealkon, sormrealkorn",3778,general,,review:movie_words.csv
-y,បាត់ការចងចាំ,"batkajongjam, batkajorngjam",,engine,"batkajongjam, batkajorngjam, bartkajongjam",3779,general,,review:movie_words.csv
-y,ការចងចាំ,"kajongjam, kajorngjam",,engine,"kajongjam, kajorngjam, kajoungjam",3780,general,,review:movie_words.csv
-y,ស៊ើបអង្កេត,"serpngket, serpngketh",,engine,"serpngket, serpngketh, serpongket",3781,general,,review:movie_words.csv
-y,អ្នកស៊ើបអង្កេត,"nokserpngket, nokserpngketh",,engine,"nokserpngket, nokserpngketh, nekserpngket",3782,general,,review:movie_words.csv
-y,ឃាតក,"kheatk, kheartk",,engine,"kheatk, kheartk, khatk",3783,general,,review:movie_words.csv
-y,ជនសង្ស័យ,"jonsngsy, jornsngsy",,engine,"jonsngsy, jornsngsy, jonsgngsy",3784,general,,review:movie_words.csv
-y,ជាប់គុក,"jeapkuk, cheapkuk",,engine,"jeapkuk, cheapkuk, jiveapkuk",3785,general,,review:movie_words.csv
-y,ចាប់ជំរិត,"japjumrit, japjumrith",,engine,"japjumrit, japjumrith, japjomrit",3786,general,,review:movie_words.csv
-y,ចាប់ពង្រត់,"jappngrot, jappngroth",,engine,"jappngrot, jappngroth, jappongrot",3787,general,,review:movie_words.csv
-y,ចំណាប់ខ្មាំង,"jomnapkhmamng, jomnapkhmang",,engine,"jomnapkhmamng, jomnapkhmang, jormnapkhmamng",3788,general,,review:movie_words.csv
-y,មេក្លោង,"meklaong, meklaorng",,engine,"meklaong, meklaorng, meklaoung",3789,general,,review:movie_words.csv
-y,ក្លែងបន្លំ,"klaengpn, klaerngpn",,engine,"klaengpn, klaerngpn, klaengpon",3790,general,,review:movie_words.csv
-y,គ្រាប់កាំភ្លើង,"kroubk'plerng, kroubk'plaerng",,engine,"kroubk'plerng, kroubk'plaerng, kroubk'polerng",3791,general,,review:movie_words.csv
-y,វាយគ្នា,"veayknea, veayknear",,engine,"veayknea, veayknear, veaykna",3792,general,,review:movie_words.csv
-y,រត់គេច,"rotkech, rotkex",,engine,"rotkech, rotkex, rortkech",3793,general,,review:movie_words.csv
-y,គេចខ្លួន,"kechkhluon, kechkhluorn",,engine,"kechkhluon, kechkhluorn, kechkluon",3794,general,,review:movie_words.csv
-y,លាក់ខ្លួន,"leakkluon, lekkluon",,engine,"leakkluon, lekkluon, leakkluorn",3795,general,,review:movie_words.csv
-y,ដេញតាម,"denhtam, dernhtam",,engine,"denhtam, dernhtam, denhteam",3796,general,,review:movie_words.csv
-y,ភ្នាក់ងារសម្ងាត់,"phneakngearsmngeat, phneakngearsmngeath",,engine,"phneakngearsmngeat, phneakngearsmngeath, phnekngearsmngeat",3797,general,,review:movie_words.csv
-y,គ្រោះថ្នាក់ចរាចរណ៍,"krouhthnakchreachrn, krouhthnakchrachrn",,engine,"krouhthnakchreachrn, krouhthnakchrachrn, krouhthgnakchreachrn",3798,general,,review:movie_words.csv
-y,ឋានសួគ៌,"thansur, theansur",,engine,"thansur, theansur, thensur",3799,general,,review:movie_words.csv
-y,វេទមន្ត,"vetmn, vetmnak",,engine,"vetmn, vetmnak, vitmn",3800,general,,review:movie_words.csv
-y,អាបធ្មប់,"ahpthmop, ahpthmob",,engine,"ahpthmop, ahpthmob, ahpthmorp",3801,general,,review:movie_words.csv
-y,កូនសិស្ស,"konsers, kornsers",,engine,"konsers, kornsers, konsiers",3802,general,,review:movie_words.csv
-y,ជាតិមុន,"jeatmun, jeatmoun",,engine,"jeatmun, jeatmoun, jeartmun",3803,general,,review:movie_words.csv
-y,ជាតិក្រោយ,"jeatkroy, jeatkrouy",,engine,"jeatkroy, jeatkrouy, jeartkroy",3804,general,,review:movie_words.csv
-y,ចាប់កំណើតឡើងវិញ,"japkomnertlerngvinh, japkormnertlerngvinh",,engine,"japkomnertlerngvinh, japkormnertlerngvinh, japkoumnertlerngvinh",3805,general,,review:movie_words.csv
-y,បណ្ដាសា,"bondasa, borndasa",,engine,"bondasa, borndasa, bondasar",3806,general,,review:movie_words.csv
-y,និកាយ,"nikay, nikeay",,engine,"nikay, nikeay, nekay",3807,general,,review:movie_words.csv
-y,ថ្នាំពុល,"tnampul, tanampul",,engine,"tnampul, tanampul, tnampol",3808,general,,review:movie_words.csv
-y,ព្រះចន្ទ,"preahjan, prahjan",,engine,"preahjan, prahjan, preahjanak",3809,general,,review:movie_words.csv
-y,ជារៀងរហូត,"jeareangrohot, jeareangrohoth",,engine,"jeareangrohot, jeareangrohoth, jearengrohot",3810,general,,review:movie_words.csv
-y,មួយជីវិត,"muyjivit, muyjivith",,engine,"muyjivit, muyjivith, mouyjivit",3811,general,,review:movie_words.csv
-y,ពេលនោះ,"pelnus, belnus",,engine,"pelnus, belnus, peylnus",3812,general,,review:movie_words.csv
-y,កាលពីមុន,"kalpimun, kalpimoun",,engine,"kalpimun, kalpimoun, kalpimunak",3813,general,,review:movie_words.csv
-y,យប់ជ្រៅ,"yopjrov, yorpjrov",,engine,"yopjrov, yorpjrov",3814,general,,review:movie_words.csv
-y,រឿងភាគ,"roengpheak, roengphek",,engine,"roengpheak, roengphek, roerngpheak",3815,general,,review:movie_words.csv
-y,តួឯក,"turaek, turaekror",,engine,"turaek, turaekror, tuoaek",3816,general,,review:movie_words.csv
-y,តួឯកស្រី,"turaeksrey, turaeksrei",,engine,"turaeksrey, turaeksrei, turaeksri",3817,general,,review:movie_words.csv
-y,តួឯកប្រុស,"turaekbros, turaekbrors",,engine,"turaekbros, turaekbrors, turaekbroh",3818,general,,review:movie_words.csv
-y,តួអាក្រក់,"turakk, turakkror",,engine,"turakk, turakkror, turakkrok",3819,general,,review:movie_words.csv
-y,តួសម្ដែង,"tursomdaeng, tursomdaerng",,engine,"tursomdaeng, tursomdaerng, tursormdaeng",3820,general,,review:movie_words.csv
-y,អ្នកដឹកនាំរឿង,"nokderknoamroeng, nokderknoamroerng",,engine,"nokderknoamroeng, nokderknoamroerng, nekderknoamroeng",3821,general,,review:movie_words.csv
-y,អក្សររត់,"ahsorrut, ahsorruth",,engine,"ahsorrut, ahsorruth, ahsorrout",3822,general,,review:movie_words.csv
-y,អ្នកបកប្រែ,"nokpkbrae, nokpkbraer",,engine,"nokpkbrae, nokpkbraer, nekpkbrae",3823,general,,review:movie_words.csv
-y,ចាក់ផ្សាយ,"jakphsay, jakpsay",,engine,"jakphsay, jakpsay, jakphsoay",3824,general,,review:movie_words.csv
-y,ចុះចាញ់,"josjanh, jorsjanh",,engine,"josjanh, jorsjanh",3825,general,,review:movie_words.csv
-y,រកឃើញ,"rokkherng, rorkkherng",,engine,"rokkherng, rorkkherng, roukkherng",3826,general,,review:movie_words.csv
-y,បាត់ខ្លួន,"batkluon, batkluorn",,engine,"batkluon, batkluorn, batklun",3827,general,,review:movie_words.csv
-y,សម្រេចចិត្ត,"somrachjit, somrachjith",,engine,"somrachjit, somrachjith, sormrachjit",3828,general,,review:movie_words.csv
-y,ស្ដាប់បង្គាប់,"sdappngkeap, sdappngkeab",,engine,"sdappngkeap, sdappngkeab, sdappongkeap",3829,general,,review:movie_words.csv
-y,ធ្វើពុត,"tverput, tverputh",,engine,"tverput, tverputh, toverput",3830,general,,review:movie_words.csv
-y,ក្លែងខ្លួន,"klaengkhluon, klaengkhluorn",,engine,"klaengkhluon, klaengkhluorn, klaengkluon",3831,general,,review:movie_words.csv
-y,នៅឯណា,"nvaena, nvaenar",,engine,"nvaena, nvaenar, nvaerna",3832,general,,review:dialogue_words.csv
-y,អាហ្នឹង,"ahng, ahgng",,engine,"ahng, ahgng, ahngkor",3833,general,,review:dialogue_words.csv
-y,គ្នាឯង,"kneaeg, knaeg",,engine,"kneaeg, knaeg, kneaegkor",3834,general,,review:dialogue_words.csv
-y,ម្នាក់ណា,"mnekna, mneknar",,engine,"mnekna, mneknar, mneknah",3835,general,,review:dialogue_words.csv
-y,គ្មាននរណា,"kmeannrna, kmennrna",,engine,"kmeannrna, kmennrna, kmeannrnar",3836,general,,review:dialogue_words.csv
-y,ញ៉ាំបាយ,"nhambay, nheambay",,engine,"nhambay, nheambay, nhiambay",3837,general,,review:dialogue_words.csv
-y,ស្រេកទឹក,"srekterk, srekoterk",,engine,"srekterk, srekoterk, srekterkror",3838,general,,review:dialogue_words.csv
-y,ងូតទឹក,"ngutterk, ngutterkror",,engine,"ngutterk, ngutterkror, nguchterk",3839,general,,review:dialogue_words.csv
-y,សម្លៀកបំពាក់,"sormleakbompeak, somleakbompeak",,engine,"sormleakbompeak, somleakbompeak, sormlekbompeak",3840,general,,review:dialogue_words.csv
-y,ផ្ទះបាយ,"pteasbay, teasbay",,engine,"pteasbay, teasbay, ptiasbay",3841,general,,review:dialogue_words.csv
-y,បន្ទប់ទឹក,"bantubterk, pantubterk",,engine,"bantubterk, pantubterk, bantubterkror",3842,general,,review:dialogue_words.csv
-y,ឡានក្រុង,"lankrong, lankrorng",,engine,"lankrong, lankrorng, lankrung",3843,general,,review:dialogue_words.csv
-y,រទេះសេះ,"rotehses, rotehsies",,engine,"rotehses, rotehsies, rortehses",3844,general,,review:dialogue_words.csv
-y,ភ្លេចភ្លាំង,"phlechphloamng, plechphloamng",,engine,"phlechphloamng, plechphloamng, phlechploamng",3845,general,,review:dialogue_words.csv
-y,ចូលចិត្តណាស់,"joljitnas, joljitanas",,engine,"joljitnas, joljitanas, jorljitnas",3846,general,,review:dialogue_words.csv
-y,មិនចូលចិត្ត,"menjoljit, menjoljith",,engine,"menjoljit, menjoljith, mernjoljit",3847,general,,review:dialogue_words.csv
-y,ស្អប់ណាស់,"s'oabnas, soabnas",,engine,"s'oabnas, soabnas",3848,general,,review:dialogue_words.csv
-y,ត្រឡប់ទៅផ្ទះ,"trolobtvpteas, trolobtovpteas",,engine,"trolobtvpteas, trolobtovpteas, trorlobtvpteas",3849,general,,review:dialogue_words.csv
-y,មកពីណា,"mkpina, mkpinar",,engine,"mkpina, mkpinar, mkpinah",3850,general,,review:dialogue_words.csv
-y,ទើបតែ,"terptae, terptaer",,engine,"terptae, terptaer, terpteae",3851,general,,review:dialogue_words.csv
-y,ម្ដងម្កាល,"mdongmkeal, mdorngmkeal",,engine,"mdongmkeal, mdorngmkeal, mdongmkal",3852,general,,review:dialogue_words.csv
-y,ល្អណាស់,loarnas,,engine,loarnas,3853,general,,review:dialogue_words.csv
-y,ស្អាតបាត,"sartbad, soartbad",,engine,"sartbad, soartbad, sartbat",3854,general,,review:dialogue_words.csv
-y,គួរឱ្យស្រឡាញ់,"kuoraosrolanh, kuorosrolanh",,engine,"kuoraosrolanh, kuorosrolanh, kuoraorsrolanh",3855,general,,review:dialogue_words.csv
-y,គួរឱ្យខ្លាច,"kuoraokhlach, kuoraoklach",,engine,"kuoraokhlach, kuoraoklach, kuorokhlach",3856,general,,review:dialogue_words.csv
-y,គួរឱ្យអាណិត,"kuoraoahnit, kuoraoahnith",,engine,"kuoraoahnit, kuoraoahnith, kuoroahnit",3857,general,,review:dialogue_words.csv
-y,គួរឱ្យសើច,"kuoraoserch, kuoroserch",,engine,"kuoraoserch, kuoroserch, kuoraorserch",3858,general,,review:dialogue_words.csv
-y,ខ្ជិលច្រអូស,"khjiljroos, khjiljroors",,engine,"khjiljroos, khjiljroors, khjiljrooh",3859,general,,review:dialogue_words.csv
-y,ចិត្តអាក្រក់,"jitakk, jiteakk",,engine,"jitakk, jiteakk, jitakkror",3860,general,,review:dialogue_words.csv
-y,ចិត្តត្រជាក់,"jittrojek, jittrojivek",,engine,"jittrojek, jittrojivek, jittrojekror",3861,general,,review:dialogue_words.csv
-y,ខ្មាសគេ,"khmaske, khmasker",,engine,"khmaske, khmasker, kmaske",3862,general,,review:dialogue_words.csv
-y,ច្របូកច្របល់,"jrobokjropl, jroborkjropl",,engine,"jrobokjropl, jroborkjropl, jrobokjrorpl",3863,general,,review:dialogue_words.csv
-y,ឥតប្រយោជន៍,"etbroyouchn, etbrouyouchn",,engine,"etbroyouchn, etbrouyouchn, etbroyouchgn",3864,general,,review:dialogue_words.csv
-y,គ្រោះថ្នាក់ណាស់,"krouhthnaknas, krouhthgnaknas",,engine,"krouhthnaknas, krouhthgnaknas, krouhtnaknas",3865,general,,review:dialogue_words.csv
-y,រំភើបចិត្ត,"rumpherpjit, rumpherpjith",,engine,"rumpherpjit, rumpherpjith, roumpherpjit",3866,general,,review:dialogue_words.csv
-y,អស់កម្លាំង,"orskomlang, orskormlang",,engine,"orskomlang, orskormlang, orskoumlang",3867,general,,review:dialogue_words.csv
-y,ឈឺក្បាល,"chuekbal, cheukbal",,engine,"chuekbal, cheukbal, chuikbal",3868,general,,review:dialogue_words.csv
-y,ធុញទ្រាន់,"thunhtrean, thunhtren",,engine,"thunhtrean, thunhtren, thunhtran",3869,general,,review:dialogue_words.csv
-y,ខ្លាចណាស់,"klachnas, klachgnas",,engine,"klachnas, klachgnas",3870,general,,review:dialogue_words.csv
-y,ស្ទាក់ស្ទើរ,"stakster, steakster",,engine,"stakster, steakster, stekster",3871,general,,review:dialogue_words.csv
-y,ជ្រួលច្រាល់,"jruoljral, jruljral",,engine,"jruoljral, jruljral, jrouoljral",3872,general,,review:dialogue_words.csv
-y,ស្រងេះស្រងោច,"srongehsrongouch, srorngehsrongouch",,engine,"srongehsrongouch, srorngehsrongouch, srongehsrorngouch",3873,general,,review:dialogue_words.csv
-y,ខកបំណង,"khorkbomnng, khorkbormnng",,engine,"khorkbomnng, khorkbormnng, khorkboumnng",3874,general,,review:dialogue_words.csv
-y,ក្ដីស្រឡាញ់,"kdeisl, kdeisrolanh",,engine,"kdeisl, kdeisrolanh, kdiisl",3875,general,,review:dialogue_words.csv
-y,ចិត្តស្រឡាញ់,"jitsl, jitsrolanh",,engine,"jitsl, jitsrolanh, jetsl",3876,general,,review:dialogue_words.csv
-y,សារភាពស្នេហ៍,"sapheapsne, sapheapsner",,engine,"sapheapsne, sapheapsner, soapheapsne",3877,general,,review:dialogue_words.csv
-y,ស្រលាញ់ខ្លាំង,"sroleanhkhlamng, sroleanhkhlang",,engine,"sroleanhkhlamng, sroleanhkhlang, srolenhkhlamng",3878,general,,review:dialogue_words.csv
-y,ចិញ្ចៀន,"jinhjean, jinhjen",,engine,"jinhjean, jinhjen, jinjean",3879,general,,review:dialogue_words.csv
-y,ផ្កាកុលាប,"pkakolab, pkakorlab",,engine,"pkakolab, pkakorlab",3880,general,,review:dialogue_words.csv
-y,កាដូ,"kado, kador",,engine,"kado, kador, kadu",3881,general,,review:dialogue_words.csv
-y,ខួបកំណើត,"khuopkomnert, khuopkomnerth",,engine,"khuopkomnert, khuopkomnerth, khuopkormnert",3882,general,,review:dialogue_words.csv
-y,ថ្ងៃខួប,"tgnaikhuop, tgnaikhuob",,engine,"tgnaikhuop, tgnaikhuob, tgnaikhuorp",3883,general,,review:dialogue_words.csv
-y,ក្មេងខូច,"kmengkhoch, kmerngkhoch",,engine,"kmengkhoch, kmerngkhoch, kmengkoch",3884,general,,review:dialogue_words.csv
-y,ស្រីឆ្កួត,"sreychkut, sreychkuth",,engine,"sreychkut, sreychkuth, sreychkuter",3885,general,,review:dialogue_words.csv
-y,ប្រុសឆ្កួត,"broschkut, proschkut",,engine,"broschkut, proschkut, broschkuth",3886,general,,review:dialogue_words.csv
-y,មនុស្សអាក្រក់,"mnusakk, mnusoakk",,engine,"mnusakk, mnusoakk, mnusakkror",3887,general,,review:dialogue_words.csv
-y,មនុស្សល្អ,"mnusloar, monusloar",,engine,"mnusloar, monusloar",3888,general,,review:dialogue_words.csv
-y,ក្មេងៗ,"kmeng, kmerng",,engine,"kmeng, kmerng, kmengkor",3889,general,,review:dialogue_words.csv
-y,កូនតូច,"kontoch, korntoch",,engine,"kontoch, korntoch, kntoch",3890,general,,review:dialogue_words.csv
-y,ប្ដីប្រពន្ធ,"pdeippun, pdeippunak",,engine,"pdeippun, pdeippunak, pdeyppun",3891,general,,review:dialogue_words.csv
-y,អ្នកជិតខាង,"nekjitkhang, nekjitkheang",,engine,"nekjitkhang, nekjitkheang, nekjitkhangkor",3892,general,,review:dialogue_words.csv
-y,មិត្តភក្ដិ,"mittopkdi, mittorpkdi",,engine,"mittopkdi, mittorpkdi, mettopkdi",3893,general,,review:dialogue_words.csv
-y,មិត្តល្អ,"mitloar, metloar",,engine,"mitloar, metloar",3894,general,,review:dialogue_words.csv
-y,សត្រូវចាស់,"sortrovjas, satrovjas",,engine,"sortrovjas, satrovjas, sortrvjas",3895,general,,review:dialogue_words.csv
-y,ទូរស័ព្ទដៃ,"tusabdai, tusoabdai",,engine,"tusabdai, tusoabdai, turasabdai",3896,general,,review:dialogue_words.csv
-y,ហ្វេសប៊ុក,"hvesbok, hvesbork",,engine,"hvesbok, hvesbork, hvesbor",3897,general,,review:dialogue_words.csv
-y,តេឡេក្រាម,"telekram, teylekram",,engine,"telekram, teylekram, telaekram",3898,general,,review:dialogue_words.csv
-y,លេខទូរស័ព្ទ,"lektusab, lekotusab",,engine,"lektusab, lekotusab, lektusoab",3899,general,,review:dialogue_words.csv
-y,ថ្ងៃត្រង់,"tgnaitrong, tgnaitrorng",,engine,"tgnaitrong, tgnaitrorng, tgnaitrung",3900,general,,review:dialogue_words.csv
-y,មុននេះ,"munnis, mounnis",,engine,"munnis, mounnis, munnes",3901,general,,review:dialogue_words.csv
+y,ទៅរួច,tov+ruoch,go ahead / it's done,claude,"tvrouch, tovrouch",3601,general,,seafreq+sbbic
+y,ភ្លន់,phlon,gentle (in ទន់ភ្លន់),claude,"phlon, plon, phlorn",3602,general,,seafreq+sbbic
+y,សង្ខារ,sangkhar,body / aging,claude,"sorngkhea, songkhea, sorngkhear",3603,general,,seafreq+chuonnath
+y,ខន្តី,khantey,patience,claude,"khorntey, khontey, khorntei",3604,general,,seafreq+chuonnath
+y,ជាតិសាសន៍,jeat+sas,race / nationality,claude,"jeatisasn, jeartisasn, jeatisoasn",3605,general,,seafreq+sbbic
+y,អត់ធ្មត់,ot+thmot,patient / endure,claude,"otthmot, otthmoth, ortthmot",3606,general,,seafreq+sbbic
+y,អយុធ្យា,ayutthya,Ayutthaya,claude,"oyuthyea, oyuthya, oyuthyear",3607,general,,seafreq+chuonnath
+y,លម្អៀង,lom'ieng,biased (variant),claude,"lomeang, lomeng, lormeang",3608,general,,seafreq+chuonnath
+y,និន្ទា,ninta,slander / gossip,claude,"nintea, nintear, ninteah",3609,general,,seafreq+chuonnath
+y,ម៉ត់ចត់,mot+jot,meticulous (variant),claude,"motcht, motchth, mortcht",3610,general,,seafreq+chuonnath
+y,រាសី,reasei,luck / fortune,claude,"reasey, reasei, rasey",3611,general,,seafreq+chuonnath
+y,ដេញដោល,denh+daol,chase / pursue,claude,"denhdaol, dernhdaol, denhdol",3612,general,,seafreq+sbbic
+y,មានកម្ម,mean+kam,have bad karma / unlucky,claude,"meankarm, menkarm, meankarom",3613,general,,seafreq+sbbic
+y,អត់ទេ,ot+te,no / not at all,claude,"otte, otter, ortte",3614,general,,seafreq+sbbic
+n,គណៈរដ្ឋ,,(fragment),claude,"konrt, konrth, kornrt",3615,general,,seafreq+sbbic
+y,ដុនដាប,don+dab,pitiful / poor,claude,"dondap, dondab, dorndap",3616,general,,seafreq+sbbic
+y,តទល់,to+tol,resist / face,claude,"totl, tortl",3617,general,,seafreq+sbbic
+y,រាជានុញ្ញាត,reacheanunhnhat,royal permission,claude,"reajeanunhnheat, reajeanunhnheath, reajenunhnheat",3618,general,,seafreq+sbbic
+y,ប្រមើល,promaerl,foresee / expect,claude,"bromerl, promerl, brormerl",3619,general,,seafreq+chuonnath
+y,ខ្លោងទ្វារ,khlong+tvea,gate (archway),claude,"khlaongtvea, khlaorngtvea, klaongtvea",3620,general,,seafreq+chuonnath
+y,គំនាប,kumneab,oppression,claude,"kumneap, kumneab, kumnap",3621,general,,seafreq+chuonnath
+y,ទំនាប,tumneab,lowland,claude,"tumneap, tumneab, tomneap",3622,general,,seafreq+chuonnath
+y,វល្លិ,vollei,vine,claude,"volli, vorlli, volle",3623,general,,seafreq+chuonnath
+y,កោដិ,kot,ten million,claude,"kaodi, koudi, kaode",3624,general,,seafreq+chuonnath
+y,កាលណោះ,kal+noh,back then,claude,"kalnaoh, kalnouh, kealnaoh",3625,general,,seafreq+sbbic
+y,ចែវ,jaev,row (a boat),claude,"jaev, jeav, jaiv",3626,general,,seafreq+chuonnath
+y,ប្រមឹក,promek,drunkard,claude,"bromerk, promerk, brormerk",3627,general,,seafreq+chuonnath
+y,រលោង,rolong,shiny,claude,"roloung, rorloung, roloungkor",3628,general,,seafreq+chuonnath
+y,មាយា,meaya,trick / deceit,claude,"meayea, meaya, meayear",3629,general,,seafreq+chuonnath
+y,វុន,vun,(name),claude,"vun, vunak, von",3630,general,,seafreq+chuonnath
+y,សិរីសោភ័ណ,serey+sophan,beauty / splendor,claude,"sireysaophn, sireysaopn, sireysaorphn",3631,general,,seafreq+sbbic
+y,ធារា,theara,stream / (name),claude,"thearea, thearear, theareah",3632,general,,seafreq+sbbic
+y,ពេលថ្ងៃ,pel+thngai,daytime,claude,"peltgnai, beltgnai, peyltgnai",3633,general,,seafreq+sbbic
+y,ថ្ងៃសុក្រ,thngai+sok,Friday,claude,"tgnaisok, tgnaisork, tgnaisor",3634,general,,seafreq+sbbic
+y,អ្នកនយោបាយ,nek+noyobay,politician,claude,"neknoyobay, neknouyobay, niknoyobay",3635,general,,seafreq+sbbic
+y,ច្រវាក់,jrovak,chain,claude,"jroveak, jrovek, jrovak",3636,general,,seafreq+chuonnath
+y,បែន,baen,(name),claude,"baen, baern, paen",3637,general,,seafreq+chuonnath
+y,លោហិត,lohit,blood (literary),claude,"louhit, louhith, louhiter",3638,general,,seafreq+chuonnath
+y,ក្បួនខ្នាត,kbuon+khnat,standard / norms,claude,"kbuonkhnat, kbuonkhnath, kbuornkhnat",3639,general,,seafreq+sbbic
+y,ខាងចុង,khang+jong,at the end,claude,"khangjong, khangjorng, kheangjong",3640,general,,seafreq+sbbic
+y,កន្លែងណា,konlaeng+na,where / which place,claude,"kanlengna, kanlengnar, kanlerngna",3641,general,,seafreq+sbbic
+y,មិនជា,min+jea,not so / not very,claude,"menjea, menjear, mernjea",3642,general,,seafreq+sbbic
+y,ស្រុកបារាំង,srok+barang,France,claude,"srokbarormng, srokbaromng, srokbaroromng",3643,general,,seafreq+sbbic
+y,ក្រេប,kreb,sip,claude,"krep, krip",3644,general,,seafreq+chuonnath
+y,ស្លូតត្រង់,slot+trong,honest / innocent,claude,"slottrong, slottrorng, slottrung",3645,general,,seafreq+sbbic
+y,ខ័ន,khan,(name),claude,"khn, kn, khgn",3646,general,,seafreq+chuonnath
+y,អាយ៉ង,ayong,puppet,claude,"ahyong, ahyorng, ahyoung",3647,general,,seafreq+sbbic
+y,បាភ្នំ,baphnom,Ba Phnom,claude,"bap, bab, pap",3648,general,,seafreq+chuonnath
+y,កើតមានឡើង,kert+mean+laeng,occur,claude,"kertmeanlerng, kertmenlerng, kertmanlerng",3649,general,,seafreq+sbbic
+y,ធ្លក,thlok,(tree),claude,"thlok, thlork, thlor",3650,general,,seafreq+chuonnath
+y,បដា,bada,banner,claude,"boda, bodar, bodah",3651,general,,seafreq+chuonnath
+y,ការផ្សាយ,ka+psay,broadcast / publication,claude,"kaphsay, kapsay, kaphsoay",3652,general,,seafreq+sbbic
+y,កសិដ្ឋាន,kasethan,farm,claude,"korsidthan, korsidthean, korsidthanak",3653,general,,seafreq+sbbic
+y,ពេលព្រឹក,pel+pruk,in the morning,claude,"pelprerk, belprerk, peylprerk",3654,general,,seafreq+sbbic
+y,ចង្វាក់,jongvak,rhythm,claude,"jongveak, jongvek, jorngveak",3655,general,,seafreq+chuonnath
+y,ឆ្នាំនេះ,chhnam+nis,this year,claude,"chnamnis, chnanis, chgnamnis",3656,general,,seafreq+sbbic
+y,ហ្អែង,"haeng, aeng",you (rude),claude,"haeng, haerng, heaeng",3657,general,,review:movie_words.csv
+y,លោកម្ចាស់,lok+mjas,master / sir (servant to boss),claude,"lokmjas, lorkmjas, loukmjas",3658,general,,review:movie_words.csv
+y,ពួកឯង,puk+eng,you guys,claude,"puokaeng, puokaerng, puorkaeng",3659,general,,review:movie_words.csv
+y,ពួកយើង,puk+yerng,we / us,claude,"puokyerng, puorkyerng, puoukyerng",3660,general,,review:movie_words.csv
+y,អ្នកទាំងអស់គ្នា,nek+teang+os+knea,everyone,claude,"nektormngsknea, nektomngsknea, nektormngsknear",3661,general,,review:movie_words.csv
+y,ប្អូនប្រុស,"paoun+pros, pon+pros",younger brother,claude,"p'obros, p'obrors",3662,general,,review:movie_words.csv
+y,ឪពុកម្ដាយ,ovpuk+mday,parents,claude,ovpukmday,3663,general,,review:movie_words.csv
+y,ម្ដាយក្មេក,mday+kmek,mother-in-law,claude,"mdeaykmek, mdeaykmekror, mdaykmek",3664,general,,review:movie_words.csv
+y,ម្ដាយចុង,mday+jong,stepmother,claude,"mdeayjong, mdeayjorng, mdeayjoung",3665,general,,review:movie_words.csv
+y,កូនចិញ្ចឹម,kon+jenhjem,adopted child,claude,"konjenhjem, kornjenhjem, konjernhjem",3666,general,,review:movie_words.csv
+y,កូនកំព្រា,kon+komprea,orphan,claude,"konkomprea, kornkomprea, konkomprear",3667,general,,review:movie_words.csv
+y,គូដណ្ដឹង,ku+dondeng,fiancé(e),claude,"kutnderng, kutanderng, kutnderngkor",3668,general,,review:movie_words.csv
+y,ប្រពន្ធចុង,propon+jong,mistress / second wife,claude,"bropnthojong, propnthojong, bropnthojorng",3669,general,,review:movie_words.csv
+y,មនុស្សទីបី,monus+ti+bei,third party (in a relationship),claude,"mnustibei, mnustibey, monustibei",3670,general,,review:movie_words.csv
+y,អតីតសង្សារ,atit+songsa,ex (boyfriend / girlfriend),claude,"oteytsngsea, oteytsngsear, oteytsngsa",3671,general,,review:movie_words.csv
+y,អតីតប្ដី,atit+pdey,ex-husband,claude,"oteytpdei, oteytpdey, orteytpdei",3672,general,,review:movie_words.csv
+y,អតីតប្រពន្ធ,atit+propon,ex-wife,claude,"oteytbropn, oteytbropon, oteytbrorpn",3673,general,,review:movie_words.csv
+y,គូស្នេហ៍,ku+sne,couple / lovers,claude,"kusneh, kusgneh, kusnes",3674,general,,review:movie_words.csv
+y,ស្នេហាដំបូង,sneha+dombong,first love,claude,"snehadombong, snehadomborng, snehadormbong",3675,general,,review:movie_words.csv
+y,ស្នេហាតែម្ខាង,sneha+tae+mkhang,one-sided love,claude,"snehataemkheang, snehataemkheng, snehateaemkheang",3676,general,,review:movie_words.csv
+y,លួចស្រឡាញ់,luoch+srolanh,secretly love / crush,claude,"luochsrolanh, luochsrorlanh, luochsroleanh",3677,general,,review:movie_words.csv
+y,ស្រឡាញ់គ្នា,srolanh+knea,love each other,claude,"slknea, slknear, slkna",3678,general,,review:movie_words.csv
+y,ខ្ញុំស្រឡាញ់អ្នក,knhom+srolanh+nek,I love you,claude,"nhslnek, nhslnekror, nhsrolanhnek",3679,general,,review:movie_words.csv
+y,ខ្ញុំនឹកអ្នក,knhom+nek+nek,I miss you,claude,"nhnerknok, nhnerknek, nhnerknork",3680,general,,review:movie_words.csv
+y,បែកគ្នា,baek+knea,break up,claude,"bekknea, bekknear, bekkna",3681,general,,review:movie_words.csv
+y,ភ្ជាប់ពាក្យ,phjab+peak,engagement,claude,"pjorbpeak, pjorbpek, pjorbpeakror",3682,general,,review:movie_words.csv
+y,ពិធីមង្គលការ,pithi+mongkolka,wedding ceremony,claude,"pitheymngkolka, pitheymngkolkar, pitheymngkolkah",3683,general,,review:movie_words.csv
+y,ណាត់ជួប,nat+juob,date / appointment,claude,"natjuop, natjuob, natjouop",3684,general,,review:movie_words.csv
+y,កាន់ដៃ,kan+dai,hold hands,claude,"kandai, kandae",3685,general,,review:movie_words.csv
+y,ក្បត់ចិត្ត,kbot+jet,betray (someone's heart),claude,"kbotjit, kbotjith, kbortjit",3686,general,,review:movie_words.csv
+y,ឈ្លោះគ្នា,chlous+knea,quarrel,claude,"chlousknea, chlousknear, chlouskna",3687,general,,review:movie_words.csv
+y,ផ្សះផ្សា,pseah+psa,reconcile,claude,"phsohphsa, phsohphsar, phsohphsah",3688,general,,review:movie_words.csv
+y,ចាកចោល,jak+jaol,abandon (someone),claude,"jakjaol, jakjaorl, jakjoul",3689,general,,review:movie_words.csv
+y,ស្រីស្អាត,srey+saat,pretty girl,claude,"sreysart, sreysarth, sreysoart",3690,general,,review:movie_words.csv
+y,ប្រុសសង្ហារ,pros+songha,handsome guy,claude,"brossongha, prossongha, brossorngha",3691,general,,review:movie_words.csv
+y,កូនក្រមុំ,kon+kromom,young woman / bride,claude,"konkrormum, konkromum, kornkrormum",3692,general,,review:movie_words.csv
+y,កូនកំលោះ,kon+komlos,young man / groom,claude,"konkomlouh, kornkomlouh, konkormlouh",3693,general,,review:movie_words.csv
+y,ប្រច័ណ្ឌ,projan,jealous (in love),claude,"brojn, projn, brojnak",3694,general,,review:movie_words.csv
+y,ខកចិត្ត,khok+jet,disappointed,claude,"khorkorjit, khorkorjith, khorkorjiter",3695,general,,review:movie_words.csv
+y,អស់សង្ឃឹម,os+sangkhem,hopeless / despair,claude,"orssongkhrim, orssorngkhrim, orssoungkhrim",3696,general,,review:movie_words.csv
+y,តក់ស្លុត,tok+slot,shocked,claude,"tokslot, toksloth, torkslot",3697,general,,review:movie_words.csv
+y,សោកសៅ,sok+sav,sad,claude,"saoksov, saorksov, saouksov",3698,general,,review:movie_words.csv
+y,ពិបាកចិត្ត,pibak+jet,upset / heartbroken,claude,"pibakjit, pibakjith, pibakjiter",3699,general,,review:movie_words.csv
+y,ស្ដាយក្រោយ,sday+kroy,regret,claude,"sdaykroy, sdaykrouy",3700,general,,review:movie_words.csv
+y,ទ្រាំមិនបាន,troam+min+ban,can't bear it,claude,"troamminban, troammenban, trormminban",3701,general,,review:movie_words.csv
+y,ខឹងសម្បា,khoeng+sompa,furious,claude,"kherngsmbea, kherngsmbear, kherngsmbeah",3702,general,,review:movie_words.csv
+y,ឯកោ,ekao,lonely,claude,"aekao, aekaor, aekou",3703,general,,review:movie_words.csv
+y,កក់ក្ដៅ,kok+kdav,warm (feeling),claude,korkkdav,3704,general,,review:movie_words.csv
+y,រងទុក្ខ,rong+tuk,suffer,claude,"rongtuk, rorngtuk, rungtuk",3705,general,,review:movie_words.csv
+y,ចិត្តល្អ,jet+laor,kind-hearted,claude,"jitloar, jetloar",3706,general,,review:movie_words.csv
+y,ជួយផង,juy+phong,help! / please help,claude,"juyphg, jouyphg, juyphgkor",3707,general,,review:movie_words.csv
+y,កុំទៅ,kom+tov,don't go,claude,"komtv, kormtv, koumtv",3708,general,,review:movie_words.csv
+y,ចាំខ្ញុំ,jam+knhom,wait for me,claude,"jamnh, janh, jamkhnhom",3709,general,,review:movie_words.csv
+y,ស្ដាប់ខ្ញុំ,sdab+knhom,listen to me,claude,"sdapnh, sdaponh, sdapornh",3710,general,,review:movie_words.csv
+y,ហេតុអី,het+ey,why,claude,"hetey, hetei, haetey",3711,general,,review:movie_words.csv
+y,ម៉េចក៏,mech+kor,how come,claude,"mxkor, mexkor, mxko",3712,general,,review:movie_words.csv
+y,មិនអាច,min+ach,cannot / impossible,claude,"menach, mernach, minach",3713,general,,review:movie_words.csv
+y,មិនគួរ,min+kuor,shouldn't,claude,"menkur, mernkur, minkur",3714,general,,review:movie_words.csv
+y,ចូលមក,jol+mok,come in,claude,"jolmk, jorlmk, jolmkror",3715,general,,review:movie_words.csv
+y,ធ្វើអី,tver+ey,what are you doing,claude,"tverey, tverei, tveri",3716,general,,review:movie_words.csv
+y,អត់អីទេ,ot+ey+te,it's nothing / it's okay,claude,"oteyte, oteyter, orteyte",3717,general,,review:movie_words.csv
+y,គ្មានអ្វីទេ,kmean+avey+te,nothing,claude,"kmeanaveyte, kmenaveyte, kmeanaveyter",3718,general,,review:movie_words.csv
+y,ខ្ញុំសន្យា,knhom+sonya,I promise,claude,"nhsorniya, nhsoniya, nhsorniyar",3719,general,,review:movie_words.csv
+y,ទុកឱ្យខ្ញុំ,tuk+oy+knhom,leave it to me,claude,"tukaonh, tukaornh, tukaounh",3720,general,,review:movie_words.csv
+y,ទុកខ្ញុំម្នាក់ឯង,tuk+knhom+mnak+eng,leave me alone,claude,"tuknhmneakaeng, tuknhmnekaeng, tuknhmneakaerng",3721,general,,review:movie_words.csv
+y,ដឹងហើយ,deng+hoy,I know / got it,claude,"dghz, dghx, dernghz",3722,general,,review:movie_words.csv
+y,យល់ហើយ,yol+hoy,understood,claude,"yolhz, yorlhz, yolhx",3723,general,,review:movie_words.csv
+y,គ្មានផ្លូវ,kmean+plov,no way,claude,"kmeanplov, kmenplov, kmanplov",3724,general,,review:movie_words.csv
+y,ចាំមើល,jam+merl,just you wait,claude,"jammerl, jammer, jammirl",3725,general,,review:movie_words.csv
+y,គ្រប់ហើយ,krob+hoy,that's enough,claude,"krobhz, krobhx",3726,general,,review:movie_words.csv
+y,បិទមាត់,bet+moat,shut up,claude,"bitmort, bitmorth, bitmorter",3727,general,,review:movie_words.csv
+y,ត្រឡប់មកវិញ,trolob+mok+vinh,come back,claude,"trolobmkvinh, trorlobmkvinh, trolobmkvenh",3728,general,,review:movie_words.csv
+y,ចឹងហើយ,"jg+hoy, jeung+hoy",that's why,claude,"jghz, jghx, jhghz",3729,general,,review:movie_words.csv
+y,ភ្លាមៗ,plam+plam,immediately,claude,"phleam, pleam, phlam",3730,general,,review:movie_words.csv
+y,បន្ដិចទៀត,bondech+tiet,in a moment,claude,"bondichteat, bondichteath, borndichteat",3731,general,,review:movie_words.csv
+y,ខ្ញុំខុសហើយ,knhom+khos+hoy,I was wrong,claude,"nhkhoshz, nhkhorshz, nhkhoshx",3732,general,,review:movie_words.csv
+y,កុំយំ,kom+yum,don't cry,claude,"komyum, kormyum, koumyum",3733,general,,review:movie_words.csv
+y,កុំភ័យ,kom+phey,don't be afraid,claude,"komphei, komphey, kormphei",3734,general,,review:movie_words.csv
+y,កុំបារម្ភ,kom+baram,don't worry,claude,"kombarom, kormbarom, kombarorm",3735,general,,review:movie_words.csv
+y,កុំប៉ះ,kom+pah,don't touch,claude,"kompas, kormpas, koumpas",3736,general,,review:movie_words.csv
+y,ទុកចិត្តខ្ញុំ,tuk+jet+knhom,trust me,claude,"tukjittonh, tukjittornh, tukjittounh",3737,general,,review:movie_words.csv
+y,តាមខ្ញុំមក,tam+knhom+mok,follow me,claude,"tamnhmk, tanhmk, teamnhmk",3738,general,,review:movie_words.csv
+y,លឿនឡើង,lern+laeng,hurry up,claude,"lernlerng, laernlerng, lernlaerng",3739,general,,review:movie_words.csv
+y,ចាំបន្ដិច,jam+bondech,wait a moment,claude,"jampndich, jampondich, jamporndich",3740,general,,review:movie_words.csv
+y,ម៉េចហើយ,mech+hoy,what's wrong,claude,"mxhz, mxhx, mexhz",3741,general,,review:movie_words.csv
+y,មានរឿងអី,mean+reung+ey,what's the matter,claude,"meanrgey, meanrgei, menrgey",3742,general,,review:movie_words.csv
+y,កើតអី,kert+ey,what happened,claude,"kertey, kertei, kirtey",3743,general,,review:movie_words.csv
+y,បើមិនចឹង,ber+min+jg,otherwise,claude,"bermenjg, bermernjg, beromenjg",3744,general,,review:movie_words.csv
+y,គ្មានជម្រើស,kmean+jumrers,no choice,claude,"kmeanchmrers, kmenchmrers, kmanchmrers",3745,general,,review:movie_words.csv
+y,គ្មានពេល,kmean+pel,no time,claude,"kmeanpel, kmenpel, kmanpel",3746,general,,review:movie_words.csv
+y,យឺតពេល,yeut+pel,too late,claude,"yeutpel, yeutpeyl, yertpel",3747,general,,review:movie_words.csv
+y,ទាន់ពេល,toan+pel,in time,claude,"tornpel, tonpel, tornpeyl",3748,general,,review:movie_words.csv
+y,ចប់ហើយ,job+hoy,it's over,claude,"jophery, jorphery, jophz",3749,general,,review:movie_words.csv
+y,អភិនន្ទន៍,aphinon,congratulations,claude,"ophinnton, ophinntorn, orphinnton",3750,general,,review:movie_words.csv
+y,ជួបគ្នាពេលក្រោយ,juob+knea+pel+kroy,see you later,claude,"joubkneapelkraoy, joubkneapelkroy, joubknapelkraoy",3751,general,,review:movie_words.csv
+y,រាត្រីសួស្ដី,reatrey+suosdey,good night,claude,"reatreisuosdey, reatreisuosdei, reatreisuorsdey",3752,general,,review:movie_words.csv
+y,ល្ងីល្ងើ,lngi+lnger,foolish,claude,"lngeylnger, lngiylnger",3753,general,,review:movie_words.csv
+y,អាឆ្កែ,a+chkae,you dog / bastard,claude,"ahchkae, ahchkaer, achkae",3754,general,,review:movie_words.csv
+y,គ្មានយាងអាយ,kmean+yeang+ay,shameless,claude,"kmeanyeangahy, kmenyeangahy, kmeanyengahy",3755,general,,review:movie_words.csv
+y,លោកប្រធាន,lok+protean,Mr President / CEO (address),claude,"loukbrothean, loukbrothen, lokbrothean",3756,general,,review:movie_words.csv
+y,នាយកប្រតិបត្តិ,neayok+protebat,CEO / executive director,claude,"neaykbrotiptti, naykbrotiptti, neaykbrotiptt",3757,general,,review:movie_words.csv
+y,អ្នកគ្រប់គ្រង,nek+krob+krong,manager,claude,"nekkrobkrong, nekkrobkrorng, nekkrobkrung",3758,general,,review:movie_words.csv
+y,ជំនួយការ,jomnuoy+ka,assistant,claude,"jumnuoyka, jumnuyka, jomnuoyka",3759,general,,review:movie_words.csv
+y,ភាគហ៊ុន,pheak+hun,shares / stock,claude,"pheakhon, phekhon, pheakhorn",3760,general,,review:movie_words.csv
+y,ម្ចាស់ភាគហ៊ុន,mjas+pheak+hun,shareholder,claude,"mjeaspheakhon, mjeasphekhon, mjeaspheakhorn",3761,general,,review:movie_words.csv
+y,ដេញចេញ,denh+jenh,kick out / fire,claude,"denhjenh, dernhjenh, denhjernh",3762,general,,review:movie_words.csv
+y,ក្ស័យធន,ksay+thon,bankrupt,claude,"ksytn, ksytan, ksytnak",3763,general,,review:movie_words.csv
+y,អ្នកស្នងមរតក,nek+snong+morodok,heir,claude,"noksnongmrtk, noksnorngmrtk, neksnongmrtk",3764,general,,review:movie_words.csv
+y,គ្រួសារអ្នកមាន,krousa+nek+mean,rich family,claude,"krursanekmean, krursanekmen, kroursanekmean",3765,general,,review:movie_words.csv
+y,អ្នកបើកបរ,nek+berk+bor,driver,claude,"nokberkp, nekberkp, norkberkp",3766,general,,review:movie_words.csv
+y,អ្នកបម្រើ,nek+bomrer,servant / maid,claude,"nekbomrer, nekbormrer, nekboumrer",3767,general,,review:movie_words.csv
+y,ពិធីជប់លៀង,pithi+job+lieng,party / banquet,claude,"pitheychpleang, pitheychpleng, pitheychplang",3768,general,,review:movie_words.csv
+y,ផ្ញើសារ,pnher+sa,send a message,claude,"phnersa, pnersa, phnersar",3769,general,,review:movie_words.csv
+y,អាកាសយានដ្ឋាន,akasa+yeanathan,airport,claude,"ahkasyeandthan, ahkasyendthan, ahkasyandthan",3770,general,,review:movie_words.csv
+y,បន្ទប់គេង,bontub+keng,bedroom,claude,"bantubkeng, bantubkerng, pantubkeng",3771,general,,review:movie_words.csv
+y,អាផាតមិន,apatmen,apartment,claude,"ahphatmin, ahphatmen, ahpheatmin",3772,general,,review:movie_words.csv
+y,មិត្តរួមថ្នាក់,mit+ruom+thnak,classmate,claude,"mitroumtnak, mitroumtanak, mitroumtnakror",3773,general,,review:movie_words.csv
+y,គិលានុបដ្ឋាយិកា,kilanu+bottayika,nurse,claude,"kileanupdthayika, kilenupdthayika, kilanupdthayika",3774,general,,review:movie_words.csv
+y,វះកាត់,veah+kat,surgery,claude,"vohkat, vohkath, vohkart",3775,general,,review:movie_words.csv
+y,មានផ្ទៃពោះ,mean+ptey+puoh,pregnant,claude,"meanpteipurs, menpteipurs, manpteipurs",3776,general,,review:movie_words.csv
+y,រលូតកូន,rolut+kon,miscarriage,claude,"rolutkon, rolutkorn, rolutko",3777,general,,review:movie_words.csv
+y,សម្រាលកូន,somral+kon,give birth,claude,"sormrealkon, somrealkon, sormrealkorn",3778,general,,review:movie_words.csv
+y,បាត់ការចងចាំ,bat+ka+jong+jam,lose memory / amnesia,claude,"batkajongjam, batkajorngjam, bartkajongjam",3779,general,,review:movie_words.csv
+y,ការចងចាំ,ka+jong+jam,memory,claude,"kajongjam, kajorngjam, kajoungjam",3780,general,,review:movie_words.csv
+y,ស៊ើបអង្កេត,serb+ongket,investigate,claude,"serpngket, serpngketh, serpongket",3781,general,,review:movie_words.csv
+y,អ្នកស៊ើបអង្កេត,nek+serb+ongket,detective / investigator,claude,"nokserpngket, nokserpngketh, nekserpngket",3782,general,,review:movie_words.csv
+y,ឃាតក,kheatak,murderer / killer,claude,"kheatk, kheartk, khatk",3783,general,,review:movie_words.csv
+y,ជនសង្ស័យ,jun+sangsay,suspect (person),claude,"jonsngsy, jornsngsy, jonsgngsy",3784,general,,review:movie_words.csv
+y,ជាប់គុក,joab+kuk,go to jail,claude,"jeapkuk, cheapkuk, jiveapkuk",3785,general,,review:movie_words.csv
+y,ចាប់ជំរិត,jab+jomret,kidnap (for ransom),claude,"japjumrit, japjumrith, japjomrit",3786,general,,review:movie_words.csv
+y,ចាប់ពង្រត់,jab+pongrot,abduct,claude,"jappngrot, jappngroth, jappongrot",3787,general,,review:movie_words.csv
+y,ចំណាប់ខ្មាំង,jomnab+khmang,hostage,claude,"jomnapkhmamng, jomnapkhmang, jormnapkhmamng",3788,general,,review:movie_words.csv
+y,មេក្លោង,me+klong,gang boss / ringleader,claude,"meklaong, meklaorng, meklaoung",3789,general,,review:movie_words.csv
+y,ក្លែងបន្លំ,klaeng+bonlom,fake / forge,claude,"klaengpn, klaerngpn, klaengpon",3790,general,,review:movie_words.csv
+y,គ្រាប់កាំភ្លើង,kroab+kam+plerng,bullet,claude,"kroubk'plerng, kroubk'plaerng, kroubk'polerng",3791,general,,review:movie_words.csv
+y,វាយគ្នា,veay+knea,fight each other,claude,"veayknea, veayknear, veaykna",3792,general,,review:movie_words.csv
+y,រត់គេច,rot+kech,escape / run away,claude,"rotkech, rotkex, rortkech",3793,general,,review:movie_words.csv
+y,គេចខ្លួន,kech+khluon,flee,claude,"kechkhluon, kechkhluorn, kechkluon",3794,general,,review:movie_words.csv
+y,លាក់ខ្លួន,leak+khluon,hide,claude,"leakkluon, lekkluon, leakkluorn",3795,general,,review:movie_words.csv
+y,ដេញតាម,denh+tam,chase,claude,"denhtam, dernhtam, denhteam",3796,general,,review:movie_words.csv
+y,ភ្នាក់ងារសម្ងាត់,phneak+ngea+somngat,secret agent,claude,"phneakngearsmngeat, phneakngearsmngeath, phnekngearsmngeat",3797,general,,review:movie_words.csv
+y,គ្រោះថ្នាក់ចរាចរណ៍,kroh+thnak+jorajor,car accident,claude,"krouhthnakchreachrn, krouhthnakchrachrn, krouhthgnakchreachrn",3798,general,,review:movie_words.csv
+y,ឋានសួគ៌,than+suor,heaven,claude,"thansur, theansur, thensur",3799,general,,review:movie_words.csv
+y,វេទមន្ត,vetmon,magic / spell,claude,"vetmn, vetmnak, vitmn",3800,general,,review:movie_words.csv
+y,អាបធ្មប់,ab+thmob,witchcraft / witch,claude,"ahpthmop, ahpthmob, ahpthmorp",3801,general,,review:movie_words.csv
+y,កូនសិស្ស,kon+seuh,disciple,claude,"konsers, kornsers, konsiers",3802,general,,review:movie_words.csv
+y,ជាតិមុន,jeat+mun,past life,claude,"jeatmun, jeatmoun, jeartmun",3803,general,,review:movie_words.csv
+y,ជាតិក្រោយ,jeat+kroy,next life,claude,"jeatkroy, jeatkrouy, jeartkroy",3804,general,,review:movie_words.csv
+y,ចាប់កំណើតឡើងវិញ,jab+komnert+laeng+vinh,be reborn,claude,"japkomnertlerngvinh, japkormnertlerngvinh, japkoumnertlerngvinh",3805,general,,review:movie_words.csv
+y,បណ្ដាសា,bondasa,curse,claude,"bondasa, borndasa, bondasar",3806,general,,review:movie_words.csv
+y,និកាយ,nikay,sect,claude,"nikay, nikeay, nekay",3807,general,,review:movie_words.csv
+y,ថ្នាំពុល,thnam+pul,poison,claude,"tnampul, tanampul, tnampol",3808,general,,review:movie_words.csv
+y,ព្រះចន្ទ,preah+jan,moon,claude,"preahjan, prahjan, preahjanak",3809,general,,review:movie_words.csv
+y,ជារៀងរហូត,jea+rieng+rohot,forever,claude,"jeareangrohot, jeareangrohoth, jearengrohot",3810,general,,review:movie_words.csv
+y,មួយជីវិត,muy+jivit,whole lifetime,claude,"muyjivit, muyjivith, mouyjivit",3811,general,,review:movie_words.csv
+y,ពេលនោះ,pel+nuh,at that time,claude,"pelnus, belnus, peylnus",3812,general,,review:movie_words.csv
+y,កាលពីមុន,kal+pi+mun,before / in the past,claude,"kalpimun, kalpimoun, kalpimunak",3813,general,,review:movie_words.csv
+y,យប់ជ្រៅ,yub+jrov,late night,claude,"yopjrov, yorpjrov",3814,general,,review:movie_words.csv
+y,រឿងភាគ,reung+pheak,drama series,claude,"roengpheak, roengphek, roerngpheak",3815,general,,review:movie_words.csv
+y,តួឯក,tuo+ek,lead role,claude,"turaek, turaekror, tuoaek",3816,general,,review:movie_words.csv
+y,តួឯកស្រី,tuo+ek+srey,female lead,claude,"turaeksrey, turaeksrei, turaeksri",3817,general,,review:movie_words.csv
+y,តួឯកប្រុស,tuo+ek+pros,male lead,claude,"turaekbros, turaekbrors, turaekbroh",3818,general,,review:movie_words.csv
+y,តួអាក្រក់,tuo+akrok,villain,claude,"turakk, turakkror, turakkrok",3819,general,,review:movie_words.csv
+y,តួសម្ដែង,tuo+somdaeng,actor / actress,claude,"tursomdaeng, tursomdaerng, tursormdaeng",3820,general,,review:movie_words.csv
+y,អ្នកដឹកនាំរឿង,nek+dek+noam+reung,director,claude,"nokderknoamroeng, nokderknoamroerng, nekderknoamroeng",3821,general,,review:movie_words.csv
+y,អក្សររត់,aksar+rot,subtitles,claude,"ahsorrut, ahsorruth, ahsorrout",3822,general,,review:movie_words.csv
+y,អ្នកបកប្រែ,nek+bok+prae,translator,claude,"nokpkbrae, nokpkbraer, nekpkbrae",3823,general,,review:movie_words.csv
+y,ចាក់ផ្សាយ,jak+psay,broadcast / air,claude,"jakphsay, jakpsay, jakphsoay",3824,general,,review:movie_words.csv
+y,ចុះចាញ់,joh+janh,surrender,claude,"josjanh, jorsjanh",3825,general,,review:movie_words.csv
+y,រកឃើញ,rok+khernh,find,claude,"rokkherng, rorkkherng, roukkherng",3826,general,,review:movie_words.csv
+y,បាត់ខ្លួន,bat+khluon,go missing,claude,"batkluon, batkluorn, batklun",3827,general,,review:movie_words.csv
+y,សម្រេចចិត្ត,somrech+jet,decide,claude,"somrachjit, somrachjith, sormrachjit",3828,general,,review:movie_words.csv
+y,ស្ដាប់បង្គាប់,sdab+bongkab,obey,claude,"sdappngkeap, sdappngkeab, sdappongkeap",3829,general,,review:movie_words.csv
+y,ធ្វើពុត,tver+put,pretend,claude,"tverput, tverputh, toverput",3830,general,,review:movie_words.csv
+y,ក្លែងខ្លួន,klaeng+khluon,disguise,claude,"klaengkhluon, klaengkhluorn, klaengkluon",3831,general,,review:movie_words.csv
+y,នៅឯណា,nov+ae+na,where,claude,"nvaena, nvaenar, nvaerna",3832,general,,review:dialogue_words.csv
+y,អាហ្នឹង,a+neng,that thing,claude,"ahng, ahgng, ahngkor",3833,general,,review:dialogue_words.csv
+y,គ្នាឯង,knea+eng,you guys (close),claude,"kneaeg, knaeg, kneaegkor",3834,general,,review:dialogue_words.csv
+y,ម្នាក់ណា,mnak+na,someone / which one,claude,"mnekna, mneknar, mneknah",3835,general,,review:dialogue_words.csv
+y,គ្មាននរណា,kmean+norona,nobody,claude,"kmeannrna, kmennrna, kmeannrnar",3836,general,,review:dialogue_words.csv
+y,ញ៉ាំបាយ,nham+bay,eat (a meal),claude,"nhambay, nheambay, nhiambay",3837,general,,review:dialogue_words.csv
+y,ស្រេកទឹក,srek+tek,thirsty,claude,"srekterk, srekoterk, srekterkror",3838,general,,review:dialogue_words.csv
+y,ងូតទឹក,ngut+tek,shower / bathe,claude,"ngutterk, ngutterkror, nguchterk",3839,general,,review:dialogue_words.csv
+y,សម្លៀកបំពាក់,somliek+bompeak,clothes,claude,"sormleakbompeak, somleakbompeak, sormlekbompeak",3840,general,,review:dialogue_words.csv
+y,ផ្ទះបាយ,ptes+bay,kitchen,claude,"pteasbay, teasbay, ptiasbay",3841,general,,review:dialogue_words.csv
+y,បន្ទប់ទឹក,bontub+tek,bathroom,claude,"bantubterk, pantubterk, bantubterkror",3842,general,,review:dialogue_words.csv
+y,ឡានក្រុង,lan+krong,bus,claude,"lankrong, lankrorng, lankrung",3843,general,,review:dialogue_words.csv
+y,រទេះសេះ,roteh+seh,carriage,claude,"rotehses, rotehsies, rortehses",3844,general,,review:dialogue_words.csv
+y,ភ្លេចភ្លាំង,plech+pleang,forgetful / absent-minded,claude,"phlechphloamng, plechphloamng, phlechploamng",3845,general,,review:dialogue_words.csv
+y,ចូលចិត្តណាស់,jol+jet+nas,really like,claude,"joljitnas, joljitanas, jorljitnas",3846,general,,review:dialogue_words.csv
+y,មិនចូលចិត្ត,min+jol+jet,don't like,claude,"menjoljit, menjoljith, mernjoljit",3847,general,,review:dialogue_words.csv
+y,ស្អប់ណាស់,sa'ob+nas,hate so much,claude,"s'oabnas, soabnas",3848,general,,review:dialogue_words.csv
+y,ត្រឡប់ទៅផ្ទះ,trolob+tov+ptes,go home,claude,"trolobtvpteas, trolobtovpteas, trorlobtvpteas",3849,general,,review:dialogue_words.csv
+y,មកពីណា,mok+pi+na,where from,claude,"mkpina, mkpinar, mkpinah",3850,general,,review:dialogue_words.csv
+y,ទើបតែ,terb+tae,just (now),claude,"terptae, terptaer, terpteae",3851,general,,review:dialogue_words.csv
+y,ម្ដងម្កាល,mdong+mkal,sometimes,claude,"mdongmkeal, mdorngmkeal, mdongmkal",3852,general,,review:dialogue_words.csv
+y,ល្អណាស់,laor+nas,very good,claude,loarnas,3853,general,,review:dialogue_words.csv
+y,ស្អាតបាត,saat+bat,clean and tidy,claude,"sartbad, soartbad, sartbat",3854,general,,review:dialogue_words.csv
+y,គួរឱ្យស្រឡាញ់,kuor+oy+srolanh,lovely / cute,claude,"kuoraosrolanh, kuorosrolanh, kuoraorsrolanh",3855,general,,review:dialogue_words.csv
+y,គួរឱ្យខ្លាច,kuor+oy+klach,scary,claude,"kuoraokhlach, kuoraoklach, kuorokhlach",3856,general,,review:dialogue_words.csv
+y,គួរឱ្យអាណិត,kuor+oy+anet,pitiful,claude,"kuoraoahnit, kuoraoahnith, kuoroahnit",3857,general,,review:dialogue_words.csv
+y,គួរឱ្យសើច,kuor+oy+serch,funny,claude,"kuoraoserch, kuoroserch, kuoraorserch",3858,general,,review:dialogue_words.csv
+y,ខ្ជិលច្រអូស,kjel+jro'os,very lazy,claude,"khjiljroos, khjiljroors, khjiljrooh",3859,general,,review:dialogue_words.csv
+y,ចិត្តអាក្រក់,jet+akrok,mean / wicked,claude,"jitakk, jiteakk, jitakkror",3860,general,,review:dialogue_words.csv
+y,ចិត្តត្រជាក់,jet+trojeak,cold-hearted,claude,"jittrojek, jittrojivek, jittrojekror",3861,general,,review:dialogue_words.csv
+y,ខ្មាសគេ,khmas+ke,shy,claude,"khmaske, khmasker, kmaske",3862,general,,review:dialogue_words.csv
+y,ច្របូកច្របល់,jrobok+jrobol,confused / messy,claude,"jrobokjropl, jroborkjropl, jrobokjrorpl",3863,general,,review:dialogue_words.csv
+y,ឥតប្រយោជន៍,et+prayoch,useless,claude,"etbroyouchn, etbrouyouchn, etbroyouchgn",3864,general,,review:dialogue_words.csv
+y,គ្រោះថ្នាក់ណាស់,kroh+thnak+nas,very dangerous,claude,"krouhthnaknas, krouhthgnaknas, krouhtnaknas",3865,general,,review:dialogue_words.csv
+y,រំភើបចិត្ត,rumpherb+jet,touched / moved,claude,"rumpherpjit, rumpherpjith, roumpherpjit",3866,general,,review:dialogue_words.csv
+y,អស់កម្លាំង,os+kamlang,exhausted,claude,"orskomlang, orskormlang, orskoumlang",3867,general,,review:dialogue_words.csv
+y,ឈឺក្បាល,chheu+kbal,headache / annoying,claude,"chuekbal, cheukbal, chuikbal",3868,general,,review:dialogue_words.csv
+y,ធុញទ្រាន់,thunh+troan,fed up,claude,"thunhtrean, thunhtren, thunhtran",3869,general,,review:dialogue_words.csv
+y,ខ្លាចណាស់,klach+nas,so scared,claude,"klachnas, klachgnas",3870,general,,review:dialogue_words.csv
+y,ស្ទាក់ស្ទើរ,stak+ster,hesitant,claude,"stakster, steakster, stekster",3871,general,,review:dialogue_words.csv
+y,ជ្រួលច្រាល់,jruol+jral,panicked / flustered,claude,"jruoljral, jruljral, jrouoljral",3872,general,,review:dialogue_words.csv
+y,ស្រងេះស្រងោច,srongeh+srongaoch,lonely / gloomy,claude,"srongehsrongouch, srorngehsrongouch, srongehsrorngouch",3873,general,,review:dialogue_words.csv
+y,ខកបំណង,khok+bomnong,let down,claude,"khorkbomnng, khorkbormnng, khorkboumnng",3874,general,,review:dialogue_words.csv
+y,ក្ដីស្រឡាញ់,kdey+srolanh,love (noun),claude,"kdeisl, kdeisrolanh, kdiisl",3875,general,,review:dialogue_words.csv
+y,ចិត្តស្រឡាញ់,jet+srolanh,feelings for someone,claude,"jitsl, jitsrolanh, jetsl",3876,general,,review:dialogue_words.csv
+y,សារភាពស្នេហ៍,sarapheap+sne,confess love,claude,"sapheapsne, sapheapsner, soapheapsne",3877,general,,review:dialogue_words.csv
+y,ស្រលាញ់ខ្លាំង,srolanh+khlang,love deeply,claude,"sroleanhkhlamng, sroleanhkhlang, srolenhkhlamng",3878,general,,review:dialogue_words.csv
+y,ចិញ្ចៀន,jenhjien,ring,claude,"jinhjean, jinhjen, jinjean",3879,general,,review:dialogue_words.csv
+y,ផ្កាកុលាប,pka+kolab,rose,claude,"pkakolab, pkakorlab",3880,general,,review:dialogue_words.csv
+y,កាដូ,kado,gift,claude,"kado, kador, kadu",3881,general,,review:dialogue_words.csv
+y,ខួបកំណើត,khuob+komnert,birthday,claude,"khuopkomnert, khuopkomnerth, khuopkormnert",3882,general,,review:dialogue_words.csv
+y,ថ្ងៃខួប,thngai+khuob,anniversary,claude,"tgnaikhuop, tgnaikhuob, tgnaikhuorp",3883,general,,review:dialogue_words.csv
+y,ក្មេងខូច,kmeng+khoch,bad boy / brat,claude,"kmengkhoch, kmerngkhoch, kmengkoch",3884,general,,review:dialogue_words.csv
+y,ស្រីឆ្កួត,srey+chkuot,crazy woman,claude,"sreychkut, sreychkuth, sreychkuter",3885,general,,review:dialogue_words.csv
+y,ប្រុសឆ្កួត,pros+chkuot,crazy man,claude,"broschkut, proschkut, broschkuth",3886,general,,review:dialogue_words.csv
+y,មនុស្សអាក្រក់,monus+akrok,bad person,claude,"mnusakk, mnusoakk, mnusakkror",3887,general,,review:dialogue_words.csv
+y,មនុស្សល្អ,monus+laor,good person,claude,"mnusloar, monusloar",3888,general,,review:dialogue_words.csv
+y,ក្មេងៗ,kmeng+kmeng,kids,claude,"kmeng, kmerng, kmengkor",3889,general,,review:dialogue_words.csv
+y,កូនតូច,kon+toch,little child,claude,"kontoch, korntoch, kntoch",3890,general,,review:dialogue_words.csv
+y,ប្ដីប្រពន្ធ,pdey+propon,husband and wife,claude,"pdeippun, pdeippunak, pdeyppun",3891,general,,review:dialogue_words.csv
+y,អ្នកជិតខាង,nek+jit+khang,neighbor,claude,"nekjitkhang, nekjitkheang, nekjitkhangkor",3892,general,,review:dialogue_words.csv
+y,មិត្តភក្ដិ,mit+pheak,friend,claude,"mittopkdi, mittorpkdi, mettopkdi",3893,general,,review:dialogue_words.csv
+y,មិត្តល្អ,mit+laor,good friend,claude,"mitloar, metloar",3894,general,,review:dialogue_words.csv
+y,សត្រូវចាស់,satrov+jas,old enemy,claude,"sortrovjas, satrovjas, sortrvjas",3895,general,,review:dialogue_words.csv
+y,ទូរស័ព្ទដៃ,turosap+dai,mobile phone,claude,"tusabdai, tusoabdai, turasabdai",3896,general,,review:dialogue_words.csv
+y,ហ្វេសប៊ុក,facebook,Facebook,claude,"hvesbok, hvesbork, hvesbor",3897,general,,review:dialogue_words.csv
+y,តេឡេក្រាម,telegram,Telegram,claude,"telekram, teylekram, telaekram",3898,general,,review:dialogue_words.csv
+y,លេខទូរស័ព្ទ,lek+turosap,phone number,claude,"lektusab, lekotusab, lektusoab",3899,general,,review:dialogue_words.csv
+y,ថ្ងៃត្រង់,thngai+trong,noon,claude,"tgnaitrong, tgnaitrorng, tgnaitrung",3900,general,,review:dialogue_words.csv
+y,មុននេះ,mun+nis,before this / earlier,claude,"munnis, mounnis, munnes",3901,general,,review:dialogue_words.csv
