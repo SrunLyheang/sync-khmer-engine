@@ -599,7 +599,7 @@ y,គុណភាព,kunapheap,quality,claude,"konpheap, konpheab, kornpheap",59
 y,តភ្ជាប់,"to+phjab, tophjab",connect,claude,"tophjeap, tophjeab, torphjeap",598,general,,seafreq+sbbic
 y,ឈឺចាប់,"chheu+jab, chujab",pain / hurt,claude,"chuejap, chuejab, cheujap",599,general,,seafreq+sbbic
 y,ដកស្រង់,dok+srong,quote / extract,claude,"dorksrong, dorksrorng, dorksrung",600,general,,seafreq+sbbic
-y,រហើយ,rohaoy,sloppy / neglectful,claude,"rohery, rohx, rohy",601,general,,seafreq+chuonnath
+y,រហើយ,rohaoy,sloppy / neglectful,claude,"rohery, rohz, rohy",601,general,,seafreq+chuonnath
 y,មរកត,morokot,emerald,claude,"morkt, morkth, morkot",602,general,,seafreq+chuonnath
 n,ដា,,(fragment),claude,"da, dar, dah",603,general,,seafreq+chuonnath
 n,ទ្រ,,(fragment),claude,"t, th, ter",604,general,,seafreq+chuonnath
@@ -1799,306 +1799,306 @@ y,ម៉្យាង,myang,kind / one way,claude,"mng, mngkor, mngko",1797,gener
 y,លះបង់,leah+bong,sacrifice,claude,"lohpng, lohpong, lohpngkor",1798,general,,seafreq+chuonnath
 y,ពិសោធ,pisot,test / experiment,claude,"pisaot, pisaoth, pisoaot",1799,general,,seafreq+chuonnath
 y,គូប,kub,cube,claude,"kup, kop",1800,general,,seafreq+sbbic
-y,សាក់,"sak, soak",,engine,"sak, soak, sakror",1801,general,,seafreq+chuonnath
-y,វ៉ែត,"veat, veath",,engine,"veat, veath, veart",1802,general,,seafreq+chuonnath
-y,ឈ្មោះថា,"chmouhtha, chmouhthar",,engine,"chmouhtha, chmouhthar, chmouhthah",1803,general,,seafreq+sbbic
-y,ចែកចាយ,"jekjay, chekjay",,engine,"jekjay, chekjay, jivekjay",1804,general,,seafreq+sbbic
-y,ក្រសាំង,"krorsang, krorsoang",,engine,"krorsang, krorsoang, krorsangkor",1805,general,,seafreq+chuonnath
-y,សំលៀកបំពាក់,"somleakbompeak, somlekbompeak",,engine,"somleakbompeak, somlekbompeak, somleakbompek",1806,general,,seafreq+sbbic
-y,រួមគ្នា,"roumknea, roumknear",,engine,"roumknea, roumknear, roumkna",1807,general,,seafreq+sbbic
-y,ឃ្លាំមើល,"khloammerl, kloammerl",,engine,"khloammerl, kloammerl, khlormmerl",1808,general,,seafreq+sbbic
-y,ចាត់ការ,"jatka, jatkar",,engine,"jatka, jatkar, jatkah",1809,general,,seafreq+sbbic
-y,លង់,"long, lorng",,engine,"long, lorng, loung",1810,general,,seafreq+chuonnath
-y,សំណូក,"somnok, sormnok",,engine,"somnok, sormnok, somnek",1811,general,,seafreq+chuonnath
-y,ពង្រាយ,"pongreay, porngreay",,engine,"pongreay, porngreay, pongray",1812,general,,seafreq+chuonnath
-y,ឧក្រឹដ្ឋ,"okrert, okrerth",,engine,"okrert, okrerth, orkrert",1813,general,,seafreq+sbbic
-y,និយមន័យ,"niymny, neymny",,engine,"niymny, neymny",1814,general,,seafreq+sbbic
-y,សាធារណការ,"sathearnka, sathearnkar",,engine,"sathearnka, sathearnkar, sathearnkah",1815,general,,seafreq+sbbic
-y,ឡប់,"lop, lob",,engine,"lop, lob, lorp",1816,general,,seafreq+chuonnath
-y,ពោធិ,"pouthi, paothi",,engine,"pouthi, paothi, pouti",1817,general,,seafreq+chuonnath
-y,នទី,"noti, not",,engine,"noti, not, norti",1818,general,,seafreq+chuonnath
-y,សន្ធិ,"sornthi, sonthi",,engine,"sornthi, sonthi, santhi",1819,general,,seafreq+chuonnath
-y,សករាជ,"sorkreach, sorkrach",,engine,"sorkreach, sorkrach, sokrach",1820,general,,seafreq+chuonnath
-y,អ្នកតា,"nekta, nektar",,engine,"nekta, nektar, nektah",1821,general,,seafreq+chuonnath
-y,សិប្ប,"sip, sib",,engine,"sip, sib, sep",1822,general,,seafreq+chuonnath
-y,ព្រាហ្មណ៍,"preahmon, preahmorn",,engine,"preahmon, preahmorn, prahmon",1823,general,,seafreq+chuonnath
-y,អ្វីមួយ,"aveymuy, aveymouy",,engine,"aveymuy, aveymouy, aviymuy",1824,general,,seafreq+sbbic
-y,រឹតតែ,"rerttae, rerttaer",,engine,"rerttae, rerttaer, rertteae",1825,general,,seafreq+sbbic
-y,ផ្សែង,"phsaeng, phsaerng",,engine,"phsaeng, phsaerng, psaeng",1826,general,,seafreq+chuonnath
-y,បាតុករ,"batokk, batorkk",,engine,"batokk, batorkk, batoukk",1827,general,,seafreq+sbbic
-y,ឲ្យតែ,"oytae, oytaer",,engine,"oytae, oytaer, ouytae",1828,general,,seafreq+sbbic
-y,រថភ្លើង,"rotphlerng, rotplerng",,engine,"rotphlerng, rotplerng, rotphlaerng",1829,general,,seafreq+sbbic
-y,រាម,"ream, rem",,engine,"ream, rem, ram",1830,general,,seafreq+chuonnath
-y,និព្វាន,"nipvean, nipven",,engine,"nipvean, nipven, nipveanak",1831,general,,seafreq+chuonnath
-y,ប្រាង្គ,"brang, prang",,engine,"brang, prang, brangkor",1832,general,,seafreq+chuonnath
-y,ភ្នាក់,"phneak, phnek",,engine,"phneak, phnek, pneak",1833,general,,seafreq+sbbic
-y,ផ្ដិត,"phdit, phdith",,engine,"phdit, phdith, pdit",1834,general,,seafreq+chuonnath
-y,ឃុបឃិត,"khupkhit, khupkhith",,engine,"khupkhit, khupkhith, khupkhiter",1835,general,,seafreq+sbbic
-y,ហេតុនេះ,"hetnis, hetanis",,engine,"hetnis, hetanis, haetnis",1836,general,,seafreq+sbbic
-y,ណាត់,"nat, nath",,engine,"nat, nath, nart",1837,general,,seafreq+chuonnath
-y,ក្រា,"kra, krar",,engine,"kra, krar, krah",1838,general,,seafreq+chuonnath
-y,ផ្លែឈើ,"phlaecher, plaecher",,engine,"phlaecher, plaecher, phlaechaer",1839,general,,seafreq+sbbic
-y,ចំការមន,"jomkarmn, jomkaromn",,engine,"jomkarmn, jomkaromn, jormkarmn",1840,general,,seafreq+sbbic
-y,ខុន,"khon, khorn",,engine,"khon, khorn, kho",1841,general,,seafreq+chuonnath
-y,ថែមទាំង,"thaemteang, thaemteng",,engine,"thaemteang, thaemteng, theaemteang",1842,general,,seafreq+sbbic
-y,មានន័យ,"meanny, menny",,engine,"meanny, menny, manny",1843,general,,seafreq+sbbic
-y,កែង,"kaeng, kaerng",,engine,"kaeng, kaerng, kaengkor",1844,general,,seafreq+chuonnath
-y,ជរា,"jorea, jorear",,engine,"jorea, jorear, joreah",1845,general,,seafreq+chuonnath
-y,ផ្លាក,"phlak, plak",,engine,"phlak, plak, phlakror",1846,general,,seafreq+sbbic
-y,វៃ,"vey, vei",,engine,"vey, vei, vai",1847,general,,seafreq+chuonnath
-y,កុំឲ្យ,"komoy, kormoy",,engine,"komoy, kormoy, komouy",1848,general,,seafreq+sbbic
-y,ចលាចល,"joleachl, jolachl",,engine,"joleachl, jolachl, jolaeachl",1849,general,,seafreq+chuonnath
-y,ដែនសមុទ្រ,"daensmut, daensmuth",,engine,"daensmut, daensmuth, daernsmut",1850,general,,seafreq+sbbic
-y,ទុច្ចរិត,"tujjorit, tujjorith",,engine,"tujjorit, tujjorith, tujjoriter",1851,general,,seafreq+chuonnath
-y,ទ្រង់ទ្រាយ,"trongtreay, trorngtreay",,engine,"trongtreay, trorngtreay, trongtray",1852,general,,seafreq+chuonnath
-y,ប៉េកាំង,"bekamng, bekang",,engine,"bekamng, bekang, bekamngkor",1853,general,,seafreq+sbbic
-y,ជង្គង់,"jongkong, jorngkong",,engine,"jongkong, jorngkong, jongkorng",1854,general,,seafreq+chuonnath
-y,កូដកម្ម,"kotkm, kortkm",,engine,"kotkm, kortkm, kutkm",1855,general,,seafreq+chuonnath
-y,បដិមា,"bodimea, bodimear",,engine,"bodimea, bodimear, bodimeah",1856,general,,seafreq+chuonnath
-y,ផ្ទៃក្នុង,"pteiknong, pteiknorng",,engine,"pteiknong, pteiknorng, pteiknoung",1857,general,,seafreq+sbbic
-y,ធើ,"ther, thaer",,engine,"ther, thaer, ter",1858,general,,seafreq+sbbic
-y,ទំ,"tum, tom",,engine,"tum, tom, torm",1859,general,,seafreq+chuonnath
-y,ពាស,"peas, beas",,engine,"peas, beas, pas",1860,general,,seafreq+chuonnath
-y,បិណ្ឌ,"bin, binak",,engine,"bin, binak, ben",1861,general,,seafreq+chuonnath
-y,គុយ,"kuy, koy",,engine,"kuy, koy",1862,general,,seafreq+chuonnath
-y,បញ្ញត្តិ,"bonhnhotti, bornhnhotti",,engine,"bonhnhotti, bornhnhotti, bonhnhott",1863,general,,seafreq+chuonnath
-y,សែល,"sael, soael",,engine,"sael, soael, saeyl",1864,general,,seafreq+sbbic
-y,សោម,"saom, saorm",,engine,"saom, saorm, saoum",1865,general,,seafreq+chuonnath
-y,ខ្ទេច,"khtech, khtex",,engine,"khtech, khtex, ktech",1866,general,,seafreq+chuonnath
-y,យា,"yea, ya",,engine,"yea, ya, year",1867,general,,seafreq+sbbic
-y,បច្ច័យ,"bojjy, pojjy",,engine,"bojjy, pojjy",1868,general,,seafreq+chuonnath
-y,និយោជក,"niyouchk, niyouchkror",,engine,"niyouchk, niyouchkror, niyaochk",1869,general,,seafreq+chuonnath
-y,ណេះ,"neh, nes",,engine,"neh, nes, nih",1870,general,,seafreq+sbbic
-y,ស្លាប,"slap, slab",,engine,"slap, slab, sleap",1871,general,,seafreq+chuonnath
-y,ដូនតា,"donta, dornta",,engine,"donta, dornta, dontar",1872,general,,seafreq+chuonnath
-y,ដោត,"daot, daoth",,engine,"daot, daoth, daort",1873,general,,seafreq+chuonnath
-y,ឯករាជ,"aekreach, aekrach",,engine,"aekreach, aekrach, aikreach",1874,general,,seafreq+sbbic
-y,សំអាត,"somaht, somahth",,engine,"somaht, somahth, sormaht",1875,general,,seafreq+chuonnath
-y,វាស់,"veas, vas",,engine,"veas, vas, veah",1876,general,,seafreq+chuonnath
-y,ដំឡូង,"domlong, domlorng",,engine,"domlong, domlorng, dormlong",1877,general,,seafreq+chuonnath
-y,ឱន,"aon, aorn",,engine,"aon, aorn, ao",1878,general,,seafreq+chuonnath
-y,ចំបង,"jompng, jormpng",,engine,"jompng, jormpng, jompong",1879,general,,seafreq+sbbic
-y,មិច,"mich, mech",,engine,"mich, mech",1880,general,,seafreq+chuonnath
-y,ភក់,"phok, phork",,engine,"phok, phork, phor",1881,general,,seafreq+chuonnath
-y,អាមេរិកាំង,"ahmerikamng, ahmerikang",,engine,"ahmerikamng, ahmerikang, ahmerikamngkor",1882,general,,seafreq+sbbic
-y,ក្រាស់,"kras, krah",,engine,"kras, krah, kreas",1883,general,,seafreq+chuonnath
-y,ចិញ្ចើម,"jinhjerm, jinhjerom",,engine,"jinhjerm, jinhjerom, jinhjem",1884,general,,seafreq+chuonnath
-y,អាណិកជន,"ahnikchn, ahgnikchn",,engine,"ahnikchn, ahgnikchn, ahnikchgn",1885,general,,seafreq+chuonnath
-y,ឫទ្ធិ,"reutthi, reuthi",,engine,"reutthi, reuthi, reutti",1886,general,,seafreq+chuonnath
-y,ពាល,"peal, beal",,engine,"peal, beal, pal",1887,general,,seafreq+chuonnath
-y,ជូនដំណឹង,"jundomnerng, jundormnerng",,engine,"jundomnerng, jundormnerng, joundomnerng",1888,general,,seafreq+sbbic
-y,សងខាង,"sorngkhang, songkhang",,engine,"sorngkhang, songkhang, sorngkheang",1889,general,,seafreq+chuonnath
-y,ប្រហុក,"brohok, prohok",,engine,"brohok, prohok, brohork",1890,general,,seafreq+chuonnath
-y,សែង,"saeng, saerng",,engine,"saeng, saerng, soaeng",1891,general,,seafreq+chuonnath
-y,គគ្រេង,"kokreng, kokrerng",,engine,"kokreng, kokrerng, korkreng",1892,general,,seafreq+chuonnath
-y,គគុក,"kokuk, korkuk",,engine,"kokuk, korkuk, koukuk",1893,general,,seafreq+chuonnath
-y,នាវា,"neavea, neavear",,engine,"neavea, neavear, navea",1894,general,,seafreq+chuonnath
-y,គគ្រឹក,"kokrerk, korkrerk",,engine,"kokrerk, korkrerk, koukrerk",1895,general,,seafreq+chuonnath
-y,ដូចតទៅ,"dochttv, dochttov",,engine,"dochttv, dochttov, duchttv",1896,general,,seafreq+sbbic
-y,វត្ស,"vot, voth",,engine,"vot, voth, vort",1897,general,,seafreq+chuonnath
-y,ប្រល័យ,"broly, proly",,engine,"broly, proly, brorly",1898,general,,seafreq+chuonnath
-y,ស្រុត,"srot, sroth",,engine,"srot, sroth, srort",1899,general,,seafreq+chuonnath
-y,មហាយាន,"mohayean, mohayen",,engine,"mohayean, mohayen, mohayan",1900,general,,seafreq+sbbic
-y,ឃ្មុំ,"khmum, khmoum",,engine,"khmum, khmoum, kmum",1901,general,,seafreq+chuonnath
-y,ហួរ,"huo, huor",,engine,"huo, huor, hur",1902,general,,seafreq+chuonnath
-y,ល្វែង,"lveang, lveng",,engine,"lveang, lveng, lvang",1903,general,,seafreq+chuonnath
-y,ឡូ,"lo, lor",,engine,"lo, lor, lu",1904,general,,seafreq+chuonnath
-y,សារមន្ទីរ,"sarmntey, sarmntei",,engine,"sarmntey, sarmntei, saromntey",1905,general,,seafreq+sbbic
-y,ពុះ,"puh, pus",,engine,"puh, pus, poh",1906,general,,seafreq+chuonnath
-y,បញ្ឆោត,"bonhchout, bonhchouth",,engine,"bonhchout, bonhchouth, bornhchout",1907,general,,seafreq+chuonnath
-y,ខេ,"khe, kher",,engine,"khe, kher, khae",1908,general,,seafreq+chuonnath
-y,តម្រង់,"tomrong, tomrorng",,engine,"tomrong, tomrorng, tormrong",1909,general,,seafreq+chuonnath
-y,ដើម្បីឲ្យ,"dermbeioy, derombeioy",,engine,"dermbeioy, derombeioy, dermbeiouy",1910,general,,seafreq+sbbic
-y,វ៉ាត់,"vat, vath",,engine,"vat, vath, vart",1911,general,,seafreq+sbbic
-y,កងកម្លាំង,"korngkmloamng, kongkmloamng",,engine,"korngkmloamng, kongkmloamng, korngkmloang",1912,general,,seafreq+sbbic
-y,ឥណទាន,"entean, enten",,engine,"entean, enten, erntean",1913,general,,seafreq+sbbic
-y,ប៉ុនប៉ង,"bonbong, bornbong",,engine,"bonbong, bornbong, bonborng",1914,general,,seafreq+sbbic
-y,រំភើប,"rumpherp, roumpherp",,engine,"rumpherp, roumpherp, rumpherb",1915,general,,seafreq+chuonnath
-y,ក្របខ័ណ្ឌ,"krorpkhn, krorpkn",,engine,"krorpkhn, krorpkn, krorpkhgn",1916,general,,seafreq+chuonnath
-y,សមាន,"sormean, somean",,engine,"sormean, somean, sormen",1917,general,,seafreq+chuonnath
-y,ការទូត,"kartut, kartuth",,engine,"kartut, kartuth, kartuter",1918,general,,seafreq+sbbic
-y,បង្អែក,"bongeak, bongek",,engine,"bongeak, bongek, borngeak",1919,general,,seafreq+chuonnath
-y,ទីក្រុងភ្នំពេញ,"tikrongphnumpenh, tikrorngphnumpenh",,engine,"tikrongphnumpenh, tikrorngphnumpenh, tikrongpnumpenh",1920,general,,seafreq+sbbic
-y,ញ័រ,"nh, nhr",,engine,"nh, nhr",1921,general,,seafreq+chuonnath
-y,គំរាមកំហែង,"kumreamkomhaeng, kumreamkomhaerng",,engine,"kumreamkomhaeng, kumreamkomhaerng, kumreamkormhaeng",1922,general,,seafreq+sbbic
-y,យីហោ,"yihao, yihaor",,engine,"yihao, yihaor, yiheao",1923,general,,seafreq+chuonnath
-y,ទៅទៀត,"tvtt, tvtth",,engine,"tvtt, tvtth, tovtt",1924,general,,seafreq+sbbic
-y,អចិន្ត្រៃយ៍,"ojintreyy, ojentreyy",,engine,"ojintreyy, ojentreyy, ojerntreyy",1925,general,,seafreq+chuonnath
-y,ផ្ដាសាយ,"phdasay, pdasay",,engine,"phdasay, pdasay, phdasoay",1926,general,,seafreq+chuonnath
-y,សន្និបាត,"sornnibat, sonnibat",,engine,"sornnibat, sonnibat, sornnibath",1927,general,,seafreq+chuonnath
-y,យានយន្ត,"yeanyn, yenyn",,engine,"yeanyn, yenyn, yanyn",1928,general,,seafreq+sbbic
-y,អស់នេះ,"orsnis, orsgnis",,engine,"orsnis, orsgnis, osnis",1929,general,,seafreq+sbbic
-y,បុប្ផា,"bobpha, bobphar",,engine,"bobpha, bobphar, bobphah",1930,general,,seafreq+chuonnath
-y,ខ្ចប់,"khjop, khjob",,engine,"khjop, khjob, khjorp",1931,general,,seafreq+chuonnath
-y,ញាប់,"nheap, nheab",,engine,"nheap, nheab, nhap",1932,general,,seafreq+chuonnath
-y,សិល្បករ,"silbok, silbork",,engine,"silbok, silbork, silbor",1933,general,,seafreq+sbbic
-y,ម្នា,"mnea, mnear",,engine,"mnea, mnear, mna",1934,general,,seafreq+chuonnath
-y,វិវត្តន៍,"vivtton, vivttorn",,engine,"vivtton, vivttorn, vivatton",1935,general,,seafreq+sbbic
-y,ចំណាក,"jomnak, jormnak",,engine,"jomnak, jormnak, joumnak",1936,general,,seafreq+sbbic
-y,អធ្យាស្រ័យ,"othyeasry, othyasry",,engine,"othyeasry, othyasry, orthyeasry",1937,general,,seafreq+chuonnath
-y,ចង្កេះ,"jongkeh, jorngkeh",,engine,"jongkeh, jorngkeh, jongkes",1938,general,,seafreq+chuonnath
-y,ចំហៀង,"jomheang, jomheng",,engine,"jomheang, jomheng, jormheang",1939,general,,seafreq+chuonnath
-y,កេរ,"ke, ker",,engine,"ke, ker, ki",1940,general,,seafreq+chuonnath
-y,រុងរឿង,"rungroeng, rungroerng",,engine,"rungroeng, rungroerng, roungroeng",1941,general,,seafreq+chuonnath
-y,សណ្ដាប់ធ្នាប់,"sorndapthneap, sorndapthneab",,engine,"sorndapthneap, sorndapthneab, sondapthneap",1942,general,,seafreq+chuonnath
-y,ស័ក,"sk, skror",,engine,"sk, skror, skro",1943,general,,seafreq+chuonnath
-y,ទីស្នាក់ការ,"tisnakka, tisnakkar",,engine,"tisnakka, tisnakkar, tisnakkah",1944,general,,seafreq+sbbic
-y,បទបញ្ជា,"botbonhjea, botbornhjea",,engine,"botbonhjea, botbornhjea, botbonhjear",1945,general,,seafreq+sbbic
-y,ចង្ហាន់,"jonghean, jonghen",,engine,"jonghean, jonghen, jornghean",1946,general,,seafreq+chuonnath
-y,ប៉ាន់ស្មាន,"pansman, pansmanak",,engine,"pansman, pansmanak, pansmean",1947,general,,seafreq+sbbic
-y,អំណរ,"omn, ormn",,engine,"omn, ormn, oumn",1948,general,,seafreq+chuonnath
-y,សំណ,"somn, sormn",,engine,"somn, sormn, sumn",1949,general,,seafreq+chuonnath
-y,អីវ៉ាន់,"eyvan, eyvanak",,engine,"eyvan, eyvanak, eyvean",1950,general,,seafreq+chuonnath
-y,ស្ថិរភាព,"sthirpheap, sthirpheab",,engine,"sthirpheap, sthirpheab, sthirphap",1951,general,,seafreq+sbbic
-y,ស្រូប,"srop, srob",,engine,"srop, srob, srorp",1952,general,,seafreq+chuonnath
-y,សង្ក្រាន្ត,"sorngkrean, songkrean",,engine,"sorngkrean, songkrean, sorngkren",1953,general,,seafreq+chuonnath
-y,របា,"roba, robar",,engine,"roba, robar, robah",1954,general,,seafreq+chuonnath
-y,ម្រាម,"mream, mrem",,engine,"mream, mrem, mram",1955,general,,seafreq+chuonnath
-y,អនីតិជន,"oneytichn, orneytichn",,engine,"oneytichn, orneytichn, aneytichn",1956,general,,seafreq+sbbic
-y,តម្រួត,"tomruot, tomruoth",,engine,"tomruot, tomruoth, tomrouot",1957,general,,seafreq+chuonnath
-y,ពុទ្ធោ,"putthou, putthouk",,engine,"putthou, putthouk, puthou",1958,general,,seafreq+sbbic
-y,អាហ្វ្រិក,"ahhvrik, ahhvrikror",,engine,"ahhvrik, ahhvrikror, ahvrik",1959,general,,seafreq+chuonnath
-y,ថាត្រូវ,"thatrov, theatrov",,engine,"thatrov, theatrov, thartrov",1960,general,,seafreq+sbbic
-y,តុល្យភាព,"toklyopheap, toklyopheab",,engine,"toklyopheap, toklyopheab, torklyopheap",1961,general,,seafreq+chuonnath
-y,ឱម,"aom, aorm",,engine,"aom, aorm, aoum",1962,general,,seafreq+sbbic
-y,ក្លាយទៅជា,"klaytvjea, klaytvjear",,engine,"klaytvjea, klaytvjear, klaytvjeah",1963,general,,seafreq+sbbic
-y,ព្រះរាម,"preahream, preahrem",,engine,"preahream, preahrem, prahream",1964,general,,seafreq+sbbic
-y,ប្រាំង,"bramng, pramng",,engine,"bramng, pramng, brang",1965,general,,seafreq+chuonnath
-y,ឧស្សាហ៍,"ossah, orssah",,engine,"ossah, orssah, ossoah",1966,general,,seafreq+sbbic
-y,បន្លឺ,"bonleu, bornleu",,engine,"bonleu, bornleu, punleu",1967,general,,seafreq+chuonnath
-y,មកនេះ,"mknis, mornis",,engine,"mknis, mornis, mknes",1968,general,,seafreq+sbbic
-y,ប្លង់,"blong, blorng",,engine,"blong, blorng, plong",1969,general,,seafreq+sbbic
-y,ជម្នះ,"jom, jorm",,engine,"jom, jorm, joum",1970,general,,seafreq+chuonnath
-y,ឯកអគ្គរាជទូត,"aekkkoreachtut, aekkkoreachtuth",,engine,"aekkkoreachtut, aekkkoreachtuth, aekkkorachtut",1971,general,,seafreq+sbbic
-y,ក្រោល,"kraol, krol",,engine,"kraol, krol, kraorl",1972,general,,seafreq+chuonnath
-y,ផ្សា,"phsa, phsar",,engine,"phsa, phsar, phsah",1973,general,,seafreq+chuonnath
-y,ភិន,"phin, phinak",,engine,"phin, phinak, phen",1974,general,,seafreq+chuonnath
-y,បន្តិចបន្តួច,"bontichpntuoch, borntichpntuoch",,engine,"bontichpntuoch, borntichpntuoch, bontichpontuoch",1975,general,,seafreq+sbbic
-y,នៅសល់,"nvsl, novsl",,engine,"nvsl, novsl, nvhl",1976,general,,seafreq+sbbic
-y,ដោះស្រាយបញ្ហា,"dossraypanha, dossraypanhar",,engine,"dossraypanha, dossraypanhar, dossraypanhah",1977,general,,seafreq+sbbic
-y,រម្យ,"rom, rorm",,engine,"rom, rorm, roum",1978,general,,seafreq+chuonnath
-y,កវី,"korvey, korvei",,engine,"korvey, korvei, kovey",1979,general,,seafreq+chuonnath
-y,គ្រុន,"krun, kroun",,engine,"krun, kroun, krunak",1980,general,,seafreq+chuonnath
-y,លាត,"leat, leath",,engine,"leat, leath, lat",1981,general,,seafreq+chuonnath
-y,ត្រូវធ្វើ,"trovtver, trovtover",,engine,"trovtver, trovtover, trovatver",1982,general,,seafreq+sbbic
-y,ព្រងើយ,"prongery, prorngery",,engine,"prongery, prorngery, prungery",1983,general,,seafreq+chuonnath
-y,ទទួលការ,"ttulka, ttulkar",,engine,"ttulka, ttulkar, ttulkah",1984,general,,seafreq+sbbic
-y,ស្ដារ,"sda, sdar",,engine,"sda, sdar, sdah",1985,general,,seafreq+chuonnath
-y,បំរុង,"bomrung, bomroung",,engine,"bomrung, bomroung, bormrung",1986,general,,seafreq+sbbic
-y,វិសេស,"vises, visies",,engine,"vises, visies, viseh",1987,general,,seafreq+chuonnath
-y,ទៅវិញទៅមក,"tvvinhtvmk, tovvinhtvmk",,engine,"tvvinhtvmk, tovvinhtvmk, tvvinhtovmk",1988,general,,seafreq+sbbic
-y,កំបាំង,"kombamng, kombang",,engine,"kombamng, kombang, kormbamng",1989,general,,seafreq+chuonnath
-y,បៀវត្សរ៍,"beavtsor, beavatsor",,engine,"beavtsor, beavatsor, biavtsor",1990,general,,seafreq+sbbic
-y,ក្បៀស,"kbeas, kbeah",,engine,"kbeas, kbeah, kbias",1991,general,,seafreq+chuonnath
-y,សិលា,"silea, sila",,engine,"silea, sila, silear",1992,general,,seafreq+chuonnath
-y,សំបុក,"sombok, sormbok",,engine,"sombok, sormbok, sombork",1993,general,,seafreq+chuonnath
-y,បដិវត្ត,"bodivt, bodivth",,engine,"bodivt, bodivth, bodivat",1994,general,,seafreq+chuonnath
-y,ស្រមោល,"sromoul, srormoul",,engine,"sromoul, srormoul, sroumoul",1995,general,,seafreq+chuonnath
-y,សេស,"ses, sies",,engine,"ses, sies, seh",1996,general,,seafreq+chuonnath
-y,ក្នុងស្រុក,"knongsrok, knorngsrok",,engine,"knongsrok, knorngsrok, knongsrork",1997,general,,seafreq+sbbic
-y,ទីបំផុត,"tibomphot, tibomphoth",,engine,"tibomphot, tibomphoth, tibormphot",1998,general,,seafreq+sbbic
-y,សមិទ្ធផល,"sormitthophl, somitthophl",,engine,"sormitthophl, somitthophl, sormitthopl",1999,general,,seafreq+sbbic
-y,និមល,"niml, neml",,engine,"niml, neml",2000,general,,seafreq+chuonnath
-y,សហគ្រាស,"sorhkreas, sorhkras",,engine,"sorhkreas, sorhkras, sorskras",2001,general,,seafreq+sbbic
-y,សោភ័ណ,"saophn, saopn",,engine,"saophn, saopn, saorphn",2002,general,,seafreq+chuonnath
-y,ចាងហ្វាង,"janghvang, janghvangkor",,engine,"janghvang, janghvangkor, janghveang",2003,general,,seafreq+sbbic
-y,បក្ខ,"bok, bork",,engine,"bok, bork, bor",2004,general,,seafreq+chuonnath
-y,ល្បុក្កតោ,"lbukkotao, lbukkotaor",,engine,"lbukkotao, lbukkotaor, lbukkoteao",2005,general,,seafreq+chuonnath
-y,ណី,"ney, nei",,engine,"ney, nei, niy",2006,general,,seafreq+sbbic
-y,ជាក់លាក់,"jaekleak, jaeklek",,engine,"jaekleak, jaeklek, jaeklak",2007,general,,seafreq+sbbic
-y,ធ្វើដំណើរ,"tverdomner, tverdormner",,engine,"tverdomner, tverdormner, tverdoumner",2008,general,,seafreq+sbbic
-y,ទង់,"tong, torng",,engine,"tong, torng, toung",2009,general,,seafreq+chuonnath
-y,មេត្រី,"metrei, metrey",,engine,"metrei, metrey, mitrei",2010,general,,seafreq+chuonnath
-y,ទណ្ឌ,"ton, torn",,engine,"ton, torn, to",2011,general,,seafreq+chuonnath
-y,ដាវ,"dav, deav",,engine,"dav, deav, diav",2012,general,,seafreq+chuonnath
-y,ភណ្ឌ,"phon, phorn",,engine,"phon, phorn, pho",2013,general,,seafreq+chuonnath
-y,ប្រណាំង,"bronamng, pronamng",,engine,"bronamng, pronamng, bronang",2014,general,,seafreq+chuonnath
-y,វិសាមញ្ញ,"visamnh, visanh",,engine,"visamnh, visanh, visoamnh",2015,general,,seafreq+chuonnath
-y,ពាណិជ,"peanich, penich",,engine,"peanich, penich, beanich",2016,general,,seafreq+chuonnath
-y,រក្សាទុក,"roksatuk, rorksatuk",,engine,"roksatuk, rorksatuk, rouksatuk",2017,general,,seafreq+sbbic
-y,ហ្វឹកហ្វឺន,"hverkhveun, hverkhvern",,engine,"hverkhveun, hverkhvern, hverkhveunak",2018,general,,seafreq+chuonnath
-y,នីតិកាល,"neytikal, neitikal",,engine,"neytikal, neitikal, neytikeal",2019,general,,seafreq+sbbic
-y,តណ្ហា,"tonha, tornha",,engine,"tonha, tornha, tonhar",2020,general,,seafreq+chuonnath
-y,ស្រ,s,,engine,s,2021,general,,seafreq+chuonnath
-y,ស្ដើង,"sderng, sderngkor",,engine,"sderng, sderngkor, sdirng",2022,general,,seafreq+chuonnath
-y,ឆ្មប,"chmop, chmob",,engine,"chmop, chmob, chmorp",2023,general,,seafreq+chuonnath
-y,អ្នកក្រ,"nekkror, nekkro",,engine,"nekkror, nekkro, nikkror",2024,general,,seafreq+sbbic
-y,ដង្កោ,"dongkou, dorngkou",,engine,"dongkou, dorngkou, dongkouk",2025,general,,seafreq+chuonnath
-y,អារាម,"ahream, ahrem",,engine,"ahream, ahrem, ahram",2026,general,,seafreq+chuonnath
-y,ហុច,"hoch, huch",,engine,"hoch, huch",2027,general,,seafreq+chuonnath
-y,ស័ក្តិ,"skti, skt",,engine,"skti, skt, skoti",2028,general,,seafreq+sbbic
-y,ដាល,"dal, deal",,engine,"dal, deal, dial",2029,general,,seafreq+chuonnath
-y,ធ្លាក់ចុះ,"tlekjos, tlekjors",,engine,"tlekjos, tlekjors, tlaekjos",2030,general,,seafreq+sbbic
-y,ភក្តិ,"phokti, phorkti",,engine,"phokti, phorkti, phokt",2031,general,,seafreq+sbbic
-y,បំណុល,"bomnol, bormnol",,engine,"bomnol, bormnol, boumnol",2032,general,,seafreq+chuonnath
-y,រឹម,"rerm, rerom",,engine,"rerm, rerom, rem",2033,general,,seafreq+chuonnath
-y,កូនប្រុស,"konbros, kornbros",,engine,"konbros, kornbros, konbrors",2034,general,,seafreq+sbbic
-y,ខាន់,"khan, khean",,engine,"khan, khean, khanak",2035,general,,seafreq+chuonnath
-y,ពេញចិត្ត,"penhjit, penhjith",,engine,"penhjit, penhjith, pernhjit",2036,general,,seafreq+sbbic
-y,អនុរដ្ឋលេខាធិការ,"onurdtholekhathika, ornurdtholekhathika",,engine,"onurdtholekhathika, ornurdtholekhathika, anurdtholekhathika",2037,general,,seafreq+sbbic
-y,ថែមទៀត,"thaemtt, thaemtth",,engine,"thaemtt, thaemtth, theaemtt",2038,general,,seafreq+sbbic
-y,ថេរ,"the, ther",,engine,"the, ther, thae",2039,general,,seafreq+chuonnath
-y,ស្ពាន់,"span, spanak",,engine,"span, spanak, spean",2040,general,,seafreq+chuonnath
-y,ជ្រក,"jrok, jrork",,engine,"jrok, jrork, jror",2041,general,,seafreq+chuonnath
-y,ត្របែក,"trobaek, trobaekror",,engine,"trobaek, trobaekror, trobeak",2042,general,,seafreq+chuonnath
-y,ទេសនា,"tesnea, tesnear",,engine,"tesnea, tesnear, tesna",2043,general,,seafreq+chuonnath
-y,តន្ត្រី,"tontrey, tontrei",,engine,"tontrey, tontrei, torntrey",2044,general,,seafreq+sbbic
-y,ប្រព្រឹត្តិ,"broprertti, proprertti",,engine,"broprertti, proprertti, brorprertti",2045,general,,seafreq+chuonnath
-y,ចម្បាំង,"jomboamng, jomboang",,engine,"jomboamng, jomboang, jormboamng",2046,general,,seafreq+chuonnath
-y,ប្រសាទ,"brosat, prosat",,engine,"brosat, prosat, brosath",2047,general,,seafreq+chuonnath
-y,ស័ព្ទ,sp,,engine,sp,2048,general,,seafreq+sbbic
-y,សិប្បកម្ម,"sibbokm, sibborkm",,engine,"sibbokm, sibborkm, sibboukm",2049,general,,seafreq+sbbic
-y,ព្រះអង្គម្ចាស់,"preahongkormjas, preahongkomjas",,engine,"preahongkormjas, preahongkomjas, preahorngkormjas",2050,general,,seafreq+sbbic
-y,លោម,"loum, laom",,engine,"loum, laom",2051,general,,seafreq+chuonnath
-y,ទុកចិត្ត,"tukjit, tukjith",,engine,"tukjit, tukjith, tukjiter",2052,general,,seafreq+chuonnath
-y,មែក,"meak, mek",,engine,"meak, mek, mak",2053,general,,seafreq+chuonnath
-y,ឧក្រិដ្ឋកម្ម,"okridthokm, orkridthokm",,engine,"okridthokm, orkridthokm, okridthorkm",2054,general,,seafreq+sbbic
-y,ភិត,"phit, phith",,engine,"phit, phith, phiter",2055,general,,seafreq+chuonnath
-y,ខាត់,"khat, khath",,engine,"khat, khath, kheat",2056,general,,seafreq+chuonnath
-y,មន្ត,"mon, morn",,engine,"mon, morn, mo",2057,general,,seafreq+chuonnath
-y,ចង្កូត,"jongkut, jongkuth",,engine,"jongkut, jongkuth, jorngkut",2058,general,,seafreq+chuonnath
-y,ស្មៀន,"smean, smen",,engine,"smean, smen, sman",2059,general,,seafreq+chuonnath
-y,នាហ្មឺន,"neahmeun, nahmeun",,engine,"neahmeun, nahmeun, neahmern",2060,general,,seafreq+sbbic
-y,ការសាកល្បង,"kasarklbong, kasarklborng",,engine,"kasarklbong, kasarklborng, kasarklbang",2061,general,,seafreq+sbbic
-y,ចង្រៃ,"jongrey, jongrei",,engine,"jongrey, jongrei, jorngrey",2062,general,,seafreq+chuonnath
-y,អ្នកប្រើប្រាស់,"nokbrerbras, nekbrerbras",,engine,"nokbrerbras, nekbrerbras, norkbrerbras",2063,general,,seafreq+sbbic
-y,អាណាចក្រ,"ahnajak, ahgnajak",,engine,"ahnajak, ahgnajak, ahnajakror",2064,general,,seafreq+sbbic
-y,មែនហើយ,"menhz, mernhz",,engine,"menhz, mernhz, menhx",2065,general,,seafreq+sbbic
-y,រុង,"rung, roung",,engine,"rung, roung, rungkor",2066,general,,seafreq+chuonnath
-y,អត់មាន,"otmean, otmen",,engine,"otmean, otmen, otman",2067,general,,seafreq+sbbic
-y,លុះដល់,"luhtl, lohtl",,engine,"luhtl, lohtl",2068,general,,seafreq+sbbic
-y,ពិសា,"pisa, pisar",,engine,"pisa, pisar, pisah",2069,general,,seafreq+chuonnath
-y,ខ្សឹប,"khserp, khserb",,engine,"khserp, khserb, khsierp",2070,general,,seafreq+chuonnath
-y,រុះរើ,"ruhrer, rouhrer",,engine,"ruhrer, rouhrer, rohrer",2071,general,,seafreq+sbbic
-y,ទិវង្គត,"tivngkot, tivngkoth",,engine,"tivngkot, tivngkoth, tivngkort",2072,general,,seafreq+chuonnath
-y,ច្បង,"jbong, jborng",,engine,"jbong, jborng, jbang",2073,general,,seafreq+chuonnath
-y,ដំណាល,"domnal, dormnal",,engine,"domnal, dormnal, doumnal",2074,general,,seafreq+chuonnath
-y,កែលំអ,"kaelum, kaeylum",,engine,"kaelum, kaeylum, kaelom",2075,general,,seafreq+sbbic
-y,នោម,"noum, naom",,engine,"noum, naom",2076,general,,seafreq+chuonnath
-y,ភិរម្យ,"phirm, phirom",,engine,"phirm, phirom, phir",2077,general,,seafreq+sbbic
-y,ខាងមុខនេះ,"khangmuknis, khangmouknis",,engine,"khangmuknis, khangmouknis, kheangmuknis",2078,general,,seafreq+sbbic
-y,និរន្តរភាព,"nirntorpheap, nirntorpheab",,engine,"nirntorpheap, nirntorpheab, nirntorphap",2079,general,,seafreq+sbbic
-y,គ្រឹះស្ថាន,"krerhsthan, krerhsthean",,engine,"krerhsthan, krerhsthean, krerhsthanak",2080,general,,seafreq+chuonnath
-y,កត់សំគាល់,"kortsomkeal, kortsormkeal",,engine,"kortsomkeal, kortsormkeal, kortsumkeal",2081,general,,seafreq+sbbic
-y,ឆាន់,"chan, chean",,engine,"chan, chean, chanak",2082,general,,seafreq+chuonnath
-y,ម្លូ,"mlu, mluk",,engine,"mlu, mluk, mlo",2083,general,,seafreq+chuonnath
-y,ទេសរដ្ឋមន្ត្រី,"tesorrothmontrey, tesorrothmontrei",,engine,"tesorrothmontrey, tesorrothmontrei, tesorrothmorntrey",2084,general,,seafreq+sbbic
-y,សព្ទ,"sorp, sorb",,engine,"sorp, sorb, sop",2085,general,,seafreq+chuonnath
-y,ពាណិជ្ជករ,"peanijjok, penijjok",,engine,"peanijjok, penijjok, peanijjork",2086,general,,seafreq+sbbic
-y,កុះករ,"kohk, kohkror",,engine,"kohk, kohkror, kohkr",2087,general,,seafreq+chuonnath
-y,ម៉ាន,"man, manak",,engine,"man, manak, mean",2088,general,,seafreq+sbbic
-y,បំភ្លេច,"bomphlech, bomplech",,engine,"bomphlech, bomplech, bormphlech",2089,general,,seafreq+chuonnath
-y,គេហដ្ឋាន,"kehdthan, kehdthean",,engine,"kehdthan, kehdthean, kehdthanak",2090,general,,seafreq+chuonnath
-y,ឡូយ,"loy, louy",,engine,"loy, louy, luy",2091,general,,seafreq+chuonnath
-y,អហិង្សា,"ohingsea, ohingsear",,engine,"ohingsea, ohingsear, ohingsa",2092,general,,seafreq+chuonnath
-y,ជិតខាង,"jitkhang, jitkheang",,engine,"jitkhang, jitkheang, jitkhangkor",2093,general,,seafreq+sbbic
-y,ទាន់បាន,"tornban, tonban",,engine,"tornban, tonban, tornbanak",2094,general,,seafreq+sbbic
-y,តួអង្គ,"turongkor, turorngkor",,engine,"turongkor, turorngkor, turungkor",2095,general,,seafreq+sbbic
-y,កុដិ,"kodi, kudi",,engine,"kodi, kudi, kode",2096,general,,seafreq+chuonnath
-y,សក្ការៈ,"sorkkar, sorkkear",,engine,"sorkkar, sorkkear, sokkar",2097,general,,seafreq+sbbic
-y,រែក,"reak, rek",,engine,"reak, rek, rak",2098,general,,seafreq+chuonnath
-y,ភ័យខ្លាច,"pheiklach, phaeiklach",,engine,"pheiklach, phaeiklach, peiklach",2099,general,,seafreq+sbbic
-y,ការចូលរួម,"kajolroum, kajorlroum",,engine,"kajolroum, kajorlroum, kajolrorm",2100,general,,seafreq+sbbic
+y,សាក់,sak,tattoo,claude,"sak, soak, sakror",1801,general,,seafreq+chuonnath
+y,វ៉ែត,vaet,glasses (eye),claude,"veat, veath, veart",1802,general,,seafreq+chuonnath
+y,ឈ្មោះថា,chmuoh+tha,named / called,claude,"chmouhtha, chmouhthar, chmouhthah",1803,general,,seafreq+sbbic
+y,ចែកចាយ,jaek+jay,distribute,claude,"jekjay, chekjay, jivekjay",1804,general,,seafreq+sbbic
+y,ក្រសាំង,krosang,(fruit) / (place),claude,"krorsang, krorsoang, krorsangkor",1805,general,,seafreq+chuonnath
+y,សំលៀកបំពាក់,somliek+bompeak,clothes (variant),claude,"somleakbompeak, somlekbompeak, somleakbompek",1806,general,,seafreq+sbbic
+y,រួមគ្នា,ruom+knea,together,claude,"roumknea, roumknear, roumkna",1807,general,,seafreq+sbbic
+y,ឃ្លាំមើល,khleam+merl,monitor / watch,claude,"khloammerl, kloammerl, khlormmerl",1808,general,,seafreq+sbbic
+y,ចាត់ការ,jat+ka,take action / handle,claude,"jatka, jatkar, jatkah",1809,general,,seafreq+sbbic
+y,លង់,long,drown / be infatuated,claude,"long, lorng, loung",1810,general,,seafreq+chuonnath
+y,សំណូក,somnuk,bribe,claude,"somnok, sormnok, somnek",1811,general,,seafreq+chuonnath
+y,ពង្រាយ,pongreay,spread out / deploy,claude,"pongreay, porngreay, pongray",1812,general,,seafreq+chuonnath
+y,ឧក្រឹដ្ឋ,ukret,criminal (variant),claude,"okrert, okrerth, orkrert",1813,general,,seafreq+sbbic
+y,និយមន័យ,niyamanei,definition,claude,"niymny, neymny",1814,general,,seafreq+sbbic
+y,សាធារណការ,satearanaka,public works,claude,"sathearnka, sathearnkar, sathearnkah",1815,general,,seafreq+sbbic
+y,ឡប់,lob,crazy / mad,claude,"lop, lob, lorp",1816,general,,seafreq+chuonnath
+y,ពោធិ,pothi,bodhi,claude,"pouthi, paothi, pouti",1817,general,,seafreq+chuonnath
+y,នទី,nati,river (literary),claude,"noti, not, norti",1818,general,,seafreq+chuonnath
+n,សន្ធិ,,(fragment),claude,"sornthi, sonthi, santhi",1819,general,,seafreq+chuonnath
+y,សករាជ,sakarach,era / epoch,claude,"sorkreach, sorkrach, sokrach",1820,general,,seafreq+chuonnath
+y,អ្នកតា,nek+ta,guardian spirit,claude,"nekta, nektar, nektah",1821,general,,seafreq+chuonnath
+n,សិប្ប,,(fragment),claude,"sip, sib, sep",1822,general,,seafreq+chuonnath
+y,ព្រាហ្មណ៍,prum,Brahmin,claude,"preahmon, preahmorn, prahmon",1823,general,,seafreq+chuonnath
+y,អ្វីមួយ,avey+muoy,something,claude,"aveymuy, aveymouy, aviymuy",1824,general,,seafreq+sbbic
+y,រឹតតែ,ret+tae,even more,claude,"rerttae, rerttaer, rertteae",1825,general,,seafreq+sbbic
+y,ផ្សែង,phsaeng,smoke,claude,"phsaeng, phsaerng, psaeng",1826,general,,seafreq+chuonnath
+y,បាតុករ,batukor,protester,claude,"batokk, batorkk, batoukk",1827,general,,seafreq+sbbic
+y,ឲ្យតែ,oy+tae,as long as,claude,"oytae, oytaer, ouytae",1828,general,,seafreq+sbbic
+y,រថភ្លើង,roth+plerng,train,claude,"rotphlerng, rotplerng, rotphlaerng",1829,general,,seafreq+sbbic
+y,រាម,ream,Rama,claude,"ream, rem, ram",1830,general,,seafreq+chuonnath
+y,និព្វាន,nipvean,nirvana,claude,"nipvean, nipven, nipveanak",1831,general,,seafreq+chuonnath
+y,ប្រាង្គ,prang,tower (temple),claude,"brang, prang, brangkor",1832,general,,seafreq+chuonnath
+y,ភ្នាក់,phneak,startle / agent,claude,"phneak, phnek, pneak",1833,general,,seafreq+sbbic
+y,ផ្ដិត,phdet,print / stamp,claude,"phdit, phdith, pdit",1834,general,,seafreq+chuonnath
+y,ឃុបឃិត,khub+khet,collude,claude,"khupkhit, khupkhith, khupkhiter",1835,general,,seafreq+sbbic
+y,ហេតុនេះ,het+nis,therefore,claude,"hetnis, hetanis, haetnis",1836,general,,seafreq+sbbic
+y,ណាត់,nat,appointment / date,claude,"nat, nath, nart",1837,general,,seafreq+chuonnath
+n,ក្រា,kra,,claude,"kra, krar, krah",1838,general,,seafreq+chuonnath
+y,ផ្លែឈើ,plae+cher,fruit,claude,"phlaecher, plaecher, phlaechaer",1839,general,,seafreq+sbbic
+y,ចំការមន,jomka+mon,Chamkar Mon,claude,"jomkarmn, jomkaromn, jormkarmn",1840,general,,seafreq+sbbic
+y,ខុន,khun,(name),claude,"khon, khorn, kho",1841,general,,seafreq+chuonnath
+y,ថែមទាំង,thaem+teang,moreover / even,claude,"thaemteang, thaemteng, theaemteang",1842,general,,seafreq+sbbic
+y,មានន័យ,mean+ney,meaningful / mean,claude,"meanny, menny, manny",1843,general,,seafreq+sbbic
+y,កែង,kaeng,elbow / heel,claude,"kaeng, kaerng, kaengkor",1844,general,,seafreq+chuonnath
+y,ជរា,jora,old age,claude,"jorea, jorear, joreah",1845,general,,seafreq+chuonnath
+y,ផ្លាក,plak,sign / plate,claude,"phlak, plak, phlakror",1846,general,,seafreq+sbbic
+y,វៃ,vai,hit (literary),claude,"vey, vei, vai",1847,general,,seafreq+chuonnath
+y,កុំឲ្យ,kom+oy,so as not to / don't let,claude,"komoy, kormoy, komouy",1848,general,,seafreq+sbbic
+y,ចលាចល,jalajal,chaos / turmoil,claude,"joleachl, jolachl, jolaeachl",1849,general,,seafreq+chuonnath
+y,ដែនសមុទ្រ,daen+samut,territorial waters,claude,"daensmut, daensmuth, daernsmut",1850,general,,seafreq+sbbic
+y,ទុច្ចរិត,tujjaret,dishonest / corrupt,claude,"tujjorit, tujjorith, tujjoriter",1851,general,,seafreq+chuonnath
+y,ទ្រង់ទ្រាយ,trong+treay,shape / form,claude,"trongtreay, trorngtreay, trongtray",1852,general,,seafreq+chuonnath
+y,ប៉េកាំង,"pekang, beijing",Beijing,claude,"bekamng, bekang, bekamngkor",1853,general,,seafreq+sbbic
+y,ជង្គង់,jongkong,knee,claude,"jongkong, jorngkong, jongkorng",1854,general,,seafreq+chuonnath
+y,កូដកម្ម,kodakam,strike (labor),claude,"kotkm, kortkm, kutkm",1855,general,,seafreq+chuonnath
+y,បដិមា,patima,statue,claude,"bodimea, bodimear, bodimeah",1856,general,,seafreq+chuonnath
+y,ផ្ទៃក្នុង,ptei+knong,internal,claude,"pteiknong, pteiknorng, pteiknoung",1857,general,,seafreq+sbbic
+n,ធើ,,(fragment),claude,"ther, thaer, ter",1858,general,,seafreq+sbbic
+n,ទំ,,(fragment),claude,"tum, tom, torm",1859,general,,seafreq+chuonnath
+n,ពាស,,(fragment),claude,"peas, beas, pas",1860,general,,seafreq+chuonnath
+y,បិណ្ឌ,ben,Pchum Ben (offering),claude,"bin, binak, ben",1861,general,,seafreq+chuonnath
+y,គុយ,kuy,Kuy (ethnic group),claude,"kuy, koy",1862,general,,seafreq+chuonnath
+y,បញ្ញត្តិ,banhnhat,provision / regulation,claude,"bonhnhotti, bornhnhotti, bonhnhott",1863,general,,seafreq+chuonnath
+y,សែល,sael,shell,claude,"sael, soael, saeyl",1864,general,,seafreq+sbbic
+y,សោម,saom,(name),claude,"saom, saorm, saoum",1865,general,,seafreq+chuonnath
+y,ខ្ទេច,khtech,crushed / smashed,claude,"khtech, khtex, ktech",1866,general,,seafreq+chuonnath
+n,យា,,(fragment),claude,"yea, ya, year",1867,general,,seafreq+sbbic
+y,បច្ច័យ,bachay,alms / requisites,claude,"bojjy, pojjy",1868,general,,seafreq+chuonnath
+y,និយោជក,niyojak,employer,claude,"niyouchk, niyouchkror, niyaochk",1869,general,,seafreq+chuonnath
+y,ណេះ,nes,here (casual),claude,"neh, nes, nih",1870,general,,seafreq+sbbic
+y,ស្លាប,slab,wing,claude,"slap, slab, sleap",1871,general,,seafreq+chuonnath
+y,ដូនតា,don+ta,ancestors,claude,"donta, dornta, dontar",1872,general,,seafreq+chuonnath
+y,ដោត,daot,stick in / pierce,claude,"daot, daoth, daort",1873,general,,seafreq+chuonnath
+y,ឯករាជ,ekareach,independence (variant),claude,"aekreach, aekrach, aikreach",1874,general,,seafreq+sbbic
+y,សំអាត,som'at,clean (variant),claude,"somaht, somahth, sormaht",1875,general,,seafreq+chuonnath
+y,វាស់,veas,measure,claude,"veas, vas, veah",1876,general,,seafreq+chuonnath
+y,ដំឡូង,domlong,potato / yam,claude,"domlong, domlorng, dormlong",1877,general,,seafreq+chuonnath
+y,ឱន,on,bow down / lower,claude,"aon, aorn, ao",1878,general,,seafreq+chuonnath
+y,ចំបង,jombong,main (variant),claude,"jompng, jormpng, jompong",1879,general,,seafreq+sbbic
+y,មិច,mich,how (casual: ម៉េច),claude,"mich, mech",1880,general,,seafreq+chuonnath
+y,ភក់,phok,mud,claude,"phok, phork, phor",1881,general,,seafreq+chuonnath
+y,អាមេរិកាំង,amerikang,American,claude,"ahmerikamng, ahmerikang, ahmerikamngkor",1882,general,,seafreq+sbbic
+y,ក្រាស់,kras,thick,claude,"kras, krah, kreas",1883,general,,seafreq+chuonnath
+y,ចិញ្ចើម,jenhjaem,eyebrow,claude,"jinhjerm, jinhjerom, jinhjem",1884,general,,seafreq+chuonnath
+y,អាណិកជន,anikajon,diaspora / overseas,claude,"ahnikchn, ahgnikchn, ahnikchgn",1885,general,,seafreq+chuonnath
+y,ឫទ្ធិ,reut,power (magic),claude,"reutthi, reuthi, reutti",1886,general,,seafreq+chuonnath
+y,ពាល,peal,bully / rude,claude,"peal, beal, pal",1887,general,,seafreq+chuonnath
+y,ជូនដំណឹង,jun+domneng,notify,claude,"jundomnerng, jundormnerng, joundomnerng",1888,general,,seafreq+sbbic
+y,សងខាង,song+khang,both sides,claude,"sorngkhang, songkhang, sorngkheang",1889,general,,seafreq+chuonnath
+y,ប្រហុក,prohok,prahok,claude,"brohok, prohok, brohork",1890,general,,seafreq+chuonnath
+y,សែង,saeng,carry (together),claude,"saeng, saerng, soaeng",1891,general,,seafreq+chuonnath
+n,គគ្រេង,,(fragment),claude,"kokreng, kokrerng, korkreng",1892,general,,seafreq+chuonnath
+n,គគុក,,(fragment),claude,"kokuk, korkuk, koukuk",1893,general,,seafreq+chuonnath
+y,នាវា,neava,ship,claude,"neavea, neavear, navea",1894,general,,seafreq+chuonnath
+n,គគ្រឹក,,(fragment),claude,"kokrerk, korkrerk, koukrerk",1895,general,,seafreq+chuonnath
+y,ដូចតទៅ,doch+to+tov,as follows,claude,"dochttv, dochttov, duchttv",1896,general,,seafreq+sbbic
+n,វត្ស,,(fragment),claude,"vot, voth, vort",1897,general,,seafreq+chuonnath
+y,ប្រល័យ,prolay,destroy / doom,claude,"broly, proly, brorly",1898,general,,seafreq+chuonnath
+y,ស្រុត,srot,collapse / sink,claude,"srot, sroth, srort",1899,general,,seafreq+chuonnath
+y,មហាយាន,mohayean,Mahayana,claude,"mohayean, mohayen, mohayan",1900,general,,seafreq+sbbic
+y,ឃ្មុំ,khmum,bee,claude,"khmum, khmoum, kmum",1901,general,,seafreq+chuonnath
+y,ហួរ,huo,(name),claude,"huo, huor, hur",1902,general,,seafreq+chuonnath
+y,ល្វែង,lvaeng,room / unit,claude,"lveang, lveng, lvang",1903,general,,seafreq+chuonnath
+y,ឡូ,lo,(name),claude,"lo, lor, lu",1904,general,,seafreq+chuonnath
+y,សារមន្ទីរ,saramonti,museum,claude,"sarmntey, sarmntei, saromntey",1905,general,,seafreq+sbbic
+y,ពុះ,puh,split / boil,claude,"puh, pus, poh",1906,general,,seafreq+chuonnath
+y,បញ្ឆោត,bonhchaot,deceive / trick,claude,"bonhchout, bonhchouth, bornhchout",1907,general,,seafreq+chuonnath
+n,ខេ,,(fragment),claude,"khe, kher, khae",1908,general,,seafreq+chuonnath
+y,តម្រង់,tomrong,straighten / aim,claude,"tomrong, tomrorng, tormrong",1909,general,,seafreq+chuonnath
+y,ដើម្បីឲ្យ,derm+bey+oy,so that,claude,"dermbeioy, derombeioy, dermbeiouy",1910,general,,seafreq+sbbic
+y,វ៉ាត់,vat,watt,claude,"vat, vath, vart",1911,general,,seafreq+sbbic
+y,កងកម្លាំង,kong+kamlang,forces,claude,"korngkmloamng, kongkmloamng, korngkmloang",1912,general,,seafreq+sbbic
+y,ឥណទាន,enatean,credit / loan,claude,"entean, enten, erntean",1913,general,,seafreq+sbbic
+y,ប៉ុនប៉ង,pon+pong,attempt,claude,"bonbong, bornbong, bonborng",1914,general,,seafreq+sbbic
+y,រំភើប,rumpherb,excited / moved,claude,"rumpherp, roumpherp, rumpherb",1915,general,,seafreq+chuonnath
+y,ក្របខ័ណ្ឌ,krob+khan,framework,claude,"krorpkhn, krorpkn, krorpkhgn",1916,general,,seafreq+chuonnath
+n,សមាន,saman,,claude,"sormean, somean, sormen",1917,general,,seafreq+chuonnath
+y,ការទូត,ka+tut,diplomacy,claude,"kartut, kartuth, kartuter",1918,general,,seafreq+sbbic
+y,បង្អែក,bong'aek,lean on / rely,claude,"bongeak, bongek, borngeak",1919,general,,seafreq+chuonnath
+y,ទីក្រុងភ្នំពេញ,ti+krong+phnompenh,Phnom Penh city,claude,"tikrongphnumpenh, tikrorngphnumpenh, tikrongpnumpenh",1920,general,,seafreq+sbbic
+y,ញ័រ,nhor,tremble / shake,claude,"nh, nhr",1921,general,,seafreq+chuonnath
+y,គំរាមកំហែង,kumream+komhaeng,threaten,claude,"kumreamkomhaeng, kumreamkomhaerng, kumreamkormhaeng",1922,general,,seafreq+sbbic
+y,យីហោ,yiho,brand,claude,"yihao, yihaor, yiheao",1923,general,,seafreq+chuonnath
+y,ទៅទៀត,tov+tiet,furthermore,claude,"tvtt, tvtth, tovtt",1924,general,,seafreq+sbbic
+y,អចិន្ត្រៃយ៍,ajentrai,permanent,claude,"ojintreyy, ojentreyy, ojerntreyy",1925,general,,seafreq+chuonnath
+y,ផ្ដាសាយ,phdasay,cold / flu,claude,"phdasay, pdasay, phdasoay",1926,general,,seafreq+chuonnath
+y,សន្និបាត,sonnibat,congress / assembly,claude,"sornnibat, sonnibat, sornnibath",1927,general,,seafreq+chuonnath
+y,យានយន្ត,yean+yon,vehicle,claude,"yeanyn, yenyn, yanyn",1928,general,,seafreq+sbbic
+y,អស់នេះ,os+nis,all of these,claude,"orsnis, orsgnis, osnis",1929,general,,seafreq+sbbic
+y,បុប្ផា,bopha,flower / (name),claude,"bobpha, bobphar, bobphah",1930,general,,seafreq+chuonnath
+y,ខ្ចប់,kjob,wrap,claude,"khjop, khjob, khjorp",1931,general,,seafreq+chuonnath
+y,ញាប់,nhoab,frequent / often,claude,"nheap, nheab, nhap",1932,general,,seafreq+chuonnath
+y,សិល្បករ,selpakar,artist,claude,"silbok, silbork, silbor",1933,general,,seafreq+sbbic
+n,ម្នា,mnea,,claude,"mnea, mnear, mna",1934,general,,seafreq+chuonnath
+y,វិវត្តន៍,vivat,evolution,claude,"vivtton, vivttorn, vivatton",1935,general,,seafreq+sbbic
+n,ចំណាក,jomnak,,claude,"jomnak, jormnak, joumnak",1936,general,,seafreq+sbbic
+y,អធ្យាស្រ័យ,athyeasray,hospitality / generous,claude,"othyeasry, othyasry, orthyeasry",1937,general,,seafreq+chuonnath
+y,ចង្កេះ,jongkeh,waist,claude,"jongkeh, jorngkeh, jongkes",1938,general,,seafreq+chuonnath
+y,ចំហៀង,jomhieng,side / sideways,claude,"jomheang, jomheng, jormheang",1939,general,,seafreq+chuonnath
+y,កេរ,ke,heritage / reputation,claude,"ke, ker, ki",1940,general,,seafreq+chuonnath
+y,រុងរឿង,rung+reung,glorious / prosperous,claude,"rungroeng, rungroerng, roungroeng",1941,general,,seafreq+chuonnath
+y,សណ្ដាប់ធ្នាប់,sondab+thnab,order / discipline,claude,"sorndapthneap, sorndapthneab, sondapthneap",1942,general,,seafreq+chuonnath
+y,ស័ក,sak,year (era) / stage,claude,"sk, skror, skro",1943,general,,seafreq+chuonnath
+y,ទីស្នាក់ការ,ti+snakka,headquarters,claude,"tisnakka, tisnakkar, tisnakkah",1944,general,,seafreq+sbbic
+y,បទបញ្ជា,bot+bonhjea,order / regulation,claude,"botbonhjea, botbornhjea, botbonhjear",1945,general,,seafreq+sbbic
+y,ចង្ហាន់,jonghan,food (for monks),claude,"jonghean, jonghen, jornghean",1946,general,,seafreq+chuonnath
+y,ប៉ាន់ស្មាន,pan+sman,estimate,claude,"pansman, pansmanak, pansmean",1947,general,,seafreq+sbbic
+y,អំណរ,amnor,joy,claude,"omn, ormn, oumn",1948,general,,seafreq+chuonnath
+y,សំណ,somna,lead (metal),claude,"somn, sormn, sumn",1949,general,,seafreq+chuonnath
+y,អីវ៉ាន់,eyvan,stuff / belongings,claude,"eyvan, eyvanak, eyvean",1950,general,,seafreq+chuonnath
+y,ស្ថិរភាព,sthirapheap,stability,claude,"sthirpheap, sthirpheab, sthirphap",1951,general,,seafreq+sbbic
+y,ស្រូប,srob,absorb / suck,claude,"srop, srob, srorp",1952,general,,seafreq+chuonnath
+y,សង្ក្រាន្ត,songkran,Khmer New Year,claude,"sorngkrean, songkrean, sorngkren",1953,general,,seafreq+chuonnath
+n,របា,,(fragment),claude,"roba, robar, robah",1954,general,,seafreq+chuonnath
+y,ម្រាម,mream,finger,claude,"mream, mrem, mram",1955,general,,seafreq+chuonnath
+y,អនីតិជន,anitejon,minor (under age),claude,"oneytichn, orneytichn, aneytichn",1956,general,,seafreq+sbbic
+n,តម្រួត,tomruot,,claude,"tomruot, tomruoth, tomrouot",1957,general,,seafreq+chuonnath
+y,ពុទ្ធោ,putto,(exclamation) oh Buddha!,claude,"putthou, putthouk, puthou",1958,general,,seafreq+sbbic
+y,អាហ្វ្រិក,afrik,Africa,claude,"ahhvrik, ahhvrikror, ahvrik",1959,general,,seafreq+chuonnath
+y,ថាត្រូវ,tha+trov,that (one) should,claude,"thatrov, theatrov, thartrov",1960,general,,seafreq+sbbic
+y,តុល្យភាព,tolyapheap,balance,claude,"toklyopheap, toklyopheab, torklyopheap",1961,general,,seafreq+chuonnath
+y,ឱម,om,Om,claude,"aom, aorm, aoum",1962,general,,seafreq+sbbic
+y,ក្លាយទៅជា,klay+tov+jea,turn into,claude,"klaytvjea, klaytvjear, klaytvjeah",1963,general,,seafreq+sbbic
+y,ព្រះរាម,preah+ream,Preah Ream (Rama),claude,"preahream, preahrem, prahream",1964,general,,seafreq+sbbic
+y,ប្រាំង,prang,dry season,claude,"bramng, pramng, brang",1965,general,,seafreq+chuonnath
+y,ឧស្សាហ៍,osa,diligent / often,claude,"ossah, orssah, ossoah",1966,general,,seafreq+sbbic
+y,បន្លឺ,bonleu,make a sound / voice,claude,"bonleu, bornleu, punleu",1967,general,,seafreq+chuonnath
+y,មកនេះ,mok+nis,coming / this,claude,"mknis, mornis, mknes",1968,general,,seafreq+sbbic
+y,ប្លង់,plong,plan (drawing),claude,"blong, blorng, plong",1969,general,,seafreq+sbbic
+y,ជម្នះ,jumneah,overcome,claude,"jom, jorm, joum",1970,general,,seafreq+chuonnath
+y,ឯកអគ្គរាជទូត,ek+akka+reachtut,ambassador (royal),claude,"aekkkoreachtut, aekkkoreachtuth, aekkkorachtut",1971,general,,seafreq+sbbic
+y,ក្រោល,kraol,pen / stable,claude,"kraol, krol, kraorl",1972,general,,seafreq+chuonnath
+y,ផ្សា,phsa,sting / hurt,claude,"phsa, phsar, phsah",1973,general,,seafreq+chuonnath
+n,ភិន,,(fragment),claude,"phin, phinak, phen",1974,general,,seafreq+chuonnath
+y,បន្តិចបន្តួច,bontech+bontuoch,a little bit,claude,"bontichpntuoch, borntichpntuoch, bontichpontuoch",1975,general,,seafreq+sbbic
+y,នៅសល់,nov+sol,remaining,claude,"nvsl, novsl, nvhl",1976,general,,seafreq+sbbic
+y,ដោះស្រាយបញ្ហា,dos+sray+banha,solve problems,claude,"dossraypanha, dossraypanhar, dossraypanhah",1977,general,,seafreq+sbbic
+y,រម្យ,rom,pleasant,claude,"rom, rorm, roum",1978,general,,seafreq+chuonnath
+y,កវី,kavei,poet,claude,"korvey, korvei, kovey",1979,general,,seafreq+chuonnath
+y,គ្រុន,krun,fever,claude,"krun, kroun, krunak",1980,general,,seafreq+chuonnath
+y,លាត,leat,spread / unfold,claude,"leat, leath, lat",1981,general,,seafreq+chuonnath
+y,ត្រូវធ្វើ,trov+tver,have to do,claude,"trovtver, trovtover, trovatver",1982,general,,seafreq+sbbic
+y,ព្រងើយ,prongaoy,indifferent / ignore,claude,"prongery, prorngery, prungery",1983,general,,seafreq+chuonnath
+n,ទទួលការ,totuol+ka,,claude,"ttulka, ttulkar, ttulkah",1984,general,,seafreq+sbbic
+y,ស្ដារ,sda,restore,claude,"sda, sdar, sdah",1985,general,,seafreq+chuonnath
+y,បំរុង,bomrong,reserve (variant),claude,"bomrung, bomroung, bormrung",1986,general,,seafreq+sbbic
+y,វិសេស,vises,special / extraordinary,claude,"vises, visies, viseh",1987,general,,seafreq+chuonnath
+y,ទៅវិញទៅមក,tov+vinh+tov+mok,mutual / back and forth,claude,"tvvinhtvmk, tovvinhtvmk, tvvinhtovmk",1988,general,,seafreq+sbbic
+y,កំបាំង,kombang,hidden / secret,claude,"kombamng, kombang, kormbamng",1989,general,,seafreq+chuonnath
+y,បៀវត្សរ៍,bievat,salary (formal),claude,"beavtsor, beavatsor, biavtsor",1990,general,,seafreq+sbbic
+y,ក្បៀស,kbies,comma,claude,"kbeas, kbeah, kbias",1991,general,,seafreq+chuonnath
+y,សិលា,sela,stone,claude,"silea, sila, silear",1992,general,,seafreq+chuonnath
+y,សំបុក,sombok,nest,claude,"sombok, sormbok, sombork",1993,general,,seafreq+chuonnath
+y,បដិវត្ត,padevat,revolution,claude,"bodivt, bodivth, bodivat",1994,general,,seafreq+chuonnath
+y,ស្រមោល,sromaol,shadow,claude,"sromoul, srormoul, sroumoul",1995,general,,seafreq+chuonnath
+y,សេស,ses,odd / remaining,claude,"ses, sies, seh",1996,general,,seafreq+chuonnath
+y,ក្នុងស្រុក,knong+srok,domestic / local,claude,"knongsrok, knorngsrok, knongsrork",1997,general,,seafreq+sbbic
+y,ទីបំផុត,ti+bomphot,finally,claude,"tibomphot, tibomphoth, tibormphot",1998,general,,seafreq+sbbic
+y,សមិទ្ធផល,samitthaphol,achievement,claude,"sormitthophl, somitthophl, sormitthopl",1999,general,,seafreq+sbbic
+y,និមល,nimol,(name),claude,"niml, neml",2000,general,,seafreq+chuonnath
+y,សហគ្រាស,sahakreas,enterprise,claude,"sorhkreas, sorhkras, sorskras",2001,general,,seafreq+sbbic
+y,សោភ័ណ,sophan,beauty / aesthetic,claude,"saophn, saopn, saorphn",2002,general,,seafreq+chuonnath
+y,ចាងហ្វាង,jang+hvang,manager / boss,claude,"janghvang, janghvangkor, janghveang",2003,general,,seafreq+sbbic
+n,បក្ខ,,(fragment),claude,"bok, bork, bor",2004,general,,seafreq+chuonnath
+y,ល្បុក្កតោ,lbokkator,Bokator,claude,"lbukkotao, lbukkotaor, lbukkoteao",2005,general,,seafreq+chuonnath
+n,ណី,,(fragment),claude,"ney, nei, niy",2006,general,,seafreq+sbbic
+y,ជាក់លាក់,jeak+leak,specific / precise,claude,"jaekleak, jaeklek, jaeklak",2007,general,,seafreq+sbbic
+y,ធ្វើដំណើរ,tver+domnaer,travel,claude,"tverdomner, tverdormner, tverdoumner",2008,general,,seafreq+sbbic
+y,ទង់,tong,flag,claude,"tong, torng, toung",2009,general,,seafreq+chuonnath
+y,មេត្រី,metrei,friendship,claude,"metrei, metrey, mitrei",2010,general,,seafreq+chuonnath
+n,ទណ្ឌ,,(fragment),claude,"ton, torn, to",2011,general,,seafreq+chuonnath
+y,ដាវ,dav,sword,claude,"dav, deav, diav",2012,general,,seafreq+chuonnath
+n,ភណ្ឌ,,(fragment),claude,"phon, phorn, pho",2013,general,,seafreq+chuonnath
+y,ប្រណាំង,pronang,race,claude,"bronamng, pronamng, bronang",2014,general,,seafreq+chuonnath
+y,វិសាមញ្ញ,visamanh,extraordinary,claude,"visamnh, visanh, visoamnh",2015,general,,seafreq+chuonnath
+n,ពាណិជ,,(fragment),claude,"peanich, penich, beanich",2016,general,,seafreq+chuonnath
+y,រក្សាទុក,reaksa+tuk,save / keep,claude,"roksatuk, rorksatuk, rouksatuk",2017,general,,seafreq+sbbic
+y,ហ្វឹកហ្វឺន,hvek+hvoeun,train / drill,claude,"hverkhveun, hverkhvern, hverkhveunak",2018,general,,seafreq+chuonnath
+y,នីតិកាល,nitekal,term (legislature),claude,"neytikal, neitikal, neytikeal",2019,general,,seafreq+sbbic
+y,តណ្ហា,tanha,desire / lust,claude,"tonha, tornha, tonhar",2020,general,,seafreq+chuonnath
+n,ស្រ,,(fragment),claude,s,2021,general,,seafreq+chuonnath
+y,ស្ដើង,sdaeng,thin,claude,"sderng, sderngkor, sdirng",2022,general,,seafreq+chuonnath
+y,ឆ្មប,chmob,midwife,claude,"chmop, chmob, chmorp",2023,general,,seafreq+chuonnath
+y,អ្នកក្រ,nek+kro,the poor,claude,"nekkror, nekkro, nikkror",2024,general,,seafreq+sbbic
+y,ដង្កោ,dongkao,(place),claude,"dongkou, dorngkou, dongkouk",2025,general,,seafreq+chuonnath
+y,អារាម,aream,monastery,claude,"ahream, ahrem, ahram",2026,general,,seafreq+chuonnath
+y,ហុច,hoch,hand over,claude,"hoch, huch",2027,general,,seafreq+chuonnath
+y,ស័ក្តិ,sak,rank / power,claude,"skti, skt, skoti",2028,general,,seafreq+sbbic
+y,ដាល,dal,punch / box,claude,"dal, deal, dial",2029,general,,seafreq+chuonnath
+y,ធ្លាក់ចុះ,thleak+joh,fall / decline,claude,"tlekjos, tlekjors, tlaekjos",2030,general,,seafreq+sbbic
+y,ភក្តិ,phak,loyalty / devotion,claude,"phokti, phorkti, phokt",2031,general,,seafreq+sbbic
+y,បំណុល,bomnol,debt,claude,"bomnol, bormnol, boumnol",2032,general,,seafreq+chuonnath
+y,រឹម,rem,edge / rim,claude,"rerm, rerom, rem",2033,general,,seafreq+chuonnath
+y,កូនប្រុស,kon+pros,son,claude,"konbros, kornbros, konbrors",2034,general,,seafreq+sbbic
+y,ខាន់,khan,(name),claude,"khan, khean, khanak",2035,general,,seafreq+chuonnath
+y,ពេញចិត្ត,penh+jet,satisfied / like,claude,"penhjit, penhjith, pernhjit",2036,general,,seafreq+sbbic
+y,អនុរដ្ឋលេខាធិការ,anu+roth+lekhathika,undersecretary of state,claude,"onurdtholekhathika, ornurdtholekhathika, anurdtholekhathika",2037,general,,seafreq+sbbic
+y,ថែមទៀត,thaem+tiet,more / additionally,claude,"thaemtt, thaemtth, theaemtt",2038,general,,seafreq+sbbic
+y,ថេរ,the,elder (monk),claude,"the, ther, thae",2039,general,,seafreq+chuonnath
+y,ស្ពាន់,spoan,copper,claude,"span, spanak, spean",2040,general,,seafreq+chuonnath
+y,ជ្រក,jrok,shelter,claude,"jrok, jrork, jror",2041,general,,seafreq+chuonnath
+y,ត្របែក,trobaek,guava,claude,"trobaek, trobaekror, trobeak",2042,general,,seafreq+chuonnath
+y,ទេសនា,tesna,sermon,claude,"tesnea, tesnear, tesna",2043,general,,seafreq+chuonnath
+y,តន្ត្រី,tontrei,music,claude,"tontrey, tontrei, torntrey",2044,general,,seafreq+sbbic
+n,ប្រព្រឹត្តិ,,(fragment),claude,"broprertti, proprertti, brorprertti",2045,general,,seafreq+chuonnath
+y,ចម្បាំង,jombang,battle / war,claude,"jomboamng, jomboang, jormboamng",2046,general,,seafreq+chuonnath
+y,ប្រសាទ,prasat,temple / nerve,claude,"brosat, prosat, brosath",2047,general,,seafreq+chuonnath
+y,ស័ព្ទ,sap,word / term,claude,sp,2048,general,,seafreq+sbbic
+y,សិប្បកម្ម,sebpakam,handicraft,claude,"sibbokm, sibborkm, sibboukm",2049,general,,seafreq+sbbic
+y,ព្រះអង្គម្ចាស់,preah+ong+mjas,prince,claude,"preahongkormjas, preahongkomjas, preahorngkormjas",2050,general,,seafreq+sbbic
+y,លោម,lom,coax / soothe,claude,"loum, laom",2051,general,,seafreq+chuonnath
+y,ទុកចិត្ត,tuk+jet,trust,claude,"tukjit, tukjith, tukjiter",2052,general,,seafreq+chuonnath
+y,មែក,maek,branch,claude,"meak, mek, mak",2053,general,,seafreq+chuonnath
+y,ឧក្រិដ្ឋកម្ម,ukredakam,crime,claude,"okridthokm, orkridthokm, okridthorkm",2054,general,,seafreq+sbbic
+n,ភិត,,(fragment),claude,"phit, phith, phiter",2055,general,,seafreq+chuonnath
+y,ខាត់,khat,polish,claude,"khat, khath, kheat",2056,general,,seafreq+chuonnath
+y,មន្ត,mon,magic spell,claude,"mon, morn, mo",2057,general,,seafreq+chuonnath
+y,ចង្កូត,jongkot,steering wheel / gutter,claude,"jongkut, jongkuth, jorngkut",2058,general,,seafreq+chuonnath
+y,ស្មៀន,smien,clerk,claude,"smean, smen, sman",2059,general,,seafreq+chuonnath
+y,នាហ្មឺន,neahmeun,official (old),claude,"neahmeun, nahmeun, neahmern",2060,general,,seafreq+sbbic
+y,ការសាកល្បង,ka+sakalbong,test / trial,claude,"kasarklbong, kasarklborng, kasarklbang",2061,general,,seafreq+sbbic
+y,ចង្រៃ,jongrai,cursed / damn,claude,"jongrey, jongrei, jorngrey",2062,general,,seafreq+chuonnath
+y,អ្នកប្រើប្រាស់,nek+prerpras,user,claude,"nokbrerbras, nekbrerbras, norkbrerbras",2063,general,,seafreq+sbbic
+y,អាណាចក្រ,anajak,empire / kingdom,claude,"ahnajak, ahgnajak, ahnajakror",2064,general,,seafreq+sbbic
+y,មែនហើយ,men+hoy,that's right / indeed,claude,"menhz, mernhz, menhx",2065,general,,seafreq+sbbic
+y,រុង,rung,glory / bright,claude,"rung, roung, rungkor",2066,general,,seafreq+chuonnath
+y,អត់មាន,ot+mean,don't have / there isn't,claude,"otmean, otmen, otman",2067,general,,seafreq+sbbic
+y,លុះដល់,luh+dol,until / when,claude,"luhtl, lohtl",2068,general,,seafreq+sbbic
+y,ពិសា,pisa,eat (polite),claude,"pisa, pisar, pisah",2069,general,,seafreq+chuonnath
+y,ខ្សឹប,khseb,whisper,claude,"khserp, khserb, khsierp",2070,general,,seafreq+chuonnath
+y,រុះរើ,ruh+rer,dismantle,claude,"ruhrer, rouhrer, rohrer",2071,general,,seafreq+sbbic
+y,ទិវង្គត,tivongkot,pass away (royal),claude,"tivngkot, tivngkoth, tivngkort",2072,general,,seafreq+chuonnath
+y,ច្បង,jbong,eldest,claude,"jbong, jborng, jbang",2073,general,,seafreq+chuonnath
+y,ដំណាល,domnal,at the same time,claude,"domnal, dormnal, doumnal",2074,general,,seafreq+chuonnath
+y,កែលំអ,kae+lom'or,improve / refine,claude,"kaelum, kaeylum, kaelom",2075,general,,seafreq+sbbic
+y,នោម,nom,urinate,claude,"noum, naom",2076,general,,seafreq+chuonnath
+y,ភិរម្យ,phirom,(name) / pleasant,claude,"phirm, phirom, phir",2077,general,,seafreq+sbbic
+y,ខាងមុខនេះ,khang+muk+nis,upcoming,claude,"khangmuknis, khangmouknis, kheangmuknis",2078,general,,seafreq+sbbic
+y,និរន្តរភាព,nirantarapheap,sustainability,claude,"nirntorpheap, nirntorpheab, nirntorphap",2079,general,,seafreq+sbbic
+y,គ្រឹះស្ថាន,kreuh+sthan,institution,claude,"krerhsthan, krerhsthean, krerhsthanak",2080,general,,seafreq+chuonnath
+y,កត់សំគាល់,kot+somkoal,note / remark,claude,"kortsomkeal, kortsormkeal, kortsumkeal",2081,general,,seafreq+sbbic
+y,ឆាន់,chhan,eat (monk),claude,"chan, chean, chanak",2082,general,,seafreq+chuonnath
+y,ម្លូ,mlu,betel leaf,claude,"mlu, mluk, mlo",2083,general,,seafreq+chuonnath
+y,ទេសរដ្ឋមន្ត្រី,tes+rothmontrey,senior minister,claude,"tesorrothmontrey, tesorrothmontrei, tesorrothmorntrey",2084,general,,seafreq+sbbic
+y,សព្ទ,sap,word (variant),claude,"sorp, sorb, sop",2085,general,,seafreq+chuonnath
+y,ពាណិជ្ជករ,panijakar,merchant,claude,"peanijjok, penijjok, peanijjork",2086,general,,seafreq+sbbic
+y,កុះករ,koh+kor,crowded / bustling,claude,"kohk, kohkror, kohkr",2087,general,,seafreq+chuonnath
+y,ម៉ាន,man,(name),claude,"man, manak, mean",2088,general,,seafreq+sbbic
+y,បំភ្លេច,bomplech,forget (deliberately),claude,"bomphlech, bomplech, bormphlech",2089,general,,seafreq+chuonnath
+y,គេហដ្ឋាន,kehathan,residence,claude,"kehdthan, kehdthean, kehdthanak",2090,general,,seafreq+chuonnath
+y,ឡូយ,loy,cool / stylish,claude,"loy, louy, luy",2091,general,,seafreq+chuonnath
+y,អហិង្សា,ahingsa,nonviolence,claude,"ohingsea, ohingsear, ohingsa",2092,general,,seafreq+chuonnath
+y,ជិតខាង,jit+khang,neighbor / nearby,claude,"jitkhang, jitkheang, jitkhangkor",2093,general,,seafreq+sbbic
+y,ទាន់បាន,toan+ban,caught in time,claude,"tornban, tonban, tornbanak",2094,general,,seafreq+sbbic
+y,តួអង្គ,tuo+ong,character (story),claude,"turongkor, turorngkor, turungkor",2095,general,,seafreq+sbbic
+y,កុដិ,kot,monk's quarters,claude,"kodi, kudi, kode",2096,general,,seafreq+chuonnath
+y,សក្ការៈ,sakkarak,worship / venerate,claude,"sorkkar, sorkkear, sokkar",2097,general,,seafreq+sbbic
+y,រែក,raek,carry on shoulder pole,claude,"reak, rek, rak",2098,general,,seafreq+chuonnath
+y,ភ័យខ្លាច,phey+klach,afraid,claude,"pheiklach, phaeiklach, peiklach",2099,general,,seafreq+sbbic
+y,ការចូលរួម,ka+jol+ruom,participation,claude,"kajolroum, kajorlroum, kajolrorm",2100,general,,seafreq+sbbic
 y,ច្រូត,"jrot, jroth",,engine,"jrot, jroth, jrort",2101,general,,seafreq+chuonnath
 y,សង្វៀន,"sorngvean, songvean",,engine,"sorngvean, songvean, sorngven",2102,general,,seafreq+chuonnath
 y,បែកបាក់,"bekbak, bekbakror",,engine,"bekbak, bekbakror, bikbak",2103,general,,seafreq+sbbic
@@ -2628,7 +2628,7 @@ y,តប់,"top, tob",,engine,"top, tob, torp",2626,general,,seafreq+chuonnath
 y,ម៉ុង,"mung, moung",,engine,"mung, moung, mungkor",2627,general,,seafreq+chuonnath
 y,ខេមរភូមិន្ទ,"khemrphumin, khemrphumen",,engine,"khemrphumin, khemrphumen, khaemrphumin",2628,general,,seafreq+sbbic
 y,អត្ថ,"ot, oth",,engine,"ot, oth, ort",2629,general,,seafreq+chuonnath
-y,ណ្ហើយ,"nhery, nhx",,engine,"nhery, nhx, nhy",2630,general,,seafreq+chuonnath
+y,ណ្ហើយ,"nhery, nhz",,engine,"nhery, nhz, nhy",2630,general,,seafreq+chuonnath
 y,គ្រឿងទេស,"krerngtesor, krerngtehsor",,engine,"krerngtesor, krerngtehsor, krirngtesor",2631,general,,seafreq+sbbic
 y,ជ្រលក់,"jrolk, jrorlk",,engine,"jrolk, jrorlk, jrolkror",2632,general,,seafreq+chuonnath
 y,នង្គ័ល,"nongkl, norngkl",,engine,"nongkl, norngkl, noungkl",2633,general,,seafreq+chuonnath
@@ -3365,7 +3365,7 @@ y,អភិ,"ophi, orphi",,engine,"ophi, orphi, opi",3363,general,,seafreq+chuon
 y,ពីព្រលឹម,"piprolerm, piprolerom",,engine,"piprolerm, piprolerom, piprolem",3364,general,,seafreq+sbbic
 y,ចាល,"jal, jeal",,engine,"jal, jeal, jial",3365,general,,seafreq+chuonnath
 y,កោស,"kaos, kaors",,engine,"kaos, kaors, kaoh",3366,general,,seafreq+chuonnath
-y,រំភើយ,"rumphery, roumphery",,engine,"rumphery, roumphery, rumphx",3367,general,,seafreq+chuonnath
+y,រំភើយ,"rumphery, roumphery",,engine,"rumphery, roumphery, rumphz",3367,general,,seafreq+chuonnath
 y,ផ្ទាត់,"phtat, phtath",,engine,"phtat, phtath, ptat",3368,general,,seafreq+chuonnath
 y,ស្មុគ,"smok, smork",,engine,"smok, smork, smor",3369,general,,seafreq+chuonnath
 y,ជិតស្និទ្ធ,"jitsnit, jitsnith",,engine,"jitsnit, jitsnith, jitsgnit",3370,general,,seafreq+sbbic
@@ -3747,7 +3747,7 @@ y,គ្មានជម្រើស,"kmeanchmrers, kmenchmrers",,engine,"kmeanch
 y,គ្មានពេល,"kmeanpel, kmenpel",,engine,"kmeanpel, kmenpel, kmanpel",3746,general,,review:movie_words.csv
 y,យឺតពេល,"yeutpel, yeutpeyl",,engine,"yeutpel, yeutpeyl, yertpel",3747,general,,review:movie_words.csv
 y,ទាន់ពេល,"tornpel, tonpel",,engine,"tornpel, tonpel, tornpeyl",3748,general,,review:movie_words.csv
-y,ចប់ហើយ,"jophery, jorphery",,engine,"jophery, jorphery, jophx",3749,general,,review:movie_words.csv
+y,ចប់ហើយ,"jophery, jorphery",,engine,"jophery, jorphery, jophz",3749,general,,review:movie_words.csv
 y,អភិនន្ទន៍,"ophinnton, ophinntorn",,engine,"ophinnton, ophinntorn, orphinnton",3750,general,,review:movie_words.csv
 y,ជួបគ្នាពេលក្រោយ,"joubkneapelkraoy, joubkneapelkroy",,engine,"joubkneapelkraoy, joubkneapelkroy, joubknapelkraoy",3751,general,,review:movie_words.csv
 y,រាត្រីសួស្ដី,"reatreisuosdey, reatreisuosdei",,engine,"reatreisuosdey, reatreisuosdei, reatreisuorsdey",3752,general,,review:movie_words.csv
