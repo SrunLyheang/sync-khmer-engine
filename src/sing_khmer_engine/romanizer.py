@@ -23,6 +23,8 @@ How a syllable (KCC) is spelled, in priority order:
 from __future__ import annotations
 
 import re
+from collections import Counter
+from difflib import SequenceMatcher
 from collections import defaultdict
 
 from .kcc import segment
@@ -69,7 +71,15 @@ _FINAL = {
 
 _TRUST = 0.7          # keep a learned spelling only with direct or >=2x aligned support
 _ALIGN_WEIGHT = 0.35
-_MAX_VARIANTS = 8     # cap on generated variants per word
+_MAX_VARIANTS = 12    # cap on generated variants per word
+
+# Learned edits: how the people who typed vocabulary.csv actually differ from this
+# romanizer's best guess (ronthot -> ronthud, sdech -> sdach, lok -> luk). Mined in
+# Romanizer._learn_edits from (guess, real spelling) pairs; an edit seen at least
+# _EDIT_MIN_COUNT times is applied to guesses for words nobody has spelled yet.
+_EDIT_MIN_COUNT = 2
+_EDIT_CONTEXT = 1     # characters of context kept around each edit
+_LEARNED_PER_WORD = 6 # learned-edit variants added per word
 
 # Common ways people re-spell the same sound (learned from verification batches), applied
 # on top of the per-syllable options to widen coverage: aspiration is often dropped
@@ -189,6 +199,57 @@ class Romanizer:
             singles = [r for r in e.romanizations if " " not in r]
             if singles:
                 self._roms[e.khmer] = singles
+        self.edits = self._learn_edits(vocab)
+
+    def _learn_edits(self, vocab: list[VocabEntry]) -> list[tuple[str, str, int]]:
+        """(from, to, count) edits turning this romanizer's guess into real spellings,
+        most frequent first. Each edit keeps _EDIT_CONTEXT characters around the change
+        (`^`/`$` mark the word edges), so `ot$ -> ud$` only fires at the end of a word."""
+        counts: Counter = Counter()
+        for e in vocab:
+            if not e.romanizations:
+                continue
+            guess = "^" + self.romanize(e.khmer) + "$"
+            seen: set[tuple[str, str]] = set()
+            for rom in e.romanizations:
+                real = "^" + rom.replace(" ", "") + "$"
+                if real == guess:
+                    continue
+                for tag, i1, i2, j1, j2 in SequenceMatcher(None, guess, real, autojunk=False).get_opcodes():
+                    if tag == "equal":
+                        continue
+                    lo, hi = max(0, i1 - _EDIT_CONTEXT), min(len(guess), i2 + _EDIT_CONTEXT)
+                    before = guess[lo:hi]
+                    after = guess[lo:i1] + real[j1:j2] + guess[i2:hi]
+                    if before != after:
+                        seen.add((before, after))
+            counts.update(seen)                          # once per word, not per spelling
+        return [(a, b, n) for (a, b), n in counts.most_common() if n >= _EDIT_MIN_COUNT]
+
+    def learned_variants(self, spelling: str, limit: int = _LEARNED_PER_WORD) -> list[str]:
+        """Apply the learned edits to a guess, one and two at a time, likeliest first."""
+        word = "^" + spelling + "$"
+        scored: dict[str, int] = {}
+        singles: list[tuple[str, int]] = []
+        for a, b, n in self.edits:
+            start = word.find(a)
+            while start != -1:
+                new = word[:start] + b + word[start + len(a):]
+                if new not in scored or scored[new] < n:
+                    scored[new] = n
+                    singles.append((new, n))
+                start = word.find(a, start + 1)
+        for new, n in sorted(singles, key=lambda x: -x[1])[:4]:   # pairs of the top edits
+            for a, b, m in self.edits[:40]:
+                i = new.find(a)
+                if i != -1:
+                    pair = new[:i] + b + new[i + len(a):]
+                    score = min(n, m) // 2
+                    if pair not in scored or scored[pair] < score:
+                        scored[pair] = score
+        out = [w.strip("^$") for w, _ in sorted(scored.items(), key=lambda x: -x[1])]
+        return [w for w in out if len(w) >= 2 and w != spelling and "^" not in w
+                and "$" not in w][:limit]
 
     @staticmethod
     def _build_rules(vocab: list[VocabEntry]) -> dict[str, str]:
@@ -354,7 +415,7 @@ class Romanizer:
                 if len(results) > 40:                    # bound combinatorial blow-up
                     results = results[:40]
         primary = self.romanize(khmer)
-        ordered = [primary] + [r for r in results if r != primary]
+        ordered = [primary] + self.learned_variants(primary) + [r for r in results if r != primary]
         ordered += [rs for s in ordered for rs in self._respellings(s)]  # widen
         seen: set[str] = set()
         out: list[str] = []

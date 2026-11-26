@@ -55,6 +55,21 @@ public final class Composer {
         public let latin: String
         /// True if it covers only the first word, leaving the rest being typed.
         public let isPartial: Bool
+        /// A loose guess for a spelling nothing matched (pick-to-teach). Shown marked;
+        /// space never takes it, only its number key does.
+        public var isGuess: Bool = false
+        /// Taking it teaches the keyboard `latin` -> `text` (saved to my_words.txt):
+        /// guesses, and words found only through a guessed spelling.
+        public var teaches: Bool = false
+
+        public init(text: String, latin: String, isPartial: Bool,
+                    isGuess: Bool = false, teaches: Bool = false) {
+            self.text = text
+            self.latin = latin
+            self.isPartial = isPartial
+            self.isGuess = isGuess
+            self.teaches = teaches
+        }
     }
 
     /// The most recent conversion, while it can still be undone with backspace.
@@ -65,12 +80,17 @@ public final class Composer {
 
     public static let maxCandidates = 9
     private static let maxWhole = 6
+    /// Pick-to-teach guesses offered when nothing matches.
+    public static let maxGuesses = 5
 
     private var engine: Engine
     private let history: History
     /// Called with a spelling that matched nothing and was kept as Latin (and is not
     /// English): a word the dictionary is missing.
     public var onMiss: ((String) -> Void)?
+    /// Called with (spelling, Khmer) when the user takes a guess: the shell saves it to
+    /// my_words.txt so the spelling gives that word first from then on.
+    public var onTeach: ((String, String) -> Void)?
 
     /// The Latin text being composed (shown underlined in the document).
     public private(set) var buffer = ""
@@ -253,7 +273,12 @@ public final class Composer {
     /// Remember the choice, and report a spelling the dictionary does not know.
     private func learn(_ option: Option) {
         history.record(spelling: option.latin, chosen: option.text)
-        let isOnlyLatin = candidates.count == 1 && option.text == option.latin
+        if option.teaches {
+            onTeach?(option.latin.lowercased(), option.text)
+            return
+        }
+        let isOnlyLatin = candidates.allSatisfy { $0.isGuess || $0.text == $0.latin }
+            && option.text == option.latin
         if isOnlyLatin, option.latin.count >= 2, option.latin.allSatisfy(Composer.isLetter),
            !engine.isEnglishWord(option.latin) {
             onMiss?(option.latin.lowercased())
@@ -289,13 +314,21 @@ public final class Composer {
             return copy
         }
 
+        let words = segments.filter { !$0.space }
+        if words.count == 1, let only = words.first, !only.matched, only.lead.isEmpty,
+           only.trail.isEmpty, only.surface == text {
+            return guessOptions(text)
+        }
+        // A single word found only through a guessed spelling: taking it teaches it.
+        let guessed: Set<String> = words.count == 1 && !text.contains(" ")
+            ? Set(words[0].candidates.filter { $0.source == "generated" }.map { $0.khmer }) : []
+
         // Whole-buffer candidates.
         var whole: [String] = []
         func add(_ s: String) {
             if !s.isEmpty && !whole.contains(s) { whole.append(s) }
         }
         add(Engine.joinSegments(segments))
-        let words = segments.filter { !$0.space }
         if words.count == 1, let only = words.first, only.matched {
             for c in only.candidates.dropFirst() {          // homophones, then English
                 add(only.lead + c.khmer + only.trail)
@@ -322,10 +355,25 @@ public final class Composer {
         var out: [Option] = []
         let latin = Option(text: text, latin: text, isPartial: false)
         if latinFirst { out.append(latin) }
-        out += whole.map { Option(text: $0, latin: text, isPartial: false) }
+        out += whole.map {
+            Option(text: $0, latin: text, isPartial: false, teaches: guessed.contains($0))
+        }
         out += partial.prefix(Composer.maxCandidates - 1 - out.count)
         if !latinFirst { out.append(latin) }
         return out
+    }
+
+    /// Nothing matched `text`: offer the Latin first (so space keeps it, as before),
+    /// then the closest words by loose matching, guessed spellings included. English is
+    /// never guessed at. Taking a guess teaches it (see `Option.teaches`).
+    private func guessOptions(_ text: String) -> [Option] {
+        let latin = Option(text: text, latin: text, isPartial: false)
+        guard text.count >= 2, text.allSatisfy(Composer.isLetter),
+              !engine.isEnglishWord(text) else { return [latin] }
+        let guesses = engine.convert(text, limit: Composer.maxGuesses, fuzzy: true, strict: false)
+            .filter { $0.source != "english" && $0.khmer != text }
+            .map { Option(text: $0.khmer, latin: text, isPartial: false, isGuess: true, teaches: true) }
+        return [latin] + guesses
     }
 
     private static func trimmed(_ s: String) -> String {

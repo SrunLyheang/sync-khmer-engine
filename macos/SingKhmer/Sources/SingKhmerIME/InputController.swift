@@ -13,6 +13,9 @@ final class SingKhmerInputController: IMKInputController {
         guard let engine = Shared.store.engine else { return nil }
         let composer = Composer(engine: engine, history: Shared.store.history)
         composer.onMiss = { Shared.store.recordMiss($0) }
+        composer.onTeach = { latin, khmer in
+            _ = try? Shared.store.addWords([UserWord(latin: latin, khmer: khmer)])
+        }
         return composer
     }()
     /// Which version of the store's engine the composer is using.
@@ -28,6 +31,8 @@ final class SingKhmerInputController: IMKInputController {
         guard let composer = composer,
               let event = event, event.type == .keyDown,
               let client = sender as? IMKTextInput else { return false }
+        // Our own "Add Word…" window takes spellings in Latin: never convert there.
+        if let own = Bundle.main.bundleIdentifier, client.bundleIdentifier() == own { return false }
         let key = Self.key(for: event)
 
         if !composer.isComposing {
@@ -103,7 +108,9 @@ final class SingKhmerInputController: IMKInputController {
     private func showCandidates(_ composer: Composer, _ client: IMKTextInput) {
         var rect = NSRect.zero
         _ = client.attributes(forCharacterIndex: 0, lineHeightRectangle: &rect)
-        Shared.panel.show(composer.candidates.map { $0.text }, selected: composer.selected, near: rect)
+        // A trailing "?" marks a pick-to-teach guess: taking it saves the spelling.
+        let labels = composer.candidates.map { $0.isGuess ? $0.text + "?" : $0.text }
+        Shared.panel.show(labels, selected: composer.selected, near: rect)
     }
 
     private static func key(for event: NSEvent) -> Composer.Key {
@@ -168,6 +175,7 @@ final class SingKhmerInputController: IMKInputController {
     override func menu() -> NSMenu! {
         let menu = NSMenu(title: "Sing Khmer")
         let items: [(String, Selector)] = [
+            ("Add Word…", #selector(addWord(_:))),
             ("Edit My Words…", #selector(editMyWords(_:))),
             ("Show Missed Words", #selector(showMissedWords(_:))),
             ("Open Sing Khmer Folder", #selector(openFolder(_:))),
@@ -178,6 +186,11 @@ final class SingKhmerInputController: IMKInputController {
             menu.addItem(item)
         }
         return menu
+    }
+
+    @objc private func addWord(_ sender: Any?) {
+        commitComposition(client())
+        AddWordWindow.shared.show()
     }
 
     @objc private func editMyWords(_ sender: Any?) {

@@ -389,3 +389,43 @@ def test_obvious_junk_is_flagged_but_still_kept(client):
     assert junk, "junk must still be stored, just flagged"
     assert junk[0]["flagged"] is True
     assert junk[0]["flag_reason"]
+
+
+# ---- owner adds words directly --------------------------------------------------------
+def test_the_owner_adds_a_word_and_it_is_ready_to_submit(client):
+    owner(client)
+    res = client.post("/admin/api/add_word",
+                      json={"spellings": "Kom Tov, komtov, kom+tov", "khmer": "កុំទៅ"})
+    assert res.status_code == 200, res.text
+    body = res.json()
+    assert body["khmer"] == "កុំទៅ"
+    assert [r["spelling"] for r in body["results"]] == ["kom tov", "komtov"]
+    assert all(r["added"] for r in body["results"])
+    ready = {(a["spelling"], a["khmer"]) for a in storage.admin_accepted_for_submit()}
+    assert {("kom tov", "កុំទៅ"), ("komtov", "កុំទៅ")} <= ready
+
+    again = client.post("/admin/api/add_word", json={"spellings": "komtov", "khmer": "កុំទៅ"})
+    assert again.json()["results"][0]["added"] is False      # already accepted: not doubled
+
+
+def test_latin_in_the_khmer_box_is_built_from_known_words(client):
+    owner(client)
+    expected = index.ENGINE.convert_sentence_text("nh srolanh")
+    res = client.post("/admin/api/add_word", json={"spellings": "nhsl", "khmer": "nh srolanh"})
+    assert res.status_code == 200, res.text
+    assert res.json()["khmer"] == expected.replace(" ", "")
+    bad = client.post("/admin/api/add_word", json={"spellings": "x", "khmer": "nh qqqzzzx"})
+    assert bad.status_code == 400 and bad.json()["error"] == "need_khmer"
+    mixed = client.post("/admin/api/add_word", json={"spellings": "x", "khmer": "កុំ tov"})
+    assert mixed.json()["error"] == "need_khmer"
+    nospell = client.post("/admin/api/add_word", json={"spellings": " , ", "khmer": "កុំទៅ"})
+    assert nospell.json()["error"] == "bad_spelling"
+
+
+def test_only_the_owner_can_add_words(client):
+    assert client.post("/admin/api/add_word",
+                       json={"spellings": "a", "khmer": "ក"}).status_code == 404
+    owner(client)
+    helper, _ = invited(client)
+    res = helper.post("/admin/api/add_word", json={"spellings": "a", "khmer": "ក"})
+    assert res.status_code == 403

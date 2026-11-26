@@ -142,6 +142,29 @@ does not change it, but picking the same alternative twice in a row does. If you
 word in Latin (Return), it learns that too, so `you` can stay English. Stored in
 `history.json`.
 
+**Add Word… (the quick way).** Menu: **Add Word…** opens a small window. Type the
+spellings (commas between alternatives: `kom tov, komtov`) and the Khmer, then press
+Return. The word works on the very next thing you type. The window:
+- fills in the last spelling that matched nothing, and lists your most-missed spellings;
+- takes pasted Khmer, **or** Sing Khmer made of words it already knows (`bong srey` ->
+  បងស្រី). Check the preview: a word it does not know can be split into ones it does
+  (`dombong` -> ដុំ + បង, not ដំបូង); paste the Khmer for those;
+- warns when a spelling already means something else (yours will come first).
+
+It writes ordinary lines to `my_words.txt`, so everything below still applies.
+
+**Pick-to-teach (learns while you type).** The keyboard also knows ~3,800 Khmer words
+that have no spelling yet (`data/wordlist_general.csv`, from a frequency list, spellings
+checked against the Chuon Nath dictionary). It guesses their spellings, so:
+- if your spelling matches a guess, the word just appears; taking it (space or its number)
+  saves your spelling, so from then on it comes first like a word you added yourself;
+- if nothing matches at all, the row still starts with your Latin, followed by the closest
+  guesses marked with **?** (`kreykror  ក្រីក្រ?  ...`). **Space keeps the Latin** (so an
+  English word is never changed behind your back); press a guess's **number** to take it,
+  and it is saved to `my_words.txt` the same way.
+English words never get guesses, and a guessed spelling never turns an English word into
+Khmer. A typo matched to a word you already have is not saved.
+
 **Your own words.** Menu: **Edit My Words...** opens `my_words.txt`. Add one word per
 line, the spelling and then the Khmer:
 

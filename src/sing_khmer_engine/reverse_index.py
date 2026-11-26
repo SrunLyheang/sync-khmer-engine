@@ -51,7 +51,7 @@ def build_index(
     vocab: list[VocabEntry],
     generate: Callable[[str], Iterable[str]] | None = None,
     *,
-    max_generated_per_word: int = 6,
+    max_generated_per_word: int = 12,
 ) -> dict[str, list[Candidate]]:
     """Build the reverse index mapping a normalized spelling to ranked candidates.
 

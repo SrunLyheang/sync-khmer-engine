@@ -245,6 +245,15 @@ body.signed-out .reviewer-box { visibility: hidden; }
   background: var(--bg); color: var(--text); font-family: ui-monospace, monospace;
   font-size: .82rem;
 }
+.add-word h2 { margin: 0 0 .5rem; font-size: 1.15rem; }
+.add-word p { font-family: 'DM Sans', 'Noto Sans Khmer', sans-serif; }
+.add-label { display: block; margin: .9rem 0 0; }
+.add-label span { display: block; font-size: .8rem; color: var(--text-dim); margin-bottom: .3rem; }
+.add-word .invite-url { font-family: 'Noto Sans Khmer', ui-monospace, monospace; font-size: 1rem; }
+.add-preview { min-height: 1.6rem; margin: .75rem 0 0; font-family: 'Noto Sans Khmer', sans-serif; font-size: 1.05rem; }
+.add-actions { display: flex; gap: 8px; margin-top: .9rem; flex-wrap: wrap; }
+.add-done { list-style: none; padding: 0; margin: 1rem 0 0; font-family: 'Noto Sans Khmer', sans-serif; color: var(--text-dim); }
+.add-done li { padding: .3rem 0; border-top: 1px solid var(--border, #333); }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -265,6 +274,7 @@ body.signed-out .reviewer-box { visibility: hidden; }
          the reviewer can edit isn't an audit trail. -->
     <div class="reviewer-box">
       <span id="whoami" class="whoami"></span>
+      <button type="button" id="btnAddWord" class="btn btn-ghost" style="display:none">Add a word</button>
       <button type="button" id="btnInvite" class="btn btn-ghost" style="display:none">Invite a helper</button>
       <button type="button" id="btnLogout" class="btn btn-ghost">Sign out</button>
     </div>

@@ -22,6 +22,17 @@ spreadsheet (Excel, Google Sheets, Numbers) or a plain text editor. The engine l
 | `romanizations` | no       | The Sing Khmer (Latin) spellings people type. **Separate alternatives with commas OR spaces** — both work (`jueng jg jhg` = `jueng, jg, jhg` = three spellings). For a spelling that's genuinely **two Latin words** (typed with a space, like ម្សិលមិញ), join them with a **`+`**: `msel+minh`. Optional per row. |
 | `notes`         | no       | Freeform hints — usage, disambiguation, anything else. |
 
+### `wordlist_general.csv` — Khmer-only words
+
+Words with **no spelling**: the engine guesses their spellings (learned from how
+`vocabulary.csv` is spelled) and always ranks them below the words here. The Mac keyboard's
+pick-to-teach turns a guess you take into a real spelling. Built by
+`scripts/build_general_wordlist.py` from the top 5,000 of the SEALang frequency list
+(`sbbic/khmerlbdict`, MIT; SEALang's own terms unstated — check before publishing) whose
+spelling is a Chuon Nath headword (`ericvida/khmer-dictionary-spice`, LGPL 2.1) or, for
+modern words, in that repo's SBBIC list; fragments are dropped. Columns:
+`khmer, frequency, source`. Do not hand-edit; rebuild it.
+
 ### Frequency scale (rough)
 
 - **5** — extremely common, used constantly in chat

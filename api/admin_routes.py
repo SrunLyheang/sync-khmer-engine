@@ -256,6 +256,72 @@ async def act(request: Request):
     return JSONResponse(result, status_code=status)
 
 
+# ---- add a word (owner) ------------------------------------------------------------
+_HAS_KHMER = re.compile(r"[ក-៿᧠-᧿]")
+
+
+def _compose_khmer(text: str) -> str | None:
+    """Latin typed in the Khmer box, built from words the engine already knows
+    (`bong srey` -> បងស្រី; the form previews it,
+    since an unknown word can be split into known ones). None if any part is unknown, so a half-Latin word
+    can never be saved. Same rule as the Mac window (SingKhmerCore/WordForm.swift)."""
+    from api.index import ENGINE      # imported here: api.index imports this module
+
+    words = [w for w in ENGINE.decode(text) if not w.space and w.surface.strip()]
+    if not words or any(not w.candidates for w in words):
+        return None
+    return "".join(w.candidates[0].khmer for w in words)
+
+
+@router.post("/add_word")
+async def add_word(request: Request):
+    """The owner adds a word directly: each spelling is recorded as a correction and
+    accepted in the owner's name, so the normal "Submit to GitHub" commits it.
+
+    Body: {"spellings": "kom tov, komtov", "khmer": "កុំទៅ" | "kom tov"}.
+    Commas separate alternative spellings; a space or `+` inside one makes a multi-word
+    spelling. Latin in the Khmer box is converted from words the engine already knows.
+    """
+    denied = _needs_owner(request)
+    if denied:
+        return denied
+    who = _owner(request)
+    body = await _json(request)
+
+    spellings: list[str] = []
+    for part in re.split(r"[,\n;]+", str(body.get("spellings") or "")):
+        s = security.clean_spelling(part.replace("+", " "))
+        if s and s not in spellings:
+            spellings.append(s)
+    if not spellings:
+        return JSONResponse({"ok": False, "error": "bad_spelling"}, status_code=400)
+
+    raw = str(body.get("khmer") or "")
+    if _HAS_KHMER.search(raw):
+        khmer = security.clean_khmer(raw)
+        if khmer and re.search(r"[A-Za-z]", khmer):
+            khmer = None                   # Khmer mixed with Latin is never typed back
+    else:
+        khmer = _compose_khmer(raw[:120]) if raw.strip() else None
+        khmer = security.clean_khmer(khmer or "")
+    if not khmer:
+        return JSONResponse({"ok": False, "error": "need_khmer"}, status_code=400)
+    if not storage.available():
+        return JSONResponse({"ok": False, "error": "not_stored"}, status_code=503)
+
+    results = []
+    for spelling in spellings:
+        storage.record_correction(_sid(request), spelling, khmer, "owner")
+        act = storage.admin_act(who["id"], who["name"], _sid(request), spelling, khmer, "accept")
+        results.append({
+            "spelling": spelling,
+            "added": bool(act.get("ok")),
+            # Already decided earlier (accepted, rejected or submitted): say so, don't redo.
+            "existing": None if act.get("ok") else act.get("existing"),
+        })
+    return JSONResponse({"ok": True, "khmer": khmer, "results": results})
+
+
 # ---- undo --------------------------------------------------------------------------
 @router.post("/undo")
 async def undo(request: Request):
