@@ -649,6 +649,8 @@
     if (label && me) label.textContent = me.name + (me.role === 'owner' ? ' · owner' : '');
     const inviteBtn = document.getElementById('btnInvite');
     if (inviteBtn) inviteBtn.style.display = (me && me.role === 'owner') ? '' : 'none';
+    const addBtn = document.getElementById('btnAddWord');
+    if (addBtn) addBtn.style.display = (me && me.role === 'owner') ? '' : 'none';
     refresh();
   }
 
@@ -687,6 +689,96 @@
       });
     };
   }
+
+  // ---- add a word (owner) --------------------------------------------------------
+  /* The owner types a word in directly. Each spelling lands in the queue already accepted
+     in the owner's name, so the usual "Submit to GitHub" carries it into vocabulary.csv.
+     The Khmer box takes pasted Khmer, or Sing Khmer made of words the engine knows. */
+  function addWordForm() {
+    const box = el('div', 'invite-out add-word');
+    box.appendChild(el('h2', null, 'Add a word'));
+    box.appendChild(el('p', null,
+      'Spellings: separate alternatives with commas (kom tov, komtov). ' +
+      'Khmer: paste it, or type words the keyboard already knows (bong srey → បងស្រី) and check the preview — a word it does not know may get split into ones it does.'));
+
+    const spell = el('input', 'invite-url');
+    spell.type = 'text'; spell.placeholder = 'kom tov, komtov'; spell.autocomplete = 'off';
+    const khmer = el('input', 'invite-url');
+    khmer.type = 'text'; khmer.placeholder = 'កុំទៅ  or  kom tov'; khmer.autocomplete = 'off';
+    const preview = el('p', 'add-preview');
+    const add = el('button', 'btn btn-accept', 'Add word');
+    const back = el('button', 'btn btn-ghost', 'Back to review');
+    const done = el('ul', 'add-done');
+    add.type = 'button'; back.type = 'button';
+
+    const label = function (text, input) {
+      const l = el('label', 'add-label');
+      l.appendChild(el('span', null, text));
+      l.appendChild(input);
+      return l;
+    };
+    box.appendChild(label('Spellings', spell));
+    box.appendChild(label('Khmer', khmer));
+    box.appendChild(preview);
+    const row = el('div', 'add-actions');
+    row.appendChild(add); row.appendChild(back);
+    box.appendChild(row);
+    box.appendChild(done);
+
+    // Preview what Latin in the Khmer box becomes, using the public converter.
+    let timer = null;
+    khmer.oninput = function () {
+      clearTimeout(timer);
+      const text = khmer.value.trim();
+      if (!text || /[\u1780-\u17ff]/.test(text)) { preview.textContent = text ? 'Saves: ' + text : ''; return; }
+      timer = setTimeout(async function () {
+        let words = [];
+        try {
+          const res = await fetch('/api/convert', {   // the public converter, not /admin/api
+            method: 'POST', headers: HEADERS, credentials: 'same-origin',
+            body: JSON.stringify({ text: text }),
+          });
+          words = ((await res.json()) || {}).words || [];
+        } catch (e) { preview.textContent = ''; return; }
+        if (khmer.value.trim() !== text) return;       // typed on while we waited
+        const unknown = words.filter(function (w) { return !w.space && w.core.trim() && !w.candidates.length; });
+        preview.textContent = unknown.length
+          ? 'Unknown: ' + unknown.map(function (w) { return w.core; }).join(', ') + ' (paste the Khmer instead)'
+          : 'Saves (check it): ' + words.filter(function (w) { return w.candidates.length; })
+              .map(function (w) { return w.candidates[0].khmer; }).join('');
+      }, 250);
+    };
+
+    const submit = function () {
+      busy(add, 'Adding…', async function () {
+        const out = await apiPost('add_word', { spellings: spell.value, khmer: khmer.value });
+        if (!out || !out.ok) {
+          const why = { bad_spelling: 'Spellings use letters only — separate them with commas.',
+                        need_khmer: 'Paste the Khmer, or use only words the keyboard knows.' };
+          toast(why[out && out.error] || apiError(out, 'Could not add the word'), 'err');
+          return;
+        }
+        out.results.forEach(function (r) {
+          const item = el('li', null, r.spelling + ' → ' + out.khmer +
+            (r.added ? '  ✓ accepted' : '  (already ' + ((r.existing && r.existing.action) || 'reviewed') + ')'));
+          done.insertBefore(item, done.firstChild);
+        });
+        toast('Added ' + out.khmer + ' — submit to GitHub when you are done', 'ok');
+        spell.value = ''; khmer.value = ''; preview.textContent = '';
+        spell.focus();
+      });
+    };
+    add.onclick = submit;
+    [spell, khmer].forEach(function (input) {
+      input.onkeydown = function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } };
+    });
+    back.onclick = function () { refresh(); };
+    content.replaceChildren(box);
+    spell.focus();
+  }
+
+  const addWordBtn = document.getElementById('btnAddWord');
+  if (addWordBtn) addWordBtn.onclick = addWordForm;
 
   // ---- init -------------------------------------------------------------------
   (async function init() {

@@ -4,7 +4,7 @@ import SingKhmerCore
 /// Everything the keyboard learns, kept as three small files in
 /// ~/Library/Application Support/SingKhmer. Nothing here ever leaves the Mac.
 ///
-///   my_words.txt      words the user taught it; edited by hand (menu: Edit My Words)
+///   my_words.txt      words the user taught it (menu: Add Word…, or Edit My Words by hand)
 ///   history.json      which candidate the user picks for each spelling
 ///   missed_words.txt  spellings typed that matched nothing, most typed first
 final class UserStore {
@@ -33,6 +33,8 @@ final class UserStore {
     private let baseEngine: Engine?
     private var wordsModified: Date?
     private var misses: MissLog
+    /// The last spelling that matched nothing: what "Add Word…" offers first.
+    private(set) var lastMiss: String?
 
     init(baseEngine: Engine?) {
         self.baseEngine = baseEngine
@@ -81,7 +83,24 @@ final class UserStore {
 
     func recordMiss(_ spelling: String) {
         misses.record(spelling)
+        lastMiss = spelling.lowercased()
         saveMisses()
+    }
+
+    /// Missed spellings, most typed first.
+    var missedSpellings: [String] { misses.mostMissed }
+
+    /// Append words to my_words.txt (the "Add Word…" window) and load them right away.
+    /// Returns false when every word was already there.
+    @discardableResult
+    func addWords(_ words: [UserWord]) throws -> Bool {
+        let current = (try? String(contentsOf: wordsURL, encoding: .utf8)) ?? UserStore.wordsTemplate
+        guard let text = WordForm.appending(words, to: current) else { return false }
+        try text.write(to: wordsURL, atomically: true, encoding: .utf8)
+        wordsModified = nil                       // reload even within the same clock tick
+        reloadWordsIfChanged()
+        if let miss = lastMiss, words.contains(where: { $0.latin == miss }) { lastMiss = nil }
+        return true
     }
 
     private func saveHistory() {

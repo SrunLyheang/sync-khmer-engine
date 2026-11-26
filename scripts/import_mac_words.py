@@ -59,8 +59,12 @@ def parse_words(text: str) -> list[tuple[str, str]]:
     return words
 
 
-def merge(csv_text: str, words: list[tuple[str, str]]) -> tuple[str, list[str]]:
-    """Apply `words` to the vocabulary CSV text. Returns (new text, change summary)."""
+def merge(csv_text: str, words: list[tuple[str, str]], *,
+          note: str | dict[str, str] = NEW_WORD_NOTE) -> tuple[str, list[str]]:
+    """Apply `words` to the vocabulary CSV text. Returns (new text, change summary).
+
+    `note` goes in the `notes` column of each NEW row: one string for all, or a
+    {khmer: note} dict (missing keys fall back to NEW_WORD_NOTE)."""
     reader = csv.DictReader(io.StringIO(csv_text))
     rows = list(reader)
     fieldnames = reader.fieldnames or ["khmer", "frequency", "is_slang", "romanizations", "notes"]
@@ -73,7 +77,8 @@ def merge(csv_text: str, words: list[tuple[str, str]]) -> tuple[str, list[str]]:
         if row is None:
             row = {name: "" for name in fieldnames}
             row.update(khmer=khmer, frequency=NEW_WORD_FREQUENCY, is_slang="false",
-                       romanizations=cell, notes=NEW_WORD_NOTE)
+                       romanizations=cell,
+                       notes=note if isinstance(note, str) else note.get(khmer, NEW_WORD_NOTE))
             rows.append(row)
             by_khmer[khmer] = row
             summary.append(f"new word   {khmer}  {latin}")

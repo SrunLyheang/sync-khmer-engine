@@ -28,6 +28,8 @@ final class SingKhmerInputController: IMKInputController {
         guard let composer = composer,
               let event = event, event.type == .keyDown,
               let client = sender as? IMKTextInput else { return false }
+        // Our own "Add Word…" window takes spellings in Latin: never convert there.
+        if let own = Bundle.main.bundleIdentifier, client.bundleIdentifier() == own { return false }
         let key = Self.key(for: event)
 
         if !composer.isComposing {
@@ -168,6 +170,7 @@ final class SingKhmerInputController: IMKInputController {
     override func menu() -> NSMenu! {
         let menu = NSMenu(title: "Sing Khmer")
         let items: [(String, Selector)] = [
+            ("Add Word…", #selector(addWord(_:))),
             ("Edit My Words…", #selector(editMyWords(_:))),
             ("Show Missed Words", #selector(showMissedWords(_:))),
             ("Open Sing Khmer Folder", #selector(openFolder(_:))),
@@ -178,6 +181,11 @@ final class SingKhmerInputController: IMKInputController {
             menu.addItem(item)
         }
         return menu
+    }
+
+    @objc private func addWord(_ sender: Any?) {
+        commitComposition(client())
+        AddWordWindow.shared.show()
     }
 
     @objc private func editMyWords(_ sender: Any?) {

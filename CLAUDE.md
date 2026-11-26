@@ -162,6 +162,29 @@ with tap-to-correct working for at least the known homophone cases.
 
 ## Current Position
 
+**Adding words + movie-translation vocabulary — 2026-11-26.** The developer uses the keyboard to
+type Khmer for **movie/drama translation (from English and Chinese)**: genres modern romance/CEO,
+action/crime/thriller, fantasy/xianxia (NOT historical/palace); dialogue register is mixed
+(rude ឯង/អញ to polite to a little royal). Built:
+- **Mac "Add Word…" window** (menu bar). Logic in `SingKhmerCore/WordForm.swift` (tested on
+  Linux, `WordFormTests`), AppKit shell `SingKhmerIME/AddWordWindow.swift` (parse-checked only —
+  needs a Mac build). Saves `my_words.txt` lines via `UserStore.addWords`, live immediately.
+  The controller now ignores keystrokes from its own process so the window's Latin fields are
+  never converted (unverified on a Mac).
+- **Web "Add a word"** (owner-only button on `/review`): `POST /admin/api/add_word` records each
+  spelling as a correction and accepts it in the owner's name, so "Submit to GitHub" commits it.
+- Both accept Latin in the Khmer box, composed from known words; **always preview** — unknown
+  words get split into known ones (`sneha dombong` -> ស្នេហាដុំបង, wrong).
+- **Researched word list:** `data/review/movie_words_source.tsv` (424 words with English + Chinese
+  source terms) -> `scripts/review_words.py build` -> `data/review/movie_words.xlsx` (367 rows to
+  review: 316 new words, 51 new spellings; 57 already covered were skipped). **Waiting on the
+  developer's review**, then `scripts/review_words.py merge data/review/movie_words.xlsx`.
+  Nothing from it is in `vocabulary.csv` yet. Reuse the same .tsv -> build -> review -> merge
+  flow for future word batches (never merge unreviewed AI spellings).
+- Seen while testing (still wrong until the list is merged): `tuk jet` -> ទុក្ខចិត្ត (want
+  ទុកចិត្ត), `knhom srolanh nek` -> garbled.
+- Dictionary is **1,244 words** (the "474 words" line further down is history).
+
 **macOS input method — WRITTEN, NOT YET BUILT ON A MAC (`macos/SingKhmer/`, setup in
 `docs/MAC_KEYBOARD.md`).** The developer asked for an installable keyboard on their own Mac
 instead of the web UI (decision: Mac only for now, own native keyboard, personal use; their phone
@@ -319,9 +342,7 @@ to `reverse_index.json` for the Android app to bundle.
 git push/pull — there is no direct file access between them. If picking this project up in a new
 session, check `git log`/`git status` first to see which side has the latest work before editing.
 
-**Next up: step 1.8** — fuzzy/edit-distance fallback for input with no exact match (e.g. typos).
-Then 1.9 (measure accuracy on real chat) and 1.5 (seed uncovered KCCs from IDRI-LAB's romanizer to
-widen the generated layer).
+**(Stale, kept as history:** step 1.8 is done; see the top of Current Position for what is next.)
 
 **Reminders:** team's disambiguation notes captured in `data/vocabulary.csv` (e.g. `jg` = ចង់ vs
 ចឹង by sentence position → needs the user-selection UX in 1.7). Project is still **local-only**

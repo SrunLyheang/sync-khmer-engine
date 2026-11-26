@@ -142,6 +142,17 @@ does not change it, but picking the same alternative twice in a row does. If you
 word in Latin (Return), it learns that too, so `you` can stay English. Stored in
 `history.json`.
 
+**Add Word… (the quick way).** Menu: **Add Word…** opens a small window. Type the
+spellings (commas between alternatives: `kom tov, komtov`) and the Khmer, then press
+Return. The word works on the very next thing you type. The window:
+- fills in the last spelling that matched nothing, and lists your most-missed spellings;
+- takes pasted Khmer, **or** Sing Khmer made of words it already knows (`bong srey` ->
+  បងស្រី). Check the preview: a word it does not know can be split into ones it does
+  (`dombong` -> ដុំ + បង, not ដំបូង); paste the Khmer for those;
+- warns when a spelling already means something else (yours will come first).
+
+It writes ordinary lines to `my_words.txt`, so everything below still applies.
+
 **Your own words.** Menu: **Edit My Words...** opens `my_words.txt`. Add one word per
 line, the spelling and then the Khmer:
 

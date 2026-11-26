@@ -1,0 +1,425 @@
+# khmer	spellings	english	chinese	category	register
+ឯង	eng	you (close / rude)	你	pronoun	casual
+អញ	anh	I (rude / very close)	我	pronoun	rude
+ហ្អែង	haeng, aeng	you (rude)	你	pronoun	rude
+យើង	yerng, yg	we / I (to an inferior)	我们	pronoun	neutral
+គេ	ke	they / he / she	他 / 她	pronoun	neutral
+គាត់	kort, kat	he / she (respectful)	他 / 她	pronoun	polite
+នាង	neang	she / her	她	pronoun	neutral
+អ្នកនាង	nek+neang	miss / madam	小姐 / 夫人	pronoun	polite
+លោក	lok	sir / Mr / you (polite)	先生 / 您	pronoun	polite
+លោកស្រី	lok+srey	madam / Mrs	夫人 / 太太	pronoun	polite
+លោកម្ចាស់	lok+mjas	master / sir (servant to boss)	老爷 / 少爷	pronoun	polite
+ខ្ញុំបាទ	knhom+bat, nhom+bat	I (male, polite) / yes sir	我 / 是	pronoun	polite
+នាងខ្ញុំ	neang+knhom	I (female, polite)	我	pronoun	polite
+ពួកឯង	puk+eng	you guys	你们	pronoun	casual
+ពួកយើង	puk+yerng	we / us	我们	pronoun	neutral
+អ្នកទាំងអស់គ្នា	nek+teang+os+knea	everyone	大家	pronoun	polite
+លោកគ្រូ	lok+kru	master / teacher (address)	师父 / 老师	pronoun	polite
+បងស្រី	bong+srey	big sister	姐姐	family	neutral
+បងប្រុស	bong+pros	big brother	哥哥	family	neutral
+ប្អូនស្រី	paoun+srey, pon+srey	younger sister	妹妹	family	neutral
+ប្អូនប្រុស	paoun+pros, pon+pros	younger brother	弟弟	family	neutral
+ម្ដាយ	mday	mother	母亲 / 妈妈	family	neutral
+ឪពុក	ovpuk, ov+puk	father	父亲 / 爸爸	family	neutral
+ម៉ាក់	mak	mom	妈	family	casual
+ប៉ា	pa	dad	爸	family	casual
+ជីដូន	jidon	grandmother	奶奶 / 外婆	family	neutral
+ជីតា	jita	grandfather	爷爷 / 外公	family	neutral
+យាយ	yeay	grandma	奶奶	family	casual
+តា	ta	grandpa	爷爷	family	casual
+ពូ	pu	uncle	叔叔	family	neutral
+មីង	ming	aunt	阿姨	family	neutral
+កូនប្រុស	kon+pros	son	儿子	family	neutral
+កូនស្រី	kon+srey	daughter	女儿	family	neutral
+ចៅ	jao	grandchild	孙子	family	neutral
+គ្រួសារ	krousa, kruosa	family	家庭 / 家人	family	neutral
+ឪពុកម្ដាយ	ovpuk+mday	parents	父母	family	neutral
+ម្ដាយក្មេក	mday+kmek	mother-in-law	婆婆 / 岳母	family	neutral
+ឪពុកក្មេក	ovpuk+kmek	father-in-law	公公 / 岳父	family	neutral
+ម្ដាយចុង	mday+jong	stepmother	继母 / 后妈	family	neutral
+កូនចិញ្ចឹម	kon+jenhjem	adopted child	养子 / 养女	family	neutral
+កូនកំព្រា	kon+komprea	orphan	孤儿	family	neutral
+ស្វាមី	svamey	husband (formal)	丈夫	romance	polite
+ភរិយា	phoriya, pheakriya	wife (formal)	妻子	romance	polite
+គូដណ្ដឹង	ku+dondeng	fiancé(e)	未婚夫 / 未婚妻	romance	neutral
+ប្រពន្ធចុង	propon+jong	mistress / second wife	小三 / 情妇	romance	neutral
+មនុស្សទីបី	monus+ti+bei	third party (in a relationship)	第三者 / 小三	romance	neutral
+អតីតសង្សារ	atit+songsa	ex (boyfriend / girlfriend)	前任	romance	neutral
+អតីតប្ដី	atit+pdey	ex-husband	前夫	romance	neutral
+អតីតប្រពន្ធ	atit+propon	ex-wife	前妻	romance	neutral
+គូស្នេហ៍	ku+sne	couple / lovers	情侣	romance	neutral
+ស្នេហា	sneha	love	爱情	romance	neutral
+ស្នេហាដំបូង	sneha+dombong	first love	初恋	romance	neutral
+ស្នេហាតែម្ខាង	sneha+tae+mkhang	one-sided love	单恋	romance	neutral
+លួចស្រឡាញ់	luoch+srolanh	secretly love / crush	暗恋	romance	neutral
+ស្រឡាញ់គ្នា	srolanh+knea	love each other	相爱	romance	neutral
+ខ្ញុំស្រឡាញ់អ្នក	knhom+srolanh+nek	I love you	我爱你	romance	neutral
+ខ្ញុំនឹកអ្នក	knhom+nek+nek	I miss you	我想你	romance	neutral
+បែកគ្នា	baek+knea	break up	分手	romance	neutral
+លែងលះ	leng+leah	divorce	离婚	romance	neutral
+រៀបការ	reab+ka, riebka	marry / wedding	结婚	romance	neutral
+អាពាហ៍ពិពាហ៍	apea+pipea	marriage	婚姻	romance	polite
+ភ្ជាប់ពាក្យ	phjab+peak	engagement	订婚	romance	neutral
+ពិធីមង្គលការ	pithi+mongkolka	wedding ceremony	婚礼	romance	neutral
+ណាត់ជួប	nat+juob	date / appointment	约会	romance	neutral
+ថើប	therb	kiss	吻 / 亲	romance	neutral
+ឱប	ob	hug	拥抱 / 抱	romance	neutral
+កាន់ដៃ	kan+dai	hold hands	牵手	romance	neutral
+ស្មោះត្រង់	smoh+trong	loyal / faithful	忠诚 / 专一	romance	neutral
+ក្បត់ចិត្ត	kbot+jet	betray (someone's heart)	背叛 / 负心	romance	neutral
+ជួបគ្នា	juob+knea	meet	见面 / 相遇	romance	neutral
+ឈ្លោះគ្នា	chlous+knea	quarrel	吵架	romance	neutral
+ផ្សះផ្សា	pseah+psa	reconcile	和好	romance	neutral
+ចាកចោល	jak+jaol	abandon (someone)	抛弃	romance	neutral
+ស្រីស្អាត	srey+saat	pretty girl	美女	romance	casual
+ប្រុសសង្ហារ	pros+songha	handsome guy	帅哥	romance	casual
+សង្ហារ	songha	handsome	帅	romance	neutral
+កូនក្រមុំ	kon+kromom	young woman / bride	姑娘 / 新娘	romance	neutral
+កូនកំលោះ	kon+komlos	young man / groom	小伙子 / 新郎	romance	neutral
+ទំនាក់ទំនង	tumneak+tumnong	relationship / contact	关系	romance	neutral
+ចិត្ត	jet	heart / mind	心	emotion	neutral
+បេះដូង	beh+dong, behdong	heart (organ / love)	心脏 / 心	emotion	neutral
+ច្រណែន	jronaen	jealous / envious	嫉妒 / 羡慕	emotion	neutral
+ប្រច័ណ្ឌ	projan	jealous (in love)	吃醋	emotion	neutral
+ឈឺចាប់	chheu+jab, chu+jab	pain / hurt	痛 / 心痛	emotion	neutral
+ខកចិត្ត	khok+jet	disappointed	失望	emotion	neutral
+សង្ឃឹម	sangkhem	hope	希望	emotion	neutral
+អស់សង្ឃឹម	os+sangkhem	hopeless / despair	绝望	emotion	neutral
+ភ័យខ្លាច	phey+klach	afraid	害怕	emotion	neutral
+តក់ស្លុត	tok+slot	shocked	震惊	emotion	neutral
+ភ្ញាក់ផ្អើល	phnhak+pha'er	surprised	惊讶	emotion	neutral
+អាម៉ាស់	amas	ashamed / humiliated	丢脸	emotion	neutral
+ខ្មាស	khmas	shy / embarrassed	害羞	emotion	neutral
+សោកសៅ	sok+sav	sad	悲伤	emotion	neutral
+ពិបាកចិត្ត	pibak+jet	upset / heartbroken	难过	emotion	neutral
+សប្បាយចិត្ត	sabay+jet	happy	开心	emotion	neutral
+រំភើប	rumpherb	excited / moved	激动 / 感动	emotion	neutral
+នឹក	nek	miss (someone)	想念	emotion	neutral
+ស្ដាយក្រោយ	sday+kroy	regret	后悔	emotion	neutral
+ស្ដាយ	sday	regret / what a pity	可惜	emotion	neutral
+អាណិត	anet	pity / feel sorry for	可怜 / 心疼	emotion	neutral
+ទុកចិត្ត	tuk+jet	trust	信任	emotion	neutral
+ជឿ	jeu	believe	相信	emotion	neutral
+អភ័យទោស	aphey+tos	forgive	原谅	emotion	polite
+យំ	yum	cry	哭	emotion	neutral
+សើច	serch	laugh	笑	emotion	neutral
+ញញឹម	nhonhem	smile	微笑	emotion	neutral
+ស្រែក	srek	shout / scream	喊 / 尖叫	emotion	neutral
+ទ្រាំ	troam	endure / hold back	忍	emotion	neutral
+ទ្រាំមិនបាន	troam+min+ban	can't bear it	受不了	emotion	neutral
+ខឹងសម្បា	khoeng+sompa	furious	愤怒	emotion	neutral
+ធុញ	thunh	fed up / bored	烦 / 无聊	emotion	casual
+រំខាន	rumkhan	annoying / disturb	打扰 / 烦人	emotion	neutral
+បារម្ភ	baram	worry	担心	emotion	neutral
+ព្រួយបារម្ភ	pruoy+baram	worried	担心 / 担忧	emotion	neutral
+ឯកោ	ekao	lonely	孤独 / 寂寞	emotion	neutral
+កក់ក្ដៅ	kok+kdav	warm (feeling)	温暖	emotion	neutral
+រងទុក្ខ	rong+tuk	suffer	受苦	emotion	neutral
+ទុក្ខ	tuk	sorrow / suffering	痛苦	emotion	neutral
+ទឹកភ្នែក	tek+pnaek	tears	眼泪	emotion	neutral
+ចិត្តល្អ	jet+laor	kind-hearted	善良	emotion	neutral
+កុហក	kohok	lie	撒谎 / 骗	dialogue	neutral
+បោកប្រាស់	baok+pras	deceive / cheat	欺骗	crime	neutral
+ការពារ	kapea	protect	保护	action	neutral
+សង្គ្រោះ	sangkroh	save / rescue	救	action	neutral
+ជួយផង	juy+phong	help! / please help	救命	dialogue	neutral
+កុំទៅ	kom+tov	don't go	别走	dialogue	neutral
+ចាំខ្ញុំ	jam+knhom	wait for me	等我	dialogue	neutral
+ស្ដាប់ខ្ញុំ	sdab+knhom	listen to me	听我说	dialogue	neutral
+ហេតុអ្វី	het+avey	why	为什么	dialogue	polite
+ហេតុអី	het+ey	why	为什么	dialogue	casual
+ម៉េចក៏	mech+kor	how come	怎么会	dialogue	casual
+មិនអាច	min+ach	cannot / impossible	不可能 / 不行	dialogue	neutral
+មិនគួរ	min+kuor	shouldn't	不应该	dialogue	neutral
+ប្រយ័ត្ន	proyat	be careful / watch out	小心	dialogue	neutral
+ឈប់	chhob, chob	stop	住手 / 停	dialogue	neutral
+ចេញទៅ	jenh+tov	get out	出去 / 滚	dialogue	neutral
+ចូលមក	jol+mok	come in	进来	dialogue	neutral
+ទៅណា	tov+na	where are you going	去哪	dialogue	casual
+ធ្វើអី	tver+ey	what are you doing	干什么	dialogue	casual
+អត់អីទេ	ot+ey+te	it's nothing / it's okay	没事	dialogue	casual
+គ្មានអ្វីទេ	kmean+avey+te	nothing	没什么	dialogue	neutral
+ពិតមែន	pit+men	really / true	真的	dialogue	neutral
+ពិតជា	pit+jea	really / truly	真的 / 确实	dialogue	neutral
+ប្រាកដ	prakot	sure / certain	确定 / 一定	dialogue	neutral
+សន្យា	sonya	promise	答应 / 承诺	dialogue	neutral
+ខ្ញុំសន្យា	knhom+sonya	I promise	我保证	dialogue	neutral
+ទុកឱ្យខ្ញុំ	tuk+oy+knhom	leave it to me	交给我	dialogue	neutral
+ទុកខ្ញុំម្នាក់ឯង	tuk+knhom+mnak+eng	leave me alone	让我一个人静静	dialogue	neutral
+ម្នាក់ឯង	mnak+eng	alone	一个人	dialogue	neutral
+ដឹងហើយ	deng+hoy	I know / got it	知道了	dialogue	neutral
+យល់ហើយ	yol+hoy	understood	明白了	dialogue	neutral
+យល់ព្រម	yol+prom	agree	同意	dialogue	neutral
+បដិសេធ	bodeseth	refuse / reject	拒绝	dialogue	neutral
+គ្មានផ្លូវ	kmean+plov	no way	没门 / 没办法	dialogue	neutral
+ចាំមើល	jam+merl	just you wait	等着瞧	dialogue	casual
+ហ៊ាន	hean	dare	敢	dialogue	neutral
+គ្រប់ហើយ	krob+hoy	that's enough	够了	dialogue	neutral
+ស្ងាត់	sngat	quiet	安静	dialogue	neutral
+បិទមាត់	bet+moat	shut up	闭嘴	dialogue	rude
+ត្រឡប់មកវិញ	trolob+mok+vinh	come back	回来	dialogue	neutral
+ហ្នឹងហើយ	heng+hoy, nung+hoy	that's it / exactly	就是 / 对啊	dialogue	casual
+ចឹងហើយ	jg+hoy, jeung+hoy	that's why	所以	dialogue	casual
+អញ្ចឹង	anhjeng, anhjg	so / then	那么 / 这样	dialogue	casual
+ប៉ុន្តែ	pontae, ponte	but	但是	dialogue	neutral
+ទោះបីជា	tous+bei+jea	even though	即使 / 虽然	dialogue	neutral
+ប្រសិនបើ	prosen+ber	if	如果	dialogue	neutral
+ព្រោះ	prous	because	因为	dialogue	neutral
+ដូច្នេះ	doch+neh	therefore / so	所以	dialogue	neutral
+ទាល់តែ	toal+tae	until / unless	除非 / 直到	dialogue	neutral
+ម្ដងទៀត	mdong+tiet	again	再一次	dialogue	neutral
+ភ្លាមៗ	plam+plam	immediately	马上	dialogue	neutral
+បន្ដិចទៀត	bondech+tiet	in a moment	一会儿	dialogue	neutral
+សូម	som	please	请	dialogue	polite
+សូមទោស	som+tos	excuse me / sorry	对不起	dialogue	polite
+ខ្ញុំខុសហើយ	knhom+khos+hoy	I was wrong	我错了	dialogue	neutral
+ត្រូវហើយ	trov+hoy	that's right	对了	dialogue	neutral
+កុំយំ	kom+yum	don't cry	别哭	dialogue	neutral
+កុំភ័យ	kom+phey	don't be afraid	别怕	dialogue	neutral
+កុំបារម្ភ	kom+baram	don't worry	别担心	dialogue	neutral
+កុំប៉ះ	kom+pah	don't touch	别碰	dialogue	neutral
+ទុកចិត្តខ្ញុំ	tuk+jet+knhom	trust me	相信我	dialogue	neutral
+តាមខ្ញុំមក	tam+knhom+mok	follow me	跟我来	dialogue	neutral
+លឿនឡើង	lern+laeng	hurry up	快点	dialogue	neutral
+ប្រញាប់	pronhab	hurry	赶快	dialogue	neutral
+ចាំបន្ដិច	jam+bondech	wait a moment	等一下	dialogue	neutral
+ម៉េចហើយ	mech+hoy	what's wrong	怎么了	dialogue	casual
+មានរឿងអី	mean+reung+ey	what's the matter	有什么事	dialogue	casual
+កើតអី	kert+ey	what happened	怎么了	dialogue	casual
+បើមិនចឹង	ber+min+jg	otherwise	不然	dialogue	casual
+គ្មានជម្រើស	kmean+jumrers	no choice	没有选择	dialogue	neutral
+គ្មានពេល	kmean+pel	no time	没时间	dialogue	neutral
+យឺតពេល	yeut+pel	too late	来不及 / 太晚了	dialogue	neutral
+ទាន់ពេល	toan+pel	in time	及时	dialogue	neutral
+ចប់ហើយ	job+hoy	it's over	结束了 / 完了	dialogue	neutral
+អភិនន្ទន៍	aphinon	congratulations	恭喜	dialogue	polite
+ស្វាគមន៍	svakom	welcome	欢迎	dialogue	polite
+លាហើយ	lea+hoy	goodbye	再见	dialogue	neutral
+ជួបគ្នាពេលក្រោយ	juob+knea+pel+kroy	see you later	下次见	dialogue	neutral
+រាត្រីសួស្ដី	reatrey+suosdey	good night	晚安	dialogue	polite
+ខុស	khos	wrong	错	dialogue	neutral
+ឆ្កួត	chkuot	crazy	疯	insult	casual
+ល្ងង់	lngong	stupid	笨 / 蠢	insult	casual
+ល្ងីល្ងើ	lngi+lnger	foolish	愚蠢	insult	neutral
+អាឆ្កែ	a+chkae	you dog / bastard	混蛋 / 狗东西	insult	rude
+ខិលខូច	khel+khoch	wicked / scoundrel	无耻 / 坏	insult	neutral
+គ្មានយាងអាយ	kmean+yeang+ay	shameless	不要脸	insult	rude
+កំសាក	komsak	coward	胆小鬼 / 懦夫	insult	neutral
+អាក្រក់	akrok	bad / evil / ugly	坏 / 丑	insult	neutral
+ក្រុមហ៊ុន	krom+hun, kromhun	company	公司	office	neutral
+ប្រធាន	protean, prothean	president / boss	总裁 / 总	office	neutral
+លោកប្រធាន	lok+protean	Mr President / CEO (address)	总裁	office	polite
+នាយកប្រតិបត្តិ	neayok+protebat	CEO / executive director	首席执行官	office	polite
+អគ្គនាយក	akka+neayok	general manager / director-general	总经理	office	polite
+ចៅហ្វាយ	jaohvay, jav+hvay	boss	老板	office	neutral
+អ្នកគ្រប់គ្រង	nek+krob+krong	manager	经理	office	neutral
+លេខា	lekha	secretary	秘书	office	neutral
+ជំនួយការ	jomnuoy+ka	assistant	助理	office	neutral
+បុគ្គលិក	bokkolik	employee / staff	员工	office	neutral
+ការិយាល័យ	kariyalai	office	办公室	office	neutral
+ប្រជុំ	projum	meeting	开会 / 会议	office	neutral
+ភាគហ៊ុន	pheak+hun	shares / stock	股份	office	neutral
+ម្ចាស់ភាគហ៊ុន	mjas+pheak+hun	shareholder	股东	office	neutral
+អាជីវកម្ម	ajivakam	business	生意 / 商业	office	neutral
+គម្រោង	kumroung	project / plan	项目 / 计划	office	neutral
+ដៃគូ	dai+ku	partner	合作伙伴	office	neutral
+កិច្ចសន្យា	kechsonya	contract	合同 / 契约	office	neutral
+ចុះហត្ថលេខា	joh+hatha+lekha	sign (a document)	签字	office	neutral
+ហត្ថលេខា	hatha+lekha	signature	签名	office	neutral
+ឯកសារ	ekasa	document / file	文件	office	neutral
+ប្រាក់ខែ	prak+khae	salary	工资	office	neutral
+ដេញចេញ	denh+jenh	kick out / fire	开除 / 赶走	office	neutral
+លាលែង	lea+leng	resign	辞职	office	neutral
+ក្ស័យធន	ksay+thon	bankrupt	破产	office	neutral
+អ្នកមាន	nek+mean	rich person	有钱人	office	neutral
+សេដ្ឋី	setthey	tycoon / millionaire	富豪	office	neutral
+អ្នកក្រ	nek+kro	poor person	穷人	office	neutral
+ក្រីក្រ	krey+kro	poor	贫穷	office	neutral
+ទ្រព្យសម្បត្តិ	trop+sombat	wealth / fortune	财产	office	neutral
+មរតក	morodok	inheritance	遗产	office	neutral
+អ្នកស្នងមរតក	nek+snong+morodok	heir	继承人	office	neutral
+គ្រួសារអ្នកមាន	krousa+nek+mean	rich family	豪门	office	neutral
+វិមាន	vimean	mansion	豪宅	office	neutral
+អ្នកបើកបរ	nek+berk+bor	driver	司机	office	neutral
+អ្នកបម្រើ	nek+bomrer	servant / maid	佣人	office	neutral
+អង្គរក្ស	ongkarak	bodyguard	保镖	office	neutral
+ពិធីជប់លៀង	pithi+job+lieng	party / banquet	宴会	office	neutral
+ទូរស័ព្ទ	turosap	phone	电话 / 手机	modern	neutral
+ផ្ញើសារ	pnher+sa	send a message	发信息	modern	neutral
+ប្រាក់	prak	money (formal)	钱	modern	neutral
+រថយន្ត	rotha+yon	car (formal)	汽车	modern	neutral
+យន្តហោះ	yon+hos	airplane	飞机	modern	neutral
+សណ្ឋាគារ	sonthakea	hotel	酒店	place	neutral
+ភោជនីយដ្ឋាន	phojaniyathan	restaurant	餐厅	place	neutral
+អាកាសយានដ្ឋាន	akasa+yeanathan	airport	机场	place	neutral
+បន្ទប់	bontub	room	房间	place	neutral
+បន្ទប់គេង	bontub+keng	bedroom	卧室	place	neutral
+អាផាតមិន	apatmen	apartment	公寓	place	neutral
+ប្រទេស	protes	country	国家	place	neutral
+បរទេស	bortes	abroad / foreign	国外	place	neutral
+សាលារៀន	sala+rien	school	学校	school	neutral
+សាកលវិទ្យាល័យ	sakol+vityealai	university	大学	school	neutral
+មិត្តរួមថ្នាក់	mit+ruom+thnak	classmate	同学	school	neutral
+ប្រឡង	prolong	exam	考试	school	neutral
+មន្ទីរពេទ្យ	montipet, monti+pet	hospital	医院	hospital	neutral
+វេជ្ជបណ្ឌិត	vechabondet	doctor (formal)	医生	hospital	polite
+គិលានុបដ្ឋាយិកា	kilanu+bottayika	nurse	护士	hospital	polite
+ជំងឺ	jomngeu	disease / illness	病	hospital	neutral
+មហារីក	moharik	cancer	癌症	hospital	neutral
+វះកាត់	veah+kat	surgery	手术	hospital	neutral
+សន្លប់	sonlob	faint / unconscious / coma	昏迷 / 晕倒	hospital	neutral
+របួស	robuos	wound / injured	受伤	hospital	neutral
+ឈាម	chheam	blood	血	hospital	neutral
+ថ្នាំ	thnam	medicine	药	hospital	neutral
+មានផ្ទៃពោះ	mean+ptey+puoh	pregnant	怀孕	hospital	polite
+រលូតកូន	rolut+kon	miscarriage	流产	hospital	neutral
+សម្រាលកូន	somral+kon	give birth	生孩子	hospital	neutral
+ស្លាប់	slab	die / dead	死	crime	neutral
+រស់	ros	alive / live	活	crime	neutral
+បាត់ការចងចាំ	bat+ka+jong+jam	lose memory / amnesia	失忆	hospital	neutral
+ការចងចាំ	ka+jong+jam	memory	记忆	hospital	neutral
+ភ្លេច	plech	forget	忘	dialogue	neutral
+ចងចាំ	jong+jam	remember	记住	dialogue	neutral
+ប៉ូលិស	polis, police	police	警察	crime	neutral
+នគរបាល	nokorbal	police (formal)	警察	crime	polite
+ស៊ើបអង្កេត	serb+ongket	investigate	调查	crime	neutral
+អ្នកស៊ើបអង្កេត	nek+serb+ongket	detective / investigator	侦探 / 警探	crime	neutral
+ឃាតក	kheatak	murderer / killer	凶手	crime	neutral
+ឃាតកម្ម	kheatakam	murder	谋杀	crime	neutral
+សម្លាប់	somlab	kill	杀	crime	neutral
+ជនរងគ្រោះ	jun+rong+kroh	victim	受害者	crime	neutral
+ជនសង្ស័យ	jun+sangsay	suspect (person)	嫌疑人	crime	neutral
+សង្ស័យ	sangsay	suspect / suspicious	怀疑	crime	neutral
+ភស្តុតាង	phosotang	evidence	证据	crime	neutral
+សាក្សី	saksey	witness	证人	crime	neutral
+ចាប់ខ្លួន	jab+khluon	arrest	逮捕	crime	neutral
+គុក	kuk	prison / jail	监狱	crime	neutral
+ជាប់គុក	joab+kuk	go to jail	坐牢	crime	neutral
+ឧក្រិដ្ឋកម្ម	ukredakam	crime	犯罪	crime	neutral
+ឧក្រិដ្ឋជន	ukredajun	criminal	罪犯	crime	neutral
+តុលាការ	tolaka	court	法院	crime	neutral
+ចៅក្រម	jao+krom	judge	法官	crime	neutral
+មេធាវី	methavi	lawyer	律师	crime	neutral
+ច្បាប់	jbab	law	法律	crime	neutral
+ចាប់ជំរិត	jab+jomret	kidnap (for ransom)	绑架	crime	neutral
+ចាប់ពង្រត់	jab+pongrot	abduct	绑架 / 劫持	crime	neutral
+ចំណាប់ខ្មាំង	jomnab+khmang	hostage	人质	crime	neutral
+លួច	luoch	steal	偷	crime	neutral
+ចោរ	jor	thief	小偷 / 贼	crime	neutral
+ប្លន់	plon	rob	抢劫	crime	neutral
+គ្រឿងញៀន	kroeng+nhien	drugs	毒品	crime	neutral
+មេក្លោង	me+klong	gang boss / ringleader	老大 / 头目	crime	neutral
+ក្លែងបន្លំ	klaeng+bonlom	fake / forge	伪造	crime	neutral
+ពុករលួយ	puk+roluoy	corrupt	腐败	crime	neutral
+សម្ងាត់	somngat	secret	秘密	crime	neutral
+ការពិត	ka+pit	the truth	真相	crime	neutral
+សងសឹក	song+sek	take revenge	报仇 / 复仇	crime	neutral
+សត្រូវ	satrov	enemy	敌人	action	neutral
+គំរាម	kumream	threaten	威胁	crime	neutral
+ផែនការ	phaenka	plan	计划	action	neutral
+អន្ទាក់	ontak	trap	陷阱	action	neutral
+បាញ់	banh	shoot	开枪 / 射	action	neutral
+គ្រាប់កាំភ្លើង	kroab+kam+plerng	bullet	子弹	action	neutral
+កាំបិត	kambet	knife	刀	action	neutral
+ដាវ	dav	sword	剑 / 刀	action	neutral
+គ្រាប់បែក	kroab+baek	bomb	炸弹	action	neutral
+ផ្ទុះ	ptuh	explode	爆炸	action	neutral
+ប្រយុទ្ធ	proyut	fight / battle	战斗	action	neutral
+វាយ	veay	hit / beat	打	action	neutral
+វាយគ្នា	veay+knea	fight each other	打架	action	neutral
+ទាត់	toat	kick	踢	action	neutral
+រត់គេច	rot+kech	escape / run away	逃跑	action	neutral
+គេចខ្លួន	kech+khluon	flee	逃走	action	neutral
+លាក់ខ្លួន	leak+khluon	hide	躲起来	action	neutral
+តាមដាន	tam+dan	follow / track	跟踪	action	neutral
+ដេញតាម	denh+tam	chase	追	action	neutral
+ទាហាន	teahean	soldier	士兵	action	neutral
+សង្គ្រាម	songkream	war	战争	action	neutral
+បេសកកម្ម	besakakam	mission	任务	action	neutral
+ភ្នាក់ងារសម្ងាត់	phneak+ngea+somngat	secret agent	特工	action	neutral
+គ្រោះថ្នាក់	kroh+thnak	accident / danger	事故 / 危险	action	neutral
+គ្រោះថ្នាក់ចរាចរណ៍	kroh+thnak+jorajor	car accident	车祸	action	neutral
+ឆេះ	cheh	burn / on fire	着火	action	neutral
+អមតៈ	amatak, amata	immortal	仙 / 不死	fantasy	neutral
+ទេវតា	tevoda	deity / angel	神仙 / 天使	fantasy	neutral
+ទេពធីតា	tep+thida	goddess / fairy	仙女	fantasy	neutral
+បិសាច	bisach	demon / monster	妖 / 魔	fantasy	neutral
+អារក្ស	areak	demon / evil spirit	魔鬼	fantasy	neutral
+ខ្មោច	khmoch	ghost	鬼	fantasy	neutral
+វិញ្ញាណ	vinhnhean	spirit	灵魂 / 魂	fantasy	neutral
+ព្រលឹង	proleng	soul	灵魂	fantasy	neutral
+ឋានសួគ៌	than+suor	heaven	天堂 / 天界	fantasy	neutral
+នរក	norok	hell	地狱	fantasy	neutral
+ពិភពលោក	piphop+lok	world	世界	fantasy	neutral
+វេទមន្ត	vetmon	magic / spell	魔法 / 法术	fantasy	neutral
+អាបធ្មប់	ab+thmob	witchcraft / witch	巫术 / 巫婆	fantasy	neutral
+កូនសិស្ស	kon+seuh	disciple	徒弟 / 弟子	fantasy	neutral
+ថាមពល	thampol	power / energy	力量 / 能量	fantasy	neutral
+កម្លាំង	kamlang	strength	力量	fantasy	neutral
+ហ្វឹកហាត់	hvek+hat	train / cultivate	修炼 / 训练	fantasy	neutral
+ជាតិមុន	jeat+mun	past life	前世	fantasy	neutral
+ជាតិក្រោយ	jeat+kroy	next life	来世	fantasy	neutral
+ចាប់កំណើតឡើងវិញ	jab+komnert+laeng+vinh	be reborn	重生 / 转世	fantasy	neutral
+វាសនា	veasana	fate / destiny	命运	fantasy	neutral
+និស្ស័យ	nisay	destined bond	缘分	fantasy	neutral
+បណ្ដាសា	bondasa	curse	诅咒	fantasy	neutral
+ពរ	por	blessing	祝福	fantasy	neutral
+នាគ	neak	dragon / naga	龙	fantasy	neutral
+ស្ដេច	sdach	king	王	fantasy	neutral
+ព្រះនាង	preah+neang	princess	公主	fantasy	royal
+ព្រះអង្គម្ចាស់	preah+ong+mjas	prince	王子 / 太子	fantasy	royal
+ត្រកូល	trokol	clan / family name	家族 / 姓	fantasy	neutral
+និកាយ	nikay	sect	门派	fantasy	neutral
+ថ្នាំពុល	thnam+pul	poison	毒药	fantasy	neutral
+ពុល	pul	poisoned / poisonous	中毒	fantasy	neutral
+ព្រះចន្ទ	preah+jan	moon	月亮	fantasy	neutral
+ផ្កាយ	pkay	star	星星	fantasy	neutral
+ឥឡូវនេះ	ey+lov+nis	right now	现在	time	neutral
+ជារៀងរហូត	jea+rieng+rohot	forever	永远	time	neutral
+រហូត	rohot	always / forever	一直 / 永远	time	neutral
+មួយជីវិត	muy+jivit	whole lifetime	一辈子	time	neutral
+ជីវិត	jivit	life	生命 / 人生	time	neutral
+អតីតកាល	atit+kal	the past	过去	time	neutral
+អនាគត	anakut	future	未来	time	neutral
+ពេលនោះ	pel+nuh	at that time	那时候	time	neutral
+កាលពីមុន	kal+pi+mun	before / in the past	以前	time	neutral
+យប់ជ្រៅ	yub+jrov	late night	深夜	time	neutral
+ភាគ	pheak	episode	集	meta	neutral
+រឿងភាគ	reung+pheak	drama series	电视剧	meta	neutral
+ភាពយន្ត	pheap+yon	movie	电影	meta	neutral
+តួឯក	tuo+ek	lead role	主角	meta	neutral
+តួឯកស្រី	tuo+ek+srey	female lead	女主	meta	neutral
+តួឯកប្រុស	tuo+ek+pros	male lead	男主	meta	neutral
+តួអាក្រក់	tuo+akrok	villain	反派	meta	neutral
+តួសម្ដែង	tuo+somdaeng	actor / actress	演员	meta	neutral
+អ្នកដឹកនាំរឿង	nek+dek+noam+reung	director	导演	meta	neutral
+អក្សររត់	aksar+rot	subtitles	字幕	meta	neutral
+បកប្រែ	bok+prae	translate	翻译	meta	neutral
+អ្នកបកប្រែ	nek+bok+prae	translator	翻译	meta	neutral
+បញ្ចប់	bonhjob	ending / finish	结局 / 结束	meta	neutral
+ចាក់ផ្សាយ	jak+psay	broadcast / air	播出	meta	neutral
+ត្រឡប់	trolob	return	回	verb	neutral
+ចាកចេញ	jak+jenh	leave	离开	verb	neutral
+បោះបង់	boh+bong	give up	放弃	verb	neutral
+ចុះចាញ់	joh+janh	surrender	投降 / 认输	verb	neutral
+ឈ្នះ	chhneah, chneah	win	赢	verb	neutral
+ចាញ់	janh	lose	输	verb	neutral
+រង់ចាំ	rong+jam	wait	等待	verb	neutral
+ស្វែងរក	sveng+rok	search / look for	寻找	verb	neutral
+រកឃើញ	rok+khernh	find	找到	verb	neutral
+បាត់	bat	disappear / be lost	不见 / 失踪	verb	neutral
+បាត់ខ្លួន	bat+khluon	go missing	失踪	crime	neutral
+ពន្យល់	ponyol	explain	解释	verb	neutral
+ប្រាប់	prab	tell	告诉	verb	neutral
+សួរ	suo	ask	问	verb	neutral
+ឆ្លើយ	chlery, chlaoy	answer	回答	verb	neutral
+សម្រេចចិត្ត	somrech+jet	decide	决定	verb	neutral
+ជ្រើសរើស	jrers+rers	choose	选择	verb	neutral
+ផ្លាស់ប្ដូរ	plas+pdo	change	改变	verb	neutral
+បំផ្លាញ	bomphlanh	destroy	毁掉	verb	neutral
+គ្រប់គ្រង	krob+krong	manage / control	管理 / 控制	verb	neutral
+បញ្ជា	bonhjea	order / command	命令	verb	neutral
+ស្ដាប់បង្គាប់	sdab+bongkab	obey	听话 / 服从	verb	neutral
+ធ្វើពុត	tver+put	pretend	假装	verb	neutral
+ក្លែងខ្លួន	klaeng+khluon	disguise	伪装	verb	neutral
